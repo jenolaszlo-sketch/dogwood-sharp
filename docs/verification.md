@@ -44,3 +44,10 @@ verification script subsequently passed. No failure is suppressed in that script
 
 Cross-platform CI results are recorded separately when the pushed run completes.
 Until those results exist, Linux/macOS are configured qualification targets only.
+
+## Initial CI remediation
+
+Run 43878512493 exposed SDK patch roll-forward changing implicit ILLink package
+versions under locked restore, plus Rust caching assuming a root Cargo workspace.
+SDK roll-forward is now disabled and cache is disabled for the empty Rust scaffold.
+The rerun must pass before cross-platform foundation qualification is claimed.

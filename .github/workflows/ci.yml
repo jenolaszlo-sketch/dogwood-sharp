@@ -34,6 +34,9 @@ jobs:
         with:
           toolchain: 1.99.1
           components: rustfmt, clippy
+          cache: false
+      - name: Record SDK selection
+        run: dotnet --info
       - name: Verify foundation on both frameworks
         shell: pwsh
         run: ./eng/Verify.ps1
