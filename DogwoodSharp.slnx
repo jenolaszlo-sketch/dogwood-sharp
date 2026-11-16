@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/"><Project Path="src/DogwoodSharp/DogwoodSharp.csproj" /></Folder>
+  <Folder Name="/tests/"><Project Path="tests/DogwoodSharp.Tests/DogwoodSharp.Tests.csproj" /></Folder>
+  <Folder Name="/samples/"><Project Path="samples/DogwoodSharp.FoundationSmoke/DogwoodSharp.FoundationSmoke.csproj" /></Folder>
+</Solution>

@@ -1,0 +1,10 @@
+DogwoodSharp
+Copyright 2026 DogwoodSharp contributors
+
+Independent project; not affiliated with or endorsed by Dogwood, Cedar, AWS,
+or their contributors. Dogwood and Cedar are Apache-2.0 projects.
+The discovery spike depends on dogwood-policy/dogwood and CedarSharp.
+No upstream implementation source or native binaries are redistributed in the
+D0 managed package. Before native distribution, collect the complete resolved
+dependency license inventory and preserve all applicable notices.
+See docs/research/sources.md for exact investigated revisions.

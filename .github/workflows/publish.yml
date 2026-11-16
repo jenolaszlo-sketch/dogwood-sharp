@@ -1,0 +1,17 @@
+name: Publication readiness (blocked at D0)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: dogwoodsharp-nuget-publish
+  cancel-in-progress: false
+jobs:
+  readiness:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Refuse publication before release qualification and owner acceptance
+        run: |
+          echo 'D0 is not publishable. Implement and qualify the exact-artifact OIDC workflow described in docs/ci-publishing.md under a separate release commission.' >&2
+          exit 1

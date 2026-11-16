@@ -1,0 +1,12 @@
+{
+  "investigatedOn": "2026-11-16",
+  "dogwood": "929f49e7305534ac61ef06cf8e47269c596dc851",
+  "cedarSharpSource": "a25181d17603381e42adde60613f7a49d5309a2b",
+  "baize": "3986dde792f6af49f4f3a51e27db1a6d721d691f",
+  "cedarSharpPackage": "1.0.0",
+  "dogwoodResolvedCedar": "4.11.0",
+  "cedarSharpResolvedCedar": "4.13.0",
+  "rust": "1.99.1",
+  "dotnetSdk": "10.0.401",
+  "researchCargoLockSha256": "378d6bb3a202ffab59b4c6068aac53a6df242a76cd106e8dca2f93d824f6f427"
+}

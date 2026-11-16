@@ -1,0 +1,12 @@
+{
+  "scope": "D0 local package inspection; not publishable",
+  "nupkgSha256": "1d14fb0340f04947e26954194c7dd2277a4e18f1fff8068af0d89cce259c85ab",
+  "snupkgSha256": "747a539d359103ea677b34c5be8fdf78d2418e83ba1918f105a0aa83aeb1caae",
+  "checks": [
+    "TFM assemblies/XML",
+    "license/readme/notice",
+    "package ID/version/license metadata",
+    "both TFM symbols",
+    "no native runtime assets expected at D0"
+  ]
+}
