@@ -747,7 +747,7 @@ static int probe(const char *library, const char *manifest_path, const char *res
             fclose(results);
             return 2;
         }
-        printf("CASE %s op=%lu len=%u\n", id, operation, request_len);
+        printf("CASE %s op=%u len=%u\n", id, (unsigned)operation, request_len);
         fflush(stdout);
         status = call(ABI_VERSION, (uint32_t)operation, request, request_len, &output);
         id_len = (uint32_t)strlen(id);
