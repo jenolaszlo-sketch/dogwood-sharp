@@ -1,0 +1,100 @@
+name: D1 independent qualification
+
+# Qualification-only workflow. It reproduces the producer gates and then runs
+# the independent harnesses from docs/reviews/d1-qualification/harness.
+# It does not publish packages and is never triggered by a push.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: d1-qualification-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  qualify:
+    name: D1 qualification ${{ matrix.rid }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2025
+            rid: win-x64
+          - os: ubuntu-24.04
+            rid: linux-x64
+          - os: macos-15
+            rid: osx-arm64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.428
+            10.0.404
+
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: 1.99.1
+          components: rustfmt, clippy
+          cache: false
+
+      - name: Prepare MSVC
+        if: matrix.rid == 'win-x64'
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Install Valgrind
+        if: matrix.rid == 'linux-x64'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y valgrind
+
+      - name: Reproduce producer verification
+        shell: pwsh
+        run: |
+          # The MSVC setup exports Platform/Configuration, which MSBuild would
+          # treat as global solution properties. Production CI does not set them.
+          Remove-Item Env:Platform -ErrorAction SilentlyContinue
+          Remove-Item Env:Configuration -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Path artifacts -Force | Out-Null
+          ./eng/Verify.ps1 -RuntimeIdentifier ${{ matrix.rid }} *>&1 |
+            Tee-Object -FilePath artifacts/d1-qualification-producer.log
+          # AOT publish of the producer sample restores RID-specific assets and
+          # may add empty runtime sections to the tracked lock file. Restore the
+          # committed lock so the qualification harness starts from a clean tree.
+          if (git status --porcelain -- src/DogwoodSharp/packages.lock.json) {
+            git checkout -- src/DogwoodSharp/packages.lock.json
+          }
+          git status --short
+
+      - name: Run independent qualification harness
+        shell: pwsh
+        run: |
+          Remove-Item Env:Platform -ErrorAction SilentlyContinue
+          Remove-Item Env:Configuration -ErrorAction SilentlyContinue
+          $arguments = @{
+            RuntimeIdentifier = '${{ matrix.rid }}'
+            AssetsRoot = 'artifacts/native'
+            OutputRoot = 'artifacts/d1-qualification'
+            SkipNativeBuild = $true
+          }
+          if ('${{ matrix.rid }}' -eq 'linux-x64') {
+            $arguments.Valgrind = $true
+          }
+          ./docs/reviews/d1-qualification/harness/run-all.ps1 @arguments
+
+      - name: Upload qualification evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: d1-qualification-${{ matrix.rid }}
+          path: |
+            artifacts/d1-qualification/logs
+            artifacts/d1-qualification/reports
+            artifacts/d1-qualification/qualification-*.json
+            artifacts/d1-qualification-producer.log
