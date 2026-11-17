@@ -42,12 +42,28 @@ verification script subsequently passed. No failure is suppressed in that script
 - Working publishing pipeline: the manual scaffold intentionally refuses publication.
 - Independent qualification or owner acceptance of ADR-0001.
 
-Cross-platform CI results are recorded separately when the pushed run completes.
-Until those results exist, Linux/macOS are configured qualification targets only.
+Cross-platform foundation CI passed; see the run evidence below.
 
 ## Initial CI remediation
 
 Run 43878512493 exposed SDK patch roll-forward changing implicit ILLink package
 versions under locked restore, plus Rust caching assuming a root Cargo workspace.
 SDK roll-forward is now disabled and cache is disabled for the empty Rust scaffold.
-The rerun must pass before cross-platform foundation qualification is claimed.
+The corrected rerun passed on all three configured platforms.
+
+## Completed cross-platform CI
+
+Confirmed on 2026-11-17 (Asia/Manila): [run 43879066633](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/43879066633)
+completed successfully for implementation commit
+`13f8ab3df7eee2976604de03d141164ed122ad88`.
+
+| Runner / RID | .NET 8 foundation | .NET 10 foundation | Rust scaffold / dependency query |
+| --- | --- | --- | --- |
+| windows-2025 / win-x64 | Passed | Passed | Passed |
+| ubuntu-24.04 / linux-x64 | Passed | Passed | Passed |
+| macos-15 / osx-arm64 | Passed | Passed | Passed |
+
+This qualifies the build foundation only. The research spike executed locally
+on Windows; native authorization, full conformance, AOT and release packaging
+remain unqualified. This evidence update changes documentation only; the tested
+implementation revision above is unchanged.

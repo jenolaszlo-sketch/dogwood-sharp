@@ -38,7 +38,7 @@ tests/sample, an empty Rust cdylib, centralized versions/locks, SourceLink,
 deterministic builds, analyzers, XML docs, license/notice and opt-in local symbol
 packaging. Research code is isolated from the library and main solution.
 
-CI is initialized for the three requested RIDs and both frameworks. Publication
+Foundation CI passed for all three requested RIDs and both frameworks (run 43879066633). Publication
 is deliberately blocked pending exact-artifact qualification and owner approval;
 the documented future workflow uses NuGet/login OIDC. NuGet query found no
 published DogwoodSharp entry, but no ID reservation/ownership guarantee was made.
