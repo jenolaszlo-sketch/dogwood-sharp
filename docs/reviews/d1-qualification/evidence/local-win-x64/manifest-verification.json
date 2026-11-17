@@ -1,0 +1,23 @@
+{
+  "result": "pass",
+  "manifestBytes": 602,
+  "image": "dogwoodsharp_bridge.dll",
+  "imageSha256": "9d583395c96dc87fbce9f82cc0a7436b66ba0aba94ca5cdf87a013a56e0eb9dc",
+  "cargoLockSha256": "2ca6001ce075006aebd71c9b372cec23d374043bcfa0b971fc36a8eac88669e7",
+  "fields": [
+    "abiVersion",
+    "bridgeVersion",
+    "cargoLockSha256",
+    "cedarFeatures",
+    "cedarVersion",
+    "dogwoodFeatures",
+    "dogwoodRevision",
+    "dogwoodVersion",
+    "file",
+    "manifestVersion",
+    "rid",
+    "rustVersion",
+    "sha256",
+    "target"
+  ]
+}

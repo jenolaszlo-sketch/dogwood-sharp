@@ -1,0 +1,20 @@
+{
+  "manifestVersion": 1,
+  "rid": "osx-arm64",
+  "file": "libdogwoodsharp_bridge.dylib",
+  "sha256": "09c7fe872d1afe6d92bd60104e7228be4cfba4223d2c8482ce7c568f5fc96adc",
+  "cargoLockSha256": "2ca6001ce075006aebd71c9b372cec23d374043bcfa0b971fc36a8eac88669e7",
+  "abiVersion": 1,
+  "bridgeVersion": "0.1.0",
+  "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+  "dogwoodVersion": "1.1.2",
+  "cedarVersion": "4.11.0",
+  "rustVersion": "1.99.1",
+  "target": "aarch64-apple-darwin",
+  "dogwoodFeatures": [],
+  "cedarFeatures": [
+    "datetime",
+    "decimal",
+    "ipaddr"
+  ]
+}

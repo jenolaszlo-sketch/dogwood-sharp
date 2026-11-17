@@ -1,0 +1,693 @@
+{
+  "framework": "net8.0",
+  "target": "x86_64-unknown-linux-gnu",
+  "scenarioCount": 114,
+  "passed": 114,
+  "failed": 0,
+  "results": [
+    {
+      "Name": "positive",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "no-assets",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "cache-failure",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-ok",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-extra",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-duplicate",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-missing",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-wrong-abi",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-abi-string",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-wrong-target",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-features-order",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-features-extra",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-features-null",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-dogwood-features",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-wrong-bridge",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-wrong-revision",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-wrong-dogwood",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-wrong-cedar",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-wrong-rust",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-empty-object",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-invalid-json",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-top-array",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-invalid-utf8",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-oversize",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-null-data",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-version-zero-length",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-success",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-success-zero",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-null-location",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-eof",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-success-extra-field",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-success-missing-count",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-success-count-null",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-success-negative-count",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-success-count-string",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-success-count-overflow",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-success-with-diagnostics",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-count-zero",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-empty-diagnostics",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-unknown-category",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-location-string",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-location-negative",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-location-past-eof",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-location-length-past-eof",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-location-eof-length-two",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-location-extra",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-location-missing",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-message-null",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-category-number",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-extra-field",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-diagnostic-extra",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-failure-missing-location",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-duplicate-property",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-invalid-json",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-top-array",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-top-null",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-empty",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-invalid-utf8",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-oversize",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-null-data",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "fake-parse-zero-length",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "parse-status-1",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "status-version-1",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "parse-status-2",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "status-version-2",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "parse-status-3",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "status-version-3",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "parse-status-4",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "status-version-4",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "parse-status-5",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "status-version-5",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "parse-status-6",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "status-version-6",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "parse-status-7",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "status-version-7",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "parse-status-8",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "status-version-8",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "parse-status-9",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "status-version-9",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "parse-status-255",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "status-version-255",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-missing",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-empty",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-oversize",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-invalid-json",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-invalid-utf8",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-missing-field",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-extra-field",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-duplicate-field",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-version",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-rid",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-file",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-target",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-abi",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-bridge",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-revision",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-dogwood",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-cedar",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-rust",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-dogwood-features",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-cedar-order",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-cedar-extra",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-sha-length",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-sha-hex",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-cargo-length",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-cargo-hex",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-missing-image",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-hash-mismatch",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-uppercase-hash",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "manifest-trailing-whitespace",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "image-truncated",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "image-wrong-abi",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    },
+    {
+      "Name": "image-missing-export",
+      "Pass": true,
+      "ExitCode": 0,
+      "Detail": null
+    }
+  ]
+}

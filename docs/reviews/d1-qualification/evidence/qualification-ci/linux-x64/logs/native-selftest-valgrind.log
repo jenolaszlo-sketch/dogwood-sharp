@@ -1,0 +1,76 @@
+LAYOUT sizeof=16 data=0 len=8 align=8
+PASS export_abi_version
+PASS export_call_v1
+PASS export_free_v1
+PASS abi_version_is_one
+PASS identity_status_ok
+PASS identity_buffer_nonempty
+PASS identity_response_bounded
+PASS identity_abi
+PASS identity_bridge
+PASS identity_revision
+PASS identity_dogwood
+PASS identity_cedar
+PASS identity_rust
+PASS identity_dogwood_features
+PASS identity_cedar_features
+PASS identity_target_present
+PASS identity_target_value
+PASS identity_free_resets
+PASS reject_null==7962== 
+==7962== HEAP SUMMARY:
+==7962==     in use at exit: 4,047 bytes in 9 blocks
+==7962==   total heap usage: 287,154 allocs, 287,145 frees, 164,552,915 bytes allocated
+==7962== 
+==7962== LEAK SUMMARY:
+==7962==    definitely lost: 0 bytes in 0 blocks
+==7962==    indirectly lost: 0 bytes in 0 blocks
+==7962==      possibly lost: 0 bytes in 0 blocks
+==7962==    still reachable: 4,047 bytes in 9 blocks
+==7962==         suppressed: 0 bytes in 0 blocks
+==7962== Reachable blocks (those to which a pointer was found) are not shown.
+==7962== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==7962== 
+==7962== For lists of detected and suppressed errors, rerun with: -s
+==7962== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+espace
+PASS accept_trailing_parse_success
+PASS accept_trailing_policy_count
+PASS accept_leading_json_whitespace
+PASS accept_leading_identity
+PASS parse_success_status
+PASS parse_success_bounded
+PASS parse_success_flag
+PASS parse_success_count
+PASS parse_success_diagnostics
+PASS parse_empty_status
+PASS parse_empty_success
+PASS parse_empty_count
+PASS parse_failure_status_zero
+PASS parse_failure_flag
+PASS parse_failure_count_null
+PASS parse_failure_category
+PASS parse_failure_eof_location
+PASS parse_bom_failure_status_zero
+PASS parse_bom_location_rebased
+PASS source_exactly_limit_accepted
+PASS source_exactly_limit_success
+PASS source_exactly_limit_count
+PASS escaped_source_over_limit_rejected
+PASS escaped_source_over_limit_empty
+PASS response_ceiling_rejected
+PASS response_ceiling_empty
+PASS request_exactly_limit_accepted
+PASS request_exactly_limit_identity
+PASS request_over_limit_rejected
+PASS request_over_limit_empty
+PASS ownership_call_ok
+PASS ownership_buffer_nonempty
+PASS ownership_free_resets
+PASS ownership_double_free_safe
+PASS ownership_free_null_safe
+PASS ownership_free_empty_slot_safe
+PASS ownership_repeated_lifecycle
+PASS concurrent_calls
+SUMMARY fail=0
+RESULT OK

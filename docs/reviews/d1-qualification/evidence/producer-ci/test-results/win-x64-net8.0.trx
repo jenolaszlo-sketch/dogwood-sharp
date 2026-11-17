@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="b40f4db1-6cbc-4a97-b07b-050c60125b74" name="runneradmin@runnervmm7ud1 2026-11-17 03:20:16" runUser="runnervmm7ud1\runneradmin" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-17T03:20:16.1544087+00:00" queuing="2026-11-17T03:20:16.1544091+00:00" start="2026-11-17T03:20:15.4002119+00:00" finish="2026-11-17T03:20:16.2865225+00:00" />
+  <TestSettings name="default" id="c66bb81d-ff90-4d22-ac2a-fb5aa3d79875">
+    <Deployment runDeploymentRoot="runneradmin_runnervmm7ud1_2026-11-17_03_20_16" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="f83346a4-c47f-472f-bd35-7e351bc746cd" testId="eb9e012c-e2d1-bd2e-c9be-d52351611fa6" testName="DogwoodSharp.Tests.ParsingTests.InvalidNativeAssetsAreRejected(failure: &quot;missing&quot;)" computerName="runnervmm7ud1" duration="00:00:00.0041107" startTime="2026-11-17T03:20:16.0776457+00:00" endTime="2026-11-17T03:20:16.0813914+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f83346a4-c47f-472f-bd35-7e351bc746cd" />
+    <UnitTestResult executionId="bf90d0e5-fdb7-4ec8-a711-c51cde2b87eb" testId="1db14f28-4cda-2303-dc6b-0e4aec8d0f70" testName="DogwoodSharp.Tests.ParsingTests.InvalidResponseContractsAreReportedSeparately(response: &quot;{\&quot;success\&quot;:true,\&quot;success\&quot;:true,\&quot;policyCount\&quot;&quot;···)" computerName="runnervmm7ud1" duration="00:00:00.0003268" startTime="2026-11-17T03:20:16.0756103+00:00" endTime="2026-11-17T03:20:16.0758114+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bf90d0e5-fdb7-4ec8-a711-c51cde2b87eb" />
+    <UnitTestResult executionId="fcf132d2-831b-4ed7-b84d-fde335b15b01" testId="67fe23d9-90c2-fb0c-7b0d-f766d1e90920" testName="DogwoodSharp.Tests.ParsingTests.InvalidResponseContractsAreReportedSeparately(response: &quot;{\&quot;success\&quot;:false,\&quot;policyCount\&quot;:0,\&quot;diagnostics&quot;···)" computerName="runnervmm7ud1" duration="00:00:00.0033050" startTime="2026-11-17T03:20:16.0729446+00:00" endTime="2026-11-17T03:20:16.0754110+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fcf132d2-831b-4ed7-b84d-fde335b15b01" />
+    <UnitTestResult executionId="b8e32b23-d43e-411d-9caa-2ce736737aaa" testId="bdd7a2fe-14b9-aeed-b69b-ab5ad0dcca90" testName="DogwoodSharp.Tests.ParsingTests.InvalidNativeAssetsAreRejected(failure: &quot;hash&quot;)" computerName="runnervmm7ud1" duration="00:00:00.0183581" startTime="2026-11-17T03:20:16.1042302+00:00" endTime="2026-11-17T03:20:16.1092043+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b8e32b23-d43e-411d-9caa-2ce736737aaa" />
+    <UnitTestResult executionId="a243c0d2-9777-4012-bcb4-0273e7086c63" testId="05b869c0-1683-efc8-eb71-735bdd81d0fb" testName="DogwoodSharp.Tests.ParsingTests.ManagedArgumentChecksRunBeforeLoadingOrCallingNative" computerName="runnervmm7ud1" duration="00:00:00.0483863" startTime="2026-11-17T03:20:16.1203140+00:00" endTime="2026-11-17T03:20:16.1686341+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a243c0d2-9777-4012-bcb4-0273e7086c63" />
+    <UnitTestResult executionId="583dd3d5-8448-4814-9e0d-3c0b13d70fee" testId="3d34898c-978f-f1fd-5850-7e61c92df4de" testName="DogwoodSharp.Tests.ParsingTests.RepeatedConcurrentCallsRetainIndependentSnapshots" computerName="runnervmm7ud1" duration="00:00:00.0655642" startTime="2026-11-17T03:20:15.9982724+00:00" endTime="2026-11-17T03:20:16.0719911+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="583dd3d5-8448-4814-9e0d-3c0b13d70fee" />
+    <UnitTestResult executionId="7928995c-ada4-4fa4-8234-014dddd76767" testId="cf484017-aff4-a95b-1357-6ce5ffcc43a1" testName="DogwoodSharp.Tests.ParsingTests.InvalidNativeAssetsAreRejected(failure: &quot;library-abi&quot;)" computerName="runnervmm7ud1" duration="00:00:00.0106614" startTime="2026-11-17T03:20:16.1095121+00:00" endTime="2026-11-17T03:20:16.1200010+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7928995c-ada4-4fa4-8234-014dddd76767" />
+    <UnitTestResult executionId="61cc63ce-bf0f-4bab-9f63-9b000c5b7aef" testId="d3a6a3de-53dc-7a73-f3b3-c5803731fc15" testName="DogwoodSharp.Tests.ParsingTests.InvalidResponseContractsAreReportedSeparately(response: &quot;{\&quot;success\&quot;:true,\&quot;policyCount\&quot;:null,\&quot;diagnosti&quot;···)" computerName="runnervmm7ud1" duration="00:00:00.0009981" startTime="2026-11-17T03:20:16.0759853+00:00" endTime="2026-11-17T03:20:16.0768909+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="61cc63ce-bf0f-4bab-9f63-9b000c5b7aef" />
+    <UnitTestResult executionId="a7b31eeb-7d0a-4d8f-8c8a-0975f58eedb5" testId="3c6e9552-2c1b-d31e-b787-ef65e3fb0259" testName="DogwoodSharp.Tests.ParsingTests.InvalidNativeAssetsAreRejected(failure: &quot;manifest-identity&quot;)" computerName="runnervmm7ud1" duration="00:00:00.0092400" startTime="2026-11-17T03:20:16.0815840+00:00" endTime="2026-11-17T03:20:16.0907437+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a7b31eeb-7d0a-4d8f-8c8a-0975f58eedb5" />
+    <UnitTestResult executionId="01bfded2-61f0-4065-a1bf-05b89d313268" testId="6b8652d2-e974-1d1e-3d86-5bef085fe7b8" testName="DogwoodSharp.Tests.ParsingTests.InvalidResponseContractsAreReportedSeparately(response: &quot;{\&quot;success\&quot;:false,\&quot;policyCount\&quot;:null,\&quot;diagnost&quot;···)" computerName="runnervmm7ud1" duration="00:00:00.0000941" startTime="2026-11-17T03:20:16.0773703+00:00" endTime="2026-11-17T03:20:16.0774540+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="01bfded2-61f0-4065-a1bf-05b89d313268" />
+    <UnitTestResult executionId="9d8dd86f-f7e0-4521-8675-fbc642bb362b" testId="ea632295-1ae7-5bd1-38df-1972f9057c61" testName="DogwoodSharp.Tests.ParsingTests.SharedFixtureManifestMatchesTheLoadedNativeBridge" computerName="runnervmm7ud1" duration="00:00:00.0400801" startTime="2026-11-17T03:20:16.1690849+00:00" endTime="2026-11-17T03:20:16.2092266+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9d8dd86f-f7e0-4521-8675-fbc642bb362b" />
+    <UnitTestResult executionId="1b790fd3-be22-4bdc-81ea-113942e5e18b" testId="47c7bc4f-ac63-f135-2719-41f2aa67c2df" testName="DogwoodSharp.Tests.ParsingTests.InvalidResponseContractsAreReportedSeparately(response: &quot;{\&quot;success\&quot;:false,\&quot;policyCount\&quot;:null,\&quot;diagnost&quot;···)" computerName="runnervmm7ud1" duration="00:00:00.0000793" startTime="2026-11-17T03:20:16.0771309+00:00" endTime="2026-11-17T03:20:16.0772173+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1b790fd3-be22-4bdc-81ea-113942e5e18b" />
+    <UnitTestResult executionId="e2438c1e-1a1d-4202-b7b3-ca0b67a01a61" testId="b8330502-1b55-f20a-ce6d-ee57693e74db" testName="DogwoodSharp.Tests.FoundationTests.AssemblyLoadsForTheExecutingTargetFramework" computerName="runnervmm7ud1" duration="00:00:00.0059179" startTime="2026-11-17T03:20:16.0001498+00:00" endTime="2026-11-17T03:20:16.0153636+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e2438c1e-1a1d-4202-b7b3-ca0b67a01a61" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="DogwoodSharp.Tests.ParsingTests.InvalidNativeAssetsAreRejected(failure: &quot;manifest-identity&quot;)" storage="d:\a\dogwood-sharp\dogwood-sharp\tests\dogwoodsharp.tests\bin\release\net8.0\dogwoodsharp.tests.dll" id="3c6e9552-2c1b-d31e-b787-ef65e3fb0259">
+      <Execution id="a7b31eeb-7d0a-4d8f-8c8a-0975f58eedb5" />
+      <TestMethod codeBase="D:\a\dogwood-sharp\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="DogwoodSharp.Tests.ParsingTests" name="InvalidNativeAssetsAreRejected" />
+    </UnitTest>
+    <UnitTest name="DogwoodSharp.Tests.ParsingTests.InvalidNativeAssetsAreRejected(failure: &quot;hash&quot;)" storage="d:\a\dogwood-sharp\dogwood-sharp\tests\dogwoodsharp.tests\bin\release\net8.0\dogwoodsharp.tests.dll" id="bdd7a2fe-14b9-aeed-b69b-ab5ad0dcca90">
+      <Execution id="b8e32b23-d43e-411d-9caa-2ce736737aaa" />
+      <TestMethod codeBase="D:\a\dogwood-sharp\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="DogwoodSharp.Tests.ParsingTests" name="InvalidNativeAssetsAreRejected" />
+    </UnitTest>
+    <UnitTest name="DogwoodSharp.Tests.ParsingTests.InvalidResponseContractsAreReportedSeparately(response: &quot;{\&quot;success\&quot;:true,\&quot;success\&quot;:true,\&quot;policyCount\&quot;&quot;···)" storage="d:\a\dogwood-sharp\dogwood-sharp\tests\dogwoodsharp.tests\bin\release\net8.0\dogwoodsharp.tests.dll" id="1db14f28-4cda-2303-dc6b-0e4aec8d0f70">
+      <Execution id="bf90d0e5-fdb7-4ec8-a711-c51cde2b87eb" />
+      <TestMethod codeBase="D:\a\dogwood-sharp\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="DogwoodSharp.Tests.ParsingTests" name="InvalidResponseContractsAreReportedSeparately" />
+    </UnitTest>
+    <UnitTest name="DogwoodSharp.Tests.ParsingTests.RepeatedConcurrentCallsRetainIndependentSnapshots" storage="d:\a\dogwood-sharp\dogwood-sharp\tests\dogwoodsharp.tests\bin\release\net8.0\dogwoodsharp.tests.dll" id="3d34898c-978f-f1fd-5850-7e61c92df4de">
+      <Execution id="583dd3d5-8448-4814-9e0d-3c0b13d70fee" />
+      <TestMethod codeBase="D:\a\dogwood-sharp\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="DogwoodSharp.Tests.ParsingTests" name="RepeatedConcurrentCallsRetainIndependentSnapshots" />
+    </UnitTest>
+    <UnitTest name="DogwoodSharp.Tests.FoundationTests.AssemblyLoadsForTheExecutingTargetFramework" storage="d:\a\dogwood-sharp\dogwood-sharp\tests\dogwoodsharp.tests\bin\release\net8.0\dogwoodsharp.tests.dll" id="b8330502-1b55-f20a-ce6d-ee57693e74db">
+      <Execution id="e2438c1e-1a1d-4202-b7b3-ca0b67a01a61" />
+      <TestMethod codeBase="D:\a\dogwood-sharp\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="DogwoodSharp.Tests.FoundationTests" name="AssemblyLoadsForTheExecutingTargetFramework" />
+    </UnitTest>
+    <UnitTest name="DogwoodSharp.Tests.ParsingTests.InvalidNativeAssetsAreRejected(failure: &quot;missing&quot;)" storage="d:\a\dogwood-sharp\dogwood-sharp\tests\dogwoodsharp.tests\bin\release\net8.0\dogwoodsharp.tests.dll" id="eb9e012c-e2d1-bd2e-c9be-d52351611fa6">
+      <Execution id="f83346a4-c47f-472f-bd35-7e351bc746cd" />
+      <TestMethod codeBase="D:\a\dogwood-sharp\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="DogwoodSharp.Tests.ParsingTests" name="InvalidNativeAssetsAreRejected" />
+    </UnitTest>
+    <UnitTest name="DogwoodSharp.Tests.ParsingTests.InvalidResponseContractsAreReportedSeparately(response: &quot;{\&quot;success\&quot;:false,\&quot;policyCount\&quot;:0,\&quot;diagnostics&quot;···)" storage="d:\a\dogwood-sharp\dogwood-sharp\tests\dogwoodsharp.tests\bin\release\net8.0\dogwoodsharp.tests.dll" id="67fe23d9-90c2-fb0c-7b0d-f766d1e90920">
+      <Execution id="fcf132d2-831b-4ed7-b84d-fde335b15b01" />
+      <TestMethod codeBase="D:\a\dogwood-sharp\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="DogwoodSharp.Tests.ParsingTests" name="InvalidResponseContractsAreReportedSeparately" />
+    </UnitTest>
+    <UnitTest name="DogwoodSharp.Tests.ParsingTests.SharedFixtureManifestMatchesTheLoadedNativeBridge" storage="d:\a\dogwood-sharp\dogwood-sharp\tests\dogwoodsharp.tests\bin\release\net8.0\dogwoodsharp.tests.dll" id="ea632295-1ae7-5bd1-38df-1972f9057c61">
+      <Execution id="9d8dd86f-f7e0-4521-8675-fbc642bb362b" />
+      <TestMethod codeBase="D:\a\dogwood-sharp\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="DogwoodSharp.Tests.ParsingTests" name="SharedFixtureManifestMatchesTheLoadedNativeBridge" />
+    </UnitTest>
+    <UnitTest name="DogwoodSharp.Tests.ParsingTests.InvalidResponseContractsAreReportedSeparately(response: &quot;{\&quot;success\&quot;:false,\&quot;policyCount\&quot;:null,\&quot;diagnost&quot;···)" storage="d:\a\dogwood-sharp\dogwood-sharp\tests\dogwoodsharp.tests\bin\release\net8.0\dogwoodsharp.tests.dll" id="6b8652d2-e974-1d1e-3d86-5bef085fe7b8">
+      <Execution id="01bfded2-61f0-4065-a1bf-05b89d313268" />
+      <TestMethod codeBase="D:\a\dogwood-sharp\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="DogwoodSharp.Tests.ParsingTests" name="InvalidResponseContractsAreReportedSeparately" />
+    </UnitTest>
+    <UnitTest name="DogwoodSharp.Tests.ParsingTests.InvalidResponseContractsAreReportedSeparately(response: &quot;{\&quot;success\&quot;:true,\&quot;policyCount\&quot;:null,\&quot;diagnosti&quot;···)" storage="d:\a\dogwood-sharp\dogwood-sharp\tests\dogwoodsharp.tests\bin\release\net8.0\dogwoodsharp.tests.dll" id="d3a6a3de-53dc-7a73-f3b3-c5803731fc15">
+      <Execution id="61cc63ce-bf0f-4bab-9f63-9b000c5b7aef" />
+      <TestMethod codeBase="D:\a\dogwood-sharp\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="DogwoodSharp.Tests.ParsingTests" name="InvalidResponseContractsAreReportedSeparately" />
+    </UnitTest>
+    <UnitTest name="DogwoodSharp.Tests.ParsingTests.InvalidNativeAssetsAreRejected(failure: &quot;library-abi&quot;)" storage="d:\a\dogwood-sharp\dogwood-sharp\tests\dogwoodsharp.tests\bin\release\net8.0\dogwoodsharp.tests.dll" id="cf484017-aff4-a95b-1357-6ce5ffcc43a1">
+      <Execution id="7928995c-ada4-4fa4-8234-014dddd76767" />
+      <TestMethod codeBase="D:\a\dogwood-sharp\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="DogwoodSharp.Tests.ParsingTests" name="InvalidNativeAssetsAreRejected" />
+    </UnitTest>
+    <UnitTest name="DogwoodSharp.Tests.ParsingTests.InvalidResponseContractsAreReportedSeparately(response: &quot;{\&quot;success\&quot;:false,\&quot;policyCount\&quot;:null,\&quot;diagnost&quot;···)" storage="d:\a\dogwood-sharp\dogwood-sharp\tests\dogwoodsharp.tests\bin\release\net8.0\dogwoodsharp.tests.dll" id="47c7bc4f-ac63-f135-2719-41f2aa67c2df">
+      <Execution id="1b790fd3-be22-4bdc-81ea-113942e5e18b" />
+      <TestMethod codeBase="D:\a\dogwood-sharp\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="DogwoodSharp.Tests.ParsingTests" name="InvalidResponseContractsAreReportedSeparately" />
+    </UnitTest>
+    <UnitTest name="DogwoodSharp.Tests.ParsingTests.ManagedArgumentChecksRunBeforeLoadingOrCallingNative" storage="d:\a\dogwood-sharp\dogwood-sharp\tests\dogwoodsharp.tests\bin\release\net8.0\dogwoodsharp.tests.dll" id="05b869c0-1683-efc8-eb71-735bdd81d0fb">
+      <Execution id="a243c0d2-9777-4012-bcb4-0273e7086c63" />
+      <TestMethod codeBase="D:\a\dogwood-sharp\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="DogwoodSharp.Tests.ParsingTests" name="ManagedArgumentChecksRunBeforeLoadingOrCallingNative" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="eb9e012c-e2d1-bd2e-c9be-d52351611fa6" executionId="f83346a4-c47f-472f-bd35-7e351bc746cd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1db14f28-4cda-2303-dc6b-0e4aec8d0f70" executionId="bf90d0e5-fdb7-4ec8-a711-c51cde2b87eb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="67fe23d9-90c2-fb0c-7b0d-f766d1e90920" executionId="fcf132d2-831b-4ed7-b84d-fde335b15b01" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bdd7a2fe-14b9-aeed-b69b-ab5ad0dcca90" executionId="b8e32b23-d43e-411d-9caa-2ce736737aaa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="05b869c0-1683-efc8-eb71-735bdd81d0fb" executionId="a243c0d2-9777-4012-bcb4-0273e7086c63" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3d34898c-978f-f1fd-5850-7e61c92df4de" executionId="583dd3d5-8448-4814-9e0d-3c0b13d70fee" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cf484017-aff4-a95b-1357-6ce5ffcc43a1" executionId="7928995c-ada4-4fa4-8234-014dddd76767" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d3a6a3de-53dc-7a73-f3b3-c5803731fc15" executionId="61cc63ce-bf0f-4bab-9f63-9b000c5b7aef" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3c6e9552-2c1b-d31e-b787-ef65e3fb0259" executionId="a7b31eeb-7d0a-4d8f-8c8a-0975f58eedb5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6b8652d2-e974-1d1e-3d86-5bef085fe7b8" executionId="01bfded2-61f0-4065-a1bf-05b89d313268" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea632295-1ae7-5bd1-38df-1972f9057c61" executionId="9d8dd86f-f7e0-4521-8675-fbc642bb362b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="47c7bc4f-ac63-f135-2719-41f2aa67c2df" executionId="1b790fd3-be22-4bdc-81ea-113942e5e18b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b8330502-1b55-f20a-ce6d-ee57693e74db" executionId="e2438c1e-1a1d-4202-b7b3-ca0b67a01a61" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="13" executed="13" passed="13" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 8.0.34)&#xD;
+[xUnit.net 00:00:00.09]   Discovering: DogwoodSharp.Tests&#xD;
+[xUnit.net 00:00:00.14]   Discovered:  DogwoodSharp.Tests&#xD;
+[xUnit.net 00:00:00.16]   Starting:    DogwoodSharp.Tests&#xD;
+[xUnit.net 00:00:00.41]   Finished:    DogwoodSharp.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

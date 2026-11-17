@@ -1,0 +1,22 @@
+{
+  "result": "pass",
+  "runtimeIdentifier": "linux-x64",
+  "target": "x86_64-unknown-linux-gnu",
+  "frameworks": [
+    "net8.0",
+    "net10.0"
+  ],
+  "image": "libdogwoodsharp_bridge.so",
+  "imageSha256": "564e259bde6c361f88c0fced03e6f0f21c8216c3ce12a10532440b2bb8e8b8a1",
+  "cargoLockSha256": "2ca6001ce075006aebd71c9b372cec23d374043bcfa0b971fc36a8eac88669e7",
+  "nativeSelftest": "logs/native-selftest.log",
+  "differential": "reports/linux-x64/differential/differential-report.json",
+  "managed": [
+    "reports/linux-x64/managed-net8.0/managed-report.json",
+    "reports/linux-x64/managed-net10.0/managed-report.json"
+  ],
+  "aot": [
+    "aot/linux-x64/net8.0",
+    "aot/linux-x64/net10.0"
+  ]
+}

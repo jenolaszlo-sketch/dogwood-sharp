@@ -1,0 +1,5 @@
+  Determining projects to restore...
+  Restored /home/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d1-qualification/harness/aot/D1QualificationAot.csproj (in 200 ms).
+  D1QualificationAot -> /home/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d1-qualification/harness/aot/bin/Release/net8.0/linux-x64/D1QualificationAot.dll
+  Generating native code
+  D1QualificationAot -> /home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d1-qualification/aot/linux-x64/net8.0/

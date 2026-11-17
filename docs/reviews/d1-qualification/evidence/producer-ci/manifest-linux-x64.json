@@ -1,0 +1,20 @@
+{
+  "manifestVersion": 1,
+  "rid": "linux-x64",
+  "file": "libdogwoodsharp_bridge.so",
+  "sha256": "564e259bde6c361f88c0fced03e6f0f21c8216c3ce12a10532440b2bb8e8b8a1",
+  "cargoLockSha256": "2ca6001ce075006aebd71c9b372cec23d374043bcfa0b971fc36a8eac88669e7",
+  "abiVersion": 1,
+  "bridgeVersion": "0.1.0",
+  "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+  "dogwoodVersion": "1.1.2",
+  "cedarVersion": "4.11.0",
+  "rustVersion": "1.99.1",
+  "target": "x86_64-unknown-linux-gnu",
+  "dogwoodFeatures": [],
+  "cedarFeatures": [
+    "datetime",
+    "decimal",
+    "ipaddr"
+  ]
+}

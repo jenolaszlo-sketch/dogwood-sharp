@@ -1,0 +1,10 @@
+  Determining projects to restore...
+  Restored /Users/runner/work/dogwood-sharp/dogwood-sharp/src/DogwoodSharp/DogwoodSharp.csproj (in 156 ms).
+  DogwoodSharp -> /Users/runner/work/dogwood-sharp/dogwood-sharp/src/DogwoodSharp/bin/Release/net8.0/DogwoodSharp.dll
+  DogwoodSharp -> /Users/runner/work/dogwood-sharp/dogwood-sharp/src/DogwoodSharp/bin/Release/net10.0/DogwoodSharp.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.76

@@ -1,0 +1,9 @@
+D1 independent differential summary
+target: x86_64-pc-windows-msvc
+oracle: Dogwood 929f49e7305534ac61ef06cf8e47269c596dc851, depth=32, nodes=1000000
+source cases: 73; wire cases: 130
+status counts: {"0": 89, "1": 1, "3": 2, "4": 2, "5": 30, "6": 6}
+response bytes: 49..1048769; oracle projected max: 6291641; ceiling exercised: True
+message mismatches: 0; wire length mismatches: 0
+failures: 0
+result: PASS

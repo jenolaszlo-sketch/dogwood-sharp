@@ -1,0 +1,20 @@
+{
+  "manifestVersion": 1,
+  "rid": "win-x64",
+  "file": "dogwoodsharp_bridge.dll",
+  "sha256": "9d583395c96dc87fbce9f82cc0a7436b66ba0aba94ca5cdf87a013a56e0eb9dc",
+  "cargoLockSha256": "2ca6001ce075006aebd71c9b372cec23d374043bcfa0b971fc36a8eac88669e7",
+  "abiVersion": 1,
+  "bridgeVersion": "0.1.0",
+  "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+  "dogwoodVersion": "1.1.2",
+  "cedarVersion": "4.11.0",
+  "rustVersion": "1.99.1",
+  "target": "x86_64-pc-windows-msvc",
+  "dogwoodFeatures": [],
+  "cedarFeatures": [
+    "datetime",
+    "decimal",
+    "ipaddr"
+  ]
+}

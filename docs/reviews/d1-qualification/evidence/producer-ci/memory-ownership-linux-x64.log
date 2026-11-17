@@ -1,0 +1,36 @@
+==7897== Memcheck, a memory error detector
+==7897== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==7897== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==7897== Command: /home/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge/target/release/deps/dogwoodsharp_bridge-951c360396e6cf64 --exact tests::version_and_repeated_output_lifecycle
+==7897== Parent PID: 6352
+==7897== 
+==7897== 
+==7897== HEAP SUMMARY:
+==7897==     in use at exit: 596 bytes in 3 blocks
+==7897==   total heap usage: 7,640 allocs, 7,637 frees, 1,035,247 bytes allocated
+==7897== 
+==7897== 48 bytes in 1 blocks are possibly lost in loss record 2 of 3
+==7897==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==7897==    by 0x66514E: <std::thread::thread::Thread>::new (in /home/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge/target/release/deps/dogwoodsharp_bridge-951c360396e6cf64)
+==7897==    by 0x675179: std::thread::current::init_current (in /home/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge/target/release/deps/dogwoodsharp_bridge-951c360396e6cf64)
+==7897==    by 0x659B1F: <std::sync::mpmc::context::Context>::new (in /home/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge/target/release/deps/dogwoodsharp_bridge-951c360396e6cf64)
+==7897==    by 0x38311D: <std::sys::thread_local::native::lazy::Storage<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, ()>>::get_or_init_slow::<<std::sync::mpmc::context::Context>::with::CONTEXT::__rust_std_internal_init_fn> (in /home/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge/target/release/deps/dogwoodsharp_bridge-951c360396e6cf64)
+==7897==    by 0x39C23B: <std::sync::mpmc::list::Channel<test::event::CompletedTest>>::recv (in /home/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge/target/release/deps/dogwoodsharp_bridge-951c360396e6cf64)
+==7897==    by 0x3A906F: test::console::run_tests_console (in /home/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge/target/release/deps/dogwoodsharp_bridge-951c360396e6cf64)
+==7897==    by 0x394C2C: test::test_main_static (in /home/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge/target/release/deps/dogwoodsharp_bridge-951c360396e6cf64)
+==7897==    by 0x3776BA: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()> (in /home/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge/target/release/deps/dogwoodsharp_bridge-951c360396e6cf64)
+==7897==    by 0x37A058: std::rt::lang_start::<()>::{closure#0} (in /home/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge/target/release/deps/dogwoodsharp_bridge-951c360396e6cf64)
+==7897==    by 0x673128: std::rt::lang_start_internal (in /home/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge/target/release/deps/dogwoodsharp_bridge-951c360396e6cf64)
+==7897==    by 0x364454: main (in /home/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge/target/release/deps/dogwoodsharp_bridge-951c360396e6cf64)
+==7897== 
+==7897== LEAK SUMMARY:
+==7897==    definitely lost: 0 bytes in 0 blocks
+==7897==    indirectly lost: 0 bytes in 0 blocks
+==7897==      possibly lost: 48 bytes in 1 blocks
+==7897==    still reachable: 548 bytes in 2 blocks
+==7897==         suppressed: 0 bytes in 0 blocks
+==7897== Reachable blocks (those to which a pointer was found) are not shown.
+==7897== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==7897== 
+==7897== For lists of detected and suppressed errors, rerun with: -s
+==7897== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

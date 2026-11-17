@@ -1,0 +1,10 @@
+  Determining projects to restore...
+  Restored /home/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d1-qualification/harness/managed/QualificationHarness.csproj (in 54 ms).
+  QualificationHarness -> /home/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d1-qualification/harness/managed/bin/Release/net10.0/QualificationHarness.dll
+  QualificationHarness -> /home/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d1-qualification/harness/managed/bin/Release/net8.0/QualificationHarness.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.00

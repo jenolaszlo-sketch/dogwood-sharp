@@ -1,0 +1,596 @@
+Image: macos15 20261112.0539.3
+85298534e55ad0a5403277c54872842960a516e0
+cf15816a398282bf372e83b2250b63ff3d570ab7
+.NET SDK:
+ Version:           10.0.404
+ Commit:            2ab2854867
+ Workload version:  10.0.400-manifests.ad9f6d83
+ MSBuild version:   18.9.15+2ab285486
+
+Runtime Environment:
+ OS Name:     Mac OS X
+ OS Version:  15.8
+ OS Platform: Darwin
+ RID:         osx-arm64
+ Base Path:   /Users/runner/.dotnet/sdk/10.0.404/
+
+.NET workloads installed:
+There are no installed workloads to display.
+Configured to use workload sets when installing new manifests.
+No workload sets are installed. Run "dotnet workload restore" to install a workload set.
+
+Host:
+  Version:      11.0.0
+  Architecture: arm64
+  Commit:       297acf930f
+
+.NET SDKs installed:
+  8.0.101 [/Users/runner/.dotnet/sdk]
+  8.0.204 [/Users/runner/.dotnet/sdk]
+  8.0.303 [/Users/runner/.dotnet/sdk]
+  8.0.428 [/Users/runner/.dotnet/sdk]
+  9.0.102 [/Users/runner/.dotnet/sdk]
+  9.0.203 [/Users/runner/.dotnet/sdk]
+  9.0.321 [/Users/runner/.dotnet/sdk]
+  10.0.103 [/Users/runner/.dotnet/sdk]
+  10.0.203 [/Users/runner/.dotnet/sdk]
+  10.0.302 [/Users/runner/.dotnet/sdk]
+  10.0.404 [/Users/runner/.dotnet/sdk]
+  11.0.100 [/Users/runner/.dotnet/sdk]
+
+.NET runtimes installed:
+  Microsoft.AspNetCore.App 8.0.1 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 8.0.4 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 8.0.7 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 8.0.34 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 9.0.1 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 9.0.4 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 9.0.23 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 10.0.3 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 10.0.7 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 10.0.10 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 10.0.15 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 11.0.0 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.NETCore.App 8.0.1 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 8.0.4 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 8.0.7 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 8.0.34 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 9.0.1 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 9.0.4 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 9.0.23 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 10.0.3 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 10.0.7 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 10.0.10 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 10.0.15 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 11.0.0 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]
+
+Other architectures found:
+  None
+
+Environment variables:
+  DOTNET_MULTILEVEL_LOOKUP                 [0]
+  DOTNET_NOLOGO                            [1]
+  DOTNET_ROOT                              [/Users/runner/.dotnet]
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE        [1]
+
+global.json file:
+  /Users/runner/work/dogwood-sharp/dogwood-sharp/global.json
+
+Learn more:
+  https://aka.ms/dotnet/info
+
+Download .NET:
+  https://aka.ms/dotnet/download
+rustc 1.99.1 (58cf8f9c3 2026-10-13)
+binary: rustc
+commit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67
+commit-date: 2026-10-13
+host: aarch64-apple-darwin
+release: 1.99.1
+LLVM version: 23.1.1
+    Updating git repository `https://github.com/dogwood-policy/dogwood`
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded borsh v1.8.1
+  Downloaded parking_lot v0.12.5
+  Downloaded logos-derive v0.16.1
+  Downloaded fnv v1.0.7
+  Downloaded jiff v0.2.46
+  Downloaded psm v0.1.32
+  Downloaded toml_parser v1.1.5+spec-1.1.0
+  Downloaded autocfg v1.5.1
+  Downloaded core-foundation-sys v0.8.7
+  Downloaded linked-hash-map v0.5.6
+  Downloaded crunchy v0.2.4
+  Downloaded memchr v2.8.3
+  Downloaded chrono v0.4.45
+  Downloaded proc-macro-crate v3.5.0
+  Downloaded rand_core v0.6.4
+  Downloaded ref-cast-impl v1.0.27
+  Downloaded spin v0.5.2
+  Downloaded arrayvec v0.5.2
+  Downloaded bs58 v0.5.1
+  Downloaded darling_core v0.24.1
+  Downloaded deranged v0.5.9
+  Downloaded regex-syntax v0.8.11
+  Downloaded smallvec v1.16.5
+  Downloaded string_cache v0.8.9
+  Downloaded thin-vec v0.2.21
+  Downloaded arrayvec v0.7.8
+  Downloaded ascii-canvas v4.0.0
+  Downloaded cedar-policy-formatter v4.11.0
+  Downloaded darling v0.24.1
+  Downloaded phf_shared v0.11.3
+  Downloaded schemars v1.2.3
+  Downloaded syn v2.0.119
+  Downloaded tinyvec v1.13.3
+  Downloaded uuid v1.29.2
+  Downloaded winnow v1.0.5
+  Downloaded aho-corasick v1.1.5
+  Downloaded block-buffer v0.10.4
+  Downloaded borsh-derive v1.8.1
+  Downloaded bytes v1.12.1
+  Downloaded crypto-common v0.1.7
+  Downloaded enum-ordinalize v4.4.2
+  Downloaded nonempty v0.12.0
+  Downloaded rust_decimal v1.43.0
+  Downloaded same-file v1.0.6
+  Downloaded ahash v0.8.12
+  Downloaded ar_archive_writer v0.5.5
+  Downloaded const-random v0.1.18
+  Downloaded const-random-macro v0.1.16
+  Downloaded darling_macro v0.24.1
+  Downloaded itoa v1.0.19
+  Downloaded cfg_aliases v0.2.2
+  Downloaded either v1.19.0
+  Downloaded enum-ordinalize-derive v4.4.2
+  Downloaded equivalent v1.0.3
+  Downloaded pest_stack_guard v1.0.1
+  Downloaded sha3 v0.10.9
+  Downloaded lalrpop-util v0.22.2
+  Downloaded pest_meta v2.9.6
+  Downloaded generic-array v0.14.7
+  Downloaded getrandom v0.2.17
+  Downloaded hex v0.4.3
+  Downloaded no-std-compat v0.4.1
+  Downloaded bit-set v0.8.0
+  Downloaded castaway v0.2.4
+  Downloaded digest v0.10.7
+  Downloaded new_debug_unreachable v1.0.6
+  Downloaded cfg-if v1.0.5
+  Downloaded ident_case v1.0.1
+  Downloaded keccak v0.1.6
+  Downloaded linked_hash_set v0.1.6
+  Downloaded log v0.4.35
+  Downloaded logos v0.16.1
+  Downloaded miette v7.6.0
+  Downloaded num-conv v0.2.2
+  Downloaded num-traits v0.2.19
+  Downloaded pest_generator v2.9.6
+  Downloaded pico-args v0.5.0
+  Downloaded powerfmt v0.2.1
+  Downloaded bit-vec v0.8.0
+  Downloaded cpufeatures v0.2.17
+  Downloaded dyn-clone v1.0.20
+  Downloaded find-msvc-tools v0.1.15
+  Downloaded fixedbitset v0.5.9
+  Downloaded foldhash v0.2.0
+  Downloaded ipnet v2.12.2
+  Downloaded iso8601 v0.6.6
+  Downloaded lock_api v0.4.14
+  Downloaded logos-codegen v0.16.1
+  Downloaded mcp-tools-sdk v0.4.1
+  Downloaded miette-derive v7.6.0
+  Downloaded parking_lot_core v0.9.12
+  Downloaded educe v0.6.0
+  Downloaded ena v0.14.4
+  Downloaded getrandom v0.3.4
+  Downloaded iana-time-zone v0.1.65
+  Downloaded indexmap v1.9.3
+  Downloaded once_cell v1.21.4
+  Downloaded serde v1.0.229
+  Downloaded bitflags v2.13.2
+  Downloaded getrandom v0.4.3
+  Downloaded cedar-policy-mcp-schema-generator v0.6.1
+  Downloaded pest v2.9.6
+  Downloaded smol_str v0.3.7
+  Downloaded base64 v0.23.1
+  Downloaded compact_str v0.10.0
+  Downloaded hashbrown v0.12.3
+  Downloaded jiff-core v0.1.8
+  Downloaded nom v8.0.0
+  Downloaded hashbrown v0.17.1
+  Downloaded ucd-trie v0.1.7
+  Downloaded version_check v0.9.5
+  Downloaded cc v1.11.2
+  Downloaded itertools v0.14.0
+  Downloaded portable-atomic v1.15.0
+  Downloaded toml_datetime v1.1.3+spec-1.1.0
+  Downloaded cedar-policy v4.11.0
+  Downloaded object v0.39.1
+  Downloaded lalrpop v0.22.2
+  Downloaded serde_json v1.0.154
+  Downloaded stacker v0.1.25
+  Downloaded unicode-security v0.1.3
+  Downloaded ref-cast v1.0.27
+  Downloaded quote v1.0.47
+  Downloaded term v1.2.1
+  Downloaded petgraph v0.7.1
+  Downloaded cedar-policy-core v4.11.0
+  Downloaded libc v0.2.191
+  Downloaded unicode-normalization v0.1.26
+  Downloaded rustversion v1.0.23
+  Downloaded zmij v1.0.23
+  Downloaded precomputed-hash v0.1.1
+  Downloaded serde_core v1.0.229
+  Downloaded thiserror-impl v2.0.21
+  Downloaded time v0.3.55
+  Downloaded typenum v1.20.1
+  Downloaded rand_chacha v0.9.0
+  Downloaded tiny-keccak v2.0.2
+  Downloaded strsim v0.11.1
+  Downloaded unicode-ident v1.0.27
+  Downloaded proc-macro2 v1.0.107
+  Downloaded rand_core v0.9.5
+  Downloaded time-core v0.1.9
+  Downloaded ppv-lite86 v0.2.21
+  Downloaded zerocopy v0.8.63
+  Downloaded smartstring v1.0.1
+  Downloaded unicode-width v0.2.3
+  Downloaded rand v0.8.8
+  Downloaded serde_with v3.24.0
+  Downloaded regex v1.13.1
+  Downloaded regex-automata v0.4.18
+  Downloaded rhai v1.27.0
+  Downloaded thiserror v2.0.21
+  Downloaded typed-arena v2.0.2
+  Downloaded unicode-script v0.5.9
+  Downloaded unicode-xid v0.2.6
+  Downloaded semver v1.0.28
+  Downloaded time-macros v0.2.32
+  Downloaded shlex v2.0.1
+  Downloaded rand_chacha v0.3.1
+  Downloaded thiserror v1.0.69
+  Downloaded walkdir v2.5.0
+  Downloaded rustc-literal-escaper v0.0.7
+  Downloaded schemars v0.9.0
+  Downloaded siphasher v1.0.4
+  Downloaded static_assertions v1.1.0
+  Downloaded serde_derive v1.0.229
+  Downloaded scopeguard v1.2.0
+  Downloaded pretty v0.12.5
+  Downloaded serde_with_macros v3.24.0
+  Downloaded toml_edit v0.25.19+spec-1.1.0
+  Downloaded rhai_codegen v3.3.0
+  Downloaded syn v3.0.10
+  Downloaded rand v0.9.5
+  Downloaded indexmap v2.14.2
+  Downloaded unicode-width v0.1.14
+  Downloaded pest_derive v2.9.6
+  Downloaded thiserror-impl v1.0.69
+cedar-policy 4.11.0: datetime, decimal, default, ipaddr
+cedar-policy-core 4.11.0: datetime, decimal, default, ipaddr
+cedar-policy-formatter 4.11.0: 
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.27
+   Compiling libc v0.2.191
+   Compiling memchr v2.8.3
+   Compiling find-msvc-tools v0.1.15
+   Compiling shlex v2.0.1
+   Compiling syn v3.0.10
+   Compiling cc v1.11.2
+   Compiling cfg-if v1.0.5
+   Compiling object v0.39.1
+   Compiling version_check v0.9.5
+   Compiling serde_core v1.0.229
+   Compiling stacker v0.1.25
+   Compiling ar_archive_writer v0.5.5
+   Compiling syn v2.0.119
+   Compiling psm v0.1.32
+   Compiling autocfg v1.5.1
+   Compiling generic-array v0.14.7
+   Compiling aho-corasick v1.1.5
+   Compiling serde v1.0.229
+   Compiling regex-syntax v0.8.11
+   Compiling serde_derive v1.0.229
+   Compiling typenum v1.20.1
+   Compiling regex-automata v0.4.18
+   Compiling parking_lot_core v0.9.12
+   Compiling rustversion v1.0.23
+   Compiling num-traits v0.2.19
+   Compiling pest_stack_guard v1.0.1
+   Compiling scopeguard v1.2.0
+   Compiling smallvec v1.16.5
+   Compiling lock_api v0.4.14
+   Compiling crypto-common v0.1.7
+   Compiling block-buffer v0.10.4
+   Compiling cpufeatures v0.2.17
+   Compiling hashbrown v0.17.1
+   Compiling ident_case v1.0.1
+   Compiling equivalent v1.0.3
+   Compiling strsim v0.11.1
+   Compiling siphasher v1.0.4
+   Compiling phf_shared v0.11.3
+   Compiling darling_core v0.24.1
+   Compiling indexmap v2.14.2
+   Compiling keccak v0.1.6
+   Compiling digest v0.10.7
+   Compiling parking_lot v0.12.5
+   Compiling log v0.4.35
+   Compiling bit-vec v0.8.0
+   Compiling term v1.2.1
+   Compiling same-file v1.0.6
+   Compiling zmij v1.0.23
+   Compiling either v1.19.0
+   Compiling new_debug_unreachable v1.0.6
+   Compiling fixedbitset v0.5.9
+   Compiling precomputed-hash v0.1.1
+   Compiling petgraph v0.7.1
+   Compiling string_cache v0.8.9
+   Compiling darling_macro v0.24.1
+   Compiling itertools v0.14.0
+   Compiling ascii-canvas v4.0.0
+   Compiling walkdir v2.5.0
+   Compiling bit-set v0.8.0
+   Compiling ena v0.14.4
+   Compiling sha3 v0.10.9
+   Compiling lalrpop-util v0.22.2
+   Compiling regex v1.13.1
+   Compiling thiserror v2.0.21
+   Compiling serde_json v1.0.154
+   Compiling crunchy v0.2.4
+   Compiling pico-args v0.5.0
+   Compiling core-foundation-sys v0.8.7
+   Compiling unicode-xid v0.2.6
+   Compiling lalrpop v0.22.2
+   Compiling iana-time-zone v0.1.65
+   Compiling darling v0.24.1
+   Compiling linked-hash-map v0.5.6
+   Compiling miette-derive v7.6.0
+   Compiling enum-ordinalize-derive v4.4.2
+   Compiling thiserror-impl v2.0.21
+   Compiling tinyvec v1.13.3
+   Compiling foldhash v0.2.0
+   Compiling itoa v1.0.19
+   Compiling ref-cast v1.0.27
+   Compiling unicode-width v0.1.14
+   Compiling tiny-keccak v2.0.2
+   Compiling miette v7.6.0
+   Compiling unicode-normalization v0.1.26
+   Compiling enum-ordinalize v4.4.2
+   Compiling cedar-policy-core v4.11.0
+   Compiling serde_with_macros v3.24.0
+   Compiling chrono v0.4.45
+   Compiling nonempty v0.12.0
+   Compiling smol_str v0.3.7
+   Compiling ref-cast-impl v1.0.27
+   Compiling ucd-trie v0.1.7
+   Compiling fnv v1.0.7
+   Compiling portable-atomic v1.15.0
+   Compiling unicode-script v0.5.9
+   Compiling unicode-security v0.1.3
+   Compiling logos-codegen v0.16.1
+   Compiling pest v2.9.6
+   Compiling serde_with v3.24.0
+   Compiling educe v0.6.0
+   Compiling linked_hash_set v0.1.6
+   Compiling getrandom v0.2.17
+   Compiling zerocopy v0.8.63
+   Compiling getrandom v0.3.4
+   Compiling once_cell v1.21.4
+   Compiling getrandom v0.4.3
+   Compiling rustc-literal-escaper v0.0.7
+   Compiling const-random-macro v0.1.16
+   Compiling pest_meta v2.9.6
+   Compiling logos-derive v0.16.1
+   Compiling smartstring v1.0.1
+   Compiling nom v8.0.0
+   Compiling ahash v0.8.12
+   Compiling unicode-width v0.2.3
+   Compiling rust_decimal v1.43.0
+   Compiling typed-arena v2.0.2
+   Compiling arrayvec v0.5.2
+   Compiling pretty v0.12.5
+   Compiling pest_generator v2.9.6
+   Compiling logos v0.16.1
+   Compiling iso8601 v0.6.6
+   Compiling const-random v0.1.18
+   Compiling ipnet v2.12.2
+   Compiling cedar-policy v4.11.0
+   Compiling static_assertions v1.1.0
+   Compiling thiserror v1.0.69
+   Compiling arrayvec v0.7.8
+   Compiling mcp-tools-sdk v0.4.1
+   Compiling uuid v1.29.2
+   Compiling pest_derive v2.9.6
+   Compiling thiserror-impl v1.0.69
+   Compiling rhai_codegen v3.3.0
+   Compiling bitflags v2.13.2
+   Compiling semver v1.0.28
+   Compiling thin-vec v0.2.21
+   Compiling dogwood-syntax v1.1.2 (https://github.com/dogwood-policy/dogwood?rev=929f49e7305534ac61ef06cf8e47269c596dc851#929f49e7)
+   Compiling rhai v1.27.0
+   Compiling cedar-policy-formatter v4.11.0
+   Compiling cedar-policy-mcp-schema-generator v0.6.1
+   Compiling dogwoodsharp-bridge v0.1.0 (/Users/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge)
+   Compiling dogwood-language v1.1.2 (https://github.com/dogwood-policy/dogwood?rev=929f49e7305534ac61ef06cf8e47269c596dc851#929f49e7)
+    Finished `release` profile [optimized] target(s) in 3m 03s
+{
+  "manifestVersion": 1,
+  "rid": "osx-arm64",
+  "file": "libdogwoodsharp_bridge.dylib",
+  "sha256": "09c7fe872d1afe6d92bd60104e7228be4cfba4223d2c8482ce7c568f5fc96adc",
+  "cargoLockSha256": "2ca6001ce075006aebd71c9b372cec23d374043bcfa0b971fc36a8eac88669e7",
+  "abiVersion": 1,
+  "bridgeVersion": "0.1.0",
+  "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+  "dogwoodVersion": "1.1.2",
+  "cedarVersion": "4.11.0",
+  "rustVersion": "1.99.1",
+  "target": "aarch64-apple-darwin",
+  "dogwoodFeatures": [],
+  "cedarFeatures": [
+    "datetime",
+    "decimal",
+    "ipaddr"
+  ]
+}
+    Checking serde_core v1.0.229
+    Checking cfg-if v1.0.5
+    Checking memchr v2.8.3
+    Checking libc v0.2.191
+    Checking psm v0.1.32
+    Checking num-traits v0.2.19
+    Checking stacker v0.1.25
+    Checking aho-corasick v1.1.5
+    Checking equivalent v1.0.3
+    Checking core-foundation-sys v0.8.7
+    Checking hashbrown v0.17.1
+    Checking regex-syntax v0.8.11
+    Checking indexmap v2.14.2
+    Checking serde v1.0.229
+    Checking linked-hash-map v0.5.6
+    Checking iana-time-zone v0.1.65
+    Checking zmij v1.0.23
+    Checking foldhash v0.2.0
+    Checking itoa v1.0.19
+    Checking unicode-width v0.1.14
+    Checking either v1.19.0
+    Checking tinyvec v1.13.3
+    Checking itertools v0.14.0
+    Checking unicode-normalization v0.1.26
+    Checking regex-automata v0.4.18
+    Checking miette v7.6.0
+    Checking serde_json v1.0.154
+    Checking thiserror v2.0.21
+    Checking chrono v0.4.45
+    Checking nonempty v0.12.0
+    Checking smol_str v0.3.7
+    Checking unicode-script v0.5.9
+    Checking ref-cast v1.0.27
+    Checking serde_with v3.24.0
+    Checking lalrpop-util v0.22.2
+    Checking unicode-security v0.1.3
+    Checking regex v1.13.1
+    Checking linked_hash_set v0.1.6
+    Checking rustc-literal-escaper v0.0.7
+    Checking portable-atomic v1.15.0
+    Checking nom v8.0.0
+    Checking typed-arena v2.0.2
+    Checking arrayvec v0.5.2
+    Checking unicode-width v0.2.3
+    Checking cedar-policy-core v4.11.0
+    Checking pretty v0.12.5
+    Checking once_cell v1.21.4
+    Checking pest_stack_guard v1.0.1
+    Checking logos v0.16.1
+    Checking getrandom v0.3.4
+    Checking const-random v0.1.18
+    Checking getrandom v0.4.3
+    Checking zerocopy v0.8.63
+    Checking iso8601 v0.6.6
+    Checking ucd-trie v0.1.7
+    Checking arrayvec v0.7.8
+    Checking ipnet v2.12.2
+    Checking static_assertions v1.1.0
+    Checking smartstring v1.0.1
+    Checking mcp-tools-sdk v0.4.1
+    Checking rust_decimal v1.43.0
+    Checking pest v2.9.6
+    Checking ahash v0.8.12
+    Checking uuid v1.29.2
+    Checking semver v1.0.28
+    Checking smallvec v1.16.5
+    Checking thin-vec v0.2.21
+    Checking bitflags v2.13.2
+    Checking thiserror v1.0.69
+    Checking dogwood-syntax v1.1.2 (https://github.com/dogwood-policy/dogwood?rev=929f49e7305534ac61ef06cf8e47269c596dc851#929f49e7)
+    Checking rhai v1.27.0
+   Compiling dogwoodsharp-bridge v0.1.0 (/Users/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge)
+    Checking cedar-policy-formatter v4.11.0
+    Checking cedar-policy-mcp-schema-generator v0.6.1
+    Checking cedar-policy v4.11.0
+    Checking dogwood-language v1.1.2 (https://github.com/dogwood-policy/dogwood?rev=929f49e7305534ac61ef06cf8e47269c596dc851#929f49e7)
+    Finished `release` profile [optimized] target(s) in 39.75s
+   Compiling dogwoodsharp-bridge v0.1.0 (/Users/runner/work/dogwood-sharp/dogwood-sharp/native/dogwoodsharp-bridge)
+    Finished `release` profile [optimized] target(s) in 3.35s
+     Running unittests src/lib.rs (native/dogwoodsharp-bridge/target/release/deps/dogwoodsharp_bridge-ba5cbe66ec4b39bd)
+
+running 5 tests
+test tests::invalid_input_leaves_empty_output ... ok
+
+thread 'tests::unwind_returns_panic_status_without_disabling_subsequent_calls' (38937) panicked at src/lib.rs:69:33:
+injected test panic
+stack backtrace:
+malformed: syntax [{"offset":7,"length":1}]
+invalid-effect: syntax [{"offset":0,"length":5}]
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: _dogwoodsharp_call_v1
+   3: dogwoodsharp_bridge::tests::unwind_returns_panic_status_without_disabling_subsequent_calls
+   4: <dogwoodsharp_bridge::tests::unwind_returns_panic_status_without_disabling_subsequent_calls::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+unicode-before-error: syntax [{"offset":18,"length":1}]
+test tests::unwind_returns_panic_status_without_disabling_subsequent_calls ... ok
+test tests::version_and_repeated_output_lifecycle ... ok
+macro-arity: macro [{"offset":70,"length":17}]
+experimental-arithmetic-disabled: syntax [{"offset":52,"length":152}]
+bom-before-error: syntax [{"offset":10,"length":1}]
+multiple-errors: syntax [{"offset":0,"length":5},{"offset":36,"length":5}]
+test tests::differential_against_pinned_parser ... ok
+test tests::request_source_and_response_limits ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+   Doc-tests dogwoodsharp_bridge
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+  Determining projects to restore...
+  Restored /Users/runner/work/dogwood-sharp/dogwood-sharp/samples/DogwoodSharp.FoundationSmoke/DogwoodSharp.FoundationSmoke.csproj (in 177 ms).
+  Restored /Users/runner/work/dogwood-sharp/dogwood-sharp/src/DogwoodSharp/DogwoodSharp.csproj (in 1.17 sec).
+  Restored /Users/runner/work/dogwood-sharp/dogwood-sharp/tests/DogwoodSharp.Tests/DogwoodSharp.Tests.csproj (in 1.37 sec).
+  DogwoodSharp -> /Users/runner/work/dogwood-sharp/dogwood-sharp/src/DogwoodSharp/bin/Release/net8.0/DogwoodSharp.dll
+  DogwoodSharp -> /Users/runner/work/dogwood-sharp/dogwood-sharp/src/DogwoodSharp/bin/Release/net10.0/DogwoodSharp.dll
+  DogwoodSharp.Tests -> /Users/runner/work/dogwood-sharp/dogwood-sharp/tests/DogwoodSharp.Tests/bin/Release/net8.0/DogwoodSharp.Tests.dll
+  DogwoodSharp.FoundationSmoke -> /Users/runner/work/dogwood-sharp/dogwood-sharp/samples/DogwoodSharp.FoundationSmoke/bin/Release/net8.0/DogwoodSharp.FoundationSmoke.dll
+  DogwoodSharp.FoundationSmoke -> /Users/runner/work/dogwood-sharp/dogwood-sharp/samples/DogwoodSharp.FoundationSmoke/bin/Release/net10.0/DogwoodSharp.FoundationSmoke.dll
+  DogwoodSharp.Tests -> /Users/runner/work/dogwood-sharp/dogwood-sharp/tests/DogwoodSharp.Tests/bin/Release/net10.0/DogwoodSharp.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:07.69
+Test run for /Users/runner/work/dogwood-sharp/dogwood-sharp/tests/DogwoodSharp.Tests/bin/Release/net8.0/DogwoodSharp.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+Results File: /Users/runner/work/dogwood-sharp/dogwood-sharp/artifacts/test-results/net8.0.trx
+
+Passed!  - Failed:     0, Passed:    13, Skipped:     0, Total:    13, Duration: 187 ms - DogwoodSharp.Tests.dll (net8.0)
+DogwoodSharp bridge 0.1.0, Dogwood 1.1.2, Cedar 4.11.0, aarch64-apple-darwin: passed.
+  Determining projects to restore...
+  Restored /Users/runner/work/dogwood-sharp/dogwood-sharp/samples/DogwoodSharp.FoundationSmoke/DogwoodSharp.FoundationSmoke.csproj (in 4.7 sec).
+  Restored /Users/runner/work/dogwood-sharp/dogwood-sharp/src/DogwoodSharp/DogwoodSharp.csproj (in 4.7 sec).
+  DogwoodSharp -> /Users/runner/work/dogwood-sharp/dogwood-sharp/src/DogwoodSharp/bin/Release/net8.0/DogwoodSharp.dll
+  DogwoodSharp.FoundationSmoke -> /Users/runner/work/dogwood-sharp/dogwood-sharp/samples/DogwoodSharp.FoundationSmoke/bin/Release/net8.0/osx-arm64/DogwoodSharp.FoundationSmoke.dll
+  Generating native code
+  ld: warning: -ld_classic is deprecated and will be removed in a future release
+  DogwoodSharp.FoundationSmoke -> /Users/runner/work/dogwood-sharp/dogwood-sharp/artifacts/aot/osx-arm64/net8.0/
+DogwoodSharp bridge 0.1.0, Dogwood 1.1.2, Cedar 4.11.0, aarch64-apple-darwin: passed.
+Test run for /Users/runner/work/dogwood-sharp/dogwood-sharp/tests/DogwoodSharp.Tests/bin/Release/net10.0/DogwoodSharp.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /Users/runner/work/dogwood-sharp/dogwood-sharp/artifacts/test-results/net10.0.trx
+
+Passed!  - Failed:     0, Passed:    13, Skipped:     0, Total:    13, Duration: 200 ms - DogwoodSharp.Tests.dll (net10.0)
+DogwoodSharp bridge 0.1.0, Dogwood 1.1.2, Cedar 4.11.0, aarch64-apple-darwin: passed.
+  Determining projects to restore...
+  Restored /Users/runner/work/dogwood-sharp/dogwood-sharp/samples/DogwoodSharp.FoundationSmoke/DogwoodSharp.FoundationSmoke.csproj (in 317 ms).
+  Restored /Users/runner/work/dogwood-sharp/dogwood-sharp/src/DogwoodSharp/DogwoodSharp.csproj (in 317 ms).
+  DogwoodSharp -> /Users/runner/work/dogwood-sharp/dogwood-sharp/src/DogwoodSharp/bin/Release/net10.0/DogwoodSharp.dll
+  DogwoodSharp.FoundationSmoke -> /Users/runner/work/dogwood-sharp/dogwood-sharp/samples/DogwoodSharp.FoundationSmoke/bin/Release/net10.0/osx-arm64/DogwoodSharp.FoundationSmoke.dll
+  Generating native code
+  DogwoodSharp.FoundationSmoke -> /Users/runner/work/dogwood-sharp/dogwood-sharp/artifacts/aot/osx-arm64/net10.0/
+DogwoodSharp bridge 0.1.0, Dogwood 1.1.2, Cedar 4.11.0, aarch64-apple-darwin: passed.
