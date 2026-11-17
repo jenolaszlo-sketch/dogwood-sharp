@@ -77,19 +77,16 @@ jobs:
         run: |
           Remove-Item Env:Platform -ErrorAction SilentlyContinue
           Remove-Item Env:Configuration -ErrorAction SilentlyContinue
-          $arguments = @{
-            RuntimeIdentifier = '${{ matrix.rid }}'
-            AssetsRoot = 'artifacts/native'
-            OutputRoot = 'artifacts/d1-qualification'
-            SkipNativeBuild = $true
-          }
-          $command = "docs/reviews/d1-qualification/harness/run-all.ps1"
+          $valgrind = $false
           if ('${{ matrix.rid }}' -eq 'linux-x64') {
-            & $command @arguments -Valgrind
+            $valgrind = $true
           }
-          else {
-            & $command @arguments
-          }
+          ./docs/reviews/d1-qualification/harness/run-all.ps1 `
+            -RuntimeIdentifier '${{ matrix.rid }}' `
+            -AssetsRoot 'artifacts/native' `
+            -OutputRoot 'artifacts/d1-qualification' `
+            -SkipNativeBuild `
+            -Valgrind:$valgrind
 
       - name: Upload qualification evidence
         if: always()
