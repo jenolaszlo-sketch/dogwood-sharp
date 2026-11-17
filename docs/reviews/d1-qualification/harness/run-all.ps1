@@ -11,7 +11,7 @@ param(
     [string] $AssetsRoot,
     [string] $OutputRoot = 'artifacts/d1-qualification',
     [string[]] $Frameworks = @('net8.0', 'net10.0'),
-    [bool] $Valgrind = $false,
+    [switch] $Valgrind,
     [switch] $SkipAot,
     [switch] $SkipDifferential,
     [switch] $SkipManaged,
