@@ -77,16 +77,20 @@ jobs:
         run: |
           Remove-Item Env:Platform -ErrorAction SilentlyContinue
           Remove-Item Env:Configuration -ErrorAction SilentlyContinue
-          $valgrind = $false
           if ('${{ matrix.rid }}' -eq 'linux-x64') {
-            $valgrind = $true
+            ./docs/reviews/d1-qualification/harness/run-all.ps1 `
+              -RuntimeIdentifier '${{ matrix.rid }}' `
+              -AssetsRoot 'artifacts/native' `
+              -OutputRoot 'artifacts/d1-qualification' `
+              -SkipNativeBuild `
+              -Valgrind
+          } else {
+            ./docs/reviews/d1-qualification/harness/run-all.ps1 `
+              -RuntimeIdentifier '${{ matrix.rid }}' `
+              -AssetsRoot 'artifacts/native' `
+              -OutputRoot 'artifacts/d1-qualification' `
+              -SkipNativeBuild
           }
-          ./docs/reviews/d1-qualification/harness/run-all.ps1 `
-            -RuntimeIdentifier '${{ matrix.rid }}' `
-            -AssetsRoot 'artifacts/native' `
-            -OutputRoot 'artifacts/d1-qualification' `
-            -SkipNativeBuild `
-            -Valgrind:$valgrind
 
       - name: Upload qualification evidence
         if: always()
