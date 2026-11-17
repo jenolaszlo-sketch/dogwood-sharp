@@ -1,6 +1,7 @@
 # ADR-0001: staged reference and CedarSharp backends
 
-Status: **Accepted with D0 qualifications. D1 authorized.** Proposed 2026-11-16.
+Status: **Accepted with D0 qualifications. D1 accepted with qualifications and
+closed. D2 authorized.** Proposed 2026-11-16.
 
 Context: Dogwood supplies temporal semantics and public engine seams. CedarSharp
 is preferred for final Cedar evaluation, but the resolved Cedar versions differ
