@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -683,6 +684,7 @@ internal static class Program
             typeof(DogwoodNativeVersion).IsSealed && typeof(DogwoodBridgeException).IsSealed &&
             typeof(PolicySourceLocation).IsValueType,
             "A public result type is not an immutable sealed snapshot.");
+        AssertPublicSurface();
 
         if (!aot)
         {
@@ -719,6 +721,62 @@ internal static class Program
                 }
             });
             Ensure(errors.IsEmpty, $"concurrent calls failed: {errors.Count}");
+        }
+    }
+
+    private static void AssertPublicSurface()
+    {
+        // D1 exposes parsing and version discovery only. This exact set is a
+        // qualification baseline: adding a public type or member later requires
+        // a new scope review rather than silently widening the package.
+        var expectedTypes = new[]
+        {
+            "DogwoodSharp.Dogwood",
+            "DogwoodSharp.DogwoodBridgeException",
+            "DogwoodSharp.DogwoodBridgeFailure",
+            "DogwoodSharp.DogwoodNativeVersion",
+            "DogwoodSharp.PolicyDiagnostic",
+            "DogwoodSharp.PolicyDiagnosticCategory",
+            "DogwoodSharp.PolicyParseResult",
+            "DogwoodSharp.PolicySourceLocation",
+        };
+        var exported = typeof(Dogwood).Assembly.GetExportedTypes()
+            .Select(type => type.FullName ?? string.Empty)
+            .OrderBy(name => name, StringComparer.Ordinal)
+            .ToArray();
+        Ensure(exported.SequenceEqual(expectedTypes),
+            "Public type surface changed: " + string.Join(", ", exported));
+
+        Ensure(typeof(Dogwood).IsAbstract && typeof(Dogwood).IsSealed,
+            "Dogwood is not a static class.");
+        var members = typeof(Dogwood)
+            .GetMembers(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
+            .Select(member => member.Name)
+            .OrderBy(name => name, StringComparer.Ordinal)
+            .ToArray();
+        Ensure(members.SequenceEqual(new[] { "GetNativeVersion", "MaximumSourceBytes", "Parse" }),
+            "Dogwood public members changed: " + string.Join(", ", members));
+
+        foreach (var type in new[]
+                 {
+                     typeof(PolicyParseResult), typeof(PolicyDiagnostic),
+                     typeof(DogwoodNativeVersion), typeof(DogwoodBridgeException),
+                 })
+        {
+            foreach (var property in type.GetProperties(
+                         BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+            {
+                var setter = property.SetMethod;
+                if (setter is null || !setter.IsPublic)
+                {
+                    continue;
+                }
+
+                var initOnly = setter.ReturnParameter
+                    .GetRequiredCustomModifiers()
+                    .Any(modifier => modifier.FullName == "System.Runtime.CompilerServices.IsExternalInit");
+                Ensure(initOnly, $"{type.Name}.{property.Name} has a public setter.");
+            }
         }
     }
 
