@@ -1,7 +1,9 @@
 # Initial threat model and security limitations
 
-Status: proposed contracts for future implementation; D0 implements no security
-enforcement. Assets: policy integrity, decision integrity, event history, tenant
+D1 implements verified asset selection, parser transport bounds and native
+buffer ownership under the [native ABI contract](native-interop.md).
+
+Assets: policy integrity, decision integrity, event history, tenant
 secrets, native process memory, package provenance. Adversaries include callers
 forging context/events, policy authors causing expensive evaluation, compromised
 providers, and substituted native artifacts.

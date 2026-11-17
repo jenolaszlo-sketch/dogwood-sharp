@@ -1,7 +1,12 @@
-# Conformance suite entry gate
+# D1 differential fixtures
 
-No production backend exists at D0, so no empty test project claims conformance.
-The executable bounded experiment is in `research/`; its six cases are not a full
-conformance corpus. D2-D5 add upstream examples, temporal corpus, differential
-diagnostics, provider failures, entity hierarchy and reserved-context attacks.
-See [qualification strategy](../../docs/qualification.md).
+`parsing-v1.json` records the upstream pin, source, expected policy count or
+diagnostic category, and expected diagnostic byte ranges for each case.
+The fixtures are repository-authored probes of grammar forms in the pinned
+Dogwood parser. Rust compares each ABI result to a direct call to
+`ParsedPolicySet::parse` with the same default service schema. Managed tests
+compare the staged cdylib to the same fixture expectations on both frameworks.
+Exact diagnostic messages are outside the assertions.
+
+Run `./eng/Verify.ps1` from the repository root for both paths and see
+[verification](../../docs/verification.md) for actual evidence.

@@ -1,7 +1,7 @@
 # Dependency-ordered implementation plan
 
 Every milestone requires technical qualification before a separate owner acceptance
-decision. No milestone beyond D0 is authorized by this foundation. Work packages
+decision. The owner has commissioned D1. D2 and later remain gated. Work packages
 are bounded to the objective shown; expand executable contracts rather than
 implementing speculative infrastructure.
 

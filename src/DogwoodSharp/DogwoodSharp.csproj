@@ -4,13 +4,14 @@
     <PackageId>DogwoodSharp</PackageId>
     <Version>0.0.0-discovery.1</Version>
     <Authors>DogwoodSharp contributors</Authors>
-    <Description>Discovery foundation for an independent .NET Dogwood policy library. No policy evaluation API is implemented.</Description>
+    <Description>Dogwood policy parsing for .NET using the pinned native Dogwood parser.</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/jenolaszlo-sketch/dogwood-sharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jenolaszlo-sketch/dogwood-sharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>dogwood;cedar;authorization;temporal</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -22,7 +23,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
-    <AssemblyMetadata Include="DevelopmentStage" Value="DiscoveryOnly" />
+    <InternalsVisibleTo Include="DogwoodSharp.Tests" />
     <None Include="../../README.md;../../LICENSE;../../NOTICE" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>

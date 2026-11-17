@@ -1,5 +1,8 @@
 # DOGWOOD-SHARP-DISCOVERY-01 handoff
 
+Historical producer handoff. The owner subsequently accepted D0 with
+qualifications and commissioned D1. See the [D1 report](d1-implementation.md).
+
 **Formal disposition:** D0 discovery, planning and buildable foundation prepared
 for owner review. Architecture proposed, not accepted. Stop before production
 implementation. No package, release tag or external publishing setting changed.

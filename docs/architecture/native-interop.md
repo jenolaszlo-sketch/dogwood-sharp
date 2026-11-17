@@ -1,39 +1,91 @@
-# Native interoperability design
+# D1 native ABI v1
 
-Proposed, not implemented in D0. Primary engineering reference:
-[CS-NATIVE](https://github.com/jenolaszlo-sketch/cedar-sharp/blob/a25181d17603381e42adde60613f7a49d5309a2b/native/src/lib.rs), [CS-LOADER](https://github.com/jenolaszlo-sketch/cedar-sharp/blob/a25181d17603381e42adde60613f7a49d5309a2b/src/CedarSharp/NativeBridge.cs). The empty Rust cdylib scaffold deliberately
-exports no pretend authorization operations.
+The C ABI uses the platform C calling convention and exports these symbols:
 
-Use a minimal versioned C ABI with fixed-width status/operation numbers and
-UTF-8 JSON input/output buffers. Proposed entry points: version, call_v1,
-free_v1, session_create_v1, session_call_v1, session_destroy_v1. Exact names and
-wire schema freeze in D1. Never exchange Rust/Cedar object pointers between
-Dogwood and CedarSharp libraries.
+```c
+#include <stdint.h>
 
-| Boundary | Proposed contract / required test |
+typedef struct {
+    uint8_t *data;
+    uint32_t len;
+} dogwoodsharp_buffer_v1;
+
+uint32_t dogwoodsharp_abi_version(void);
+uint32_t dogwoodsharp_call_v1(uint32_t abi, uint32_t operation,
+    const uint8_t *input, uint32_t input_len, dogwoodsharp_buffer_v1 *output);
+void dogwoodsharp_free_v1(dogwoodsharp_buffer_v1 *output);
+```
+
+Use natural C alignment. On all three D1 targets, the buffer has an 8-byte pointer
+at offset 0, a 4-byte length at offset 8 and 4 bytes of tail padding. Lengths,
+versions, operation IDs and statuses are unsigned 32-bit values.
+`dogwoodsharp_abi_version` returns 1. The dispatch call also requires ABI 1.
+Changing a v1 symbol, layout, status, or wire contract requires a new ABI.
+
+## Call and ownership
+
+- Pass a writable, aligned output slot that holds no live allocation. A null
+  output returns status 1. The bridge initializes a supplied slot to
+  `{NULL, 0}` before any validation.
+- The input is borrowed and read-only for the duration of the call. A supported
+  input length must address that many readable bytes. Input and output must
+  occupy disjoint storage. Bytes have no terminating-NUL convention and are
+  interpreted as strict UTF-8.
+- Dispatch validates the ABI, operation, envelope byte ceiling, nonempty pointer
+  and length, UTF-8, and JSON shape in that order. Both operations accept
+  exactly one JSON object with the specified fields. Unknown fields, duplicate
+  fields, trailing values, BOMs and unpaired surrogate escapes are rejected.
+- On status 0, the output is one nonempty JSON object encoded in UTF-8, and the
+  native allocator transfers ownership to the caller. Release the unchanged
+  buffer using the same library's `dogwoodsharp_free_v1`. Free resets the slot
+  to `{NULL, 0}` and accepts a null pointer or an already empty slot. A copied
+  descriptor is an alias and must never be freed. Keep the library loaded
+  until every live buffer has been released.
+- Calls may run concurrently with independent buffers and immutable request
+  storage. Callers must synchronize access to any shared slot. These contracts
+  require valid pointers and cannot validate addresses supplied by a native caller.
+
+The JSON request ceiling is 6,291,520 bytes. The decoded policy source ceiling
+is 1,048,576 UTF-8 bytes. The encoded response ceiling is 2,097,152 bytes.
+An oversized response fails as a whole. The pinned parser uses its default
+nesting limit of 32 and macro-expansion budget of 1,000,000 nodes. Those budgets and the wire ceilings do
+not establish a process memory ceiling or a time bound.
+
+| Status | Meaning |
 | --- | --- |
-| Input | Borrowed ptr+length valid for call; strict UTF-8; reject null/nonzero, invalid JSON and oversized payload before parsing |
-| Output | Initialize empty before dispatch; native allocates, same library frees exactly once; length authoritative, no NUL assumption |
-| Limits | Initial design ceiling 16 MiB input / 64 MiB output, lower configurable policy/event budgets; benchmark before finalizing |
-| Errors | Distinguish invalid input, unsupported operation/version, resource limit, disposed/busy session, panic and evaluation result |
-| Panic | catch_unwind with unwind build around each ABI operation; no Rust unwind or managed exception crosses C boundary; abort/OOM not recoverable |
-| Handles | Opaque native-owned session, managed SafeHandle; disposal waits for active call; no reentrancy; native validates handle state |
-| Concurrency | One ordered writer per session; independent sessions may run concurrently after qualification; no implied Sync from Send |
-| Callback | Synchronous managed policy engine callback with rooted lifetime; catches managed exceptions; owns/copies result under explicit free contract |
-| Managed import | LibraryImport for fixed ABI after setting verified resolver; UnmanagedCallersOnly/function pointer callback if AOT-qualified; justify deviations |
-| Version discovery | ABI, bridge version, full Dogwood SHA, resolved Cedar version, Rust toolchain, feature set and target |
-| Integrity | Manifest SHA-256 plus source/lock/toolchain/features; trusted package channel/provenance required because editable hash alone is not authenticity |
-| Diagnostics | Stable wrapper category + upstream detail + source byte offsets; bound and redact before external logging |
+| 0 | Operation completed, including a structured upstream parse failure |
+| 1 | Null output or null/empty input |
+| 2 | Unsupported ABI version |
+| 3 | Unknown operation |
+| 4 | Invalid UTF-8 |
+| 5 | Invalid JSON or operation envelope |
+| 6 | Request, source, or response exceeds its byte limit |
+| 7 | Contained Rust unwind |
+| 8 | Unexpected parser variant or internal encoding failure |
 
-Retain the native library for process lifetime while any handle/callback may exist.
-Load only the intended verified runtime asset, without ambient search-path
-fallback. Missing/unsupported RID fails explicitly. Native safe ownership tests
-must cover repeated frees through the managed wrapper, disposal races, failure
-paths, callback rejection and buffer limits; arbitrary invalid native pointers
-cannot be made safe by JSON validation.
+Every nonzero status leaves a supplied output empty. Call dispatch catches
+unwinding panics. Abort, allocation failure, invalid pointers and faults in
+foreign code are outside that guarantee. Rust's default panic hook may write
+to stderr even when the unwind is caught. The production ABI contains no
+panic-injection operation. Managed callers use direct Cdecl function pointers
+from the verified image, and there are no managed callbacks.
 
-Pin upstream to the exact SHA in [sources](../research/sources.md); the research
-manifest/lock exercise that pin now. D1 adopts it in the bridge. Rust 1.99.1 is
-pinned for this foundation. Review features from the resolved graph, since Cargo
-feature unification can re-enable unwanted capabilities. Formatter integration
-needs its own pinned upstream crate. No native assets are redistributed at D0.
+## Operations
+
+| ID | Request | Response on status 0 |
+| --- | --- | --- |
+| 0 | `{}` | Native identity described in the [manifest specification](native-artifacts.md) |
+| 1 | `{"source":"..."}` | `{"success":true,"policyCount":1,"diagnostics":[]}` or a failed-parse record |
+
+A failed parse has `success:false`, `policyCount:null` and one or more ordered
+diagnostics. Each has `category` (`syntax` or `macro`), `message` (upstream
+display text) and `location` (null or `{"offset":n,"length":n}`). Numbers are
+nonnegative integers. Locations identify UTF-8 bytes in the supplied source.
+Locations are rebased to the original source when Dogwood strips a leading
+UTF-8 BOM. A one-byte span starting at EOF is an upstream end-of-input marker.
+Locations for a different source or outside that contract are null. Message
+wording may change and can contain caller-supplied policy text.
+
+D1 calls `ParsedPolicySet::parse` with `ServiceSchema::defaults()`. Results
+describe syntax, structural checks and macro expansion. An empty policy set
+is valid. Schema validation and authorization require later milestones.

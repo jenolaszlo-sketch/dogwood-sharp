@@ -1,6 +1,16 @@
 # CI, packaging and NuGet publication strategy
 
-## D0 implementation
+## D1 verification
+
+CI executes the actual staged bridge for `win-x64`, `linux-x64`, and
+`osx-arm64` using .NET SDK 10.0.404 and Rust 1.99.1. Every job verifies
+both target frameworks through managed integration, JIT smoke and NativeAOT
+smoke. The Linux job also checks native buffer ownership under Valgrind.
+CI uploads staged binaries, manifests, test results, and verification logs.
+The [verification record](verification.md) identifies completed runs. The
+publication workflow remains a refusal gate.
+
+## D0 implementation (historical)
 
 Foundation CI runs on Windows Server 2025 x64 (`win-x64`), Ubuntu 24.04 x64
 (`linux-x64`) and macOS 15 ARM64 (`osx-arm64`). Each installs .NET 8 and SDK

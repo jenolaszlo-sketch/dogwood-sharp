@@ -33,6 +33,10 @@ fixture counts and pass/fail/skip reasons. Any unexplained divergence blocks the
 feature. Skips do not count as passes. Review provider undefined-behavior cases
 as implementation regressions/strict-wrapper controls, not language guarantees.
 
+For D1, review the versioned ABI, location fidelity, native ownership, platform
+artifacts and AOT smoke cases against the [D1 report](d1-implementation.md).
+Producer CI supplies evidence for independent qualification.
+
 At D0, only foundation smoke tests and six research fixtures have executed
 locally. No independent reviewer/subagent was engaged and no production
 conformance claim is made. See [verification](verification.md) for actual results.

@@ -1,4 +1,4 @@
-name: Foundation CI
+name: D1 native parsing CI
 on:
   push:
     branches: [main]
@@ -7,10 +7,11 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: foundation-${{ github.ref }}
+  group: d1-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  foundation:
+  verify:
+    name: D1 ${{ matrix.rid }} / net8.0 and net10.0
     strategy:
       fail-fast: false
       matrix:
@@ -22,23 +23,47 @@ jobs:
           - os: macos-15
             rid: osx-arm64
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 20
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
-            8.0.x
-            10.0.401
+            8.0.428
+            10.0.404
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: 1.99.1
           components: rustfmt, clippy
           cache: false
-      - name: Record SDK selection
-        run: dotnet --info
-      - name: Verify foundation on both frameworks
+      - name: Verify native integration on both frameworks
         shell: pwsh
-        run: ./eng/Verify.ps1
+        run: |
+          New-Item -ItemType Directory -Path artifacts -Force | Out-Null
+          $PSNativeCommandUseErrorActionPreference = $true
+          & {
+            Write-Output "Image: $env:ImageOS $env:ImageVersion"
+            git rev-parse HEAD 'HEAD^{tree}'
+            ./eng/Verify.ps1 -RuntimeIdentifier ${{ matrix.rid }}
+          } *>&1 | Tee-Object -FilePath artifacts/verification.log
+      - name: Check native buffer ownership with Valgrind
+        if: matrix.rid == 'linux-x64'
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y valgrind
+          suite=$(cargo test --locked --release --manifest-path native/dogwoodsharp-bridge/Cargo.toml \
+            --no-run --message-format=json | jq -er 'select(.profile.test == true and .executable != null) | .executable')
+          valgrind --error-exitcode=1 --leak-check=full --errors-for-leak-kinds=definite,indirect \
+            --log-file=artifacts/memory-ownership.log "$suite" --exact tests::version_and_repeated_output_lifecycle
       - name: Audit managed dependencies
         run: dotnet list DogwoodSharp.slnx package --vulnerable --include-transitive
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: dogwoodsharp-d1-${{ matrix.rid }}
+          path: |
+            artifacts/verification.log
+            artifacts/memory-ownership.log
+            artifacts/test-results/*.trx
+            artifacts/native/runtimes

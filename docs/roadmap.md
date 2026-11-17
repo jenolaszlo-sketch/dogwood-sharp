@@ -2,8 +2,9 @@
 
 | Phase | Milestones | Decision gate |
 | --- | --- | --- |
-| Foundation | D0 discovery and build scaffolds | Accept/revise ADR; authorize D1 |
-| Language bridge | D1 parsing, D2 lowering/schema validation | Independent native/semantic qualification |
+| Foundation | D0 discovery and build scaffolds | Accepted with qualifications |
+| Language bridge | D1 parsing | Independent qualification and owner acceptance after producer verification |
+| Validation | D2 lowering/schema validation | Requires D1 qualification and owner acceptance |
 | Execution feasibility | D3 CedarSharp; D4 events/reference temporal | Resolve interop risks before backend promise |
 | Reference conformance | D5 temporal authorization | Corpus parity and owner acceptance |
 | Extensibility | D6 backend/provider contracts | Avoid undefined provider/failure behavior |

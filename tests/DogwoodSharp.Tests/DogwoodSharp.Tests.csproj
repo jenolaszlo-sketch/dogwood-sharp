@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><TargetFrameworks>net8.0;net10.0</TargetFrameworks><IsTestProject>true</IsTestProject></PropertyGroup>
   <ItemGroup>
+    <None Include="../DogwoodSharp.Conformance.Tests/parsing-v1.json" Link="parsing-v1.json" CopyToOutputDirectory="PreserveNewest" />
     <ProjectReference Include="../../src/DogwoodSharp/DogwoodSharp.csproj" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit" />

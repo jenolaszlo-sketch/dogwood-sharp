@@ -67,3 +67,30 @@ This qualifies the build foundation only. The research spike executed locally
 on Windows; native authorization, full conformance, AOT and release packaging
 remain unqualified. This evidence update changes documentation only; the tested
 implementation revision above is unchanged.
+
+## D1 producer verification on Windows x64
+
+Local Windows build 10.0.26200. SDK 10.0.404, runtimes 8.0.34 and
+10.0.15, Rust 1.99.1 (58cf8f9c35b355199727627d07ae34a4e2846d67).
+`eng/Verify.ps1` completed with exit code 0.
+
+| Check | Result |
+| --- | --- |
+| Locked native graph, rustfmt, Release clippy, Release cdylib build | Passed |
+| Native ABI and ownership tests | 5 passed, including the injected unwind and recovery |
+| Direct upstream differential | 15 fixtures matched, including eight diagnostic ranges |
+| Locked solution restore, Release build, managed formatting | Passed, zero warnings or errors |
+| net8.0 managed tests, JIT smoke and NativeAOT smoke | 13 tests passed, both smoke consumers passed |
+| net10.0 managed tests, JIT smoke and NativeAOT smoke | 13 tests passed, both smoke consumers passed |
+| Native manifest and identity | Loaded on both TFMs, hash and identity rejection probes passed |
+
+Local staged image SHA-256
+`3f1aecb7c2749ea7ff7bc3ae00220a88cedb0885a62148c3499230efbd8aad0f`.
+Bridge Cargo.lock SHA-256
+`2ca6001ce075006aebd71c9b372cec23d374043bcfa0b971fc36a8eac88669e7`.
+
+SDK 10.0.401 initially failed the AOT restore audit for ILCompiler. The
+patched SDK 10.0.404 resolved the advisory with NuGet auditing enabled.
+The local AOT subprocess could not discover the installed linker through
+`where.exe`. Verification supplied MSVC 14.51.36231 and Windows SDK
+10.0.26100.0 library paths explicitly for the local session.

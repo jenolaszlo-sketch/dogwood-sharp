@@ -1,0 +1,21 @@
+{
+  "fixtureVersion": 1,
+  "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+  "cases": [
+    { "id": "cedar", "source": "permit(principal, action, resource);", "policyCount": 1 },
+    { "id": "temporal", "source": "permit(principal, action, resource) when temporal { formerly within 1h App::Action::\"Login\"::request{} };", "policyCount": 1 },
+    { "id": "inline-cedar-macro", "source": "def cedar is_small(?amount) { ?amount < 100 }; permit(principal, action, resource) when { is_small(context.amount) };", "policyCount": 1 },
+    { "id": "inline-temporal-macro", "source": "def temporal was_login(?user) { formerly within 1h App::Action::\"Login\"::request{input.user: ?user} }; permit(principal, action, resource) when temporal { was_login(context.user) };", "policyCount": 1 },
+    { "id": "empty-policy-set", "source": "", "policyCount": 0 },
+    { "id": "comments-only", "source": "// empty policy set\n", "policyCount": 0 },
+    { "id": "malformed", "source": "permit(", "category": "syntax", "locations": [{"offset":7,"length":1}] },
+    { "id": "invalid-effect", "source": "allow(principal, action, resource);", "category": "syntax", "locations": [{"offset":0,"length":5}] },
+    { "id": "unicode-and-escaping", "source": "permit(principal == User::\"雪🌲\\\"\\\\\", action, resource);", "policyCount": 1 },
+    { "id": "unicode-before-error", "source": "// 雪🌲\npermit(", "category": "syntax", "locations": [{"offset":18,"length":1}] },
+    { "id": "multiple-policies", "source": "permit(principal, action, resource);\nforbid(principal, action, resource);", "policyCount": 2 },
+    { "id": "macro-arity", "source": "def cedar test(?x) { ?x }; permit(principal, action, resource) when { test(true, false) };", "category": "macro", "locations": [{"offset":70,"length":17}] },
+    { "id": "experimental-arithmetic-disabled", "source": "permit(principal, action, resource) when temporal { exists (po_amount: Long). (formerly within 24h App::Action::\"CreateOrder\"::response{input.amount: po_amount} && context.input.amount <= po_amount + 50) };", "category": "syntax", "locations": [{"offset":52,"length":152}] },
+    { "id": "bom-before-error", "source": "﻿permit(", "category": "syntax", "locations": [{"offset":10,"length":1}] },
+    { "id": "multiple-errors", "source": "allow(principal, action, resource);\nallow(principal, action, resource);", "category": "syntax", "locations": [{"offset":0,"length":5},{"offset":36,"length":5}] }
+  ]
+}

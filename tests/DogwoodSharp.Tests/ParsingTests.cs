@@ -1,0 +1,148 @@
+using System.Security.Cryptography;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using Xunit;
+
+namespace DogwoodSharp.Tests;
+
+public sealed class ParsingTests
+{
+    [Fact]
+    public void SharedFixtureManifestMatchesTheLoadedNativeBridge()
+    {
+        using var document = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "parsing-v1.json")));
+        var manifest = document.RootElement;
+        var version = Dogwood.GetNativeVersion();
+        Assert.Equal(1, manifest.GetProperty("fixtureVersion").GetInt32());
+        Assert.Equal(1u, version.AbiVersion);
+        Assert.Equal("0.1.0", version.BridgeVersion);
+        Assert.Equal("1.1.2", version.DogwoodVersion);
+        Assert.Equal("4.11.0", version.CedarVersion);
+        Assert.Equal("1.99.1", version.RustVersion);
+        Assert.Equal(NativeBridge.Platform().Target, version.Target);
+        Assert.Equal(manifest.GetProperty("dogwoodRevision").GetString(), version.DogwoodRevision);
+
+        foreach (var fixture in manifest.GetProperty("cases").EnumerateArray())
+        {
+            var id = fixture.GetProperty("id").GetString();
+            var result = Dogwood.Parse(fixture.GetProperty("source").GetString()!);
+            if (fixture.TryGetProperty("policyCount", out var count))
+            {
+                Assert.True(result.Success, id);
+                Assert.Equal(count.GetInt32(), result.PolicyCount);
+                Assert.Empty(result.Diagnostics);
+            }
+            else
+            {
+                Assert.False(result.Success, id);
+                Assert.Null(result.PolicyCount);
+                var category = fixture.GetProperty("category").GetString() == "syntax"
+                    ? PolicyDiagnosticCategory.Syntax
+                    : PolicyDiagnosticCategory.Macro;
+                var expected = fixture.GetProperty("locations").EnumerateArray()
+                    .Select(location => new PolicySourceLocation(location.GetProperty("offset").GetInt32(),
+                        location.GetProperty("length").GetInt32()))
+                    .ToArray();
+                Assert.Equal(expected.Length, result.Diagnostics.Length);
+                Assert.All(result.Diagnostics, diagnostic =>
+                {
+                    Assert.Equal(category, diagnostic.Category);
+                    Assert.False(string.IsNullOrWhiteSpace(diagnostic.Message), id);
+                });
+                Assert.Equal(expected.Select(location => (PolicySourceLocation?)location),
+                    result.Diagnostics.Select(diagnostic => diagnostic.Location));
+            }
+        }
+    }
+
+    [Fact]
+    public void ManagedArgumentChecksRunBeforeLoadingOrCallingNative()
+    {
+        Assert.Throws<ArgumentNullException>(() => Dogwood.Parse(null!));
+        Assert.Throws<ArgumentException>(() => Dogwood.Parse("\ud800"));
+        Assert.Throws<ArgumentException>(() => Dogwood.Parse(new string('é', Dogwood.MaximumSourceBytes / 2 + 1)));
+        Assert.Equal(0, Dogwood.Parse(new string(' ', Dogwood.MaximumSourceBytes)).PolicyCount);
+    }
+
+    [Fact]
+    public void RepeatedConcurrentCallsRetainIndependentSnapshots()
+    {
+        var initial = Dogwood.Parse("permit(");
+        Parallel.For(0, 128, index =>
+        {
+            var result = Dogwood.Parse(index % 2 == 0 ? "permit(principal, action, resource);" : "forbid(");
+            Assert.Equal(index % 2 == 0, result.Success);
+            Assert.Equal(result.Success ? 0 : 1, result.Diagnostics.Length);
+        });
+        Assert.Equal(new PolicySourceLocation(7, 1), Assert.Single(initial.Diagnostics).Location);
+    }
+
+    [Theory]
+    [InlineData("""{"success":true,"policyCount":null,"diagnostics":[]}""")]
+    [InlineData("""{"success":false,"policyCount":0,"diagnostics":[]}""")]
+    [InlineData("""{"success":false,"policyCount":null,"diagnostics":[]}""")]
+    [InlineData("""{"success":true,"success":true,"policyCount":0,"diagnostics":[]}""")]
+    [InlineData("""{"success":false,"policyCount":null,"diagnostics":[{"category":"syntax","message":"x","location":{"offset":8,"length":1}}]}""")]
+    public void InvalidResponseContractsAreReportedSeparately(string response)
+    {
+        using var document = JsonDocument.Parse(response);
+        var error = Assert.Throws<DogwoodBridgeException>(() => NativeBridge.ReadParseResult(document.RootElement, 7));
+        Assert.Equal(DogwoodBridgeFailure.MalformedResponse, error.Failure);
+        Assert.Null(error.NativeStatus);
+    }
+
+    [Theory]
+    [InlineData("missing")]
+    [InlineData("manifest-identity")]
+    [InlineData("hash")]
+    [InlineData("library-abi")]
+    public void InvalidNativeAssetsAreRejected(string failure)
+    {
+        var root = Directory.CreateTempSubdirectory("dogwoodsharp-d1-");
+        try
+        {
+            var (rid, _, file) = NativeBridge.Platform();
+            var relative = Path.Combine("runtimes", rid, "native");
+            var source = Path.Combine(AppContext.BaseDirectory, relative);
+            var destination = Directory.CreateDirectory(Path.Combine(root.FullName, relative)).FullName;
+            const string manifestFile = "dogwoodsharp-native.json";
+            if (failure != "missing")
+            {
+                var manifest = JsonNode.Parse(File.ReadAllText(Path.Combine(source, manifestFile)))!;
+                var image = Path.Combine(destination, file);
+                if (failure == "library-abi")
+                {
+                    File.Copy(Path.Combine(AppContext.BaseDirectory, "test-assets", file), image);
+                    using var content = File.OpenRead(image);
+                    manifest["sha256"] = Convert.ToHexString(SHA256.HashData(content));
+                }
+                else
+                {
+                    File.Copy(Path.Combine(source, file), image);
+                    if (failure == "hash")
+                    {
+                        using var tampered = File.OpenWrite(image);
+                        tampered.WriteByte(0);
+                    }
+                    else
+                    {
+                        manifest["dogwoodRevision"] = new string('0', 40);
+                    }
+                }
+
+                File.WriteAllText(Path.Combine(destination, manifestFile), manifest.ToJsonString());
+            }
+
+            var error = Assert.Throws<DogwoodBridgeException>(() => NativeBridge.Load(root.FullName));
+            Assert.Equal(DogwoodBridgeFailure.LoadOrIdentity, error.Failure);
+            if (failure == "library-abi")
+            {
+                Assert.Contains("ABI version mismatch", error.Message, StringComparison.Ordinal);
+            }
+        }
+        finally
+        {
+            root.Delete(recursive: true);
+        }
+    }
+}
