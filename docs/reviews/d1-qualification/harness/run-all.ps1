@@ -220,9 +220,11 @@ if ($Valgrind) {
     if (!$IsLinux) {
         throw '-Valgrind is only supported on Linux.'
     }
-    $valgrind = Resolve-Tool 'valgrind'
+    # A script-scoped name that differs from the parameter name: PowerShell
+    # variable names are case-insensitive, so $valgrind would rebind $Valgrind.
+    $valgrindTool = Resolve-Tool 'valgrind'
     $valgrindLog = Join-Path $logDir 'native-selftest-valgrind.log'
-    Invoke-Tool 'native-selftest-valgrind' $valgrind @(
+    Invoke-Tool 'native-selftest-valgrind' $valgrindTool @(
         '--error-exitcode=1', '--leak-check=full', '--errors-for-leak-kinds=definite,indirect',
         "--log-file=$valgrindLog", $probe, 'selftest', $imagePath, $target)
     $memory = Get-Content -LiteralPath $valgrindLog -Raw
