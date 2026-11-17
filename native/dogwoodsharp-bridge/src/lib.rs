@@ -1,5 +1,8 @@
-//! DogwoodSharp ABI v1. See docs/architecture/native-interop.md.
+//! DogwoodSharp ABI v1 with the D2 lowering and validation extension.
+//! See docs/architecture/native-interop.md.
 #![deny(unsafe_op_in_unsafe_fn)]
+
+mod d2;
 
 use dogwood_language::{Error, ParsedPolicySet, ServiceSchema, SourceLoc};
 use serde::{Deserialize, Serialize};
@@ -8,9 +11,30 @@ use std::panic::catch_unwind;
 use std::{ptr, slice, str};
 
 const ABI: u32 = 1;
+
+/// Operation vocabulary. Operations 0 and 1 are the D1 contract and keep their
+/// exact behavior; 2 and 3 are the D2 extension. An unknown operation is
+/// rejected before any request validation, so an older library answers a newer
+/// caller with status 3 rather than misinterpreting the request.
+const OPERATION_IDENTITY: u32 = 0;
+const OPERATION_PARSE: u32 = 1;
+const OPERATION_VALIDATE: u32 = 2;
+const OPERATION_LOWER: u32 = 3;
+
+/// The decoded policy source ceiling applied to operations 1, 2 and 3.
 const SOURCE_LIMIT: usize = 1024 * 1024;
+/// The ceiling for each D2 schema text field (action schema, event schema and
+/// macro library). Explicit and separate from the source ceiling.
+const SCHEMA_LIMIT: usize = 1024 * 1024;
+/// A Cedar identifier interpolated into policy ids and `context.<id>` names.
+const DISTINCTER_LIMIT: usize = 256;
 const REQUEST_LIMIT: usize = 6 * SOURCE_LIMIT + 64;
+/// The encoded-response ceiling for operations 0 and 1. Unchanged from D1.
 const RESPONSE_LIMIT: usize = 2 * SOURCE_LIMIT;
+/// The encoded-response ceiling for the D2 operations, which return several
+/// derived artifacts for one call. Explicit and bounded; an oversized reply
+/// fails as a whole.
+const D2_RESPONSE_LIMIT: usize = 8 * SOURCE_LIMIT;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[repr(u32)]
@@ -70,7 +94,7 @@ pub unsafe extern "C" fn dogwoodsharp_call_v1(
         if abi != ABI {
             return Err(Status::UnsupportedAbi);
         }
-        if operation > 1 {
+        if operation > OPERATION_LOWER {
             return Err(Status::UnsupportedOperation);
         }
         let len = input_len as usize;
@@ -144,7 +168,7 @@ fn dispatch(operation: u32, json: &str) -> Result<Box<[u8]>, Status> {
         return Err(Status::InvalidEnvelope);
     }
     match operation {
-        0 => {
+        OPERATION_IDENTITY => {
             serde_json::from_str::<VersionRequest>(json).map_err(|_| Status::InvalidEnvelope)?;
             encode(&serde_json::json!({
                 "abiVersion": ABI,
@@ -158,13 +182,18 @@ fn dispatch(operation: u32, json: &str) -> Result<Box<[u8]>, Status> {
                 "cedarFeatures": ["datetime", "decimal", "ipaddr"]
             }))
         }
-        1 => {
+        OPERATION_PARSE => {
             let request: ParseRequest =
                 serde_json::from_str(json).map_err(|_| Status::InvalidEnvelope)?;
             if request.source.len() > SOURCE_LIMIT {
                 return Err(Status::Limit);
             }
             parse(&request.source)
+        }
+        OPERATION_VALIDATE | OPERATION_LOWER => {
+            let request: d2::Request =
+                serde_json::from_str(json).map_err(|_| Status::InvalidEnvelope)?;
+            d2::run(operation, &request)
         }
         _ => Err(Status::UnsupportedOperation),
     }
@@ -191,27 +220,32 @@ struct Location {
     length: usize,
 }
 
+/// Project an upstream span onto the caller's source, or drop it when the
+/// location does not describe that source. The pinned parser computes spans
+/// after stripping one leading UTF-8 BOM while SourceLoc retains the original
+/// source, so restore the original coordinates.
+fn project(loc: &SourceLoc, source: &str) -> Option<Location> {
+    let span = loc.span();
+    let offset = span.offset() + if source.starts_with('\u{feff}') { 3 } else { 0 };
+    (loc.source() == source
+        && offset <= source.len()
+        && (span.len() <= source.len() - offset || (offset == source.len() && span.len() == 1)))
+        .then_some(Location {
+            offset,
+            length: span.len(),
+        })
+}
+
 fn diagnostic(
     category: &'static str,
     message: String,
     loc: &SourceLoc,
     source: &str,
 ) -> Diagnostic {
-    let span = loc.span();
-    // The pinned parser computes spans after stripping one leading BOM, while
-    // SourceLoc retains the original source. Restore the original coordinates.
-    let offset = span.offset() + if source.starts_with('\u{feff}') { 3 } else { 0 };
     Diagnostic {
         category,
         message,
-        location: (loc.source() == source
-            && offset <= source.len()
-            && (span.len() <= source.len() - offset
-                || (offset == source.len() && span.len() == 1)))
-            .then_some(Location {
-                offset,
-                length: span.len(),
-            }),
+        location: project(loc, source),
     }
 }
 
@@ -242,15 +276,27 @@ fn parse(source: &str) -> Result<Box<[u8]>, Status> {
     encode(&reply)
 }
 
-#[derive(Default)]
+/// Bounded encoder. Serialization stops at the operation's encoded-response
+/// ceiling, so a reply never outgrows its documented limit.
 struct BoundedOutput {
     bytes: Vec<u8>,
+    limit: usize,
     exceeded: bool,
+}
+
+impl BoundedOutput {
+    fn new(limit: usize) -> Self {
+        Self {
+            bytes: Vec::new(),
+            limit,
+            exceeded: false,
+        }
+    }
 }
 
 impl Write for BoundedOutput {
     fn write(&mut self, bytes: &[u8]) -> io::Result<usize> {
-        if bytes.len() > RESPONSE_LIMIT - self.bytes.len() {
+        if self.bytes.len() + bytes.len() > self.limit {
             self.exceeded = true;
             return Err(io::Error::other("response limit exceeded"));
         }
@@ -264,7 +310,11 @@ impl Write for BoundedOutput {
 }
 
 fn encode(value: &impl Serialize) -> Result<Box<[u8]>, Status> {
-    let mut output = BoundedOutput::default();
+    encode_within(value, RESPONSE_LIMIT)
+}
+
+fn encode_within(value: &impl Serialize, limit: usize) -> Result<Box<[u8]>, Status> {
+    let mut output = BoundedOutput::new(limit);
     serde_json::to_writer(&mut output, value).map_err(|_| {
         if output.exceeded {
             Status::Limit
