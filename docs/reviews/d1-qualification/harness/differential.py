@@ -518,9 +518,12 @@ def main():
                 "oracle": expected_case["wireBytes"],
             })
 
-    # Depth and macro-budget transitions, reported from the oracle and probe.
+    # Depth, macro-budget and scope-containment transitions, reported from the
+    # oracle and probe. The scope entries show that D1 stays a parser: unknown
+    # entities, unknown attributes and type-mismatched expressions are accepted
+    # like the pinned parser, while unknown functions fail the same way.
     transitions = {}
-    for prefix in ("depth-parens", "depth-lists", "macro-budget"):
+    for prefix in ("depth-parens", "depth-lists", "macro-budget", "scope"):
         entries = []
         for case_id in sorted(oracle):
             if case_id.startswith(prefix + "-"):
