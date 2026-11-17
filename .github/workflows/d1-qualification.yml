@@ -83,10 +83,13 @@ jobs:
             OutputRoot = 'artifacts/d1-qualification'
             SkipNativeBuild = $true
           }
+          $command = "docs/reviews/d1-qualification/harness/run-all.ps1"
           if ('${{ matrix.rid }}' -eq 'linux-x64') {
-            $arguments.Valgrind = $true
+            & $command @arguments -Valgrind
           }
-          ./docs/reviews/d1-qualification/harness/run-all.ps1 @arguments
+          else {
+            & $command @arguments
+          }
 
       - name: Upload qualification evidence
         if: always()
