@@ -94,3 +94,38 @@ patched SDK 10.0.404 resolved the advisory with NuGet auditing enabled.
 The local AOT subprocess could not discover the installed linker through
 `where.exe`. Verification supplied MSVC 14.51.36231 and Windows SDK
 10.0.26100.0 library paths explicitly for the local session.
+
+## D1 producer CI
+
+[Run 44008493648](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44008493648)
+passed on implementation commit `85298534e55ad0a5403277c54872842960a516e0`,
+tree `cf15816a398282bf372e83b2250b63ff3d570ab7`. Each runner built the Release
+cdylib and executed the actual native bridge. Both framework columns include
+managed tests, JIT smoke and NativeAOT smoke.
+
+| RID and runner image | net8.0 | net10.0 | Native and differential |
+| --- | --- | --- | --- |
+| win-x64 / win25-vs2026 20261103.298.1 | 13 tests, both smokes passed | 13 tests, both smokes passed | 5 Rust tests, 15 fixtures passed |
+| linux-x64 / ubuntu24 20261111.127.1 | 13 tests, both smokes passed | 13 tests, both smokes passed | 5 Rust tests, 15 fixtures passed |
+| osx-arm64 / macos15 20261112.0539.3 | 13 tests, both smokes passed | 13 tests, both smokes passed | 5 Rust tests, 15 fixtures passed |
+
+Managed test reports show zero failures or skips. The Linux Valgrind run of
+the native buffer lifecycle test reported zero errors and zero bytes definitely
+or indirectly lost. All three jobs passed their formatting, lint, restore,
+Release build and managed dependency query steps. The corresponding local
+managed dependency query reported no vulnerable packages from configured sources.
+
+Downloaded binaries, manifests, test reports and smoke logs were checked against
+the run. Each image digest below matched its manifest. All three manifests
+recorded ABI 1 and lockfile SHA-256
+`2ca6001ce075006aebd71c9b372cec23d374043bcfa0b971fc36a8eac88669e7`,
+which matched the lockfile at the implementation revision.
+
+| RID | CI image SHA-256 |
+| --- | --- |
+| win-x64 | `9d583395c96dc87fbce9f82cc0a7436b66ba0aba94ca5cdf87a013a56e0eb9dc` |
+| linux-x64 | `564e259bde6c361f88c0fced03e6f0f21c8216c3ce12a10532440b2bb8e8b8a1` |
+| osx-arm64 | `09c7fe872d1afe6d92bd60104e7228be4cfba4223d2c8482ce7c568f5fc96adc` |
+
+The follow-up evidence commit only records these results. This is producer
+verification for independent D1 qualification and a subsequent owner decision.
