@@ -129,3 +129,29 @@ which matched the lockfile at the implementation revision.
 
 The follow-up evidence commit only records these results. This is producer
 verification for independent D1 qualification and a subsequent owner decision.
+
+## D2 producer verification on Windows x64
+
+Local Windows build 10.0.26200. SDK 10.0.404, runtimes 8.0.34 and
+10.0.15, Rust 1.99.1 (58cf8f9c35b355199727627d07ae34a4e2846d67), MSVC
+14.51.36231. `eng/Verify.ps1` completed with exit code 0 from the D2
+implementation commit.
+
+| Check | Result |
+| --- | --- |
+| Locked native graph, rustfmt, Release clippy, Release cdylib build | Passed |
+| Native ABI, ownership and D2 operation tests | 11 passed, including the injected unwind and recovery |
+| Locked differential crate build and fixture differential | 37 cases, 0 failures |
+| Locked solution restore, Release build, managed formatting | Passed, zero warnings or errors |
+| net8.0 managed tests, JIT smoke and NativeAOT smoke | 15 tests passed; both smoke consumers passed with D1 and D2 checks |
+| net10.0 managed tests, JIT smoke and NativeAOT smoke | 15 tests passed; both smoke consumers passed with D1 and D2 checks |
+| Native manifest and identity | Loaded on both TFMs, hash and identity rejection probes passed |
+
+The D2 differential derived every case from the pinned Dogwood crate, checked
+the pinned fixture still matched upstream, and compared the bridge's exported C
+ABI replies for operations 2 and 3. Local staged image SHA-256
+and manifest hash are recorded per run in `artifacts`.
+
+This is producer verification for independent D2 qualification and a subsequent
+owner decision. It is not an independent qualification and not an owner
+acceptance.
