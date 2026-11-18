@@ -85,6 +85,13 @@ Arm64 under both frameworks. Per-RID artifacts record the exact revision, OS
 image, test counts, locked graph, manifest and D1 regression reports. The Linux
 job runs Valgrind on the D1 and D2 native buffer tests and the C consumer.
 
+The initial [CI run 44243433810](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44243433810)
+passed producer verification and the D1 consumer regression on all three RIDs.
+The Windows dependency audit then failed with MSB4126 because the preceding
+MSVC setup exported `Platform=x64`. The workflow now runs the same audit
+before MSVC setup. The R1 test and implementation sources are identical
+between those two workflow revisions.
+
 Independent D2 qualification should rederive the upstream expectations,
 exercise explicit, transitive group and unconstrained scopes with shared and
 optional fields, and challenge the exact policy/schema/distincter export gate

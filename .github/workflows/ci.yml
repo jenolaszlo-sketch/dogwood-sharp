@@ -58,6 +58,8 @@ jobs:
             --log-file=artifacts/memory-ownership.log "$suite" --exact tests::version_and_repeated_output_lifecycle
           valgrind --error-exitcode=1 --leak-check=full --errors-for-leak-kinds=definite,indirect \
             --log-file=artifacts/d2-memory-ownership.log "$suite" --exact tests::d2_repeated_output_lifecycle
+      - name: Audit managed dependencies
+        run: dotnet list DogwoodSharp.slnx package --vulnerable --include-transitive
       - name: Prepare MSVC for the D1 consumer regression
         if: matrix.rid == 'win-x64'
         uses: ilammy/msvc-dev-cmd@v1
@@ -71,8 +73,6 @@ jobs:
             git restore -- src/DogwoodSharp/packages.lock.json
           }
           ./eng/Verify-D1OnD2.ps1 -RuntimeIdentifier '${{ matrix.rid }}' -Valgrind:$IsLinux
-      - name: Audit managed dependencies
-        run: dotnet list DogwoodSharp.slnx package --vulnerable --include-transitive
       - uses: actions/upload-artifact@v7
         if: always()
         with:
