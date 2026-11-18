@@ -432,6 +432,7 @@ dependencies = [
 name = "dogwoodsharp-bridge"
 version = "0.1.0"
 dependencies = [
+ "cedar-policy-core",
  "dogwood-language",
  "serde",
  "serde_json",

@@ -9,6 +9,8 @@
 //! See docs/architecture/native-interop.md and
 //! docs/architecture/d2-upstream-mapping.md.
 
+mod collision;
+
 use dogwood_language::{
     Error, LoweredPolicySet, ParsedPolicySet, PolicySchema, ServiceSchema, ValidationError,
     ValidationWarning, Validator,
@@ -106,6 +108,8 @@ struct ValidateReply {
     validation_passed: bool,
     validation_errors: Vec<Finding>,
     validation_warnings: Vec<Finding>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    collision: Option<collision::Collision>,
     stage_error: Option<StageError>,
 }
 
@@ -122,6 +126,8 @@ struct LowerReply {
     cedar_policy_text: String,
     cedar_schema_json: String,
     cedar_schema_text: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    collision: Option<collision::Collision>,
     stage_error: Option<StageError>,
 }
 
@@ -143,6 +149,7 @@ struct Pipeline {
     validation_passed: bool,
     validation_errors: Vec<Finding>,
     validation_warnings: Vec<Finding>,
+    collision: Option<collision::Collision>,
     stage_error: Option<StageError>,
 }
 
@@ -163,6 +170,7 @@ impl Pipeline {
             validation_passed: false,
             validation_errors: Vec::new(),
             validation_warnings: Vec::new(),
+            collision: None,
             stage_error: None,
         }
     }
@@ -193,6 +201,7 @@ pub(super) fn run(operation: u32, request: &Request) -> Result<Box<[u8]>, Status
                 validation_passed: pipeline.validation_passed,
                 validation_errors: pipeline.validation_errors,
                 validation_warnings: pipeline.validation_warnings,
+                collision: pipeline.collision,
                 stage_error: pipeline.stage_error,
             },
             D2_RESPONSE_LIMIT,
@@ -209,6 +218,7 @@ pub(super) fn run(operation: u32, request: &Request) -> Result<Box<[u8]>, Status
                 cedar_policy_text: pipeline.cedar_policy_text,
                 cedar_schema_json: pipeline.cedar_schema_json,
                 cedar_schema_text: pipeline.cedar_schema_text,
+                collision: pipeline.collision,
                 stage_error: pipeline.stage_error,
             },
             D2_RESPONSE_LIMIT,
@@ -282,6 +292,29 @@ fn pipeline(operation: u32, request: &Request) -> Result<Pipeline, Status> {
     };
 
     pipeline.lowered = true;
+    let (collision, failure) = match collision::find(&request.policy_schema, &lowered) {
+        Ok(None) => (None, None),
+        Ok(Some(collision)) => (
+            Some(collision),
+            Some((
+                "generated-context-field-collision",
+                "A generated temporal field is already declared in the original action context."
+                    .to_owned(),
+            )),
+        ),
+        Err(message) => (None, Some(("internal", message))),
+    };
+    if let Some((category, message)) = failure {
+        pipeline.collision = collision;
+        pipeline.stage_error = Some(StageError {
+            stage: "collision-check",
+            category,
+            message,
+            location: None,
+        });
+        return Ok(pipeline);
+    }
+
     pipeline.rule_count = lowered.rules().count();
     pipeline.self_contained_cedar = lowered.is_self_contained_cedar();
     pipeline.rules = lowered
