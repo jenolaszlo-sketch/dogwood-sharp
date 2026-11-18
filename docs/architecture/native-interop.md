@@ -20,14 +20,15 @@ Use natural C alignment. On all three D1 targets, the buffer has an 8-byte point
 at offset 0, a 4-byte length at offset 8 and 4 bytes of tail padding. Lengths,
 versions, operation IDs and statuses are unsigned 32-bit values.
 `dogwoodsharp_abi_version` returns 1. The dispatch call also requires ABI 1.
-Changing a v1 symbol, layout, status, or wire contract requires a new ABI.
+Changing a qualified v1 symbol, layout, status, or wire contract requires a new ABI.
 
 Operations 0 and 1 are the D1 contract and keep their exact behavior. D2 adds
 operations 2 and 3 over the same symbols, which is backward compatible: a
 D1-only library answers a D2 caller with status 3 (unknown operation), and a
 D2 library answers D1 callers exactly as before. No v1 symbol, buffer layout,
-status value, or existing wire contract changed. The identity response is
-unchanged, so a D1 consumer cannot see the added operations.
+status value, or qualified wire contract changed. R1 revises the provisional
+D2 records for operations 2 and 3 before D2 qualification. Pair D2 managed and
+native components from the same revision. The D1 identity response is unchanged.
 
 ## Call and ownership
 
@@ -39,7 +40,7 @@ unchanged, so a D1 consumer cannot see the added operations.
   occupy disjoint storage. Bytes have no terminating-NUL convention and are
   interpreted as strict UTF-8.
 - Dispatch validates the ABI, operation, envelope byte ceiling, nonempty pointer
-  and length, UTF-8, and JSON shape in that order. Both operations accept
+  and length, UTF-8, and JSON shape in that order. All operations accept
   exactly one JSON object with the specified fields. Unknown fields, duplicate
   fields, trailing values, BOMs and unpaired surrogate escapes are rejected.
 - On status 0, the output is one nonempty JSON object encoded in UTF-8, and the
@@ -58,9 +59,10 @@ field (action schema, event schema, macro library) at 1,048,576 UTF-8 bytes and
 a lowering distincter at 256 bytes. The encoded response ceiling is 2,097,152
 bytes for operations 0 and 1, and 8,388,608 bytes for operations 2 and 3, which
 return several derived artifacts for one call. An oversized response fails as a
-whole. The whole-request ceiling applies to every operation, so a maximum-size
-source leaves no room for a schema; that combination fails as status 6 rather
-than truncating. The pinned parser uses its default
+whole. The encoded envelope and each decoded field have independent limits.
+JSON escaping, property names, and the other fields determine whether a
+maximum-size decoded source fits in the encoded envelope. Exceeding either
+limit returns status 6. The pinned parser uses its default
 nesting limit of 32 and macro-expansion budget of 1,000,000 nodes. Those budgets and the wire ceilings do
 not establish a process memory ceiling or a time bound.
 
@@ -89,8 +91,8 @@ from the verified image, and there are no managed callbacks.
 | --- | --- | --- |
 | 0 | `{}` | Native identity described in the [manifest specification](native-artifacts.md) |
 | 1 | `{"source":"..."}` | `{"success":true,"policyCount":1,"diagnostics":[]}` or a failed-parse record |
-| 2 | `{"source":"...","policySchema":"...","eventSchema":"...","macros":"..."}` | A validation record (below) |
-| 3 | `2` plus `"distincter":"..."` | A lowered record (below) |
+| 2 | D2 request below | Validation outcome |
+| 3 | Same D2 request | Validation outcome and, on export success, Cedar artifacts |
 
 A failed parse has `success:false`, `policyCount:null` and one or more ordered
 diagnostics. Each has `category` (`syntax` or `macro`), `message` (upstream
@@ -107,48 +109,51 @@ is valid. D2 adds schema validation and lowering.
 
 ## D2 operations
 
-Both D2 operations share one request shape so a caller cannot construct a
-request that is meaningful for one and not the other. `eventSchema`, `macros` and
-`distincter` are optional. Operation 2 rejects a request that carries
-`distincter` with status 5, because validation does not name hoisted fields;
-accepting and ignoring it would discard a caller's collision-avoidance intent.
+Operations 2 and 3 use the same request. `source` and `policySchema` are
+required. `eventSchema`, `macros` and `distincter` may be omitted or null.
 
-Both replies keep the outcome of each pipeline stage separately, so no consumer
-can mistake a failed stage for a completed one:
+```json
+{"source":"...", "policySchema":"...", "eventSchema":"...", "macros":"...", "distincter":"..."}
+```
+
+A distincter selects the namespace for the actual lowering that is checked
+and validated by either operation. Omitting it selects `policy`. A distincter
+must match `[_A-Za-z][_A-Za-z0-9]*`. Native rejects an invalid name at the
+lowering stage.
+
+Both operations return these required fields in status-0 replies. Flags report
+successful completion in order. After a failure, later flags are false.
 
 | Field | Meaning |
 | --- | --- |
-| `parsed` | Parsing succeeded. `policyCount` and `parseDiagnostics` are meaningful only then. |
-| `lowered` | Lowering succeeded. Everything downstream is meaningful only then. |
-| `validationPassed` | Validation produced no errors. Warnings never fail validation. |
-| `ruleCount` | The number of lowered rules, or zero when lowering did not run. |
-| `selfContainedCedar` | Whether the lowered artifacts reproduce Dogwood semantics with no extra `context`. |
-| `rules` | `{"ruleIndex":n,"cedarPolicyId":"..."}` for validation, plus `"sourceText"` for lowering. |
-| `validationErrors` / `validationWarnings` | `{"category":..., "message":..., "location":...}` findings in upstream order. |
-| `stageError` | null, or `{"stage":"service-schema","category":"schema","message":"...","location":null}` when a stage stopped the pipeline. |
+| `serviceSchemaBuilt` | The service schema was constructed. |
+| `parsed` | The policies parsed successfully. |
+| `actionSchemaBuilt` | Dogwood constructed its action-schema input; Cedar resolves and checks it during lowering. |
+| `lowered` | Dogwood produced a lowered policy set and augmented schema in memory. |
+| `collisionCheckPassed` | Generated temporal fields were checked against the original contexts of their target actions. |
+| `validationPassed` | Dogwood validated the same lowered set with zero errors. Warnings are preserved. |
+| `artifactsExported` | Operation 3 produced the complete validated bundle. Always false for operation 2. |
+| `policyCount`, `parseDiagnostics` | Successful parse count or null, and ordered diagnostics for a failed parse. Diagnostic shape matches operation 1. |
+| `ruleCount`, `selfContainedCedar` | Intermediate lowering metadata. Zero and false before successful lowering. |
+| `collision` | Null, or `{"field":"...","actionNamespace":"...","actionId":"..."}`; a null namespace identifies a top-level action. One deterministic conflicting field and concrete action is reported. |
+| `validationErrors`, `validationWarnings` | Ordered findings with `category`, `message` and `location`. Both are empty when validation did not run. |
+| `stageError` | Null, or an error with `stage`, `category`, `message` and `location`. |
+| `rules` | Source-ordered `{"ruleIndex":n,"cedarPolicyId":"..."}` for validated operation 2, with `sourceText` added for exported operation 3. Empty on failure. |
 
-Operation 3 additionally returns `cedarPolicyText`, `cedarSchemaJson` and
-`cedarSchemaText`. Every one is empty unless lowering succeeded, so a failed
-lowering never returns partial authoritative output.
+Operation 3 also requires `cedarPolicyText`, `cedarSchemaJson` and
+`cedarSchemaText`. All are empty unless `artifactsExported` is true. A valid
+empty set can have empty policy text. The validated policy and schema always
+come from the same lowering call. Operation 2 returns findings and validated
+rule identities. A failed parse reports parse diagnostics, a collision
+reports the structured `collision` plus a stage error, and failed validation
+reports validation errors. Collision and validation failures suppress all
+exported artifacts.
 
-`category` is `schema` for any schema problem, `policy` for a policy that cannot
-be lowered, `distincter` for a rejected lowering namespace, and `internal` for an
-unexpected upstream error mapped defensively. `stage` is `service-schema` when
-building the service schema failed, and `lower` for the action schema, lowering
-and validation path. Upstream reports an unusable action schema through the same
-channel as the service schema, so the two are distinguished by `stage` rather
-than by `category`.
+The `stageError.stage` values are `service-schema`, `action-schema`, `lower`,
+`collision-check` and `artifact-export`. Stable categories are `schema`,
+`policy`, `distincter`, `generated-context-field-collision` and `internal`.
+Failure to resolve an expected original context fails the collision check.
 
-D2 calls `ParsedPolicySet::parse`, `ParsedPolicySet::lower` or
-`ParsedPolicySet::lower_with_distincter`, and `Validator::validate` on the
-lowered set. Parsing, lowering and validation are upstream behavior; the wrapper
-only projects the results. Validation findings carry a span upstream already
-rebases to the Dogwood source, except that upstream does not rebase a stripped
-leading UTF-8 BOM, so the wrapper restores those three bytes exactly as parsing
-does. Cedar publishes a warning's text but not its span, so a warning's
-`location` is always null.
-
-Synthesized Cedar policy ids are `<namespace>_<rule>`, where the default
-namespace is `policy` and a supplied distincter replaces it. Rule indices and
-ids therefore stay traceable in source order, and a distincter keeps separate
-lowering calls from colliding.
+Validation spans address UTF-8 policy source. The bridge restores the three
+bytes of a stripped leading UTF-8 BOM to upstream offsets, as for parsing.
+Cedar validation warnings have null locations in the wire record.
