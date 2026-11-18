@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <DefineConstants Condition="'$(PublishAot)' != 'true'">$(DefineConstants);TEST_DECODER</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DogwoodSharp">
+      <HintPath>../../../../../src/DogwoodSharp/bin/$(Configuration)/$(TargetFramework)/DogwoodSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
