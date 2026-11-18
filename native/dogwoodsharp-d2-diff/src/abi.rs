@@ -130,8 +130,8 @@ impl Library {
 
         Ok(Self {
             handle,
-            call: unsafe { std::mem::transmute(call) },
-            free: unsafe { std::mem::transmute(free) },
+            call: unsafe { std::mem::transmute::<usize, CallFn>(call) },
+            free: unsafe { std::mem::transmute::<usize, FreeFn>(free) },
         })
     }
 
@@ -155,7 +155,8 @@ impl Library {
             unsafe { (self.free)(&mut output) };
             return Err(u32::MAX);
         }
-        let bytes = unsafe { std::slice::from_raw_parts(output.data, output.len as usize) }.to_vec();
+        let bytes =
+            unsafe { std::slice::from_raw_parts(output.data, output.len as usize) }.to_vec();
         unsafe { (self.free)(&mut output) };
         Ok(bytes)
     }

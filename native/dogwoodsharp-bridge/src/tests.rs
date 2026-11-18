@@ -204,18 +204,21 @@ fn d2_request_limits_are_enforced() {
 }
 
 #[test]
-fn d2_validate_rejects_a_distincter() {
+fn d2_validate_and_export_use_the_same_distincter() {
     let mut buffer = Buffer::EMPTY;
     let request = d2_request(
         &d2_body("permit(principal, action == App::Action::\"read\", resource);"),
         &d2_body(SCHEMA_TEXT),
         ",\"distincter\":\"batch\"",
     );
-    assert_eq!(
-        call(ABI, OPERATION_VALIDATE, request.as_bytes(), &mut buffer),
-        Status::InvalidEnvelope as u32
-    );
-    release(&mut buffer);
+    for operation in [OPERATION_VALIDATE, OPERATION_LOWER] {
+        assert_eq!(call(ABI, operation, request.as_bytes(), &mut buffer), 0);
+        let reply = read(&buffer);
+        assert_eq!(reply["validationPassed"], true);
+        assert_eq!(reply["artifactsExported"], operation == OPERATION_LOWER);
+        assert_eq!(reply["rules"][0]["cedarPolicyId"], "batch_0");
+        release(&mut buffer);
+    }
 }
 
 #[test]
@@ -346,11 +349,17 @@ fn d2_lowering_matches_pinned_upstream() {
                         assert_eq!(reply["lowered"], true, "{source}");
                         assert_eq!(reply["ruleCount"], lowered.rules().count(), "{source}");
                         assert_eq!(reply["ruleCount"], rule_count, "{source}");
-                        assert_eq!(
-                            reply["cedarPolicyText"],
-                            Value::String(lowered.as_cedar().to_string()),
-                            "{source}"
-                        );
+                        let valid = dogwood_language::Validator::new()
+                            .validate(&lowered)
+                            .validation_passed();
+                        assert_eq!(reply["validationPassed"], valid, "{source}");
+                        assert_eq!(reply["artifactsExported"], valid, "{source}");
+                        let expected_text = if valid {
+                            lowered.as_cedar().to_string()
+                        } else {
+                            String::new()
+                        };
+                        assert_eq!(reply["cedarPolicyText"], expected_text, "{source}");
                         assert_eq!(
                             reply["selfContainedCedar"],
                             lowered.is_self_contained_cedar(),

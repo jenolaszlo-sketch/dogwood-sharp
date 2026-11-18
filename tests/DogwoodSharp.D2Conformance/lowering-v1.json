@@ -746,6 +746,11 @@
       "id": "temporal-policy-conflicting-declaration",
       "source": "permit (principal, action == App::Action::\"read\", resource)\nwhen temporal { formerly within 1h App::Action::\"read\"::request { context.count: 3 } };",
       "policySchema": "namespace App {\n  entity User;\n  entity Doc;\n  entity Team;\n  action \"read\" appliesTo { principal: [User, Team], resource: [Doc], context: { count: Long, policy_0__temporal_0: String } };\n}\n",
+      "wrapperCollision": {
+        "field": "policy_0__temporal_0",
+        "actionNamespace": "App",
+        "actionId": "read"
+      },
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -2461,6 +2466,156 @@
           }
         ],
         "validationWarnings": [],
+        "stageError": null
+      }
+    },
+    {
+      "id": "validated-temporal-with-distincter",
+      "source": "permit (principal, action == App::Action::\"read\", resource)\nwhen temporal { formerly within 1h App::Action::\"read\"::request { input.count: 3 } };",
+      "policySchema": "namespace App { entity User; entity Doc; action \"read\" appliesTo { principal: [User], resource: [Doc], context: { input: { count: Long } } }; }",
+      "distincter": "verified",
+      "expect": {
+        "parsed": true,
+        "policyCount": 1,
+        "parseDiagnostics": [],
+        "lowered": true,
+        "ruleCount": 1,
+        "selfContainedCedar": false,
+        "rules": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "verified_0",
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ input.count: 3 }) } };"
+          }
+        ],
+        "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { context.verified_0__temporal_0 };",
+        "cedarSchemaJson": {
+          "App": {
+            "entityTypes": {
+              "Doc": {},
+              "User": {}
+            },
+            "actions": {
+              "read": {
+                "appliesTo": {
+                  "resourceTypes": [
+                    "Doc"
+                  ],
+                  "principalTypes": [
+                    "User"
+                  ],
+                  "context": {
+                    "type": "Record",
+                    "attributes": {
+                      "input": {
+                        "type": "Record",
+                        "attributes": {
+                          "count": {
+                            "type": "EntityOrCommon",
+                            "name": "Long"
+                          }
+                        }
+                      },
+                      "verified_0__temporal_0": {
+                        "type": "Boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {\n      input: {\n        count: Long\n      },\n      verified_0__temporal_0: __cedar::Bool\n    }\n  };\n}\n",
+        "validationPassed": true,
+        "validationErrors": [],
+        "validationWarnings": [],
+        "stageError": null
+      }
+    },
+    {
+      "id": "validation-warning-only",
+      "source": "permit(principal, action, resource) when { false };",
+      "expect": {
+        "parsed": true,
+        "policyCount": 1,
+        "parseDiagnostics": [],
+        "lowered": true,
+        "ruleCount": 1,
+        "selfContainedCedar": true,
+        "rules": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "policy_0",
+            "sourceText": "permit (principal, action, resource)\nwhen { false };"
+          }
+        ],
+        "cedarPolicyText": "permit(principal, action, resource) when { false };",
+        "cedarSchemaJson": {
+          "App": {
+            "entityTypes": {
+              "Doc": {},
+              "Team": {},
+              "User": {}
+            },
+            "actions": {
+              "read": {
+                "appliesTo": {
+                  "resourceTypes": [
+                    "Doc"
+                  ],
+                  "principalTypes": [
+                    "User",
+                    "Team"
+                  ],
+                  "context": {
+                    "type": "Record",
+                    "attributes": {
+                      "count": {
+                        "type": "EntityOrCommon",
+                        "name": "Long"
+                      }
+                    }
+                  }
+                }
+              },
+              "share": {
+                "appliesTo": {
+                  "resourceTypes": [
+                    "Doc"
+                  ],
+                  "principalTypes": [
+                    "User"
+                  ]
+                },
+                "memberOf": [
+                  {
+                    "id": "read"
+                  }
+                ]
+              },
+              "write": {
+                "appliesTo": {
+                  "resourceTypes": [
+                    "Doc"
+                  ],
+                  "principalTypes": [
+                    "User"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "validationPassed": true,
+        "validationErrors": [],
+        "validationWarnings": [
+          {
+            "category": "cedar",
+            "location": null
+          }
+        ],
         "stageError": null
       }
     }

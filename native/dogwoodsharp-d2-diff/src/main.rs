@@ -8,7 +8,7 @@
 //! `generate` rewrites the pinned expectations from the pinned upstream crate.
 //! `verify` never writes: it re-derives every case from the pinned upstream
 //! crate, checks the pinned fixture still matches upstream, and then compares
-//! the bridge's exported C ABI against the same expectations. Any difference
+//! the bridge's exported C ABI against the R1 contract. Any difference
 //! exits nonzero.
 
 mod abi;
@@ -71,9 +71,7 @@ fn verify_arguments(arguments: &[String]) -> Result<(PathBuf, PathBuf), String> 
         match arguments[index].as_str() {
             "--library" => {
                 index += 1;
-                let value = arguments
-                    .get(index)
-                    .ok_or("--library requires a path")?;
+                let value = arguments.get(index).ok_or("--library requires a path")?;
                 library = Some(PathBuf::from(value));
             }
             other if !other.starts_with("--") && fixture.is_none() => {
@@ -91,7 +89,8 @@ fn verify_arguments(arguments: &[String]) -> Result<(PathBuf, PathBuf), String> 
 fn read_manifest(path: &Path) -> Result<Manifest, String> {
     let text = std::fs::read_to_string(path)
         .map_err(|error| format!("cannot read {}: {error}", path.display()))?;
-    serde_json::from_str(&text).map_err(|error| format!("invalid fixture {}: {error}", path.display()))
+    serde_json::from_str(&text)
+        .map_err(|error| format!("invalid fixture {}: {error}", path.display()))
 }
 
 /// Re-derive every pinned expectation from upstream and rewrite the fixture.
@@ -170,7 +169,7 @@ fn verify(path: &Path, library_path: &Path) -> ExitCode {
 
     for case in &manifest.cases {
         let derived = oracle::derive(case, &manifest);
-        if &derived != &case.expect {
+        if derived != case.expect {
             failures.push(format!(
                 "{}: the pinned expectation differs from the pinned upstream crate (pinned {}, upstream {})",
                 case.id,
@@ -183,13 +182,14 @@ fn verify(path: &Path, library_path: &Path) -> ExitCode {
         match problems(case, &derived, &manifest, &library) {
             Ok(()) => {
                 println!(
-                    "  {}: parsed={} lowered={} rules={} selfContainedCedar={} validationPassed={}",
+                    "  {}: parsed={} lowered={} rules={} selfContainedCedar={} upstreamValidationPassed={} wrapperCollision={}",
                     case.id,
                     derived.parsed,
                     derived.lowered,
                     derived.rule_count,
                     derived.self_contained_cedar,
-                    derived.validation_passed
+                    derived.validation_passed,
+                    case.wrapper_collision.is_some()
                 );
             }
             Err(problems) => {
@@ -200,11 +200,22 @@ fn verify(path: &Path, library_path: &Path) -> ExitCode {
         }
     }
 
-    println!("DIFFERENTIAL cases={} failures={}", manifest.cases.len(), failures.len());
+    println!(
+        "DIFFERENTIAL cases={} failures={}",
+        manifest.cases.len(),
+        failures.len()
+    );
     for failure in &failures {
         println!("FAIL {failure}");
     }
-    println!("RESULT {}", if failures.is_empty() { "PASS" } else { "FAILED" });
+    println!(
+        "RESULT {}",
+        if failures.is_empty() {
+            "PASS"
+        } else {
+            "FAILED"
+        }
+    );
     if failures.is_empty() {
         ExitCode::SUCCESS
     } else {
@@ -219,32 +230,24 @@ fn problems(
     library: &abi::Library,
 ) -> Result<(), Vec<String>> {
     let mut problems = Vec::new();
-
-    let lower = call_case(library, OPERATION_LOWER, case, manifest);
-    let validate = call_case(library, OPERATION_VALIDATE, case, manifest);
-
-    match lower {
-        Ok(reply) => problems.extend(compare(&reply, derived, Operation::Lower)),
-        Err(status) => problems.push(format!("lower returned ABI status {status}")),
-    };
-
-    match validate {
-        Ok(reply) => {
-            if case.distincter.is_some() {
-                problems.push("validate accepted a distincter, which it must reject".to_string());
-            } else {
-                problems.extend(compare(&reply, derived, Operation::Validate));
-            }
-        }
-        Err(status) => {
-            // Validation does not name hoisted fields, so a distincter is a
-            // request error there rather than a pipeline stage.
-            if !(case.distincter.is_some() && status == 5) {
-                problems.push(format!("validate returned ABI status {status}"));
-            }
+    for operation in [OPERATION_VALIDATE, OPERATION_LOWER] {
+        match call_case(library, operation, case, manifest) {
+            Ok(reply) => problems.extend(
+                compare(
+                    &reply,
+                    derived,
+                    case,
+                    manifest,
+                    operation == OPERATION_LOWER,
+                )
+                .into_iter()
+                .map(|failure| format!("operation {operation}: {failure}")),
+            ),
+            Err(status) => problems.push(format!(
+                "operation {operation} returned ABI status {status}"
+            )),
         }
     }
-
     if problems.is_empty() {
         Ok(())
     } else {
@@ -252,86 +255,114 @@ fn problems(
     }
 }
 
-/// Which operation produced a reply. The lowering reply carries the artifacts
-/// and the full rule/source mapping; the validation reply carries findings.
-#[derive(Clone, Copy, PartialEq)]
-enum Operation {
-    Validate,
-    Lower,
-}
-
-/// Compare one ABI reply against the derived expectation.
-///
-/// Diagnostic message text is upstream-owned and may change, so only the
-/// structural facts (category, location, ids and artifacts) are compared.
-fn compare(reply: &Value, derived: &Expect, operation: Operation) -> Vec<String> {
-    let object = reply.as_object();
+/// Keep the upstream expectation intact. Project it onto the R1 boundary only
+/// after checking the pinned upstream result, including any replaced field.
+fn compare(
+    reply: &Value,
+    derived: &Expect,
+    case: &Case,
+    manifest: &Manifest,
+    export: bool,
+) -> Vec<String> {
     let mut problems = Vec::new();
-    if object.is_none() {
-        return vec![format!("the reply is not a JSON object: {}", compact(reply))];
+    let service_built = derived
+        .stage_error
+        .as_ref()
+        .is_none_or(|error| error.stage != "service-schema");
+    let action_built = derived.parsed
+        && dogwood_language::PolicySchema::from_cedarschema_str(case.policy_schema(manifest))
+            .is_ok();
+    let collision = case.wrapper_collision.as_ref();
+    let checked = derived.lowered && collision.is_none();
+    let validated = checked && derived.validation_passed;
+    let exported = export && validated;
+    let mut stage = serde_json::to_value(&derived.stage_error).unwrap();
+    if derived.parsed && !action_built {
+        stage["stage"] = "action-schema".into();
     }
-    let object = object.unwrap();
-
-    if let Some(actual) = object.get("parsed") {
-        check_bool("parsed", derived.parsed, actual, &mut problems);
+    if let Some(collision) = collision {
+        stage = serde_json::json!({"stage":"collision-check","category":"generated-context-field-collision"});
+        let namespace = collision.action_namespace.as_deref().unwrap_or("");
+        let field_type = &derived.cedar_schema_json[namespace]["actions"][&collision.action_id]["appliesTo"]
+            ["context"]["attributes"][&collision.field]["type"];
+        if field_type != "Boolean" {
+            problems
+                .push("collision control must show the upstream Boolean replacement".to_owned());
+        }
+    }
+    let rules = if validated {
+        project_rules(&serde_json::to_value(&derived.rules).unwrap(), export)
     } else {
-        problems.push("parsed is missing".to_string());
+        serde_json::json!([])
+    };
+    let mut expected = serde_json::json!({
+        "serviceSchemaBuilt": service_built,
+        "parsed": derived.parsed,
+        "policyCount": derived.policy_count,
+        "parseDiagnostics": derived.parse_diagnostics,
+        "actionSchemaBuilt": action_built,
+        "lowered": derived.lowered,
+        "ruleCount": derived.rule_count,
+        "selfContainedCedar": derived.self_contained_cedar,
+        "collisionCheckPassed": checked,
+        "collision": collision,
+        "validationPassed": validated,
+        "validationErrors": if checked { derived.validation_errors.as_slice() } else { &[] },
+        "validationWarnings": if checked { derived.validation_warnings.as_slice() } else { &[] },
+        "artifactsExported": exported,
+        "stageError": stage,
+        "rules": rules,
+    });
+    if export {
+        expected["cedarPolicyText"] = if exported {
+            derived.cedar_policy_text.as_str()
+        } else {
+            ""
+        }
+        .into();
+        expected["cedarSchemaText"] = if exported {
+            derived.cedar_schema_text.as_str()
+        } else {
+            ""
+        }
+        .into();
+        expected["cedarSchemaJson"] = if exported {
+            derived.cedar_schema_json.clone()
+        } else {
+            "".into()
+        };
     }
-    if let Some(actual) = object.get("policyCount") {
-        check_count("policyCount", derived.policy_count, actual, &mut problems);
-    }
-    if let Some(actual) = object.get("parseDiagnostics") {
-        check_json("parseDiagnostics", &derived.parse_diagnostics, &project_findings(actual), &mut problems);
-    }
-    if let Some(actual) = object.get("lowered") {
-        check_bool("lowered", derived.lowered, actual, &mut problems);
-    }
-    if let Some(actual) = object.get("ruleCount") {
-        check_number("ruleCount", derived.rule_count as u64, actual, &mut problems);
-    }
-    if let Some(actual) = object.get("selfContainedCedar") {
-        check_bool("selfContainedCedar", derived.self_contained_cedar, actual, &mut problems);
-    }
-    if let Some(actual) = object.get("validationPassed") {
-        check_bool("validationPassed", derived.validation_passed, actual, &mut problems);
-    }
-    if let Some(actual) = object.get("validationErrors") {
-        check_json("validationErrors", &derived.validation_errors, &project_findings(actual), &mut problems);
-    }
-    if let Some(actual) = object.get("validationWarnings") {
-        check_json("validationWarnings", &derived.validation_warnings, &project_findings(actual), &mut problems);
-    }
-    match object.get("stageError") {
-        None => problems.push("stageError is missing".to_string()),
-        Some(Value::Null) => {
-            if let Some(error) = &derived.stage_error {
-                problems.push(format!("stageError is null but upstream derives {error:?}"));
+
+    let Some(actual) = reply.as_object() else {
+        return vec![format!(
+            "the reply is not a JSON object: {}",
+            compact(reply)
+        )];
+    };
+    for (key, want) in expected.as_object().unwrap() {
+        let Some(value) = actual.get(key) else {
+            problems.push(format!("{key} is missing"));
+            continue;
+        };
+        let value = match key.as_str() {
+            "stageError" if !value.is_null() => project_stage(value),
+            "parseDiagnostics" | "validationErrors" | "validationWarnings" => {
+                project_findings(value)
             }
-        }
-        Some(actual) => {
-            check_json("stageError", &derived.stage_error, &project_stage(actual), &mut problems)
-        }
-    }
-
-    if derived.lowered {
-        if let Some(actual) = object.get("rules") {
-            // The lowering reply carries the full mapping; the validation reply
-            // carries the identity mapping only, so project both sides.
-            let with_source = operation == Operation::Lower;
-            let expected = project_rules(&serde_json::to_value(&derived.rules).unwrap(), with_source);
-            check_json("rules", &expected, &project_rules(actual, with_source), &mut problems);
-        }
-        if let Some(actual) = object.get("cedarPolicyText") {
-            check_text("cedarPolicyText", &derived.cedar_policy_text, actual, &mut problems);
-        }
-        if let Some(actual) = object.get("cedarSchemaJson") {
-            check_json("cedarSchemaJson", &derived.cedar_schema_json, &project_schema(actual), &mut problems);
-        }
-        if let Some(actual) = object.get("cedarSchemaText") {
-            check_text("cedarSchemaText", &derived.cedar_schema_text, actual, &mut problems);
+            "cedarSchemaJson" if exported => project_schema(value),
+            _ => value.clone(),
+        };
+        if &value != want {
+            problems.push(format!(
+                "{key} is {}, expected {}",
+                compact(&value),
+                compact(want)
+            ));
         }
     }
-
+    for key in actual.keys().filter(|key| expected.get(*key).is_none()) {
+        problems.push(format!("unexpected reply field {key}"));
+    }
     problems
 }
 
@@ -399,53 +430,6 @@ fn project_schema(value: &Value) -> Value {
     match value.as_str() {
         Some(text) => serde_json::from_str(text).unwrap_or(Value::Null),
         None => Value::Null,
-    }
-}
-
-fn check_bool(key: &str, expected: bool, actual: &Value, problems: &mut Vec<String>) {
-    if actual.as_bool() != Some(expected) {
-        problems.push(format!("{key} is {} but upstream derives {expected}", compact(actual)));
-    }
-}
-
-fn check_count(key: &str, expected: Option<usize>, actual: &Value, problems: &mut Vec<String>) {
-    match (expected, actual) {
-        (None, Value::Null) => {}
-        (Some(count), Value::Number(number)) if number.as_u64() == Some(count as u64) => {}
-        _ => {
-            let derived = match expected {
-                Some(count) => Value::from(count as u64),
-                None => Value::Null,
-            };
-            problems.push(format!(
-                "{key} is {} but upstream derives {}",
-                compact(actual),
-                compact(&derived)
-            ));
-        }
-    }
-}
-
-fn check_number(key: &str, expected: u64, actual: &Value, problems: &mut Vec<String>) {
-    if actual.as_u64() != Some(expected) {
-        problems.push(format!("{key} is {} but upstream derives {expected}", compact(actual)));
-    }
-}
-
-fn check_text(key: &str, expected: &str, actual: &Value, problems: &mut Vec<String>) {
-    if actual.as_str() != Some(expected) {
-        problems.push(format!("{key} is {} but upstream derives \"{expected}\"", compact(actual)));
-    }
-}
-
-fn check_json(key: &str, expected: &impl serde::Serialize, actual: &Value, problems: &mut Vec<String>) {
-    let expected = serde_json::to_value(expected).unwrap_or(Value::Null);
-    if actual != &expected {
-        problems.push(format!(
-            "{key} is {} but upstream derives {}",
-            compact(actual),
-            compact(&expected)
-        ));
     }
 }
 

@@ -2,9 +2,8 @@
 //!
 //! Both operations run the same pipeline against the pinned Dogwood crate:
 //! build the service schema, parse the source, build the action schema, lower
-//! to Cedar, and validate the lowered set. The wire record keeps every stage's
-//! outcome separately so a caller cannot mistake a failed stage for a completed
-//! one, and a fatal pipeline error is reported instead of a partial artifact.
+//! to Cedar, check the original schema for generated-field collisions, and
+//! validate the exact lowered set before operation 3 exports its artifacts.
 //!
 //! See docs/architecture/native-interop.md and
 //! docs/architecture/d2-upstream-mapping.md.
@@ -67,24 +66,14 @@ struct StageError {
     location: Option<Location>,
 }
 
-/// The rule-index to Cedar-policy-id mapping, in source order.
+/// One validated rule, in source order. Export also supplies its expanded source.
 #[derive(Serialize)]
-struct RuleRef {
-    #[serde(rename = "ruleIndex")]
+#[serde(rename_all = "camelCase")]
+struct Rule {
     rule_index: usize,
-    #[serde(rename = "cedarPolicyId")]
     cedar_policy_id: String,
-}
-
-/// One lowered rule with its macro-expanded Dogwood source.
-#[derive(Serialize)]
-struct LoweredRule {
-    #[serde(rename = "ruleIndex")]
-    rule_index: usize,
-    #[serde(rename = "cedarPolicyId")]
-    cedar_policy_id: String,
-    #[serde(rename = "sourceText")]
-    source_text: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    source_text: Option<String>,
 }
 
 /// One validation finding, in upstream order.
@@ -95,153 +84,68 @@ struct Finding {
     location: Option<Location>,
 }
 
-#[derive(Serialize)]
+#[derive(Default, Serialize)]
 #[serde(rename_all = "camelCase")]
-struct ValidateReply {
+struct Reply {
+    service_schema_built: bool,
     parsed: bool,
     policy_count: Option<usize>,
     parse_diagnostics: Vec<Diagnostic>,
+    action_schema_built: bool,
     lowered: bool,
     rule_count: usize,
     self_contained_cedar: bool,
-    rules: Vec<RuleRef>,
+    collision_check_passed: bool,
+    collision: Option<collision::Collision>,
     validation_passed: bool,
     validation_errors: Vec<Finding>,
     validation_warnings: Vec<Finding>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    collision: Option<collision::Collision>,
+    artifacts_exported: bool,
     stage_error: Option<StageError>,
+    rules: Vec<Rule>,
+    #[serde(flatten)]
+    artifacts: Option<Artifacts>,
 }
 
-#[derive(Serialize)]
+#[derive(Default, Serialize)]
 #[serde(rename_all = "camelCase")]
-struct LowerReply {
-    parsed: bool,
-    policy_count: Option<usize>,
-    parse_diagnostics: Vec<Diagnostic>,
-    lowered: bool,
-    rule_count: usize,
-    self_contained_cedar: bool,
-    rules: Vec<LoweredRule>,
+struct Artifacts {
     cedar_policy_text: String,
     cedar_schema_json: String,
     cedar_schema_text: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    collision: Option<collision::Collision>,
-    stage_error: Option<StageError>,
-}
-
-/// The stages either operation can reach. A stage that did not run keeps the
-/// documented failure value, so `parsed`, `lowered` and `validationPassed` are
-/// each meaningful only when the preceding stage succeeded.
-struct Pipeline {
-    parsed: bool,
-    policy_count: Option<usize>,
-    parse_diagnostics: Vec<Diagnostic>,
-    lowered: bool,
-    rule_count: usize,
-    self_contained_cedar: bool,
-    rules: Vec<RuleRef>,
-    lowered_rules: Vec<LoweredRule>,
-    cedar_policy_text: String,
-    cedar_schema_json: String,
-    cedar_schema_text: String,
-    validation_passed: bool,
-    validation_errors: Vec<Finding>,
-    validation_warnings: Vec<Finding>,
-    collision: Option<collision::Collision>,
-    stage_error: Option<StageError>,
-}
-
-impl Pipeline {
-    fn empty() -> Self {
-        Self {
-            parsed: false,
-            policy_count: None,
-            parse_diagnostics: Vec::new(),
-            lowered: false,
-            rule_count: 0,
-            self_contained_cedar: false,
-            rules: Vec::new(),
-            lowered_rules: Vec::new(),
-            cedar_policy_text: String::new(),
-            cedar_schema_json: String::new(),
-            cedar_schema_text: String::new(),
-            validation_passed: false,
-            validation_errors: Vec::new(),
-            validation_warnings: Vec::new(),
-            collision: None,
-            stage_error: None,
-        }
-    }
 }
 
 pub(super) fn run(operation: u32, request: &Request) -> Result<Box<[u8]>, Status> {
     if !request.within_limits() {
         return Err(Status::Limit);
     }
-    if operation == OPERATION_VALIDATE && request.distincter.is_some() {
-        // Validation does not name hoisted fields, so a distincter has no
-        // meaning here. Accepting and dropping it would silently discard a
-        // caller's collision-avoidance intent, so reject it instead.
-        return Err(Status::InvalidEnvelope);
-    }
-
-    let pipeline = pipeline(operation, request)?;
-    match operation {
-        OPERATION_VALIDATE => encode_within(
-            &ValidateReply {
-                parsed: pipeline.parsed,
-                policy_count: pipeline.policy_count,
-                parse_diagnostics: pipeline.parse_diagnostics,
-                lowered: pipeline.lowered,
-                rule_count: pipeline.rule_count,
-                self_contained_cedar: pipeline.self_contained_cedar,
-                rules: pipeline.rules,
-                validation_passed: pipeline.validation_passed,
-                validation_errors: pipeline.validation_errors,
-                validation_warnings: pipeline.validation_warnings,
-                collision: pipeline.collision,
-                stage_error: pipeline.stage_error,
-            },
-            D2_RESPONSE_LIMIT,
-        ),
-        OPERATION_LOWER => encode_within(
-            &LowerReply {
-                parsed: pipeline.parsed,
-                policy_count: pipeline.policy_count,
-                parse_diagnostics: pipeline.parse_diagnostics,
-                lowered: pipeline.lowered,
-                rule_count: pipeline.rule_count,
-                self_contained_cedar: pipeline.self_contained_cedar,
-                rules: pipeline.lowered_rules,
-                cedar_policy_text: pipeline.cedar_policy_text,
-                cedar_schema_json: pipeline.cedar_schema_json,
-                cedar_schema_text: pipeline.cedar_schema_text,
-                collision: pipeline.collision,
-                stage_error: pipeline.stage_error,
-            },
-            D2_RESPONSE_LIMIT,
-        ),
-        _ => Err(Status::UnsupportedOperation),
-    }
+    let export = match operation {
+        OPERATION_VALIDATE => false,
+        OPERATION_LOWER => true,
+        _ => return Err(Status::UnsupportedOperation),
+    };
+    encode_within(&pipeline(request, export)?, D2_RESPONSE_LIMIT)
 }
 
-fn pipeline(operation: u32, request: &Request) -> Result<Pipeline, Status> {
-    let mut pipeline = Pipeline::empty();
+fn pipeline(request: &Request, export: bool) -> Result<Reply, Status> {
+    let mut reply = Reply {
+        artifacts: export.then(Artifacts::default),
+        ..Reply::default()
+    };
 
     let service = match build_service(request) {
         Ok(service) => service,
         Err(error) => {
-            pipeline.stage_error = Some(stage_error("service-schema", &error, &request.source));
-            return Ok(pipeline);
+            reply.stage_error = Some(stage_error("service-schema", &error, &request.source));
+            return Ok(reply);
         }
     };
+    reply.service_schema_built = true;
 
     let parsed = match ParsedPolicySet::parse(&request.source, &service) {
         Ok(parsed) => parsed,
         Err(Error::Parse(errors)) => {
-            pipeline.parse_diagnostics = errors
+            reply.parse_diagnostics = errors
                 .iter()
                 .map(|error| {
                     diagnostic(
@@ -252,32 +156,32 @@ fn pipeline(operation: u32, request: &Request) -> Result<Pipeline, Status> {
                     )
                 })
                 .collect();
-            return Ok(pipeline);
+            return Ok(reply);
         }
         Err(Error::Macro(error)) => {
-            pipeline.parse_diagnostics = vec![diagnostic(
+            reply.parse_diagnostics = vec![diagnostic(
                 "macro",
                 error.to_string(),
                 error.location(),
                 &request.source,
             )];
-            return Ok(pipeline);
+            return Ok(reply);
         }
         Err(_) => return Err(Status::InternalError),
     };
+    reply.parsed = true;
+    reply.policy_count = Some(parsed.policy_count());
 
-    pipeline.parsed = true;
-    pipeline.policy_count = Some(parsed.policy_count());
-
-    // Constructing the action schema does not typecheck it, so an unusable
-    // schema surfaces here rather than as a valid bundle.
+    // This Dogwood constructor enforces schema nesting. Cedar schema
+    // resolution and type checking are part of upstream lowering.
     let schema = match PolicySchema::from_cedarschema_str(&request.policy_schema) {
         Ok(schema) => schema,
         Err(error) => {
-            pipeline.stage_error = Some(stage_error("lower", &error, &request.source));
-            return Ok(pipeline);
+            reply.stage_error = Some(stage_error("action-schema", &error, &request.source));
+            return Ok(reply);
         }
     };
+    reply.action_schema_built = true;
 
     let lowered = match request.distincter.as_deref() {
         Some(distincter) => parsed.lower_with_distincter(&schema, distincter),
@@ -286,73 +190,111 @@ fn pipeline(operation: u32, request: &Request) -> Result<Pipeline, Status> {
     let lowered = match lowered {
         Ok(lowered) => lowered,
         Err(error) => {
-            pipeline.stage_error = Some(stage_error("lower", &error, &request.source));
-            return Ok(pipeline);
+            reply.stage_error = Some(stage_error("lower", &error, &request.source));
+            return Ok(reply);
         }
     };
+    reply.lowered = true;
+    reply.rule_count = lowered.rules().count();
+    reply.self_contained_cedar = lowered.is_self_contained_cedar();
 
-    pipeline.lowered = true;
-    let (collision, failure) = match collision::find(&request.policy_schema, &lowered) {
-        Ok(None) => (None, None),
-        Ok(Some(collision)) => (
-            Some(collision),
+    let collision_error = match collision::find(&request.policy_schema, &lowered) {
+        Ok(None) => None,
+        Ok(Some(collision)) => {
+            reply.collision = Some(collision);
             Some((
                 "generated-context-field-collision",
                 "A generated temporal field is already declared in the original action context."
                     .to_owned(),
-            )),
-        ),
-        Err(message) => (None, Some(("internal", message))),
+            ))
+        }
+        Err(message) => Some(("internal", message)),
     };
-    if let Some((category, message)) = failure {
-        pipeline.collision = collision;
-        pipeline.stage_error = Some(StageError {
+    if let Some((category, message)) = collision_error {
+        reply.stage_error = Some(StageError {
             stage: "collision-check",
             category,
             message,
             location: None,
         });
-        return Ok(pipeline);
+        return Ok(reply);
     }
-
-    pipeline.rule_count = lowered.rules().count();
-    pipeline.self_contained_cedar = lowered.is_self_contained_cedar();
-    pipeline.rules = lowered
-        .rules()
-        .map(|rule| RuleRef {
-            rule_index: rule.rule_index,
-            cedar_policy_id: rule.cedar_policy_id,
-        })
-        .collect();
-    pipeline.lowered_rules = map_rules(&parsed, &lowered).ok_or(Status::InternalError)?;
+    reply.collision_check_passed = true;
 
     let validation = Validator::new().validate(&lowered);
-    pipeline.validation_passed = validation.validation_passed();
-    pipeline.validation_errors = validation
+    reply.validation_passed = validation.validation_passed();
+    reply.validation_errors = validation
         .validation_errors()
         .map(|error| finding(error, &request.source))
         .collect();
-    pipeline.validation_warnings = validation
+    reply.validation_warnings = validation
         .validation_warnings()
         .map(finding_warning)
         .collect();
-
-    if operation == OPERATION_LOWER {
-        // Serialize every artifact before any of them is returned: a
-        // serialization failure must not produce partial authoritative output.
-        let policy_text = lowered.as_cedar().to_string();
-        let schema_json = lowered
-            .cedar_schema_json()
-            .map_err(|_| Status::InternalError)?;
-        let schema_text = lowered
-            .cedar_schema_str()
-            .map_err(|_| Status::InternalError)?;
-        pipeline.cedar_policy_text = policy_text;
-        pipeline.cedar_schema_json = schema_json;
-        pipeline.cedar_schema_text = schema_text;
+    if !reply.validation_passed {
+        return Ok(reply);
     }
 
-    Ok(pipeline)
+    if export {
+        // Commit all three strings and the source mapping together.
+        match export_artifacts(&lowered, &parsed) {
+            Ok((artifacts, rules)) => {
+                reply.artifacts = Some(artifacts);
+                reply.rules = rules;
+                reply.artifacts_exported = true;
+            }
+            Err(message) => {
+                reply.stage_error = Some(StageError {
+                    stage: "artifact-export",
+                    category: "internal",
+                    message,
+                    location: None,
+                });
+            }
+        }
+    } else {
+        reply.rules = lowered
+            .rules()
+            .map(|rule| Rule {
+                rule_index: rule.rule_index,
+                cedar_policy_id: rule.cedar_policy_id,
+                source_text: None,
+            })
+            .collect();
+    }
+    Ok(reply)
+}
+
+fn export_artifacts(
+    lowered: &LoweredPolicySet,
+    parsed: &ParsedPolicySet,
+) -> Result<(Artifacts, Vec<Rule>), String> {
+    let mut policies = parsed.policies();
+    let mut rules = Vec::with_capacity(policies.len());
+    for rule in lowered.rules() {
+        let policy = policies
+            .next()
+            .filter(|policy| policy.index() == rule.rule_index)
+            .ok_or("The lowered rule mapping does not match the parsed set.")?;
+        rules.push(Rule {
+            rule_index: rule.rule_index,
+            cedar_policy_id: rule.cedar_policy_id,
+            source_text: Some(policy.expanded_source()),
+        });
+    }
+    if policies.len() != 0 {
+        return Err("The lowered rule mapping is incomplete.".to_owned());
+    }
+    let artifacts = Artifacts {
+        cedar_policy_text: lowered.as_cedar().to_string(),
+        cedar_schema_json: lowered
+            .cedar_schema_json()
+            .map_err(|error| error.to_string())?,
+        cedar_schema_text: lowered
+            .cedar_schema_str()
+            .map_err(|error| error.to_string())?,
+    };
+    Ok((artifacts, rules))
 }
 
 fn build_service(request: &Request) -> Result<ServiceSchema, Error> {
@@ -364,22 +306,6 @@ fn build_service(request: &Request) -> Result<ServiceSchema, Error> {
         builder = builder.macros_str(text);
     }
     builder.build()
-}
-
-/// Pair each parsed Dogwood policy with the Cedar policy id it lowered to.
-fn map_rules(parsed: &ParsedPolicySet, lowered: &LoweredPolicySet) -> Option<Vec<LoweredRule>> {
-    let mut rules: Vec<LoweredRule> = Vec::new();
-    for rule in lowered.rules() {
-        let policy = parsed
-            .policies()
-            .find(|policy| policy.index() == rule.rule_index)?;
-        rules.push(LoweredRule {
-            rule_index: rule.rule_index,
-            cedar_policy_id: rule.cedar_policy_id,
-            source_text: policy.expanded_source(),
-        });
-    }
-    Some(rules)
 }
 
 /// Map a fatal pipeline error to a stable wrapper category and message.

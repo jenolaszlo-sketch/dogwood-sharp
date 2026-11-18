@@ -1,12 +1,12 @@
-﻿//! Independent expectations derived from the pinned upstream Dogwood crate.
+//! Independent expectations derived from the pinned upstream Dogwood crate.
 //!
 //! The oracle calls the upstream crate directly, exactly as the bridge does,
 //! and reduces the result to the structural facts the pins record. It never
 //! calls the bridge, so agreement between the two is real evidence.
 
 use dogwood_language::{
-    Error, ParsedPolicySet, PolicySchema, ServiceSchema, Validator, ValidationError,
-    ValidationWarning,
+    Error, ParsedPolicySet, PolicySchema, ServiceSchema, ValidationError, ValidationWarning,
+    Validator,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -24,8 +24,19 @@ pub(super) struct Case {
     pub(super) macros: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub(super) distincter: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub(super) wrapper_collision: Option<CollisionExpect>,
     #[serde(default)]
     pub(super) expect: Expect,
+}
+
+/// Intentional wrapper rejection. This is separate from the upstream expectation.
+#[derive(Deserialize, Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub(super) struct CollisionExpect {
+    pub(super) field: String,
+    pub(super) action_namespace: Option<String>,
+    pub(super) action_id: String,
 }
 
 impl Case {
@@ -249,8 +260,7 @@ fn locate(loc: &dogwood_language::SourceLoc, source: &str) -> Option<Loc> {
     let offset = span.offset() + if source.starts_with('\u{feff}') { 3 } else { 0 };
     (loc.source() == source
         && offset <= source.len()
-        && (span.len() <= source.len() - offset
-            || (offset == source.len() && span.len() == 1)))
+        && (span.len() <= source.len() - offset || (offset == source.len() && span.len() == 1)))
         .then_some(Loc {
             offset,
             length: span.len(),
@@ -267,21 +277,18 @@ fn locating(offset: usize, length: usize, parsed_source: &str, source: &str) -> 
     };
     let offset = offset + rebase;
     (offset <= source.len()
-        && (length <= source.len() - offset
-            || (offset == source.len() && length == 1)))
+        && (length <= source.len() - offset || (offset == source.len() && length == 1)))
         .then_some(Loc { offset, length })
 }
 
 fn finding(error: &ValidationError, source: &str) -> Finding {
     let (category, location) = match error {
-        ValidationError::Cedar { span, src, .. } => (
-            "cedar",
-            locating(span.offset(), span.len(), src, source),
-        ),
-        ValidationError::Extension { code, span, src, .. } => (
-            *code,
-            locating(span.offset(), span.len(), src, source),
-        ),
+        ValidationError::Cedar { span, src, .. } => {
+            ("cedar", locating(span.offset(), span.len(), src, source))
+        }
+        ValidationError::Extension {
+            code, span, src, ..
+        } => (*code, locating(span.offset(), span.len(), src, source)),
         _ => ("other", None),
     };
     Finding {

@@ -28,186 +28,120 @@ public sealed class LoweringTests
     {
         using var document = JsonDocument.Parse(File.ReadAllBytes(
             Path.Combine(AppContext.BaseDirectory, "lowering-v1.json")));
-        var shared = document.RootElement.GetProperty("defaultPolicySchema").GetString()
-            ?? throw new InvalidOperationException("defaultPolicySchema is null");
+        var shared = document.RootElement.GetProperty("defaultPolicySchema").GetString()!;
         var failures = new List<string>();
-
         foreach (var fixture in document.RootElement.GetProperty("cases").EnumerateArray())
         {
             var id = fixture.GetProperty("id").GetString()!;
             var source = fixture.GetProperty("source").GetString()!;
             var schema = new DogwoodSchema(
-                Optional(fixture, "policySchema") ?? shared,
-                Optional(fixture, "eventSchema"),
-                Optional(fixture, "macros"),
-                Optional(fixture, "distincter"));
-            var expected = fixture.GetProperty("expect");
-
+                Optional(fixture, "policySchema") ?? shared, Optional(fixture, "eventSchema"),
+                Optional(fixture, "macros"), Optional(fixture, "distincter"));
             try
             {
-                // A distincter that is not a Cedar identifier is rejected by the
-                // managed layer before any native call. The pinned stage error
-                // records that same boundary from the bridge's side.
-                if (schema.Distincter is not null && !ValidDistincter(schema.Distincter))
-                {
-                    var error = Assert.Throws<ArgumentException>(() => Dogwood.Lower(source, schema));
-                    Assert.Contains("Cedar identifier", error.Message, StringComparison.Ordinal);
-                    var stage = expected.GetProperty("stageError");
-                    Assert.Equal("lower", stage.GetProperty("stage").GetString());
-                    Assert.Equal("distincter", stage.GetProperty("category").GetString());
-                    continue;
-                }
-
-                var lowered = Dogwood.Lower(source, schema);
-                Check(id, "lower", expected, lowered.Parsed, lowered.PolicyCount,
-                    lowered.Lowered, lowered.RuleCount, lowered.SelfContainedCedar,
-                    lowered.StageError is null ? null : $"{StageName(lowered.StageError.Stage)}/{CategoryName(lowered.StageError.Category)}",
-                    lowered.Rules, lowered.CedarPolicyText, lowered.CedarSchemaJson, lowered.CedarSchemaText,
-                    failures);
-
-                if (schema.Distincter is null)
-                {
-                    var validated = Dogwood.Validate(source, schema);
-                    Check(id, "validate", expected, validated.Parsed, validated.PolicyCount,
-                        validated.Lowered, validated.RuleCount, validated.SelfContainedCedar,
-                        validated.StageError is null ? null : $"{StageName(validated.StageError.Stage)}/{CategoryName(validated.StageError.Category)}",
-                        validated.Rules, null, null, null, failures);
-
-                    Assert.Equal(expected.GetProperty("validationPassed").GetBoolean(),
-                        validated.ValidationPassed);
-                    AssertFindings(expected.GetProperty("validationErrors"),
-                        validated.ValidationErrors, id, "validationErrors");
-                    AssertFindings(expected.GetProperty("validationWarnings"),
-                        validated.ValidationWarnings, id, "validationWarnings");
-                }
-                else
-                {
-                    var validateError = Assert.Throws<ArgumentException>(() => Dogwood.Validate(source, schema));
-                    Assert.Contains("distincter", validateError.Message, StringComparison.Ordinal);
-                }
+                CheckFixture(id, fixture, source, schema);
             }
             catch (Exception exception)
             {
-                failures.Add($"{id}: {exception.GetType().Name}: {exception.Message} @ {exception.StackTrace}");
+                failures.Add($"{id}: {exception}");
             }
         }
 
         Assert.True(failures.Count == 0, string.Join("\n", failures));
     }
 
-    private static string StageName(DogwoodStage stage) => stage switch
+    private static void CheckFixture(string id, JsonElement fixture, string source, DogwoodSchema schema)
     {
-        DogwoodStage.ServiceSchema => "service-schema",
-        DogwoodStage.Lower => "lower",
-        _ => throw new ArgumentOutOfRangeException(nameof(stage), stage, "Unknown pipeline stage."),
-    };
+        var expected = fixture.GetProperty("expect");
+        if (id == "invalid-distincter")
+        {
+            Assert.Throws<ArgumentException>(() => Dogwood.Validate(source, schema));
+            Assert.Throws<ArgumentException>(() => Dogwood.Lower(source, schema));
+            return;
+        }
 
-    private static string CategoryName(DogwoodFailureCategory category) => category switch
-    {
-        DogwoodFailureCategory.EventSchema => "event-schema",
-        DogwoodFailureCategory.Policy => "policy",
-        DogwoodFailureCategory.Schema => "schema",
-        DogwoodFailureCategory.Distincter => "distincter",
-        DogwoodFailureCategory.Internal => "internal",
-        _ => throw new ArgumentOutOfRangeException(nameof(category), category, "Unknown failure category."),
-    };
+        var validated = Dogwood.Validate(source, schema);
+        var lowered = Dogwood.Lower(source, schema);
+        bool hasCollision = fixture.TryGetProperty("wrapperCollision", out var collision);
+        bool valid = expected.GetProperty("validationPassed").GetBoolean() && !hasCollision;
+        Assert.Equal(valid, lowered.ArtifactsExported);
+        Assert.Equal(valid, lowered.IsLowered);
+        foreach (var outcome in new[] { validated, lowered.Validation })
+        {
+            Assert.Equal(expected.GetProperty("parsed").GetBoolean(), outcome.Parsed);
+            Assert.Equal(expected.GetProperty("lowered").GetBoolean(), outcome.Lowered);
+            Assert.Equal(expected.GetProperty("policyCount").Deserialize<int?>(), outcome.PolicyCount);
+            Assert.Equal(expected.GetProperty("ruleCount").GetInt32(), outcome.RuleCount);
+            Assert.Equal(expected.GetProperty("selfContainedCedar").GetBoolean(), outcome.SelfContainedCedar);
+            Assert.Equal(expected.GetProperty("parseDiagnostics").GetArrayLength(), outcome.ParseDiagnostics.Length);
+            var upstreamStage = expected.GetProperty("stageError");
+            Assert.Equal(upstreamStage.ValueKind == JsonValueKind.Null ||
+                upstreamStage.GetProperty("stage").GetString() != "service-schema", outcome.ServiceSchemaBuilt);
+            Assert.Equal(outcome.Parsed, outcome.ActionSchemaBuilt);
+            Assert.Equal(outcome.Lowered && !hasCollision, outcome.CollisionCheckPassed);
+            Assert.Equal(valid, outcome.ValidationPassed);
+            Assert.Equal(valid, outcome.IsValid);
+            if (hasCollision)
+            {
+                Assert.Equal(DogwoodStage.CollisionCheck, outcome.StageError?.Stage);
+                Assert.Equal(DogwoodFailureCategory.GeneratedContextFieldCollision, outcome.StageError?.Category);
+                Assert.Equal(new DogwoodContextFieldCollision(collision.GetProperty("field").GetString()!,
+                    collision.GetProperty("actionNamespace").GetString(), collision.GetProperty("actionId").GetString()!),
+                    outcome.Collision);
+                Assert.Empty(outcome.ValidationErrors);
+                Assert.Empty(outcome.ValidationWarnings);
+            }
+            else
+            {
+                Assert.Null(outcome.Collision);
+                if (upstreamStage.ValueKind == JsonValueKind.Null)
+                {
+                    Assert.Null(outcome.StageError);
+                }
+                else
+                {
+                    var stage = upstreamStage.GetProperty("stage").GetString() == "service-schema"
+                        ? DogwoodStage.ServiceSchema
+                        : outcome.ActionSchemaBuilt ? DogwoodStage.Lower : DogwoodStage.ActionSchema;
+                    Assert.Equal(stage, outcome.StageError?.Stage);
+                    Assert.Equal(upstreamStage.GetProperty("category").GetString(),
+                        outcome.StageError?.Category.ToString().ToLowerInvariant());
+                }
 
-    private static bool ValidDistincter(string distincter) =>
-        distincter.Length > 0 && System.Text.RegularExpressions.Regex.IsMatch(
-            distincter, "^[_A-Za-z][_A-Za-z0-9]*$");
+                AssertFindings(expected.GetProperty("validationErrors"), outcome.ValidationErrors, id, "errors");
+                AssertFindings(expected.GetProperty("validationWarnings"), outcome.ValidationWarnings, id, "warnings");
+            }
+        }
 
-    private static string? Optional(JsonElement fixture, string name)
-    {
-        return fixture.TryGetProperty(name, out var value) && value.ValueKind != JsonValueKind.Null
-            ? value.GetString()
-            : null;
+        if (!valid)
+        {
+            Assert.Empty(validated.Rules);
+            Assert.Empty(lowered.Rules);
+            Assert.Empty(lowered.CedarPolicyText);
+            Assert.Empty(lowered.CedarSchemaJson);
+            Assert.Empty(lowered.CedarSchemaText);
+            return;
+        }
+
+        var expectedRules = expected.GetProperty("rules");
+        Assert.Equal(expectedRules.GetArrayLength(), validated.Rules.Length);
+        Assert.Equal(expectedRules.GetArrayLength(), lowered.Rules.Length);
+        foreach (var expectedRule in expectedRules.EnumerateArray())
+        {
+            int index = expectedRule.GetProperty("ruleIndex").GetInt32();
+            string policyId = expectedRule.GetProperty("cedarPolicyId").GetString()!;
+            Assert.Equal(new PolicyRuleMapping(index, policyId, null), validated.Rules[index]);
+            Assert.Equal(new PolicyRuleMapping(index, policyId, expectedRule.GetProperty("sourceText").GetString()),
+                lowered.Rules[index]);
+        }
+
+        Assert.Equal(expected.GetProperty("cedarPolicyText").GetString(), lowered.CedarPolicyText);
+        AssertJson(expected.GetProperty("cedarSchemaJson"), lowered.CedarSchemaJson);
+        Assert.Equal(expected.GetProperty("cedarSchemaText").GetString(), lowered.CedarSchemaText);
     }
 
-    private static void Check(
-        string id,
-        string operation,
-        JsonElement expected,
-        bool parsed,
-        int? policyCount,
-        bool lowered,
-        int ruleCount,
-        bool selfContainedCedar,
-        string? stageError,
-        System.Collections.Immutable.ImmutableArray<PolicyRuleMapping> rules,
-        string? cedarPolicyText,
-        string? cedarSchemaJson,
-        string? cedarSchemaText,
-        List<string> failures)
-    {
-        void Compare(string name, bool want, bool actual)
-        {
-            if (want != actual)
-            {
-                failures.Add($"{id}/{operation}: {name} is {actual}, fixture says {want}");
-            }
-        }
-
-        void CompareInt(string name, int want, int actual)
-        {
-            if (want != actual)
-            {
-                failures.Add($"{id}/{operation}: {name} is {actual}, fixture says {want}");
-            }
-        }
-
-        Compare("parsed", expected.GetProperty("parsed").GetBoolean(), parsed);
-        Compare("lowered", expected.GetProperty("lowered").GetBoolean(), lowered);
-        Compare("selfContainedCedar",
-            expected.GetProperty("selfContainedCedar").GetBoolean(), selfContainedCedar);
-        CompareInt("ruleCount", expected.GetProperty("ruleCount").GetInt32(), ruleCount);
-
-        var expectedCount = expected.GetProperty("policyCount");
-        if (expectedCount.ValueKind == JsonValueKind.Null)
-        {
-            Assert.Null(policyCount);
-        }
-        else
-        {
-            Assert.Equal(expectedCount.GetInt32(), policyCount);
-        }
-
-        var expectedStage = expected.GetProperty("stageError");
-        if (expectedStage.ValueKind == JsonValueKind.Null)
-        {
-            Assert.Null(stageError);
-        }
-        else
-        {
-            var want = $"{expectedStage.GetProperty("stage").GetString()}/" +
-                       $"{expectedStage.GetProperty("category").GetString()}";
-            Assert.Equal(want, stageError);
-        }
-
-        var expectedRules = expected.GetProperty("rules").GetArrayLength();
-        Assert.Equal(expectedRules, rules.Length);
-        for (int index = 0; index < expectedRules; index++)
-        {
-            var expectedRule = expected.GetProperty("rules")[index];
-            var rule = rules[index];
-            Assert.Equal(expectedRule.GetProperty("ruleIndex").GetInt32(), rule.RuleIndex);
-            Assert.Equal(expectedRule.GetProperty("cedarPolicyId").GetString(), rule.CedarPolicyId);
-        }
-
-        // Only the lowering operation reports artifacts, and only for a completed
-        // lowering, so compare them only when this call returned them.
-        if (operation == "lower" && lowered)
-        {
-            Assert.Equal(expected.GetProperty("cedarPolicyText").GetString(), cedarPolicyText);
-            AssertJson(expected.GetProperty("cedarSchemaJson"), cedarSchemaJson!);
-            Assert.Equal(expected.GetProperty("cedarSchemaText").GetString(), cedarSchemaText);
-            foreach (var expectedRule in expected.GetProperty("rules").EnumerateArray())
-            {
-                var mapping = Assert.Single(rules,
-                    rule => rule.CedarPolicyId == expectedRule.GetProperty("cedarPolicyId").GetString());
-                Assert.Equal(expectedRule.GetProperty("sourceText").GetString(), mapping.SourceText);
-            }
-        }
-    }
+    private static string? Optional(JsonElement fixture, string name) =>
+        fixture.TryGetProperty(name, out var value) ? value.GetString() : null;
 
     private static void AssertFindings(
         JsonElement expected,

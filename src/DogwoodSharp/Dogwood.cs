@@ -25,14 +25,9 @@ public static class Dogwood
         return NativeBridge.Shared.Parse(source, length);
     }
 
-    /// <summary>Parses, lowers and validates source against the supplied schema.</summary>
-    /// <remarks>
-    /// The result reports parsing, lowering and validation separately. <see cref="DogwoodValidationResult.IsValid"/>
-    /// is true only when all three succeeded, so a failed validation is never presented as a validated policy.
-    /// Authorization is not implemented and is not implied by a passing result.
-    /// </remarks>
+    /// <summary>Parses and lowers source, checks generated context fields, and validates the lowered set.</summary>
     /// <exception cref="ArgumentNullException">The source or schema is null.</exception>
-    /// <exception cref="ArgumentException">The source, a schema text, or the distincter is invalid, oversized, or not a Cedar identifier, or validation was given a distincter.</exception>
+    /// <exception cref="ArgumentException">The source, schema text, or distincter violates its format or size limit.</exception>
     /// <exception cref="DogwoodBridgeException">The native bridge could not load or complete the operation.</exception>
     public static DogwoodValidationResult Validate(string source, DogwoodSchema schema)
     {
@@ -40,24 +35,13 @@ public static class Dogwood
         ArgumentNullException.ThrowIfNull(schema);
         int length = CheckSource(source);
         CheckSchema(schema);
-        if (schema.Distincter is not null)
-        {
-            throw new ArgumentException(
-                "Validation does not name hoisted fields, so a distincter is not accepted here.", nameof(schema));
-        }
-
         return NativeBridge.Shared.Validate(schema, source, length);
     }
 
-    /// <summary>Parses and lowers source against the supplied schema and returns the lowered artifacts.</summary>
-    /// <remarks>
-    /// The returned set holds Cedar policy text, the augmented Cedar schema and the rule/source mapping.
-    /// They are populated only when parsing and lowering both succeeded; a failed stage is reported through
-    /// <see cref="DogwoodLoweredPolicySet.StageError"/> with <see cref="DogwoodLoweredPolicySet.IsLowered"/> false.
-    /// A passing result is a lowered artifact, not an authorization decision.
-    /// </remarks>
+    /// <summary>Lowers and validates source and exports the exact validated Cedar policy and schema.</summary>
+    /// <remarks>Use <see cref="DogwoodLoweredPolicySet.ArtifactsExported"/> to check for a complete export.</remarks>
     /// <exception cref="ArgumentNullException">The source or schema is null.</exception>
-    /// <exception cref="ArgumentException">The source, a schema text, or the distincter is invalid, oversized, or not a Cedar identifier.</exception>
+    /// <exception cref="ArgumentException">The source, schema text, or distincter violates its format or size limit.</exception>
     /// <exception cref="DogwoodBridgeException">The native bridge could not load or complete the operation.</exception>
     public static DogwoodLoweredPolicySet Lower(string source, DogwoodSchema schema)
     {
@@ -110,6 +94,11 @@ public static class Dogwood
                     "The distincter must be a Cedar identifier ([_A-Za-z][_A-Za-z0-9]*): it is interpolated into policy ids and context attribute names.",
                     nameof(schema));
             }
+
+            if (schema.Distincter.Length > 256)
+            {
+                throw new ArgumentException("The distincter exceeds 256 UTF-8 bytes.", nameof(schema));
+            }
         }
     }
 
@@ -131,7 +120,7 @@ public static class Dogwood
         }
     }
 
-    private static readonly System.Text.RegularExpressions.Regex CedarIdentifier = new("^[_A-Za-z][_A-Za-z0-9]*$");
+    private static readonly System.Text.RegularExpressions.Regex CedarIdentifier = new(@"\A[_A-Za-z][_A-Za-z0-9]*\z");
 }
 
 /// <summary>The schema inputs for a lowering or validation operation.</summary>
@@ -139,9 +128,8 @@ public static class Dogwood
 /// <param name="EventSchema">Optional event-schema DSL source. Omit for the pinned default.</param>
 /// <param name="Macros">Optional reusable <c>def</c> macro library. Omit for the pinned default.</param>
 /// <param name="Distincter">
-/// Optional lowering namespace. Every synthesized policy id and hoisted <c>context</c> field is
-/// prefixed with it, so lowering several sets separately and combining them cannot collide.
-/// Ignored by validation, which does not name hoisted fields.
+/// Optional namespace for synthesized policy ids and generated <c>context</c> fields.
+/// Both validation and export use this namespace and check the original schema for collisions.
 /// </param>
 public sealed record DogwoodSchema(
     string PolicySchema,
@@ -211,8 +199,17 @@ public enum DogwoodStage
     /// <summary>Building the service schema, before any policy source is parsed.</summary>
     ServiceSchema,
 
-    /// <summary>Parsing succeeded and the action schema was usable.</summary>
-    Lower
+    /// <summary>Lowering with the supplied action schema and distincter.</summary>
+    Lower,
+
+    /// <summary>Constructing Dogwood's action-schema input.</summary>
+    ActionSchema,
+
+    /// <summary>Checking generated fields against the original action contexts.</summary>
+    CollisionCheck,
+
+    /// <summary>Producing the complete validated Cedar export.</summary>
+    ArtifactExport
 }
 
 /// <summary>The reason a D2 pipeline stage stopped early.</summary>
@@ -231,12 +228,21 @@ public enum DogwoodFailureCategory
     Distincter,
 
     /// <summary>An unexpected upstream error was mapped defensively.</summary>
-    Internal
+    Internal,
+
+    /// <summary>A generated temporal field was already present in a target action's context.</summary>
+    GeneratedContextFieldCollision
 }
 
 /// <summary>A fatal stage failure reported instead of partial output.</summary>
 public sealed record DogwoodStageError(
     DogwoodStage Stage, DogwoodFailureCategory Category, string Message, PolicySourceLocation? Location);
+
+/// <summary>A generated temporal field and the original action context that declares it.</summary>
+/// <param name="Field">The generated Cedar attribute name.</param>
+/// <param name="ActionNamespace">The Cedar namespace, or null for a top-level action.</param>
+/// <param name="ActionId">The action's literal Cedar entity id.</param>
+public sealed record DogwoodContextFieldCollision(string Field, string? ActionNamespace, string ActionId);
 
 /// <summary>Stable validation-finding categories. Extension dialects can add categories that map to <see cref="Unspecified"/>.</summary>
 public enum PolicyValidationCategory
@@ -267,28 +273,36 @@ public sealed record PolicyValidationFinding(
 /// <param name="SourceText">The macro-expanded Dogwood source of the rule, when the operation reported it.</param>
 public sealed record PolicyRuleMapping(int RuleIndex, string CedarPolicyId, string? SourceText);
 
-/// <summary>The outcome of parse, lower and validate for one source and schema pair.</summary>
+/// <summary>The result of checking and validating one lowered policy set.</summary>
 public sealed class DogwoodValidationResult
 {
     internal DogwoodValidationResult(
+        bool serviceSchemaBuilt,
         bool parsed,
         int? policyCount,
         ImmutableArray<PolicyDiagnostic> parseDiagnostics,
+        bool actionSchemaBuilt,
         bool lowered,
         int ruleCount,
         bool selfContainedCedar,
+        bool collisionCheckPassed,
+        DogwoodContextFieldCollision? collision,
         bool validationPassed,
         ImmutableArray<PolicyValidationFinding> validationErrors,
         ImmutableArray<PolicyValidationFinding> validationWarnings,
         DogwoodStageError? stageError,
         ImmutableArray<PolicyRuleMapping> rules)
     {
+        ServiceSchemaBuilt = serviceSchemaBuilt;
         Parsed = parsed;
         PolicyCount = policyCount;
         ParseDiagnostics = parseDiagnostics;
+        ActionSchemaBuilt = actionSchemaBuilt;
         Lowered = lowered;
         RuleCount = ruleCount;
         SelfContainedCedar = selfContainedCedar;
+        CollisionCheckPassed = collisionCheckPassed;
+        Collision = collision;
         ValidationPassed = validationPassed;
         ValidationErrors = validationErrors;
         ValidationWarnings = validationWarnings;
@@ -296,107 +310,109 @@ public sealed class DogwoodValidationResult
         Rules = rules;
     }
 
-    /// <summary>Whether upstream parsing succeeded. Meaningful only on its own.</summary>
+    /// <summary>Whether Dogwood constructed the service schema.</summary>
+    public bool ServiceSchemaBuilt { get; }
+
+    /// <summary>Whether upstream parsing succeeded.</summary>
     public bool Parsed { get; }
 
-    /// <summary>The number of parsed policies, or null when parsing failed.</summary>
+    /// <summary>The number of parsed policies, or null before a successful parse.</summary>
     public int? PolicyCount { get; }
 
-    /// <summary>Parsing diagnostics in upstream order. Empty when parsing succeeded.</summary>
+    /// <summary>Diagnostics from a failed parse in upstream order.</summary>
     public ImmutableArray<PolicyDiagnostic> ParseDiagnostics { get; }
 
-    /// <summary>Whether lowering succeeded. Lowering runs only after a successful parse.</summary>
+    /// <summary>Whether Dogwood constructed its action-schema input. Lowering resolves the schema.</summary>
+    public bool ActionSchemaBuilt { get; }
+
+    /// <summary>Whether the intermediate lowering stage succeeded.</summary>
     public bool Lowered { get; }
 
-    /// <summary>The number of lowered rules, or zero when lowering did not run.</summary>
+    /// <summary>The number of lowered rules, or zero before successful lowering.</summary>
     public int RuleCount { get; }
 
-    /// <summary>Whether the lowered artifacts reproduce Dogwood semantics with no extra context.</summary>
+    /// <summary>Whether the lowered policies reproduce Dogwood semantics with no extra context.</summary>
     public bool SelfContainedCedar { get; }
 
-    /// <summary>Whether validation produced no errors. Warnings never fail validation.</summary>
+    /// <summary>Whether the original action contexts passed the generated-field collision check.</summary>
+    public bool CollisionCheckPassed { get; }
+
+    /// <summary>The first conflicting generated field and target action, when detected.</summary>
+    public DogwoodContextFieldCollision? Collision { get; }
+
+    /// <summary>Whether validation ran and found zero errors.</summary>
     public bool ValidationPassed { get; }
 
     /// <summary>Validation errors in upstream order.</summary>
     public ImmutableArray<PolicyValidationFinding> ValidationErrors { get; }
 
-    /// <summary>Validation warnings in upstream order.</summary>
+    /// <summary>Validation warnings in upstream order, including on success.</summary>
     public ImmutableArray<PolicyValidationFinding> ValidationWarnings { get; }
 
-    /// <summary>The stage that stopped the pipeline, or null when it completed.</summary>
+    /// <summary>The fatal stage error, if reported.</summary>
     public DogwoodStageError? StageError { get; }
 
-    /// <summary>Rule index to Cedar policy id, in source order. Empty unless lowering succeeded.</summary>
+    /// <summary>Validated rules in source order. An unsuccessful operation leaves this empty.</summary>
     public ImmutableArray<PolicyRuleMapping> Rules { get; }
 
-    /// <summary>True only when parsing, lowering and validation all succeeded.</summary>
-    public bool IsValid => Parsed && Lowered && ValidationPassed;
+    /// <summary>Whether the intermediate policy and schema passed the collision check and validation.</summary>
+    public bool IsValid => ValidationPassed;
 }
 
-/// <summary>The outcome of parse and lower for one source and schema pair.</summary>
+/// <summary>The validation outcome and gated Cedar exports for one lowering call.</summary>
 public sealed class DogwoodLoweredPolicySet
 {
     internal DogwoodLoweredPolicySet(
-        bool parsed,
-        int? policyCount,
-        ImmutableArray<PolicyDiagnostic> parseDiagnostics,
-        bool lowered,
-        int ruleCount,
-        bool selfContainedCedar,
-        string cedarPolicyText,
-        string cedarSchemaJson,
-        string cedarSchemaText,
-        ImmutableArray<PolicyRuleMapping> rules,
-        DogwoodStageError? stageError)
+        DogwoodValidationResult validation, bool exported, string policyText, string schemaJson, string schemaText)
     {
-        Parsed = parsed;
-        PolicyCount = policyCount;
-        ParseDiagnostics = parseDiagnostics;
-        Lowered = lowered;
-        RuleCount = ruleCount;
-        SelfContainedCedar = selfContainedCedar;
-        CedarPolicyText = cedarPolicyText;
-        CedarSchemaJson = cedarSchemaJson;
-        CedarSchemaText = cedarSchemaText;
-        Rules = rules;
-        StageError = stageError;
+        Validation = validation;
+        ArtifactsExported = exported;
+        CedarPolicyText = policyText;
+        CedarSchemaJson = schemaJson;
+        CedarSchemaText = schemaText;
     }
 
-    /// <summary>Whether upstream parsing succeeded. Meaningful only on its own.</summary>
-    public bool Parsed { get; }
+    /// <summary>The stage outcomes and findings for this exact policy and schema.</summary>
+    public DogwoodValidationResult Validation { get; }
 
-    /// <summary>The number of parsed policies, or null when parsing failed.</summary>
-    public int? PolicyCount { get; }
+    /// <inheritdoc cref="DogwoodValidationResult.Parsed"/>
+    public bool Parsed => Validation.Parsed;
 
-    /// <summary>Parsing diagnostics in upstream order. Empty when parsing succeeded.</summary>
-    public ImmutableArray<PolicyDiagnostic> ParseDiagnostics { get; }
+    /// <inheritdoc cref="DogwoodValidationResult.PolicyCount"/>
+    public int? PolicyCount => Validation.PolicyCount;
 
-    /// <summary>Whether lowering succeeded.</summary>
-    public bool Lowered { get; }
+    /// <inheritdoc cref="DogwoodValidationResult.ParseDiagnostics"/>
+    public ImmutableArray<PolicyDiagnostic> ParseDiagnostics => Validation.ParseDiagnostics;
 
-    /// <summary>The number of lowered rules, or zero when lowering did not run.</summary>
-    public int RuleCount { get; }
+    /// <inheritdoc cref="DogwoodValidationResult.Lowered"/>
+    public bool Lowered => Validation.Lowered;
 
-    /// <summary>Whether the lowered artifacts reproduce Dogwood semantics with no extra context.</summary>
-    public bool SelfContainedCedar { get; }
+    /// <inheritdoc cref="DogwoodValidationResult.RuleCount"/>
+    public int RuleCount => Validation.RuleCount;
 
-    /// <summary>The lowered Cedar policy text. Empty unless lowering succeeded.</summary>
+    /// <inheritdoc cref="DogwoodValidationResult.SelfContainedCedar"/>
+    public bool SelfContainedCedar => Validation.SelfContainedCedar;
+
+    /// <summary>The validated Cedar policy text. Empty when export failed.</summary>
     public string CedarPolicyText { get; }
 
-    /// <summary>The augmented Cedar schema in the Cedar JSON schema form. Empty unless lowering succeeded.</summary>
+    /// <summary>The validated augmented Cedar schema in JSON form. Empty when export failed.</summary>
     public string CedarSchemaJson { get; }
 
-    /// <summary>The augmented Cedar schema as <c>.cedarschema</c> text. Empty unless lowering succeeded.</summary>
+    /// <summary>The validated augmented Cedar schema in Cedar schema syntax. Empty when export failed.</summary>
     public string CedarSchemaText { get; }
 
-    /// <summary>Rule index, Cedar policy id and macro-expanded Dogwood source, in source order.</summary>
-    public ImmutableArray<PolicyRuleMapping> Rules { get; }
+    /// <summary>The exported rule identities and expanded source, in source order.</summary>
+    public ImmutableArray<PolicyRuleMapping> Rules => Validation.Rules;
 
-    /// <summary>The stage that stopped the pipeline, or null when it completed.</summary>
-    public DogwoodStageError? StageError { get; }
+    /// <inheritdoc cref="DogwoodValidationResult.StageError"/>
+    public DogwoodStageError? StageError => Validation.StageError;
 
-    /// <summary>True only when parsing and lowering both succeeded, so the artifacts are authoritative.</summary>
-    public bool IsLowered => Parsed && Lowered;
+    /// <summary>Whether the complete validated Cedar bundle was exported.</summary>
+    public bool ArtifactsExported { get; }
+
+    /// <summary>Whether the complete validated Cedar bundle is available.</summary>
+    public bool IsLowered => ArtifactsExported;
 }
 
 /// <summary>Identifies a managed native-bridge failure.</summary>

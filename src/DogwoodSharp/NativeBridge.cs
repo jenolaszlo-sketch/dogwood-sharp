@@ -241,20 +241,7 @@ internal sealed unsafe class NativeBridge : IDisposable
     {
         try
         {
-            RequireProperties(json, "parsed", "policyCount", "parseDiagnostics", "lowered", "ruleCount",
-                "selfContainedCedar", "rules", "validationPassed", "validationErrors",
-                "validationWarnings", "stageError");
-            var (parsed, policyCount, parseDiagnostics) = ReadStage(json, sourceBytes);
-            var lowered = json.GetProperty("lowered").GetBoolean();
-            var selfContained = json.GetProperty("selfContainedCedar").GetBoolean();
-            var rules = ReadRules(json.GetProperty("rules"), sourceBytes, withSource: false);
-            var validationPassed = json.GetProperty("validationPassed").GetBoolean();
-            var errors = ReadFindings(json.GetProperty("validationErrors"), sourceBytes);
-            var warnings = ReadFindings(json.GetProperty("validationWarnings"), sourceBytes);
-            var stageError = ReadStageError(json.GetProperty("stageError"), sourceBytes);
-            return new DogwoodValidationResult(parsed, policyCount, parseDiagnostics, lowered,
-                ReadCount(json, "ruleCount"), selfContained, validationPassed, errors, warnings,
-                stageError, rules);
+            return ReadPipeline(json, sourceBytes, export: false).Validation;
         }
         catch (Exception exception) when (exception is JsonException or InvalidOperationException or FormatException)
         {
@@ -266,19 +253,25 @@ internal sealed unsafe class NativeBridge : IDisposable
     {
         try
         {
-            RequireProperties(json, "parsed", "policyCount", "parseDiagnostics", "lowered", "ruleCount",
-                "selfContainedCedar", "rules", "cedarPolicyText", "cedarSchemaJson", "cedarSchemaText",
-                "stageError");
-            var (parsed, policyCount, parseDiagnostics) = ReadStage(json, sourceBytes);
-            var lowered = json.GetProperty("lowered").ValueKind != JsonValueKind.False;
-            var stageError = ReadStageError(json.GetProperty("stageError"), sourceBytes);
-            var rules = ReadRules(json.GetProperty("rules"), sourceBytes, withSource: true);
-            string policyText = lowered ? ReadText(json, "cedarPolicyText", "lowered policy text") : string.Empty;
-            string schemaJson = lowered ? ReadText(json, "cedarSchemaJson", "augmented Cedar schema") : string.Empty;
-            string schemaText = lowered ? ReadText(json, "cedarSchemaText", "augmented Cedar schema text") : string.Empty;
-            return new DogwoodLoweredPolicySet(parsed, policyCount, parseDiagnostics, lowered,
-                ReadCount(json, "ruleCount"), json.GetProperty("selfContainedCedar").ValueKind == JsonValueKind.True,
-                policyText, schemaJson, schemaText, rules, stageError);
+            var (validation, exported) = ReadPipeline(json, sourceBytes, export: true);
+            string policy = ReadText(json, "cedarPolicyText");
+            string schemaJson = ReadText(json, "cedarSchemaJson");
+            string schemaText = ReadText(json, "cedarSchemaText");
+            if (exported)
+            {
+                using var schema = JsonDocument.Parse(schemaJson);
+                if (schema.RootElement.ValueKind != JsonValueKind.Object ||
+                    string.IsNullOrWhiteSpace(policy) != (validation.RuleCount == 0))
+                {
+                    throw new JsonException("Invalid validated artifacts.");
+                }
+            }
+            else if (policy.Length != 0 || schemaJson.Length != 0 || schemaText.Length != 0)
+            {
+                throw new JsonException("Unexpected artifacts without a successful export.");
+            }
+
+            return new DogwoodLoweredPolicySet(validation, exported, policy, schemaJson, schemaText);
         }
         catch (Exception exception) when (exception is JsonException or InvalidOperationException or FormatException)
         {
@@ -286,10 +279,87 @@ internal sealed unsafe class NativeBridge : IDisposable
         }
     }
 
+    private static (DogwoodValidationResult Validation, bool Exported) ReadPipeline(
+        JsonElement json, int sourceBytes, bool export)
+    {
+        string[] properties = ["serviceSchemaBuilt", "parsed", "policyCount", "parseDiagnostics",
+            "actionSchemaBuilt", "lowered", "ruleCount", "selfContainedCedar", "collisionCheckPassed",
+            "collision", "validationPassed", "validationErrors", "validationWarnings",
+            "artifactsExported", "stageError", "rules"];
+        RequireProperties(json, export ? [.. properties, "cedarPolicyText", "cedarSchemaJson", "cedarSchemaText"] : properties);
+
+        bool service = json.GetProperty("serviceSchemaBuilt").GetBoolean();
+        var (parsed, policyCount, parseDiagnostics) = ReadStage(json, sourceBytes);
+        bool action = json.GetProperty("actionSchemaBuilt").GetBoolean();
+        bool lowered = json.GetProperty("lowered").GetBoolean();
+        bool checkedCollisions = json.GetProperty("collisionCheckPassed").GetBoolean();
+        bool validated = json.GetProperty("validationPassed").GetBoolean();
+        bool exported = json.GetProperty("artifactsExported").GetBoolean();
+        if ((parsed && !service) || (action && !parsed) || (lowered && !action) ||
+            (checkedCollisions && !lowered) || (validated && !checkedCollisions) ||
+            (exported && (!validated || !export)))
+        {
+            throw new JsonException("Invalid D2 pipeline stage order.");
+        }
+
+        int ruleCount = json.GetProperty("ruleCount").GetInt32();
+        bool selfContained = json.GetProperty("selfContainedCedar").GetBoolean();
+        var stageError = ReadStageError(json.GetProperty("stageError"), sourceBytes);
+        var collision = ReadCollision(json.GetProperty("collision"));
+        var errors = ReadFindings(json.GetProperty("validationErrors"), sourceBytes);
+        var warnings = ReadFindings(json.GetProperty("validationWarnings"), sourceBytes);
+        var rules = ReadRules(json.GetProperty("rules"), withSource: export);
+        DogwoodStage? expectedFailure = (service, parsed, action, lowered, checkedCollisions, validated, export, exported) switch
+        {
+            (false, _, _, _, _, _, _, _) => DogwoodStage.ServiceSchema,
+            (true, false, _, _, _, _, _, _) => null,
+            (_, _, false, _, _, _, _, _) => DogwoodStage.ActionSchema,
+            (_, _, _, false, _, _, _, _) => DogwoodStage.Lower,
+            (_, _, _, _, false, _, _, _) => DogwoodStage.CollisionCheck,
+            (_, _, _, _, _, true, true, false) => DogwoodStage.ArtifactExport,
+            _ => null
+        };
+        bool collisionReported = stageError?.Category == DogwoodFailureCategory.GeneratedContextFieldCollision;
+        if (stageError?.Stage != expectedFailure ||
+            parseDiagnostics.IsEmpty == (service && !parsed) ||
+            collisionReported != (collision is not null) ||
+            (collisionReported && expectedFailure != DogwoodStage.CollisionCheck) ||
+            (expectedFailure == DogwoodStage.CollisionCheck && !collisionReported &&
+                stageError?.Category != DogwoodFailureCategory.Internal) ||
+            (expectedFailure == DogwoodStage.ArtifactExport && stageError?.Category != DogwoodFailureCategory.Internal) ||
+            (lowered ? ruleCount != policyCount : ruleCount != 0 || selfContained) ||
+            (checkedCollisions ? validated != errors.IsEmpty : !errors.IsEmpty || !warnings.IsEmpty) ||
+            rules.Length != ((export ? exported : validated) ? ruleCount : 0))
+        {
+            throw new JsonException("Contradictory D2 pipeline result.");
+        }
+
+        return (new DogwoodValidationResult(service, parsed, policyCount, parseDiagnostics, action, lowered,
+            ruleCount, selfContained, checkedCollisions, collision, validated, errors, warnings, stageError, rules), exported);
+    }
+
+    private static DogwoodContextFieldCollision? ReadCollision(JsonElement json)
+    {
+        if (json.ValueKind == JsonValueKind.Null)
+        {
+            return null;
+        }
+
+        RequireProperties(json, "field", "actionNamespace", "actionId");
+        var field = ReadText(json, "field");
+        var actionNamespace = json.GetProperty("actionNamespace").GetString();
+        if (field.Length == 0 || actionNamespace is "")
+        {
+            throw new JsonException("Invalid generated field or action namespace.");
+        }
+
+        return new DogwoodContextFieldCollision(field, actionNamespace, ReadText(json, "actionId"));
+    }
+
     private static (bool Parsed, int? PolicyCount, ImmutableArray<PolicyDiagnostic> ParseDiagnostics)
         ReadStage(JsonElement json, int sourceBytes)
     {
-        var parsed = json.GetProperty("parsed").ValueKind == JsonValueKind.True;
+        var parsed = json.GetProperty("parsed").GetBoolean();
         var parsedCount = json.GetProperty("policyCount");
         var findings = json.GetProperty("parseDiagnostics");
         int size = findings.GetArrayLength();
@@ -325,22 +395,8 @@ internal sealed unsafe class NativeBridge : IDisposable
         return (false, null, builder.MoveToImmutable());
     }
 
-    private static int ReadCount(JsonElement json, string name)
-    {
-        var value = json.GetProperty(name);
-        return value.ValueKind == JsonValueKind.Number ? value.GetInt32() : 0;
-    }
-
-    private static string ReadText(JsonElement json, string name, string description)
-    {
-        var value = json.GetProperty(name).GetString();
-        if (value is null)
-        {
-            throw new JsonException($"The native bridge omitted the {description}.");
-        }
-
-        return value;
-    }
+    private static string ReadText(JsonElement json, string name) =>
+        json.GetProperty(name).GetString() ?? throw new JsonException($"Missing string {name}.");
 
     private static PolicySourceLocation? ReadLocation(JsonElement json, int sourceBytes)
     {
@@ -393,7 +449,10 @@ internal sealed unsafe class NativeBridge : IDisposable
         var stage = json.GetProperty("stage").GetString() switch
         {
             "service-schema" => DogwoodStage.ServiceSchema,
+            "action-schema" => DogwoodStage.ActionSchema,
             "lower" => DogwoodStage.Lower,
+            "collision-check" => DogwoodStage.CollisionCheck,
+            "artifact-export" => DogwoodStage.ArtifactExport,
             _ => throw new JsonException("Invalid pipeline stage.")
         };
         var category = json.GetProperty("category").GetString() switch
@@ -401,16 +460,18 @@ internal sealed unsafe class NativeBridge : IDisposable
             "schema" => DogwoodFailureCategory.Schema,
             "policy" => DogwoodFailureCategory.Policy,
             "distincter" => DogwoodFailureCategory.Distincter,
-            "event-schema" => DogwoodFailureCategory.EventSchema,
-            _ => DogwoodFailureCategory.Internal
+            "generated-context-field-collision" => DogwoodFailureCategory.GeneratedContextFieldCollision,
+            "internal" => DogwoodFailureCategory.Internal,
+            _ => throw new JsonException("Invalid stage error category.")
         };
         var message = json.GetProperty("message").GetString() ?? throw new JsonException("Missing stage error message.");
         return new DogwoodStageError(stage, category, message, ReadLocation(json, sourceBytes));
     }
 
-    private static ImmutableArray<PolicyRuleMapping> ReadRules(JsonElement json, int sourceBytes, bool withSource)
+    private static ImmutableArray<PolicyRuleMapping> ReadRules(JsonElement json, bool withSource)
     {
         var builder = ImmutableArray.CreateBuilder<PolicyRuleMapping>(json.GetArrayLength());
+        var ids = new HashSet<string>(StringComparer.Ordinal);
         foreach (var rule in json.EnumerateArray())
         {
             if (withSource)
@@ -422,16 +483,15 @@ internal sealed unsafe class NativeBridge : IDisposable
                 RequireProperties(rule, "ruleIndex", "cedarPolicyId");
             }
 
-            var index = rule.GetProperty("ruleIndex");
-            var identifier = rule.GetProperty("cedarPolicyId");
-            if (index.ValueKind != JsonValueKind.Number || index.GetInt32() < 0 ||
-                string.IsNullOrEmpty(identifier.GetString()))
+            int index = rule.GetProperty("ruleIndex").GetInt32();
+            string id = ReadText(rule, "cedarPolicyId");
+            string? source = withSource ? ReadText(rule, "sourceText") : null;
+            if (index != builder.Count || id.Length == 0 || !ids.Add(id) || source is "")
             {
                 throw new JsonException("Invalid rule mapping.");
             }
 
-            var source = withSource ? rule.GetProperty("sourceText").GetString() : null;
-            builder.Add(new PolicyRuleMapping(index.GetInt32(), identifier.GetString()!, source));
+            builder.Add(new PolicyRuleMapping(index, id, source));
         }
 
         return builder.MoveToImmutable();
