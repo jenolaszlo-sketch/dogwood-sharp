@@ -1,5 +1,20 @@
 # DOGWOOD-SHARP-D2-QUAL-02
 
+**B. SUPPORTED WITH QUALIFICATIONS**
+
+Recommend D2 owner acceptance under the approved process-lifetime hosting
+contract and the qualifications below. The review found no new blocking
+defect. The owner retains the acceptance and finding-closure decisions.
+
+| Finding | Recommendation |
+| --- | --- |
+| QD2-01 | Recommend closure. Rebuilt R1 accepted the original malformed export. R2 rejects it with `MalformedResponse` in every applicable JIT and NativeAOT run and accepts valid empty and nonempty schemas. |
+| QD2-02 | Confirm the documentation correction. The pinned warning exposed a diagnostic label, and both D2 operations preserved the category and message with a null location. |
+| QD2-03 | Recommend closure within the approved resident contract. Managed lifetime and buffer ownership passed on all RIDs. The resident Linux checks showed no definite or indirect loss, no invalid accesses and no workload-proportional retained growth under the measured worker bounds. Unsupported unload still loses upstream allocations. |
+
+The owner closure of DL-01 and DL-05 remains in force within its original
+scope.
+
 ## Reviewer and baseline
 
 Reviewer session `DOGWOOD-SHARP-D2-QUAL-02 / 2026-11-18 / Codex follow-up`.
@@ -54,7 +69,7 @@ through a separate detached checkout of the commissioned revision.
 - [x] Review the producer delta and inspect pinned Cedar serialization and regex cache source.
 - [x] Exercise the new C worker probes locally, including expanded thread churn.
 - [x] Complete local Windows JIT, NativeAOT, Cedar, and managed sensitivity checks.
-- [ ] Complete and attest the hosted six-cell matrix.
+- [x] Complete and attest the hosted six-cell matrix.
 
 Local Windows reproduced QD2-01 on separately built R1 for both frameworks.
 R2 passed seven real policy/schema fixtures and eight accepted replay
@@ -97,6 +112,45 @@ GitHub cancelled that run before runner assignment and executed zero
 checks. The next isolated dispatch uses the macOS 26 Arm64 hosted image
 for the same `osx-arm64` target and the same qualification checks.
 [GitHub-hosted runner architectures](https://docs.github.com/en/actions/reference/runners/github-hosted-runners#standard-github-hosted-runners-for-public-repositories).
+
+The successful macOS 26 dispatch used harness revision
+`9db149d6964652c7a306e16faebc03f080b1a413` and tree
+`63336dfee34958d9df392f91fcc56d4b519fc505`. It passed both frameworks,
+including the revised failed-initialization probe in JIT and NativeAOT.
+Direct dyld calibration observed that the Rust image stayed mapped after
+a balanced close. Its Mach-O header contains `MH_HAS_TLV_DESCRIPTORS`.
+The TLS-free C image unmapped after balancing its reference. In each
+managed process the C image was absent after failed initialization, the
+identity reply was freed once and subsequent calls returned the cached
+failure. This resolves the earlier observation without changing production.
+[Successful macOS run 44343763763](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44343763763).
+
+## Executed matrix
+
+| RID | .NET 8 | .NET 10 | Locked graph | Hosted evidence |
+| --- | --- | --- | ---: | --- |
+| `win-x64` | Pass | Pass | 181 packages | [14441363414](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44333575005/artifacts/14441363414) |
+| `linux-x64` | Pass | Pass | 177 packages | [14441257944](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44333575005/artifacts/14441257944) |
+| `osx-arm64` | Pass | Pass | 179 packages | [14447240023](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44343763763/artifacts/14447240023) |
+
+Every cell passed 69 managed tests and 114 version-aware D1 managed
+scenarios with zero failures or skips. Each execution mode passed 35
+archived D2 cases and seven new real schema exports. It accepted eight
+new response controls, rejected 34 malformed replies and reported the
+expected native failure for the nonzero-status control. JIT exercised both
+custom context variants and the unmodified R1 reproduction. JIT and
+NativeAOT both exercised concurrent first access, repeated access, the
+bad-identity process and the audited fault paths.
+
+Per RID, the independently rerun suites passed 13 native Rust tests,
+88 D1 C ABI checks, the 73-source and 131-request D1 differential and
+the 39-case and 78-reply D2 differential. The archived D2 corpus
+passed 70 ABI comparisons, 13 Cedar round trips, 216 concurrent calls,
+26 transport controls and five sensitivity controls. The new Cedar
+oracle passed seven native and one synthetic round trip and traced
+two exported rules per RID. Fresh qualification images passed their
+manifest and symbol checks, and the locked features matched the pins.
+[Matrix, artifact digests and observed counts](evidence/ci-matrix.json).
 
 ## Schema completeness and warning projection
 
@@ -236,6 +290,13 @@ outside the supported boundary. Process isolation is a future hosting option.
   and validated with either schema representation, and reparsing assigns
   new IDs. A temporal export that requires generated context still needs
   trusted generated values.
+
+The final qualification commits are confined to this review directory and
+its dispatch-only workflow. The commissioned production and producer
+evidence, historical qualification material, lockfiles and owner records
+were verified against the baseline. The final report commit follows the
+tested harness commits so it can record the observed results.
+[Qualification evidence SHA-256 manifest](evidence/SHA256SUMS).
 
 ## Reproduction
 

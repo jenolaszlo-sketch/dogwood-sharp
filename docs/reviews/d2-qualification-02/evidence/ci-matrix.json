@@ -1,0 +1,687 @@
+{
+  "matrixResult": "success",
+  "harness": "67674b1b58678ce686ea31ba734a735e7a47bd6c",
+  "harnessTree": "b33d704f3ab01da8770d0a50ee99b32e5ac6987b",
+  "production": "8ff7344432be652d907598cf1d3b862a5d527222",
+  "productionTree": "273ba9a8d1b16449690a118fe66e7dcfffc1f5bc",
+  "rids": {
+    "win-x64": {
+      "job": 134904096941,
+      "result": "success",
+      "provenance": {
+        "production": "8ff7344432be652d907598cf1d3b862a5d527222",
+        "tree": "273ba9a8d1b16449690a118fe66e7dcfffc1f5bc",
+        "harness": "67674b1b58678ce686ea31ba734a735e7a47bd6c",
+        "r1": "d0dbf762ab1c0d12a3e2ed21e0e338f09170c314",
+        "rid": "win-x64",
+        "runner": "win25-vs2026 20261103.298.1",
+        "nativeSha256": "81866cd444d19c56109c68146aa0645b889cb802b2f5332f7db4656774d1ac56",
+        "lockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+        "oracleLockSha256": "6350fc819a6a392cb68720e434487f46c3f86cd3d65e24cad76957c8ef0a0da4",
+        "rust": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+        "sdk": "10.0.404",
+        "jitOnly": false,
+        "reusedAssets": false,
+        "mutationControls": false
+      },
+      "run": 44333575005,
+      "artifact": 14441363414,
+      "artifactUrl": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44333575005/artifacts/14441363414",
+      "artifactDigest": "sha256:825c48afb5283b14d53287760b4fd803880d7ec7d065c68f0b92989038acda67",
+      "manifestSha256": "b73435151c4bde0eb020ee3e46d0e3d63477c1813f6e4600f3ceb8078fa34b45",
+      "nativeRustTests": 13,
+      "producerD2Cases": 39,
+      "producerD2Replies": 78,
+      "d1NativeControls": 88,
+      "d1DifferentialSources": 73,
+      "d1DifferentialWireCases": 131,
+      "managedPerFramework": 69,
+      "d1ConsumerPerFramework": 114,
+      "archivedD2PerFrameworkPerMode": 35,
+      "archivedD2AbiReplies": 70,
+      "archivedD2CedarRoundTrips": 13,
+      "archivedD2ConcurrentCalls": 216,
+      "archivedD2Sensitivity": {
+        "bypass-collision": "collisionCheckPassed",
+        "export-before-validation": "artifactsExported",
+        "drop-distincter": "rules",
+        "wrong-dispatch": "operation-specific shape",
+        "partial-artifact-set": "operation-specific shape"
+      },
+      "archivedD2TransportControls": 26,
+      "lockedGraphPackages": 181,
+      "schema": [
+        {
+          "id": "empty",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "named-empty",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "multiple",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "common-only",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "entity-only",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "action-only",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "policy-and-warning",
+          "rulesVerified": 2,
+          "cedarWarnings": [
+            {
+              "message": "for policy `policy_1`, policy is impossible: the policy expression evaluates to false for all valid requests",
+              "labels": 1
+            }
+          ]
+        },
+        {
+          "id": "empty-unnamed",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        }
+      ],
+      "managed": {
+        "jit-net8.0": {
+          "real": [
+            "CUSTOM CONTEXT PASS collectible=True",
+            "CUSTOM CONTEXT PASS collectible=False",
+            "LOADER OBSERVATION image-mapped=yes",
+            "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+          ],
+          "faults": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 44,
+            "released": 44,
+            "result": "FAULTS PASS accepted=8 rejected=35"
+          },
+          "failedInit": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 1,
+            "released": 1,
+            "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+          },
+          "r1": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 2,
+            "released": 2
+          }
+        },
+        "aot-net8.0": {
+          "real": [
+            "LOADER OBSERVATION image-mapped=yes",
+            "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+          ],
+          "faults": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 44,
+            "released": 44,
+            "result": "FAULTS PASS accepted=8 rejected=35"
+          },
+          "failedInit": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 1,
+            "released": 1,
+            "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+          }
+        },
+        "jit-net10.0": {
+          "real": [
+            "CUSTOM CONTEXT PASS collectible=True",
+            "CUSTOM CONTEXT PASS collectible=False",
+            "LOADER OBSERVATION image-mapped=yes",
+            "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+          ],
+          "faults": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 44,
+            "released": 44,
+            "result": "FAULTS PASS accepted=8 rejected=35"
+          },
+          "failedInit": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 1,
+            "released": 1,
+            "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+          },
+          "r1": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 2,
+            "released": 2
+          }
+        },
+        "aot-net10.0": {
+          "real": [
+            "LOADER OBSERVATION image-mapped=yes",
+            "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+          ],
+          "faults": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 44,
+            "released": 44,
+            "result": "FAULTS PASS accepted=8 rejected=35"
+          },
+          "failedInit": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 1,
+            "released": 1,
+            "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+          }
+        }
+      }
+    },
+    "linux-x64": {
+      "job": 134904097526,
+      "result": "success",
+      "provenance": {
+        "production": "8ff7344432be652d907598cf1d3b862a5d527222",
+        "tree": "273ba9a8d1b16449690a118fe66e7dcfffc1f5bc",
+        "harness": "67674b1b58678ce686ea31ba734a735e7a47bd6c",
+        "r1": "d0dbf762ab1c0d12a3e2ed21e0e338f09170c314",
+        "rid": "linux-x64",
+        "runner": "ubuntu24 20261111.370.1",
+        "nativeSha256": "4639671f8d9bb9ab2b55c54026f2b2c5d75fdf7ee9c68776e44a0277c64b3a85",
+        "lockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+        "oracleLockSha256": "6350fc819a6a392cb68720e434487f46c3f86cd3d65e24cad76957c8ef0a0da4",
+        "rust": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+        "sdk": "10.0.404",
+        "jitOnly": false,
+        "reusedAssets": false,
+        "mutationControls": true
+      },
+      "run": 44333575005,
+      "artifact": 14441257944,
+      "artifactUrl": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44333575005/artifacts/14441257944",
+      "artifactDigest": "sha256:d6fa25d7e57e3b6e33cbc2988831cf003487f7c655a9ce2e3859d146fc0f18a0",
+      "manifestSha256": "0d63b8e3d719d910a5f04695376b5ae628ae3713e1a4cddf6ef031927004b027",
+      "nativeRustTests": 13,
+      "producerD2Cases": 39,
+      "producerD2Replies": 78,
+      "d1NativeControls": 88,
+      "d1DifferentialSources": 73,
+      "d1DifferentialWireCases": 131,
+      "managedPerFramework": 69,
+      "d1ConsumerPerFramework": 114,
+      "archivedD2PerFrameworkPerMode": 35,
+      "archivedD2AbiReplies": 70,
+      "archivedD2CedarRoundTrips": 13,
+      "archivedD2ConcurrentCalls": 216,
+      "archivedD2Sensitivity": {
+        "bypass-collision": "collisionCheckPassed",
+        "export-before-validation": "artifactsExported",
+        "drop-distincter": "rules",
+        "wrong-dispatch": "operation-specific shape",
+        "partial-artifact-set": "operation-specific shape"
+      },
+      "archivedD2TransportControls": 26,
+      "lockedGraphPackages": 177,
+      "schema": [
+        {
+          "id": "empty",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "named-empty",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "multiple",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "common-only",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "entity-only",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "action-only",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "policy-and-warning",
+          "rulesVerified": 2,
+          "cedarWarnings": [
+            {
+              "message": "for policy `policy_1`, policy is impossible: the policy expression evaluates to false for all valid requests",
+              "labels": 1
+            }
+          ]
+        },
+        {
+          "id": "empty-unnamed",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        }
+      ],
+      "managed": {
+        "jit-net8.0": {
+          "real": [
+            "CUSTOM CONTEXT PASS collectible=True",
+            "CUSTOM CONTEXT PASS collectible=False",
+            "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+          ],
+          "loader": [
+            "     16568:\tcalling init: /home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qual-02/linux-x64/jit-net8.0/real/runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+            "     16568:\topening file=/home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qual-02/linux-x64/jit-net8.0/real/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]; direct_opencount=1",
+            "     16568:\tcalling fini: /home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qual-02/linux-x64/jit-net8.0/real/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]"
+          ],
+          "faults": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 44,
+            "released": 44,
+            "result": "FAULTS PASS accepted=8 rejected=35"
+          },
+          "failedInit": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 1,
+            "released": 1,
+            "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+          },
+          "r1": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 2,
+            "released": 2
+          }
+        },
+        "aot-net8.0": {
+          "real": [
+            "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+          ],
+          "loader": [
+            "     16690:\tcalling init: /home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qual-02/linux-x64/aot-net8.0/real/runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+            "     16690:\topening file=/home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qual-02/linux-x64/aot-net8.0/real/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]; direct_opencount=1",
+            "     16690:\tcalling fini: /home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qual-02/linux-x64/aot-net8.0/real/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]"
+          ],
+          "faults": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 44,
+            "released": 44,
+            "result": "FAULTS PASS accepted=8 rejected=35"
+          },
+          "failedInit": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 1,
+            "released": 1,
+            "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+          }
+        },
+        "jit-net10.0": {
+          "real": [
+            "CUSTOM CONTEXT PASS collectible=True",
+            "CUSTOM CONTEXT PASS collectible=False",
+            "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+          ],
+          "loader": [
+            "     16722:\tcalling init: /home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qual-02/linux-x64/jit-net10.0/real/runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+            "     16722:\topening file=/home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qual-02/linux-x64/jit-net10.0/real/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]; direct_opencount=1",
+            "     16722:\tcalling fini: /home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qual-02/linux-x64/jit-net10.0/real/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]"
+          ],
+          "faults": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 44,
+            "released": 44,
+            "result": "FAULTS PASS accepted=8 rejected=35"
+          },
+          "failedInit": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 1,
+            "released": 1,
+            "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+          },
+          "r1": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 2,
+            "released": 2
+          },
+          "guardSensitivity": "private-context assertion detected initialization",
+          "freeSensitivity": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 44,
+            "released": 43
+          }
+        },
+        "aot-net10.0": {
+          "real": [
+            "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+          ],
+          "loader": [
+            "     16921:\tcalling init: /home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qual-02/linux-x64/aot-net10.0/real/runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+            "     16921:\topening file=/home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qual-02/linux-x64/aot-net10.0/real/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]; direct_opencount=1",
+            "     16921:\tcalling fini: /home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qual-02/linux-x64/aot-net10.0/real/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]"
+          ],
+          "faults": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 44,
+            "released": 44,
+            "result": "FAULTS PASS accepted=8 rejected=35"
+          },
+          "failedInit": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 1,
+            "released": 1,
+            "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+          }
+        }
+      },
+      "residentEvidence": "ci-linux-memory.json"
+    },
+    "osx-arm64": {
+      "job": 134940501113,
+      "result": "success",
+      "provenance": {
+        "production": "8ff7344432be652d907598cf1d3b862a5d527222",
+        "tree": "273ba9a8d1b16449690a118fe66e7dcfffc1f5bc",
+        "harness": "9db149d6964652c7a306e16faebc03f080b1a413",
+        "r1": "d0dbf762ab1c0d12a3e2ed21e0e338f09170c314",
+        "rid": "osx-arm64",
+        "runner": "macos26 20261102.0473.1",
+        "nativeSha256": "4f5bbc7fb956b68c6e82bf5fe2eed79fe7213d4c4521eef343ecd7e5082c1c60",
+        "lockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+        "oracleLockSha256": "6350fc819a6a392cb68720e434487f46c3f86cd3d65e24cad76957c8ef0a0da4",
+        "rust": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+        "sdk": "10.0.404",
+        "jitOnly": false,
+        "reusedAssets": false,
+        "mutationControls": false
+      },
+      "run": 44343763763,
+      "artifact": 14447240023,
+      "artifactUrl": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44343763763/artifacts/14447240023",
+      "artifactDigest": "sha256:2ca23a8224a6ae0b3b214e96f825620d8d09896bbe31e2370cb5ef58c3f99eb3",
+      "manifestSha256": "b2bcd6b121f5a9bb3b17ba9803beaf3b2a18ecc23991159c99db4775ebd77d91",
+      "nativeRustTests": 13,
+      "producerD2Cases": 39,
+      "producerD2Replies": 78,
+      "d1NativeControls": 88,
+      "d1DifferentialSources": 73,
+      "d1DifferentialWireCases": 131,
+      "managedPerFramework": 69,
+      "d1ConsumerPerFramework": 114,
+      "archivedD2PerFrameworkPerMode": 35,
+      "archivedD2AbiReplies": 70,
+      "archivedD2CedarRoundTrips": 13,
+      "archivedD2ConcurrentCalls": 216,
+      "archivedD2Sensitivity": {
+        "bypass-collision": "collisionCheckPassed",
+        "export-before-validation": "artifactsExported",
+        "drop-distincter": "rules",
+        "wrong-dispatch": "operation-specific shape",
+        "partial-artifact-set": "operation-specific shape"
+      },
+      "archivedD2TransportControls": 26,
+      "lockedGraphPackages": 179,
+      "schema": [
+        {
+          "id": "empty",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "named-empty",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "multiple",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "common-only",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "entity-only",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "action-only",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        },
+        {
+          "id": "policy-and-warning",
+          "rulesVerified": 2,
+          "cedarWarnings": [
+            {
+              "message": "for policy `policy_1`, policy is impossible: the policy expression evaluates to false for all valid requests",
+              "labels": 1
+            }
+          ]
+        },
+        {
+          "id": "empty-unnamed",
+          "rulesVerified": 0,
+          "cedarWarnings": []
+        }
+      ],
+      "managed": {
+        "jit-net8.0": {
+          "macObserver": {
+            "rustMappedAfterClose": true,
+            "cMappedAfterClose": false
+          },
+          "real": [
+            "CUSTOM CONTEXT PASS collectible=True",
+            "CUSTOM CONTEXT PASS collectible=False",
+            "LOADER OBSERVATION image-mapped=yes",
+            "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+          ],
+          "faults": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 44,
+            "released": 44,
+            "result": "FAULTS PASS accepted=8 rejected=35"
+          },
+          "failedInit": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 1,
+            "released": 1,
+            "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+          },
+          "r1": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 2,
+            "released": 2
+          }
+        },
+        "aot-net8.0": {
+          "macObserver": {
+            "rustMappedAfterClose": true,
+            "cMappedAfterClose": false
+          },
+          "real": [
+            "LOADER OBSERVATION image-mapped=yes",
+            "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+          ],
+          "faults": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 44,
+            "released": 44,
+            "result": "FAULTS PASS accepted=8 rejected=35"
+          },
+          "failedInit": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 1,
+            "released": 1,
+            "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+          }
+        },
+        "jit-net10.0": {
+          "macObserver": {
+            "rustMappedAfterClose": true,
+            "cMappedAfterClose": false
+          },
+          "real": [
+            "CUSTOM CONTEXT PASS collectible=True",
+            "CUSTOM CONTEXT PASS collectible=False",
+            "LOADER OBSERVATION image-mapped=yes",
+            "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+          ],
+          "faults": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 44,
+            "released": 44,
+            "result": "FAULTS PASS accepted=8 rejected=35"
+          },
+          "failedInit": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 1,
+            "released": 1,
+            "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+          },
+          "r1": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 2,
+            "released": 2
+          }
+        },
+        "aot-net10.0": {
+          "macObserver": {
+            "rustMappedAfterClose": true,
+            "cMappedAfterClose": false
+          },
+          "real": [
+            "LOADER OBSERVATION image-mapped=yes",
+            "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+          ],
+          "faults": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 44,
+            "released": 44,
+            "result": "FAULTS PASS accepted=8 rejected=35"
+          },
+          "failedInit": {
+            "abiChecks": 1,
+            "identities": 1,
+            "populatedResponses": 1,
+            "released": 1,
+            "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+          }
+        }
+      },
+      "substituteMachOHeaders": [
+        "/Users/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qual-02/osx-arm64/substitute/libdogwoodsharp_bridge.dylib:",
+        "Mach header",
+        "      magic  cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags",
+        "MH_MAGIC_64    ARM64        ALL  0x00       DYLIB    15       2120   NOUNDEFS DYLDLINK TWOLEVEL NO_REEXPORTED_DYLIBS MH_HAS_TLV_DESCRIPTORS",
+        "/Users/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qual-02/osx-arm64/substitute/identity-only.dylib:",
+        "Mach header",
+        "      magic  cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags",
+        "MH_MAGIC_64    ARM64        ALL  0x00       DYLIB    15       1064   NOUNDEFS DYLDLINK TWOLEVEL NO_REEXPORTED_DYLIBS"
+      ]
+    }
+  },
+  "runs": [
+    {
+      "id": 44333575005,
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44333575005",
+      "rawConclusion": "failure",
+      "startedAt": "2026-11-18T15:15:46Z",
+      "updatedAt": "2026-11-18T15:37:41Z"
+    },
+    {
+      "id": 44336764662,
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44336764662",
+      "rawConclusion": "failure",
+      "startedAt": "2026-11-18T15:32:13Z",
+      "updatedAt": "2026-11-18T15:47:58Z"
+    },
+    {
+      "id": 44340579802,
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44340579802",
+      "rawConclusion": "failure",
+      "startedAt": "2026-11-18T15:52:11Z",
+      "updatedAt": "2026-11-18T16:07:18Z"
+    },
+    {
+      "id": 44343763763,
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44343763763",
+      "rawConclusion": "success",
+      "startedAt": "2026-11-18T16:08:42Z",
+      "updatedAt": "2026-11-18T16:22:46Z"
+    }
+  ],
+  "cancelledMacJob": {
+    "id": 134904097200,
+    "checksExecuted": 0,
+    "reason": "No hosted macOS Arm64 runner acquired."
+  },
+  "cancelledCalibrationJob": {
+    "id": 134929117934,
+    "checksExecuted": 0,
+    "reason": "No hosted macOS Arm64 runner acquired."
+  },
+  "macHarness": "9db149d6964652c7a306e16faebc03f080b1a413",
+  "macHarnessTree": "63336dfee34958d9df392f91fcc56d4b519fc505",
+  "firstMacObservation": {
+    "artifact": 14443082066,
+    "artifactDigest": "sha256:5d4c1fcfcc0af238502b728c76dbfce7411b451885003dfabaddeae38bfe275e",
+    "artifactUrl": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44336764662/artifacts/14443082066",
+    "reason": "Rust substitute remained mapped; mapping presence did not establish reference ownership.",
+    "events": [
+      "abi",
+      "alloc 0 1",
+      "free 0 1"
+    ],
+    "assertion": "Unhandled exception. System.InvalidOperationException: failed initialization released temporary reference",
+    "assertionLogSha256": "742728b5da994047c510c549ed0379d83a0469e2de961346cd54ac8111e6fa26"
+  }
+}
