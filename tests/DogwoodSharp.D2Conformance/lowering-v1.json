@@ -6,10 +6,6 @@
     {
       "id": "valid-cedar-permit",
       "source": "permit (principal, action == App::Action::\"read\", resource) when { context.count > 3 };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -91,10 +87,6 @@
     {
       "id": "valid-cedar-anonymous-scope",
       "source": "permit (principal, action, resource);",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -176,10 +168,6 @@
     {
       "id": "valid-cedar-anonymous-with-entity-check",
       "source": "permit (principal == App::User::\"alice\", action == App::Action::\"read\", resource);",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -261,10 +249,6 @@
     {
       "id": "valid-cedar-forbid",
       "source": "forbid (principal, action == App::Action::\"write\", resource);",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -346,10 +330,6 @@
     {
       "id": "empty-policy-set",
       "source": "",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 0,
@@ -425,10 +405,6 @@
     {
       "id": "comments-only",
       "source": "// nothing to lower\n",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 0,
@@ -504,10 +480,6 @@
     {
       "id": "inline-cedar-macro",
       "source": "def cedar is_large(?count) { ?count > 1000 };\npermit (principal, action == App::Action::\"read\", resource) when { is_large(context.count) };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -589,10 +561,6 @@
     {
       "id": "inline-temporal-macro",
       "source": "def temporal was_read(?count) { formerly within 1h App::Action::\"read\"::request { context.count: ?count } };\npermit (principal, action == App::Action::\"read\", resource) when temporal { was_read(context.count) };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -685,10 +653,6 @@
     {
       "id": "temporal-policy",
       "source": "permit (principal, action == App::Action::\"read\", resource)\nwhen temporal { formerly within 1h App::Action::\"read\"::request { context.count: 3 } };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -782,9 +746,6 @@
       "id": "temporal-policy-conflicting-declaration",
       "source": "permit (principal, action == App::Action::\"read\", resource)\nwhen temporal { formerly within 1h App::Action::\"read\"::request { context.count: 3 } };",
       "policySchema": "namespace App {\n  entity User;\n  entity Doc;\n  entity Team;\n  action \"read\" appliesTo { principal: [User, Team], resource: [Doc], context: { count: Long, policy_0__temporal_0: String } };\n}\n",
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -852,9 +813,6 @@
     {
       "id": "temporal-policy-conflicting-distincters",
       "source": "permit (principal, action == App::Action::\"read\", resource)\nwhen temporal { formerly within 1h App::Action::\"read\"::request { context.count: 3 } };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
       "distincter": "batch_7",
       "expect": {
         "parsed": true,
@@ -948,9 +906,6 @@
     {
       "id": "temporal-policy-conflicting-distincters-again",
       "source": "permit (principal, action == App::Action::\"read\", resource)\nwhen temporal { formerly within 1h App::Action::\"read\"::request { context.count: 4 } };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
       "distincter": "batch_8",
       "expect": {
         "parsed": true,
@@ -1044,10 +999,6 @@
     {
       "id": "temporal-array-argument-rejected",
       "source": "permit (principal, action == App::Action::\"read\", resource)\nwhen temporal { formerly within 1h App::Action::\"read\"::request { input.tags: [\"secret\"] } };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -1071,10 +1022,6 @@
     {
       "id": "temporal-declared-field-undeclared-on-event",
       "source": "permit (principal, action == App::Action::\"read\", resource)\nwhen temporal { formerly within 1h App::Action::\"read\"::request { input.user: \"x\" } };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -1167,10 +1114,6 @@
     {
       "id": "multiple-policies",
       "source": "permit (principal, action == App::Action::\"read\", resource) when { context.count > 3 };\nforbid (principal, action == App::Action::\"write\", resource);\npermit (principal, action == App::Action::\"read\", resource) when { context.count < 0 };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 3,
@@ -1262,10 +1205,6 @@
     {
       "id": "annotated-policy-ids",
       "source": "@id(\"same\")\npermit (principal, action == App::Action::\"read\", resource) when { context.count > 3 };\n@id(\"same\")\npermit (principal, action == App::Action::\"write\", resource);",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 2,
@@ -1353,9 +1292,7 @@
       "id": "library-macro-used-from-policy",
       "source": "permit (principal, action == App::Action::\"read\", resource) when { library_is_large(context.count) };",
       "policySchema": "namespace App {\n  entity User;\n  entity Doc;\n  entity Team;\n  action \"read\" appliesTo { principal: [User, Team], resource: [Doc], context: { count: Long } };\n}\n",
-      "eventSchema": null,
       "macros": "def cedar library_is_large(?count) { ?count > 1000 };\n",
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -1412,10 +1349,7 @@
     {
       "id": "library-macro-shadowed-by-policy",
       "source": "def cedar library_is_large(?count) { ?count > 1000 };\npermit (principal, action == App::Action::\"read\", resource) when { library_is_large(context.count) };",
-      "policySchema": null,
-      "eventSchema": null,
       "macros": "def cedar library_is_large(?count) { ?count > -1 };\n",
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -1497,10 +1431,7 @@
     {
       "id": "event-schema-override",
       "source": "permit (principal, action == App::Action::\"read\", resource) when { context.count > 3 };",
-      "policySchema": null,
       "eventSchema": "// Custom event kinds example.\n\ndecision event <A>::attempt {\n    ...inputs(A),\n    actor: principalType(A),\n}\n\nevent <A>::outcome {\n    ...inputs(A),\n    ...outputs(A),\n    actor: principalType(A),\n}\n",
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -1582,10 +1513,7 @@
     {
       "id": "event-schema-cedar-syntax-rejected",
       "source": "permit (principal, action == App::Action::\"read\", resource) when { context.count > 3 };",
-      "policySchema": null,
       "eventSchema": "namespace MyApp {\n  entity Widget;\n  action \"read\" appliesTo { principal: [Widget] };\n}\n",
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": false,
         "policyCount": null,
@@ -1609,10 +1537,7 @@
     {
       "id": "empty-event-schema-rejected",
       "source": "permit (principal, action == App::Action::\"read\", resource);",
-      "policySchema": null,
       "eventSchema": "   \n  ",
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": false,
         "policyCount": null,
@@ -1636,10 +1561,6 @@
     {
       "id": "unknown-action",
       "source": "permit (principal, action == App::Action::\"missing\", resource);",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -1741,10 +1662,6 @@
     {
       "id": "unknown-entity-type",
       "source": "permit (principal == Ghost::\"x\", action, resource);",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -1841,10 +1758,6 @@
     {
       "id": "unknown-context-attribute",
       "source": "permit (principal, action == App::Action::\"read\", resource) when { context.nope > 3 };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -1934,10 +1847,6 @@
     {
       "id": "type-mismatch",
       "source": "permit (principal, action == App::Action::\"read\", resource) when { context.count == \"text\" };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -2027,10 +1936,6 @@
     {
       "id": "missing-generated-context-field",
       "source": "permit (principal, action == App::Action::\"read\", resource) when { context.policy_0__temporal_0 };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -2121,9 +2026,6 @@
       "id": "empty-action-schema",
       "source": "permit (principal, action, resource);",
       "policySchema": "",
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -2164,9 +2066,6 @@
       "id": "whitespace-action-schema",
       "source": "permit (principal, action, resource);",
       "policySchema": "   \n  ",
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -2207,9 +2106,6 @@
       "id": "malformed-action-schema",
       "source": "permit (principal, action == App::Action::\"read\", resource);",
       "policySchema": "namespace App { entity",
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -2234,9 +2130,6 @@
       "id": "over-deep-action-schema",
       "source": "permit (principal, action == App::Action::\"read\", resource);",
       "policySchema": "namespace App { entity User; entity Doc; entity Team; action \"read\" appliesTo { principal: [User, Team], resource: [Doc], context: { aaaaaaaaaaaaaaaaaaaa: {{{{{{}}}}}} } }; }",
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -2260,10 +2153,6 @@
     {
       "id": "parse-failure",
       "source": "permit(",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": false,
         "policyCount": null,
@@ -2292,10 +2181,6 @@
     {
       "id": "macro-failure",
       "source": "def cedar loop(?x) { loop(?x) };\npermit (principal, action, resource) when { loop(true) };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": false,
         "policyCount": null,
@@ -2324,10 +2209,6 @@
     {
       "id": "provider-clause-unsupported",
       "source": "permit (principal, action == App::Action::\"read\", resource) when { provider(\"stock\") > 3 };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": false,
         "policyCount": null,
@@ -2356,10 +2237,6 @@
     {
       "id": "temporal-experimental-arithmetic-unsupported",
       "source": "permit (principal, action == App::Action::\"read\", resource) when temporal { exists (po_amount: Long). (formerly within 24h App::Action::\"read\"::response{input.amount: po_amount} && context.count <= po_amount + 50) };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": false,
         "policyCount": null,
@@ -2388,9 +2265,6 @@
     {
       "id": "invalid-distincter",
       "source": "permit (principal, action == App::Action::\"read\", resource);",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
       "distincter": "not a cedar id",
       "expect": {
         "parsed": true,
@@ -2415,10 +2289,6 @@
     {
       "id": "unicode-unknown-attribute-location",
       "source": "// ééàà unicode ✨\npermit (principal, action == App::Action::\"read\", resource) when { context.nope > 3 };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,
@@ -2508,10 +2378,6 @@
     {
       "id": "bom-unknown-attribute-location",
       "source": "﻿permit (principal, action == App::Action::\"read\", resource) when { context.nope > 3 };",
-      "policySchema": null,
-      "eventSchema": null,
-      "macros": null,
-      "distincter": null,
       "expect": {
         "parsed": true,
         "policyCount": 1,

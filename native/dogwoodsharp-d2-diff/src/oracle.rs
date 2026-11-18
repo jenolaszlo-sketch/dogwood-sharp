@@ -16,13 +16,13 @@ use serde_json::Value;
 pub(super) struct Case {
     pub(super) id: String,
     pub(super) source: String,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub(super) policy_schema: Option<String>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub(super) event_schema: Option<String>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub(super) macros: Option<String>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub(super) distincter: Option<String>,
     #[serde(default)]
     pub(super) expect: Expect,
