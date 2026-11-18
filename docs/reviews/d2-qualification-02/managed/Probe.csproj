@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <DefineConstants Condition="'$(PublishAot)' != 'true'">$(DefineConstants);Q2_JIT</DefineConstants>
+    <Q2BridgeRoot Condition="'$(Q2BridgeRoot)' == ''">../../../../src/DogwoodSharp/bin</Q2BridgeRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DogwoodSharp">
+      <HintPath>$(Q2BridgeRoot)/$(Configuration)/$(TargetFramework)/DogwoodSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

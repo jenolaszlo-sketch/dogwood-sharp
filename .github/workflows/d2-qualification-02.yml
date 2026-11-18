@@ -1,0 +1,65 @@
+name: D2 R2 independent requalification
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Full qualification or an isolated runner follow-up
+        type: choice
+        options: [all, win-x64, linux-x64, osx-arm64]
+        default: all
+permissions:
+  contents: read
+jobs:
+  qualify:
+    name: Qualify ${{ matrix.rid }} / net8.0 and net10.0
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(inputs.platform == 'win-x64' && '[{"os":"windows-2025","rid":"win-x64"}]' || inputs.platform == 'linux-x64' && '[{"os":"ubuntu-24.04","rid":"linux-x64"}]' || inputs.platform == 'osx-arm64' && '[{"os":"macos-15","rid":"osx-arm64"}]' || '[{"os":"windows-2025","rid":"win-x64"},{"os":"ubuntu-24.04","rid":"linux-x64"},{"os":"macos-15","rid":"osx-arm64"}]') }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.428
+            10.0.404
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: 1.99.1
+          components: rustfmt, clippy
+          cache: false
+      - name: Install Memcheck and libc debug symbols
+        if: matrix.rid == 'linux-x64'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y valgrind libc6-dbg
+      - name: Prepare MSVC and Windows SDK
+        if: matrix.rid == 'win-x64'
+        uses: ilammy/msvc-dev-cmd@v1
+      - name: Exercise the pinned production checkout
+        shell: pwsh
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          $production = Join-Path $env:RUNNER_TEMP 'dogwood-q2-production'
+          git worktree add --detach $production 8ff7344432be652d907598cf1d3b862a5d527222
+          ./docs/reviews/d2-qualification-02/run.ps1 -Repository $production -RuntimeIdentifier '${{ matrix.rid }}' -Sensitivity:$IsLinux
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: dogwood-d2-qual-02-${{ matrix.rid }}
+          path: |
+            artifacts/d2-qual-02/${{ matrix.rid }}/*.log
+            artifacts/d2-qual-02/${{ matrix.rid }}/*.json
+            artifacts/d2-qual-02/${{ matrix.rid }}/fixtures/*.json
+            artifacts/d2-qual-02/${{ matrix.rid }}/jit-*/*.log
+            artifacts/d2-qual-02/${{ matrix.rid }}/jit-*/managed.json
+            artifacts/d2-qual-02/${{ matrix.rid }}/aot-*/*.log
+            artifacts/d2-qual-02/${{ matrix.rid }}/aot-*/managed.json
+            artifacts/d2-qual-02/${{ matrix.rid }}/memory/*.log
+            artifacts/d2-qual-02/${{ matrix.rid }}/memory/*.json
+            artifacts/d2-qual-02/${{ matrix.rid }}/memory/*.stdout
+            artifacts/d2-qual-02/${{ matrix.rid }}/regression

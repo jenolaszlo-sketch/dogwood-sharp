@@ -1,0 +1,9 @@
+[
+  {"id":"empty","source":"","policySchema":"","shape":{},"rules":[]},
+  {"id":"named-empty","source":"","policySchema":"namespace Void {}","shape":{"Void":[]},"rules":[]},
+  {"id":"multiple","source":"","policySchema":"namespace Void {} namespace Catalog { entity Item; type Count = Long; } entity User;","shape":{"Void":[],"Catalog":["entity:Item","type:Count"],"":["entity:User"]},"rules":[]},
+  {"id":"common-only","source":"","policySchema":"type Pair = { first: String, second: Long };","shape":{"":["type:Pair"]},"rules":[]},
+  {"id":"entity-only","source":"","policySchema":"entity Clerk;","shape":{"":["entity:Clerk"]},"rules":[]},
+  {"id":"action-only","source":"","policySchema":"action \"observe\";","shape":{"":["action:observe"]},"rules":[]},
+  {"id":"policy-and-warning","source":"permit (principal, action == Store::Action::\"read\", resource);\nforbid (principal, action == Store::Action::\"read\", resource) when { false };","policySchema":"namespace Store { entity Clerk; entity Item; action \"read\" appliesTo { principal: Clerk, resource: Item }; }","shape":{"Store":["action:read","entity:Clerk","entity:Item"]},"rules":["permit (principal, action == Store::Action::\"read\", resource);","forbid (principal, action == Store::Action::\"read\", resource) when { false };"],"warning":true}
+]

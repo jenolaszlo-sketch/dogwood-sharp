@@ -1,0 +1,168 @@
+{
+  "provenance": {
+    "production": "8ff7344432be652d907598cf1d3b862a5d527222",
+    "tree": "273ba9a8d1b16449690a118fe66e7dcfffc1f5bc",
+    "harness": "8ff7344432be652d907598cf1d3b862a5d527222",
+    "r1": "d0dbf762ab1c0d12a3e2ed21e0e338f09170c314",
+    "rid": "win-x64",
+    "runner": " ",
+    "nativeSha256": "8506565b918e1ae550021f5a003b075ae116741e9468bf1dd98b0da08fd98e45",
+    "lockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+    "oracleLockSha256": "6350fc819a6a392cb68720e434487f46c3f86cd3d65e24cad76957c8ef0a0da4",
+    "rust": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "sdk": "10.0.404",
+    "jitOnly": false,
+    "reusedAssets": true,
+    "mutationControls": true
+  },
+  "schema": [
+    {
+      "id": "empty",
+      "rulesVerified": 0,
+      "cedarWarnings": []
+    },
+    {
+      "id": "named-empty",
+      "rulesVerified": 0,
+      "cedarWarnings": []
+    },
+    {
+      "id": "multiple",
+      "rulesVerified": 0,
+      "cedarWarnings": []
+    },
+    {
+      "id": "common-only",
+      "rulesVerified": 0,
+      "cedarWarnings": []
+    },
+    {
+      "id": "entity-only",
+      "rulesVerified": 0,
+      "cedarWarnings": []
+    },
+    {
+      "id": "action-only",
+      "rulesVerified": 0,
+      "cedarWarnings": []
+    },
+    {
+      "id": "policy-and-warning",
+      "rulesVerified": 2,
+      "cedarWarnings": [
+        {
+          "message": "for policy `policy_1`, policy is impossible: the policy expression evaluates to false for all valid requests",
+          "labels": 1
+        }
+      ]
+    },
+    {
+      "id": "empty-unnamed",
+      "rulesVerified": 0,
+      "cedarWarnings": []
+    }
+  ],
+  "jit-net8.0": {
+    "real": [
+      "CUSTOM CONTEXT PASS collectible=True",
+      "CUSTOM CONTEXT PASS collectible=False",
+      "LOADER OBSERVATION image-mapped=yes",
+      "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+    ],
+    "faults": {
+      "abiChecks": 1,
+      "identities": 1,
+      "populatedResponses": 44,
+      "released": 44,
+      "result": "FAULTS PASS accepted=8 rejected=35"
+    },
+    "failedInit": {
+      "abiChecks": 1,
+      "identities": 1,
+      "populatedResponses": 1,
+      "released": 1,
+      "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+    },
+    "r1": {
+      "abiChecks": 1,
+      "identities": 1,
+      "populatedResponses": 2,
+      "released": 2
+    }
+  },
+  "aot-net8.0": {
+    "real": [
+      "LOADER OBSERVATION image-mapped=yes",
+      "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+    ],
+    "faults": {
+      "abiChecks": 1,
+      "identities": 1,
+      "populatedResponses": 44,
+      "released": 44,
+      "result": "FAULTS PASS accepted=8 rejected=35"
+    },
+    "failedInit": {
+      "abiChecks": 1,
+      "identities": 1,
+      "populatedResponses": 1,
+      "released": 1,
+      "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+    }
+  },
+  "jit-net10.0": {
+    "real": [
+      "CUSTOM CONTEXT PASS collectible=True",
+      "CUSTOM CONTEXT PASS collectible=False",
+      "LOADER OBSERVATION image-mapped=yes",
+      "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+    ],
+    "faults": {
+      "abiChecks": 1,
+      "identities": 1,
+      "populatedResponses": 44,
+      "released": 44,
+      "result": "FAULTS PASS accepted=8 rejected=35"
+    },
+    "failedInit": {
+      "abiChecks": 1,
+      "identities": 1,
+      "populatedResponses": 1,
+      "released": 1,
+      "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+    },
+    "r1": {
+      "abiChecks": 1,
+      "identities": 1,
+      "populatedResponses": 2,
+      "released": 2
+    },
+    "guardSensitivity": "private-context assertion detected initialization",
+    "freeSensitivity": {
+      "abiChecks": 1,
+      "identities": 1,
+      "populatedResponses": 44,
+      "released": 43
+    }
+  },
+  "aot-net10.0": {
+    "real": [
+      "LOADER OBSERVATION image-mapped=yes",
+      "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+    ],
+    "faults": {
+      "abiChecks": 1,
+      "identities": 1,
+      "populatedResponses": 44,
+      "released": 44,
+      "result": "FAULTS PASS accepted=8 rejected=35"
+    },
+    "failedInit": {
+      "abiChecks": 1,
+      "identities": 1,
+      "populatedResponses": 1,
+      "released": 1,
+      "result": "FAILED INIT PASS attempts=9 abi=1 image-mapped=no"
+    }
+  }
+}
