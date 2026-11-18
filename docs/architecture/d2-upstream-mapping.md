@@ -81,7 +81,10 @@ stage for a completed one:
 | `parsed` | Parsing succeeded. `policyCount` and `parseDiagnostics` are meaningful only then. |
 | `lowered` | Lowering succeeded. Everything downstream is meaningful only then. |
 | `validationPassed` | Validation ran and produced no errors. Warnings never fail validation. |
-| `lowerError` | The fatal pipeline error when `parsed` is true and `lowered` is false. |
+| `stageError` | null, or the fatal pipeline error naming the stage that stopped. |
+
+The stage flag values are the D1 failure values, so `parsed:false` means no
+`policyCount`, an empty `rules` array and `validationPassed:false`.
 
 ### Managed
 
@@ -104,3 +107,32 @@ call, and again natively.
 lowering and validation separately. `Dogwood.Lower` reports parsing and
 lowering and returns a bundle only when both succeeded. Authorization is not
 implemented and is not representable in the D2 API.
+
+## Known upstream limitation
+
+Upstream augmentation replaces a caller-declared context attribute whose name
+collides with a synthesized hoisted name (`<namespace>_<k>__temporal_<j>`), so a
+conflicting user field does not survive. This is upstream behaviour that the
+commission's invariants asked the wrapper to prevent, and the wrapper cannot
+prevent it without reimplementing lowering. It is pinned in the fixture
+`temporal-policy-conflicting-declaration` and recorded as DL-01 in
+[d2-implementation.md](../d2-implementation.md) for an owner decision.
+
+## Qualification requirements for an independent D2 reviewer
+
+A subsequent independent qualification should re-derive its own expectations
+from the pinned crate rather than trust `lowering-v1.json`, and cover at least:
+
+- the three runtime identifiers x `net8.0` and `net10.0`;
+- parser/validation failure isolation (an invalid policy never yields a validated
+  bundle or authoritative artifacts);
+- augmented-schema structure, generated field types, and conflicting generated
+  fields (DL-01 above);
+- rule/source identity preservation, including explicit `@id` annotations and
+  generated ids;
+- native limits (schema, source, request, response) and their failure statuses;
+- concurrency and immutability of returned collections;
+- parity with the existing D1 qualification evidence for operations 0 and 1.
+
+The qualification gates this milestone adds are recorded in the acceptance
+matrix of [qualification.md](../qualification.md).

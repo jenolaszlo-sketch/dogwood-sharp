@@ -4,7 +4,7 @@
 | --- | --- | --- |
 | Foundation | D0 discovery and build scaffolds | Accepted with qualifications |
 | Language bridge | D1 parsing | **Accepted with qualifications and closed**; see [the owner record](d1-acceptance.md) |
-| Validation | D2 lowering/schema validation | **Authorized by the D1 acceptance record**; requires independent D2 qualification and owner acceptance |
+| Validation | D2 lowering/schema validation | Implemented; see [the D2 producer report](d2-implementation.md). Independent qualification then owner acceptance still required |
 | Execution feasibility | D3 CedarSharp; D4 events/reference temporal | Resolve interop risks before backend promise |
 | Reference conformance | D5 temporal authorization | Corpus parity and owner acceptance |
 | Extensibility | D6 backend/provider contracts | Avoid undefined provider/failure behavior |

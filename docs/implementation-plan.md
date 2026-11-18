@@ -33,7 +33,7 @@ implementing speculative infrastructure.
 
 ## D2: Lowering, schemas and validation
 
-- Dependencies: D1.
+- Dependencies: D1 (accepted with qualifications and closed).
 - Work packages / scope: Schema builders; lowered bundle; ID/source map; example import.
 - Public API: Immutable validated bundle and findings.
 - Explicit exclusions: Authorizing unvalidated policies.
@@ -43,6 +43,8 @@ implementing speculative infrastructure.
 - Acceptance criteria: Export/validation parity for declared feature set.
 - Expected evidence: Pinned fixture manifest, differential report.
 - Publication eligibility: Internal artifacts only.
+- Status: Implemented. See [the D2 producer report](d2-implementation.md); independent
+  qualification and owner acceptance are separate decisions.
 
 ## D3: CedarSharp interoperability
 

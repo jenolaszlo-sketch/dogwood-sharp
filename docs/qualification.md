@@ -13,6 +13,7 @@ experimental, pending-fix and unsupported cases in a versioned manifest.
 | Cedar parity | Cedar-only corpus; entity/action hierarchies; default deny/forbid/errors; ID mapping | D3 | Independent qualifier then owner |
 | Temporal parity | Pinned temporal corpus; formerly/previous/since, endpoints, aggregation, ordering, pins | D4-D5 | Independent qualifier then owner |
 | Mixed/provider parity | Mixed rules/macros; failure/type cases; provider purity; error contract classification | D5-D6 | Independent qualifier then owner |
+| Schema augmentation and rule mapping | Augmented schema structure and generated field types; conflicting generated fields; rule/source identity preservation | D2 | Independent qualifier then owner |
 | Native boundary | Buffer ownership, panic translation, disposal and concurrency, memory checks | D1/D5/D7 | Independent qualifier then owner |
 | Security | Forged bindings, malformed/replayed events, tenant leakage, resource exhaustion, diagnostic leakage | D7 | Independent security review then owner |
 | Distribution | Fresh package-only consumers, archive/native manifest verification, licenses, symbols, AOT/trim | D8 | Independent qualifier then owner |
