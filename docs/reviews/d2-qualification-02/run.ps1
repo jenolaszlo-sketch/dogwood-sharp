@@ -92,6 +92,14 @@ try {
 
     $substitute = Join-Path (New-Item -ItemType Directory -Force "$out/substitute").FullName $manifest.file
     rustc --edition 2024 --crate-type cdylib "$PSScriptRoot/transport.rs" -o $substitute
+    $identityArguments = @()
+    if ($IsMacOS) {
+        # Reference release is observable only with an image dyld can unmap.
+        $identity = "$out/substitute/identity-only.dylib"
+        cc -std=c11 -dynamiclib -O2 -Wall -Wextra -Werror "$PSScriptRoot/identity-only.c" -o $identity
+        otool -hv $substitute $identity | Set-Content "$out/macho-fixtures.log"
+        $identityArguments = @('--identity-substitute', $identity)
+    }
     $project = "$PSScriptRoot/managed/Probe.csproj"
     $link = "-p:Q2BridgeRoot=$root/src/DogwoodSharp/bin"
     dotnet build $project -c Release $link
@@ -108,12 +116,12 @@ try {
         if ($Sensitivity -and $framework -eq 'net10.0') {
             $arguments += @('--guard-mutant',$guard,'--free-mutant',$free)
         }
-        & $python "$PSScriptRoot/drive.py" $asset "$PSScriptRoot/managed/bin/Release/$framework" $substitute $fixtures "$out/jit-$framework" @arguments |
+        & $python "$PSScriptRoot/drive.py" $asset "$PSScriptRoot/managed/bin/Release/$framework" $substitute $fixtures "$out/jit-$framework" @identityArguments @arguments |
             Tee-Object "$out/jit-$framework.log"
         if (!$JitOnly) {
             $publish = "$out/publish-$framework"
             dotnet publish $project -c Release -f $framework -r $RuntimeIdentifier -p:PublishAot=true $link -o $publish
-            & $python "$PSScriptRoot/drive.py" $asset $publish $substitute $fixtures "$out/aot-$framework" --aot |
+            & $python "$PSScriptRoot/drive.py" $asset $publish $substitute $fixtures "$out/aot-$framework" --aot @identityArguments |
                 Tee-Object "$out/aot-$framework.log"
         }
     }

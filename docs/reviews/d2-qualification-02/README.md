@@ -76,7 +76,17 @@ runner. Its annotations report macOS Arm64 capacity constraints, and
 the cancelled job ran zero checks. An isolated macOS follow-up used
 the same qualification and production revisions.
 [Cancelled job](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44333575005/job/134904097200),
-[macOS follow-up run 44336764662](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44336764662).
+[first macOS follow-up run 44336764662](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44336764662).
+
+The first macOS follow-up passed the regular build, regressions and
+archived corpus. The new failed-identity probe freed its response buffer,
+but the Rust substitute remained mapped. Image presence after a
+`dlclose` is insufficient to infer outstanding references on macOS.
+The targeted follow-up uses a C identity substitute without thread-local
+descriptors and calibrates the presence observation with independent
+`dlopen` and `dlclose` calls.
+[First macOS artifact](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44336764662/artifacts/14443082066),
+[Apple dlclose reference](https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man3/dlclose.3.html).
 
 ## Schema completeness and warning projection
 

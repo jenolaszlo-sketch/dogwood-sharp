@@ -1,6 +1,7 @@
 """Run fresh processes on the ordinary public API and verify loader/buffer observations."""
 import argparse
 from collections import Counter
+import ctypes
 import hashlib
 import json
 import os
@@ -39,6 +40,25 @@ def launch(args, directory, scenario, arguments, env):
     return result
 
 
+def calibrate_macos_observer(path):
+    loader = ctypes.CDLL("/usr/lib/libSystem.B.dylib")
+    loader.dlopen.argtypes = [ctypes.c_char_p, ctypes.c_int]
+    loader.dlopen.restype = ctypes.c_void_p
+    loader.dlclose.argtypes = [ctypes.c_void_p]
+    loader.dlclose.restype = ctypes.c_int
+    image = os.fsencode(path.resolve())
+    assert not loader.dlopen(image, 18)
+    handle = loader.dlopen(image, 6)
+    assert handle
+    observer = loader.dlopen(image, 18)
+    assert observer and loader.dlclose(observer) == 0
+    assert loader.dlclose(handle) == 0
+    mapped = loader.dlopen(image, 18)
+    if mapped:
+        assert loader.dlclose(mapped) == 0
+    return bool(mapped)
+
+
 def verify_events(path, lowered, *, missing_release=None):
     lines = path.read_text(encoding="utf-8").splitlines()
     assert lines.count("abi") == 1, lines
@@ -59,6 +79,7 @@ def main():
     for name in ("asset", "probe", "substitute", "fixtures", "result"):
         parser.add_argument(name, type=Path)
     parser.add_argument("--aot", action="store_true")
+    parser.add_argument("--identity-substitute", type=Path)
     parser.add_argument("--r1", type=Path)
     parser.add_argument("--guard-mutant", type=Path)
     parser.add_argument("--free-mutant", type=Path)
@@ -68,6 +89,12 @@ def main():
         setattr(args, key, getattr(args, key).resolve())
     trace_linux = os.sys.platform.startswith("linux")
     summary = {}
+    if args.identity_substitute:
+        summary["macObserver"] = {
+            "rustMappedAfterClose": calibrate_macos_observer(args.substitute),
+            "cMappedAfterClose": calibrate_macos_observer(args.identity_substitute),
+        }
+        assert not summary["macObserver"]["cMappedAfterClose"], summary["macObserver"]
     exports = str(args.fixtures / "exports.json")
     faults = str(args.fixtures / "faults.json")
     identity = args.fixtures / "identity.json"
@@ -76,7 +103,8 @@ def main():
 
     def perform(scenario, *, fake=False, arguments, swap=None, broken=False, failure_marker=None):
         target = args.result / scenario
-        image = stage(args.probe, target, args.asset, args.substitute if fake else None, swap)
+        substitute = args.identity_substitute if broken and args.identity_substitute else args.substitute
+        image = stage(args.probe, target, args.asset, substitute if fake else None, swap)
         events = args.result / (scenario + ".events.log")
         events.unlink(missing_ok=True)
         env = os.environ.copy()
@@ -88,6 +116,8 @@ def main():
                        Q2_IDENTITY=str(bad_identity if broken else identity))
         if scenario == "real" and trace_linux:
             env["LD_DEBUG"] = "files"
+        if broken and args.identity_substitute:
+            env["DYLD_PRINT_APIS"] = "1"
         if broken:
             arguments += [str(image), str(identity), str(bad_identity)]
         if scenario == "real" and not trace_linux:
