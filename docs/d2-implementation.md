@@ -118,6 +118,20 @@ message text is upstream-owned and outside the assertions.
 | DL-02 | Documented | The whole ABI request ceiling applies to D2 requests, so a 1 MiB source leaves no room for a schema. The combination fails as status 6 rather than truncating. |
 | DL-03 | Documented | Cedar does not publish a validation warning's source span, so warning `location` is always null. Errors carry spans. |
 | DL-04 | Documented | The wrapper adds no higher-level conflict detection, schema comparison or policy-store integration; those need a separate commission with owner agreement. |
+| DL-05 | Important, documented | The preserved independent D1 qualification harness asserts that operation ID 2 is *unimplemented*. Three of its controls - `reject_operation_two`, `reject_operation_precedes_input` and `wire-operation-2` - expect status 3 (unknown operation) for operation 2, and now observe 5, 1 and 5 because the operation exists and rejects those bodies as envelopes. Everything else passes: 81 of 83 C ABI checks per RID, and the complete D1 differential (73 sources, 130 wire requests, 0 message mismatches, 0 wire-length mismatches, response ceiling exercised). The harness is preserved unchanged as commissioned; the D2 independent qualification should re-point those controls at a genuinely unimplemented operation such as 9. |
+
+## D1 compatibility evidence
+
+Operations 0 and 1 are byte-for-byte behaviour-preserved. The evidence, all against
+the D2 revision:
+
+| Evidence | Result |
+| --- | --- |
+| Native Rust tests for the D1 ABI, ownership, envelope limits, source limits and injected unwind | 5 passed, unchanged |
+| D1 independent differential (preserved harness) against the D2 library | 73 sources / 130 wire requests; 0 message mismatches; 0 wire-length mismatches; only `wire-operation-2` differs |
+| D1 independent C ABI consumer, 83 checks, three RIDs | 81 pass per RID; only the two operation-2 negative controls differ |
+| D1 managed suite and smoke consumers, three RIDs x both TFMs | 13 D1 tests and both smokes pass |
+| Re-dispatch of the preserved D1 qualification workflow | Reports the three DL-05 controls as the only failure, on all three RIDs |
 
 ## Reproducing
 

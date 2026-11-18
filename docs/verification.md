@@ -167,10 +167,21 @@ frameworks.
 | linux-x64 / ubuntu-24.04 | 15 tests, both smokes passed | 15 tests, both smokes passed | 11 Rust tests, 37 differential fixtures passed |
 | osx-arm64 / macos-15 | 15 tests, both smokes passed | 15 tests, both smokes passed | 11 Rust tests, 37 differential fixtures passed |
 
-All six platform/framework combinations passed with zero skips. The D1
-qualification workflow was re-dispatched against this revision to confirm the
-added D2 operations leave the D1 contract unchanged; its run reference is
-recorded in the repository run history.
+All six platform/framework combinations passed with zero skips.
+
+## D2 D1-compatibility re-check
+
+Run [44214888137](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44214888137)
+re-dispatched the preserved independent D1 qualification workflow against the D2
+revision. Its producer verification steps passed (11 native tests, the 37-case D2
+differential, 15 managed tests on both frameworks), and its independent harness
+reported **81 of 83 C ABI checks per RID**, with exactly the controls that assert
+operation 2 is unimplemented failing: `reject_operation_two`, `reject_operation_precedes_input`
+and, from the same assumption, `wire-operation-2`. Operations 0 and 1 are
+behaviour-preserved; see [d2-implementation.md](d2-implementation.md#d1-compatibility-evidence).
+
+The workflow is preserved unchanged as commissioned, so this outcome is a
+recorded deviation (DL-05) rather than a remediation target for this commission.
 
 This is producer verification for independent D2 qualification and a subsequent
 owner decision. It is not an independent qualification and not an owner
