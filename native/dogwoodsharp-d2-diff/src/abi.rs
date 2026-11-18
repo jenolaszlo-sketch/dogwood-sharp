@@ -97,7 +97,6 @@ mod sys {
 }
 
 pub struct Library {
-    handle: *mut c_void,
     call: CallFn,
     free: FreeFn,
 }
@@ -128,8 +127,8 @@ impl Library {
             return Err(format!("{path} exports ABI {version}, expected 1"));
         }
 
+        // Keep the verified D2 image resident. Only loader failures close it.
         Ok(Self {
-            handle,
             call: unsafe { std::mem::transmute::<usize, CallFn>(call) },
             free: unsafe { std::mem::transmute::<usize, FreeFn>(free) },
         })
@@ -159,11 +158,5 @@ impl Library {
             unsafe { std::slice::from_raw_parts(output.data, output.len as usize) }.to_vec();
         unsafe { (self.free)(&mut output) };
         Ok(bytes)
-    }
-}
-
-impl Drop for Library {
-    fn drop(&mut self) {
-        sys::close(self.handle);
     }
 }

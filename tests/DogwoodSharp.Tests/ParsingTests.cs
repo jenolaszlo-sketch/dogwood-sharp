@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Runtime.Loader;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -133,7 +135,9 @@ public sealed class ParsingTests
                 File.WriteAllText(Path.Combine(destination, manifestFile), manifest.ToJsonString());
             }
 
-            var error = Assert.Throws<DogwoodBridgeException>(() => NativeBridge.Load(root.FullName));
+            var load = typeof(NativeBridge).GetMethod("Load", BindingFlags.NonPublic | BindingFlags.Static)!;
+            var invocation = Assert.Throws<TargetInvocationException>(() => load.Invoke(null, [root.FullName]));
+            var error = Assert.IsType<DogwoodBridgeException>(invocation.InnerException);
             Assert.Equal(DogwoodBridgeFailure.LoadOrIdentity, error.Failure);
             if (failure == "library-abi")
             {
@@ -143,6 +147,51 @@ public sealed class ParsingTests
         finally
         {
             root.Delete(recursive: true);
+        }
+    }
+
+    [Fact]
+    public void RepeatedConcurrentAccessReusesTheProcessBridge()
+    {
+        var native = NativeBridge.Shared;
+        Assert.False(typeof(IDisposable).IsAssignableFrom(typeof(NativeBridge)));
+        Parallel.For(0, 256, index =>
+        {
+            Assert.Same(native, NativeBridge.Shared);
+            Assert.Same(native.Version, Dogwood.GetNativeVersion());
+            Assert.True(Dogwood.Parse("").Success);
+            Assert.True(Dogwood.Validate("", new DogwoodSchema("")).IsValid);
+            Assert.True(Dogwood.Lower("", new DogwoodSchema("")).ArtifactsExported);
+        });
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void APrivateAssemblyLoadContextCannotInitializeAnotherBridge(bool collectible)
+    {
+        var context = new AssemblyLoadContext("DogwoodSharp private copy", isCollectible: collectible);
+        try
+        {
+            var copy = context.LoadFromAssemblyPath(typeof(Dogwood).Assembly.Location);
+            Assert.NotSame(typeof(Dogwood).Assembly, copy);
+            var discover = copy.GetType(typeof(Dogwood).FullName!)!.GetMethod(nameof(Dogwood.GetNativeVersion))!;
+            for (int attempt = 0; attempt < 2; attempt++)
+            {
+                var invocation = Assert.Throws<TargetInvocationException>(() => discover.Invoke(null, null));
+                var error = invocation.InnerException!;
+                Assert.Equal(typeof(DogwoodBridgeException).FullName, error.GetType().FullName);
+                Assert.Equal(nameof(DogwoodBridgeFailure.LoadOrIdentity),
+                    error.GetType().GetProperty(nameof(DogwoodBridgeException.Failure))!.GetValue(error)!.ToString());
+                Assert.Contains("default assembly load context", error.Message, StringComparison.Ordinal);
+            }
+        }
+        finally
+        {
+            if (collectible)
+            {
+                context.Unload();
+            }
         }
     }
 }

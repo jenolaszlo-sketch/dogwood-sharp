@@ -1,13 +1,14 @@
 using System.Buffers;
 using System.Collections.Immutable;
 using System.Runtime.InteropServices;
+using System.Runtime.Loader;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
 namespace DogwoodSharp;
 
-internal sealed unsafe class NativeBridge : IDisposable
+internal sealed unsafe class NativeBridge
 {
     private const uint Abi = 1;
     private const string BridgeVersion = "0.1.0";
@@ -30,7 +31,6 @@ internal sealed unsafe class NativeBridge : IDisposable
     private static readonly Lazy<NativeBridge> Instance = new(() => Load(AppContext.BaseDirectory));
     private readonly delegate* unmanaged[Cdecl]<uint, uint, byte*, uint, Buffer*, uint> call;
     private readonly delegate* unmanaged[Cdecl]<Buffer*, void> free;
-    private nint library;
 
     [StructLayout(LayoutKind.Sequential)]
     private struct Buffer
@@ -41,7 +41,6 @@ internal sealed unsafe class NativeBridge : IDisposable
 
     private NativeBridge(nint handle, string target)
     {
-        library = handle;
         var abi = (delegate* unmanaged[Cdecl]<uint>)NativeLibrary.GetExport(handle, "dogwoodsharp_abi_version");
         if (abi() != Abi)
         {
@@ -65,8 +64,13 @@ internal sealed unsafe class NativeBridge : IDisposable
 
     internal DogwoodNativeVersion Version { get; }
 
-    internal static NativeBridge Load(string root)
+    private static NativeBridge Load(string root)
     {
+        if (AssemblyLoadContext.GetLoadContext(typeof(NativeBridge).Assembly) != AssemblyLoadContext.Default)
+        {
+            throw Identity("Load DogwoodSharp in the default assembly load context.");
+        }
+
         var (rid, target, file) = Platform();
         var path = Path.GetFullPath(Path.Combine(root, "runtimes", rid, "native", file));
         nint handle = 0;
@@ -75,6 +79,8 @@ internal sealed unsafe class NativeBridge : IDisposable
             VerifyManifest(path, rid, target);
             handle = NativeLibrary.Load(path, typeof(NativeBridge).Assembly, DllImportSearchPath.System32);
             var bridge = new NativeBridge(handle, target);
+            // The singleton keeps this loader reference for the process lifetime.
+            // Only an unsuccessful initialization releases its reference.
             handle = 0;
             return bridge;
         }
@@ -603,7 +609,6 @@ internal sealed unsafe class NativeBridge : IDisposable
 
     private JsonDocument Invoke(uint operation, ReadOnlySpan<byte> input, int maximumResponseBytes)
     {
-        ObjectDisposedException.ThrowIf(library == 0, this);
         Buffer output = default;
         fixed (byte* bytes = input)
         {
@@ -633,15 +638,6 @@ internal sealed unsafe class NativeBridge : IDisposable
             {
                 free(&output);
             }
-        }
-    }
-
-    public void Dispose()
-    {
-        var handle = Interlocked.Exchange(ref library, 0);
-        if (handle != 0)
-        {
-            NativeLibrary.Free(handle);
         }
     }
 
