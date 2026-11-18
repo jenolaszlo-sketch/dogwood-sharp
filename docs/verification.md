@@ -152,6 +152,26 @@ the pinned fixture still matched upstream, and compared the bridge's exported C
 ABI replies for operations 2 and 3. Local staged image SHA-256
 and manifest hash are recorded per run in `artifacts`.
 
+## D2 producer CI
+
+[Run 44212694376](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44212694376)
+passed on implementation commit `27e47f8fca04e9b07c37422fa53524e715f1348a`,
+tree recorded with that commit. Each runner built the Release cdylib, ran the
+native tests, executed the D2 differential against the freshly produced image,
+and ran managed tests plus JIT and NativeAOT smoke consumers on both
+frameworks.
+
+| RID and runner image | net8.0 | net10.0 | Native and differential |
+| --- | --- | --- | --- |
+| win-x64 / windows-2025 | 15 tests, both smokes passed | 15 tests, both smokes passed | 11 Rust tests, 37 differential fixtures passed |
+| linux-x64 / ubuntu-24.04 | 15 tests, both smokes passed | 15 tests, both smokes passed | 11 Rust tests, 37 differential fixtures passed |
+| osx-arm64 / macos-15 | 15 tests, both smokes passed | 15 tests, both smokes passed | 11 Rust tests, 37 differential fixtures passed |
+
+All six platform/framework combinations passed with zero skips. The D1
+qualification workflow was re-dispatched against this revision to confirm the
+added D2 operations leave the D1 contract unchanged; its run reference is
+recorded in the repository run history.
+
 This is producer verification for independent D2 qualification and a subsequent
 owner decision. It is not an independent qualification and not an owner
 acceptance.
