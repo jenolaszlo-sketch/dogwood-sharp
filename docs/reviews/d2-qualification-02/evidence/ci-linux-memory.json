@@ -1,0 +1,684 @@
+{
+  "rows": [
+    {
+      "mode": "sequential",
+      "rounds": 32,
+      "exit": 0,
+      "native": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=13648",
+        "after-identity heap_in_use=13808 mapped_heap=0 peak_rss_kib=13648",
+        "after-warmup heap_in_use=209984 mapped_heap=0 peak_rss_kib=13648",
+        "after-measurement heap_in_use=212704 mapped_heap=0 peak_rss_kib=13648",
+        "PASS mode=sequential rounds=32 workers_started=0 max_workers=0 loads=1 abi=1 calls=321 populated_releases=257 empty_releases=64"
+      ],
+      "memcheck": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=54648",
+        "after-identity heap_in_use=0 mapped_heap=0 peak_rss_kib=62288",
+        "after-warmup heap_in_use=0 mapped_heap=0 peak_rss_kib=111800",
+        "after-measurement heap_in_use=0 mapped_heap=0 peak_rss_kib=112824",
+        "PASS mode=sequential rounds=32 workers_started=0 max_workers=0 loads=1 abi=1 calls=321 populated_releases=257 empty_releases=64"
+      ],
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        13756,
+        53
+      ],
+      "still reachable": [
+        41725,
+        173
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "possiblyLostStacks": {
+        "ALL_AVAILABLE_EXTENSION_OBJECTS": [
+          11864,
+          47
+        ],
+        "regex_automata": [
+          332,
+          2
+        ],
+        "LazyLock<cedar_policy_core::extensions::Extensions": [
+          712,
+          2
+        ],
+        "RESERVED_IDS": [
+          288,
+          1
+        ],
+        "LazyLock<cedar_policy_core::validator::extensions::ExtensionSchemas": [
+          560,
+          1
+        ]
+      },
+      "rawSha256": "b2e2237966654bd802efc7e3a2e1618bdd95df42152162e24b01dceafedadd50"
+    },
+    {
+      "mode": "sequential",
+      "rounds": 256,
+      "exit": 0,
+      "native": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=15440",
+        "after-identity heap_in_use=13808 mapped_heap=0 peak_rss_kib=15440",
+        "after-warmup heap_in_use=208464 mapped_heap=0 peak_rss_kib=15440",
+        "after-measurement heap_in_use=225184 mapped_heap=0 peak_rss_kib=15440",
+        "PASS mode=sequential rounds=256 workers_started=0 max_workers=0 loads=1 abi=1 calls=1441 populated_releases=1153 empty_releases=288"
+      ],
+      "memcheck": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=54644",
+        "after-identity heap_in_use=0 mapped_heap=0 peak_rss_kib=62284",
+        "after-warmup heap_in_use=0 mapped_heap=0 peak_rss_kib=111920",
+        "after-measurement heap_in_use=0 mapped_heap=0 peak_rss_kib=113328",
+        "PASS mode=sequential rounds=256 workers_started=0 max_workers=0 loads=1 abi=1 calls=1441 populated_releases=1153 empty_releases=288"
+      ],
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        13756,
+        53
+      ],
+      "still reachable": [
+        41725,
+        173
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "possiblyLostStacks": {
+        "ALL_AVAILABLE_EXTENSION_OBJECTS": [
+          11864,
+          47
+        ],
+        "regex_automata": [
+          332,
+          2
+        ],
+        "LazyLock<cedar_policy_core::extensions::Extensions": [
+          712,
+          2
+        ],
+        "RESERVED_IDS": [
+          288,
+          1
+        ],
+        "LazyLock<cedar_policy_core::validator::extensions::ExtensionSchemas": [
+          560,
+          1
+        ]
+      },
+      "rawSha256": "6fc9c7c711e6577497f95a595d3e55169493df50f0a65110cd742f2f7a7bb87b"
+    },
+    {
+      "mode": "sequential",
+      "rounds": 2048,
+      "exit": 0,
+      "native": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=16284",
+        "after-identity heap_in_use=13808 mapped_heap=0 peak_rss_kib=16284",
+        "after-warmup heap_in_use=207904 mapped_heap=0 peak_rss_kib=16284",
+        "after-measurement heap_in_use=232960 mapped_heap=0 peak_rss_kib=16284",
+        "PASS mode=sequential rounds=2048 workers_started=0 max_workers=0 loads=1 abi=1 calls=10401 populated_releases=8321 empty_releases=2080"
+      ],
+      "memcheck": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=54644",
+        "after-identity heap_in_use=0 mapped_heap=0 peak_rss_kib=62284",
+        "after-warmup heap_in_use=0 mapped_heap=0 peak_rss_kib=111816",
+        "after-measurement heap_in_use=0 mapped_heap=0 peak_rss_kib=113096",
+        "PASS mode=sequential rounds=2048 workers_started=0 max_workers=0 loads=1 abi=1 calls=10401 populated_releases=8321 empty_releases=2080"
+      ],
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        13756,
+        53
+      ],
+      "still reachable": [
+        41725,
+        173
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "possiblyLostStacks": {
+        "ALL_AVAILABLE_EXTENSION_OBJECTS": [
+          11864,
+          47
+        ],
+        "regex_automata": [
+          332,
+          2
+        ],
+        "LazyLock<cedar_policy_core::extensions::Extensions": [
+          712,
+          2
+        ],
+        "RESERVED_IDS": [
+          288,
+          1
+        ],
+        "LazyLock<cedar_policy_core::validator::extensions::ExtensionSchemas": [
+          560,
+          1
+        ]
+      },
+      "rawSha256": "d44be2c8651bf66f7c3799f86feb88d383f8fcdd65be3abe88794927eb1bf0ac"
+    },
+    {
+      "mode": "fixed",
+      "rounds": 32,
+      "exit": 0,
+      "native": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=16368",
+        "after-identity heap_in_use=13808 mapped_heap=0 peak_rss_kib=16368",
+        "after-warmup heap_in_use=214096 mapped_heap=0 peak_rss_kib=16368",
+        "after-measurement heap_in_use=239456 mapped_heap=0 peak_rss_kib=16368",
+        "PASS mode=fixed rounds=32 workers_started=4 max_workers=4 loads=1 abi=1 calls=321 populated_releases=257 empty_releases=64"
+      ],
+      "memcheck": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=54648",
+        "after-identity heap_in_use=0 mapped_heap=0 peak_rss_kib=62288",
+        "after-warmup heap_in_use=0 mapped_heap=0 peak_rss_kib=112052",
+        "after-measurement heap_in_use=0 mapped_heap=0 peak_rss_kib=133556",
+        "PASS mode=fixed rounds=32 workers_started=4 max_workers=4 loads=1 abi=1 calls=321 populated_releases=257 empty_releases=64"
+      ],
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        15084,
+        61
+      ],
+      "still reachable": [
+        54373,
+        269
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "possiblyLostStacks": {
+        "ALL_AVAILABLE_EXTENSION_OBJECTS": [
+          11864,
+          47
+        ],
+        "regex_automata": [
+          1660,
+          10
+        ],
+        "LazyLock<cedar_policy_core::extensions::Extensions": [
+          712,
+          2
+        ],
+        "RESERVED_IDS": [
+          288,
+          1
+        ],
+        "LazyLock<cedar_policy_core::validator::extensions::ExtensionSchemas": [
+          560,
+          1
+        ]
+      },
+      "rawSha256": "6ae5b90ddd8786e7c76b93ff3505a8a2487a0cf6f50292992148acacc52345c1"
+    },
+    {
+      "mode": "fixed",
+      "rounds": 256,
+      "exit": 0,
+      "native": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=17264",
+        "after-identity heap_in_use=13808 mapped_heap=0 peak_rss_kib=17264",
+        "after-warmup heap_in_use=201776 mapped_heap=0 peak_rss_kib=17264",
+        "after-measurement heap_in_use=227760 mapped_heap=0 peak_rss_kib=17264",
+        "PASS mode=fixed rounds=256 workers_started=4 max_workers=4 loads=1 abi=1 calls=1441 populated_releases=1153 empty_releases=288"
+      ],
+      "memcheck": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=54644",
+        "after-identity heap_in_use=0 mapped_heap=0 peak_rss_kib=62284",
+        "after-warmup heap_in_use=0 mapped_heap=0 peak_rss_kib=111784",
+        "after-measurement heap_in_use=0 mapped_heap=0 peak_rss_kib=133800",
+        "PASS mode=fixed rounds=256 workers_started=4 max_workers=4 loads=1 abi=1 calls=1441 populated_releases=1153 empty_releases=288"
+      ],
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        15084,
+        61
+      ],
+      "still reachable": [
+        54373,
+        269
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "possiblyLostStacks": {
+        "ALL_AVAILABLE_EXTENSION_OBJECTS": [
+          11864,
+          47
+        ],
+        "regex_automata": [
+          1660,
+          10
+        ],
+        "LazyLock<cedar_policy_core::extensions::Extensions": [
+          712,
+          2
+        ],
+        "RESERVED_IDS": [
+          288,
+          1
+        ],
+        "LazyLock<cedar_policy_core::validator::extensions::ExtensionSchemas": [
+          560,
+          1
+        ]
+      },
+      "rawSha256": "f4b6a415c8bde091d0fa2f58bc06cdc181e3d150587fcfe2eacb2862b72c36c4"
+    },
+    {
+      "mode": "fixed",
+      "rounds": 2048,
+      "exit": 0,
+      "native": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=17456",
+        "after-identity heap_in_use=13808 mapped_heap=0 peak_rss_kib=17456",
+        "after-warmup heap_in_use=217264 mapped_heap=0 peak_rss_kib=17456",
+        "after-measurement heap_in_use=242960 mapped_heap=0 peak_rss_kib=17456",
+        "PASS mode=fixed rounds=2048 workers_started=4 max_workers=4 loads=1 abi=1 calls=10401 populated_releases=8321 empty_releases=2080"
+      ],
+      "memcheck": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=54648",
+        "after-identity heap_in_use=0 mapped_heap=0 peak_rss_kib=62288",
+        "after-warmup heap_in_use=0 mapped_heap=0 peak_rss_kib=111788",
+        "after-measurement heap_in_use=0 mapped_heap=0 peak_rss_kib=135084",
+        "PASS mode=fixed rounds=2048 workers_started=4 max_workers=4 loads=1 abi=1 calls=10401 populated_releases=8321 empty_releases=2080"
+      ],
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        15084,
+        61
+      ],
+      "still reachable": [
+        54373,
+        269
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "possiblyLostStacks": {
+        "ALL_AVAILABLE_EXTENSION_OBJECTS": [
+          11864,
+          47
+        ],
+        "regex_automata": [
+          1660,
+          10
+        ],
+        "LazyLock<cedar_policy_core::extensions::Extensions": [
+          712,
+          2
+        ],
+        "RESERVED_IDS": [
+          288,
+          1
+        ],
+        "LazyLock<cedar_policy_core::validator::extensions::ExtensionSchemas": [
+          560,
+          1
+        ]
+      },
+      "rawSha256": "fbd34c7ba2153f9e0b288b9bbd56fc1ecd2572650d8e6c5f6dcd3b33ff73ce58"
+    },
+    {
+      "mode": "churn",
+      "rounds": 8,
+      "exit": 0,
+      "native": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=17456",
+        "after-identity heap_in_use=13808 mapped_heap=0 peak_rss_kib=17456",
+        "after-warmup heap_in_use=217424 mapped_heap=0 peak_rss_kib=17456",
+        "after-measurement heap_in_use=238288 mapped_heap=0 peak_rss_kib=17456",
+        "PASS mode=churn rounds=8 workers_started=8 max_workers=2 loads=1 abi=1 calls=201 populated_releases=161 empty_releases=40"
+      ],
+      "memcheck": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=54584",
+        "after-identity heap_in_use=0 mapped_heap=0 peak_rss_kib=62280",
+        "after-warmup heap_in_use=0 mapped_heap=0 peak_rss_kib=111776",
+        "after-measurement heap_in_use=0 mapped_heap=0 peak_rss_kib=123040",
+        "PASS mode=churn rounds=8 workers_started=8 max_workers=2 loads=1 abi=1 calls=201 populated_releases=161 empty_releases=40"
+      ],
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        15084,
+        61
+      ],
+      "still reachable": [
+        54373,
+        269
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "possiblyLostStacks": {
+        "ALL_AVAILABLE_EXTENSION_OBJECTS": [
+          11864,
+          47
+        ],
+        "regex_automata": [
+          1660,
+          10
+        ],
+        "LazyLock<cedar_policy_core::extensions::Extensions": [
+          712,
+          2
+        ],
+        "RESERVED_IDS": [
+          288,
+          1
+        ],
+        "LazyLock<cedar_policy_core::validator::extensions::ExtensionSchemas": [
+          560,
+          1
+        ]
+      },
+      "rawSha256": "14a0ad6b8d6111d7cc87729d16550a7d2728868f9e4388f6343e542fd4eb934f"
+    },
+    {
+      "mode": "churn",
+      "rounds": 64,
+      "exit": 0,
+      "native": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=17768",
+        "after-identity heap_in_use=13808 mapped_heap=0 peak_rss_kib=17768",
+        "after-warmup heap_in_use=208160 mapped_heap=0 peak_rss_kib=17768",
+        "after-measurement heap_in_use=229024 mapped_heap=0 peak_rss_kib=17768",
+        "PASS mode=churn rounds=64 workers_started=64 max_workers=2 loads=1 abi=1 calls=481 populated_releases=385 empty_releases=96"
+      ],
+      "memcheck": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=54648",
+        "after-identity heap_in_use=0 mapped_heap=0 peak_rss_kib=62288",
+        "after-warmup heap_in_use=0 mapped_heap=0 peak_rss_kib=111784",
+        "after-measurement heap_in_use=0 mapped_heap=0 peak_rss_kib=123048",
+        "PASS mode=churn rounds=64 workers_started=64 max_workers=2 loads=1 abi=1 calls=481 populated_releases=385 empty_releases=96"
+      ],
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        15084,
+        61
+      ],
+      "still reachable": [
+        54373,
+        269
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "possiblyLostStacks": {
+        "ALL_AVAILABLE_EXTENSION_OBJECTS": [
+          11864,
+          47
+        ],
+        "regex_automata": [
+          1660,
+          10
+        ],
+        "LazyLock<cedar_policy_core::extensions::Extensions": [
+          712,
+          2
+        ],
+        "RESERVED_IDS": [
+          288,
+          1
+        ],
+        "LazyLock<cedar_policy_core::validator::extensions::ExtensionSchemas": [
+          560,
+          1
+        ]
+      },
+      "rawSha256": "7c4e5d76469cb20654b7b53669aaa6c19c0585d8e3ec1b2134fff8c626bec000"
+    },
+    {
+      "mode": "churn",
+      "rounds": 256,
+      "exit": 0,
+      "native": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=17768",
+        "after-identity heap_in_use=13808 mapped_heap=0 peak_rss_kib=17768",
+        "after-warmup heap_in_use=204288 mapped_heap=0 peak_rss_kib=17768",
+        "after-measurement heap_in_use=225120 mapped_heap=0 peak_rss_kib=17768",
+        "PASS mode=churn rounds=256 workers_started=256 max_workers=2 loads=1 abi=1 calls=1441 populated_releases=1153 empty_releases=288"
+      ],
+      "memcheck": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=54644",
+        "after-identity heap_in_use=0 mapped_heap=0 peak_rss_kib=62284",
+        "after-warmup heap_in_use=0 mapped_heap=0 peak_rss_kib=111776",
+        "after-measurement heap_in_use=0 mapped_heap=0 peak_rss_kib=123424",
+        "PASS mode=churn rounds=256 workers_started=256 max_workers=2 loads=1 abi=1 calls=1441 populated_releases=1153 empty_releases=288"
+      ],
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        15084,
+        61
+      ],
+      "still reachable": [
+        54373,
+        269
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "possiblyLostStacks": {
+        "ALL_AVAILABLE_EXTENSION_OBJECTS": [
+          11864,
+          47
+        ],
+        "regex_automata": [
+          1660,
+          10
+        ],
+        "LazyLock<cedar_policy_core::extensions::Extensions": [
+          712,
+          2
+        ],
+        "RESERVED_IDS": [
+          288,
+          1
+        ],
+        "LazyLock<cedar_policy_core::validator::extensions::ExtensionSchemas": [
+          560,
+          1
+        ]
+      },
+      "rawSha256": "b5f5af68fbe12112eb8aeb911bc13f3863a5f132947691a5e71d6abd91eba1db"
+    },
+    {
+      "mode": "churn",
+      "rounds": 1024,
+      "exit": 0,
+      "native": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=17768",
+        "after-identity heap_in_use=13808 mapped_heap=0 peak_rss_kib=17768",
+        "after-warmup heap_in_use=202240 mapped_heap=0 peak_rss_kib=17768",
+        "after-measurement heap_in_use=223168 mapped_heap=0 peak_rss_kib=17768",
+        "PASS mode=churn rounds=1024 workers_started=1024 max_workers=2 loads=1 abi=1 calls=5281 populated_releases=4225 empty_releases=1056"
+      ],
+      "memcheck": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=54644",
+        "after-identity heap_in_use=0 mapped_heap=0 peak_rss_kib=62164",
+        "after-warmup heap_in_use=0 mapped_heap=0 peak_rss_kib=111804",
+        "after-measurement heap_in_use=0 mapped_heap=0 peak_rss_kib=125500",
+        "PASS mode=churn rounds=1024 workers_started=1024 max_workers=2 loads=1 abi=1 calls=5281 populated_releases=4225 empty_releases=1056"
+      ],
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        15084,
+        61
+      ],
+      "still reachable": [
+        54373,
+        269
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "possiblyLostStacks": {
+        "ALL_AVAILABLE_EXTENSION_OBJECTS": [
+          11864,
+          47
+        ],
+        "regex_automata": [
+          1660,
+          10
+        ],
+        "LazyLock<cedar_policy_core::extensions::Extensions": [
+          712,
+          2
+        ],
+        "RESERVED_IDS": [
+          288,
+          1
+        ],
+        "LazyLock<cedar_policy_core::validator::extensions::ExtensionSchemas": [
+          560,
+          1
+        ]
+      },
+      "rawSha256": "da426b1a017101bc789195e821a18085c1db89a4d7396ee835a510d134cf707e"
+    },
+    {
+      "mode": "unload",
+      "rounds": 32,
+      "exit": 97,
+      "native": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=17768",
+        "after-identity heap_in_use=13808 mapped_heap=0 peak_rss_kib=17768",
+        "after-warmup heap_in_use=205440 mapped_heap=0 peak_rss_kib=17768",
+        "after-measurement heap_in_use=213296 mapped_heap=0 peak_rss_kib=17768",
+        "PASS mode=unload rounds=32 workers_started=0 max_workers=0 loads=1 abi=1 calls=321 populated_releases=257 empty_releases=64"
+      ],
+      "memcheck": [
+        "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=54648",
+        "after-identity heap_in_use=0 mapped_heap=0 peak_rss_kib=62288",
+        "after-warmup heap_in_use=0 mapped_heap=0 peak_rss_kib=111792",
+        "after-measurement heap_in_use=0 mapped_heap=0 peak_rss_kib=112816",
+        "PASS mode=unload rounds=32 workers_started=0 max_workers=0 loads=1 abi=1 calls=321 populated_releases=257 empty_releases=64"
+      ],
+      "definitely lost": [
+        5276,
+        16
+      ],
+      "indirectly lost": [
+        46158,
+        201
+      ],
+      "possibly lost": [
+        0,
+        0
+      ],
+      "still reachable": [
+        152,
+        1
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 172,
+      "possiblyLostStacks": {},
+      "rawSha256": "0c6840be2350b087a48ed4efd078c401cbcee4d39cfab1dff32e281d3a999958"
+    }
+  ],
+  "archivedUnload": {
+    "rawSha256": "0b6f4a3910375cb54c056ad6dbc16e614df9d3a9f420d7734d59a7139ddd7bf3",
+    "summaryLines": [
+      "==15993==    definitely lost: 3,460 bytes in 12 blocks",
+      "==15993==    indirectly lost: 39,456 bytes in 149 blocks",
+      "==15993== ERROR SUMMARY: 121 errors from 121 contexts (suppressed: 0 from 0)"
+    ]
+  }
+}

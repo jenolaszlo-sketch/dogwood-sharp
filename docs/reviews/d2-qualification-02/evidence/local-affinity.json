@@ -1,0 +1,26 @@
+{
+  "environment": [
+    "Unrestricted processors: 18; restricted mask: 0,1,2,3; restricted processors: 4"
+  ],
+  "workload": [
+    "before-open heap_in_use=0 mapped_heap=0 peak_rss_kib=54532",
+    "after-identity heap_in_use=0 mapped_heap=0 peak_rss_kib=62252",
+    "after-warmup heap_in_use=0 mapped_heap=0 peak_rss_kib=111432",
+    "after-measurement heap_in_use=0 mapped_heap=0 peak_rss_kib=118488",
+    "PASS mode=churn rounds=64 workers_started=64 max_workers=2 loads=1 abi=1 calls=481 populated_releases=385 empty_releases=96"
+  ],
+  "memcheck": [
+    "LEAK SUMMARY:",
+    "==452==    definitely lost: 0 bytes in 0 blocks",
+    "==452==    indirectly lost: 0 bytes in 0 blocks",
+    "==452==      possibly lost: 15,084 bytes in 61 blocks",
+    "==452==    still reachable: 54,079 bytes in 269 blocks",
+    "==452==         suppressed: 0 bytes in 0 blocks",
+    "==452== ",
+    "==452== For lists of detected and suppressed errors, rerun with: -s",
+    "==452== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)"
+  ],
+  "regexPossibleBytes": 1660,
+  "regexPossibleBlocks": 10,
+  "rawSha256": "c02bc0f863563c682c3dc53c2c866399f0a1ccad166ea8d5ad81513c30c1c34a"
+}

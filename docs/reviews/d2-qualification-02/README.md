@@ -71,6 +71,12 @@ The hosted matrix was dispatched on the qualification harness revision
 `b33d704f3ab01da8770d0a50ee99b32e5ac6987b`. It uses a separate worktree at
 the commissioned production revision.
 [Qualification CI run 44333575005](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44333575005).
+GitHub cancelled the original macOS job before it acquired a hosted
+runner. Its annotations report macOS Arm64 capacity constraints, and
+the cancelled job ran zero checks. An isolated macOS follow-up used
+the same qualification and production revisions.
+[Cancelled job](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44333575005/job/134904097200),
+[macOS follow-up run 44336764662](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44336764662).
 
 ## Schema completeness and warning projection
 
@@ -152,14 +158,40 @@ through 1,024 completed workers, the possible-loss and still-reachable
 totals were constant at 19,732 and 99,243 bytes. The possible-loss
 increase at the earlier samples is in regex cache stack families.
 
-Pinned `regex-automata` 0.4.18 uses a fast-path owner and eight cache
-stacks. Worker IDs select a stack by modulo and the acquisition path only
-allocates a cache on an empty stack. The guard returns reusable caches
-to a stack. This accounts for caches acquired as new workers visit the
-stacks and is consistent with the observed plateau. It does not attribute
-the growth to unreleased response buffers. Direct native heap and peak
-RSS are recorded separately. No custom Memcheck suppressions were used.
-The results characterize these measured workloads and worker bounds.
+Pinned `regex-automata` 0.4.18's meta regex creates a fast-path owner and a
+default number of cache stacks based on the process's available parallelism.
+The fallback is eight when the parallelism query fails. Worker IDs select a
+stack by modulo. Empty stacks acquire reusable caches, and guards return
+them. Contention can also allocate a transient cache.
+
+The unrestricted WSL process had 18 available CPUs. At its plateau it had
+6,308 possibly lost bytes in regex cache stacks, alongside 13,424 bytes in
+the fixed Cedar families. Restricting the same local image and 64-worker
+test to four CPUs reproduced the hosted 15,084-byte possible-loss total,
+including 1,660 regex bytes and the same Cedar families. Both environments
+showed flat retained totals across their largest churn samples. This
+observes the effect of the pool's startup size and reuse independently of
+buffer ownership. Direct native heap and peak RSS are recorded separately.
+Memcheck used no custom suppressions. These results characterize the
+measured workloads and worker bounds.
+[CPU-affinity control](evidence/local-affinity.json).
+
+Hosted Linux confirmed the following totals. Each supported run had zero
+definite or indirect loss, zero Memcheck errors and all buffer-release
+assertions passed.
+
+| Supported workload | Post-warm-up rounds | Possibly lost bytes | Still-reachable bytes |
+| --- | --- | ---: | ---: |
+| Sequential | 32, 256, 2,048 | 13,756 at every size | 41,725 at every size |
+| Four fixed workers | 32, 256, 2,048 | 15,084 at every size | 54,373 at every size |
+| Churn with at most two live workers | 8, 64, 256, 1,024 | 15,084 at every size | 54,373 at every size |
+
+The archived unsupported unload reproduced 3,460 definite and 39,456
+indirect bytes. The new independent unload control used a different
+schema and had 5,276 definite and 46,158 indirect bytes on the hosted
+runner, after all 321 release checks passed. These unload diagnostics
+are outside the approved process-lifetime contract.
+[Hosted Linux memory evidence](evidence/ci-linux-memory.json).
 
 The documented process-lifetime contract is consistent across the managed
 API, native ABI, owner decision, security and roadmap records. The host
