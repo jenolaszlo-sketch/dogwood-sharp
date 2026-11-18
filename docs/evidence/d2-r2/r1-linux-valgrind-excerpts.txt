@@ -1,0 +1,138 @@
+R1 producer image from GitHub Actions run 44245964368.
+7ede463d8426658e4b59eeea7652cc2089340bff3d98bf0f0c2ac52dbbfa2641  /var/tmp/dogwood-r2-linux.fD0pOW/root/bridge.so
+valgrind-3.22.0
+
+=== loader-only ===
+INDEPENDENT OWNERSHIP ASSERTIONS PASS control=loader-only calls=0
+    in use at exit: 0 bytes in 0 blocks
+ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+=== parse-unload ===
+INDEPENDENT OWNERSHIP ASSERTIONS PASS control=parse-unload calls=32
+    in use at exit: 152 bytes in 1 blocks
+   definitely lost: 0 bytes in 0 blocks
+   indirectly lost: 0 bytes in 0 blocks
+     possibly lost: 0 bytes in 0 blocks
+   still reachable: 152 bytes in 1 blocks
+        suppressed: 0 bytes in 0 blocks
+ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+152 bytes in 1 blocks are still reachable in loss record 1 of 1
+   at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+   by 0x4013BCD: malloc (rtld-malloc.h:56)
+   by 0x4013BCD: allocate_dtv_entry (dl-tls.c:679)
+   by 0x4013BCD: allocate_and_init (dl-tls.c:704)
+   by 0x4013BCD: tls_get_addr_tail (dl-tls.c:904)
+   by 0x401784B: __tls_get_addr (tls_get_addr.S:55)
+   by 0x57F68C8: stacker::remaining_stack (in /bridge.so)
+   by 0x53EF391: <pest::parser_state::CallLimitTracker>::enter (in /bridge.so)
+   by 0x52B6EAD: pest::parser_state::state::<dogwood_language::event_schema::parse::Rule, <dogwood_language::event_schema::parse::EventSchemaParser as pest::parser::Parser<dogwood_language::event_schema::parse::Rule>>::parse::{closure#0}> (in /bridge.so)
+   by 0x524D789: dogwood_language::event_schema::parse::parse_event_schema (in /bridge.so)
+   by 0x51E205C: <dogwood_language::service_schema::ServiceSchemaBuilder>::build (in /bridge.so)
+   by 0x51E0973: <dogwood_language::service_schema::ServiceSchema>::defaults (in /bridge.so)
+   by 0x51B5414: dogwoodsharp_call_v1 (in /bridge.so)
+   by 0x10967E: main (in /ownership)
+
+=== resident ===
+INDEPENDENT OWNERSHIP ASSERTIONS PASS control=resident calls=128
+    in use at exit: 46,651 bytes in 170 blocks
+   definitely lost: 0 bytes in 0 blocks
+   indirectly lost: 0 bytes in 0 blocks
+     possibly lost: 13,136 bytes in 50 blocks
+   still reachable: 33,515 bytes in 120 blocks
+        suppressed: 0 bytes in 0 blocks
+ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+40 bytes in 1 blocks are still reachable in loss record 7 of 130
+   at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+   by 0x57E1871: <cedar_policy_core::ast::name::InternalName>::parse_unqualified_name (in /bridge.so)
+   by 0x57E51FA: <cedar_policy_core::ast::name::Name>::parse_unqualified_name (in /bridge.so)
+   by 0x55FB51F: <cedar_policy_core::extensions::ipaddr::names::EXTENSION_NAME::{closure#0} as core::ops::function::FnOnce<()>>::call_once (in /bridge.so)
+   by 0x57DF931: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<cedar_policy_core::ast::name::Name>>::force::{closure#0}>::{closure#0} (in /bridge.so)
+   by 0x58DB928: <std::sys::sync::once::futex::Once>::call (in /bridge.so)
+   by 0x57E8083: cedar_policy_core::extensions::ipaddr::extension (in /bridge.so)
+   by 0x576B08B: <cedar_policy_core::extensions::ALL_AVAILABLE_EXTENSION_OBJECTS::{closure#0} as core::ops::function::FnOnce<()>>::call_once (in /bridge.so)
+   by 0x575C173: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<alloc::vec::Vec<cedar_policy_core::ast::extension::Extension>>>::force::{closure#0}>::{closure#0} (in /bridge.so)
+   by 0x58DB928: <std::sys::sync::once::futex::Once>::call (in /bridge.so)
+   by 0x575D247: <cedar_policy_core::extensions::Extensions>::build_all_available (in /bridge.so)
+   by 0x575C1C1: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<cedar_policy_core::extensions::Extensions>>::force::{closure#0}>::{closure#0} (in /bridge.so)
+
+40 bytes in 1 blocks are still reachable in loss record 7 of 130
+   at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+   by 0x57E1871: <cedar_policy_core::ast::name::InternalName>::parse_unqualified_name (in /bridge.so)
+   by 0x57E51FA: <cedar_policy_core::ast::name::Name>::parse_unqualified_name (in /bridge.so)
+   by 0x55FB51F: <cedar_policy_core::extensions::ipaddr::names::EXTENSION_NAME::{closure#0} as core::ops::function::FnOnce<()>>::call_once (in /bridge.so)
+   by 0x57DF931: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<cedar_policy_core::ast::name::Name>>::force::{closure#0}>::{closure#0} (in /bridge.so)
+   by 0x58DB928: <std::sys::sync::once::futex::Once>::call (in /bridge.so)
+   by 0x57E8083: cedar_policy_core::extensions::ipaddr::extension (in /bridge.so)
+   by 0x576B08B: <cedar_policy_core::extensions::ALL_AVAILABLE_EXTENSION_OBJECTS::{closure#0} as core::ops::function::FnOnce<()>>::call_once (in /bridge.so)
+   by 0x575C173: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<alloc::vec::Vec<cedar_policy_core::ast::extension::Extension>>>::force::{closure#0}>::{closure#0} (in /bridge.so)
+   by 0x58DB928: <std::sys::sync::once::futex::Once>::call (in /bridge.so)
+   by 0x575D247: <cedar_policy_core::extensions::Extensions>::build_all_available (in /bridge.so)
+   by 0x575C1C1: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<cedar_policy_core::extensions::Extensions>>::force::{closure#0}>::{closure#0} (in /bridge.so)
+
+24 bytes in 1 blocks are still reachable in loss record 3 of 130
+   at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+   by 0x5613726: cedar_policy_core::parser::text_to_cst::parse_name (in /bridge.so)
+   by 0x57F4122: <cedar_policy_core::ast::name::Name as core::str::traits::FromStr>::from_str (in /bridge.so)
+   by 0x56151CA: cedar_policy_core::validator::extensions::datetime::extension_schema (in /bridge.so)
+   by 0x54AAC9F: <cedar_policy_core::validator::extensions::ALL_AVAILABLE_EXTENSION_SCHEMA_OBJECTS::{closure#0} as core::ops::function::FnOnce<()>>::call_once (in /bridge.so)
+   by 0x5481093: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<alloc::vec::Vec<cedar_policy_core::validator::extension_schema::ExtensionSchema>>>::force::{closure#0}>::{closure#0} (in /bridge.so)
+   by 0x58DB928: <std::sys::sync::once::futex::Once>::call (in /bridge.so)
+   by 0x5481B9C: <cedar_policy_core::validator::extensions::ExtensionSchemas>::build_all_available (in /bridge.so)
+   by 0x54810E3: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<cedar_policy_core::validator::extensions::ExtensionSchemas>>::force::{closure#0}>::{closure#0} (in /bridge.so)
+   by 0x58DB928: <std::sys::sync::once::futex::Once>::call (in /bridge.so)
+   by 0x578F77C: <cedar_policy_core::validator::Validator>::validate_policy (in /bridge.so)
+   by 0x54DACAC: <(alloc::vec::Vec<core::iter::adapters::chain::Chain<core::iter::adapters::flatten::Flatten<core::option::IntoIter<core::iter::adapters::chain::Chain<core::iter::adapters::chain::Chain<core::iter::adapters::chain::Chain<core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::iter::adapters::chain::Chain<core::iter […]
+
+=== mixed-unload ===
+INDEPENDENT OWNERSHIP ASSERTIONS PASS control=mixed-unload calls=128
+    in use at exit: 43,068 bytes in 162 blocks
+   definitely lost: 3,460 bytes in 12 blocks
+   indirectly lost: 39,456 bytes in 149 blocks
+     possibly lost: 0 bytes in 0 blocks
+   still reachable: 152 bytes in 1 blocks
+        suppressed: 0 bytes in 0 blocks
+ERROR SUMMARY: 120 errors from 120 contexts (suppressed: 0 from 0)
+
+36 bytes in 1 blocks are definitely lost in loss record 2 of 121
+   at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+   by 0x57803A3: <lalrpop_util::lexer::MatcherBuilder>::new::<&str, core::iter::adapters::copied::Copied<core::slice::iter::Iter<(&str, bool)>>> (in /bridge.so)
+   by 0x563AAE5: <cedar_policy_core::validator::cedar_schema::parser::grammar::__parse__Schema::SchemaParser>::new (in /bridge.so)
+   by 0x5481159: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<cedar_policy_core::validator::cedar_schema::parser::grammar::__parse__Schema::SchemaParser>>::force::{closure#0}>::{closure#0} (in /bridge.so)
+   by 0x58DB928: <std::sys::sync::once::futex::Once>::call (in /bridge.so)
+   by 0x568B778: <cedar_policy_core::validator::json_schema::Fragment<cedar_policy_core::validator::schema::raw_name::RawName>>::from_cedarschema_str (in /bridge.so)
+   by 0x525F6D9: dogwood_language::event_schema::derive::derive (in /bridge.so)
+   by 0x51E1520: <dogwood_language::api::Base>::derive (in /bridge.so)
+   by 0x51E50E5: dogwood_language::api::lower (in /bridge.so)
+   by 0x51E1434: <dogwood_language::policy_set::ParsedPolicySet>::lower (in /bridge.so)
+   by 0x51A1136: dogwoodsharp_bridge::d2::run (in /bridge.so)
+   by 0x51B458A: dogwoodsharp_call_v1 (in /bridge.so)
+
+52 bytes in 1 blocks are definitely lost in loss record 28 of 121
+   at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+   by 0x57803A3: <lalrpop_util::lexer::MatcherBuilder>::new::<&str, core::iter::adapters::copied::Copied<core::slice::iter::Iter<(&str, bool)>>> (in /bridge.so)
+   by 0x559C875: <cedar_policy_core::parser::text_to_cst::grammar::__parse__Name::NameParser>::new (in /bridge.so)
+   by 0x560F5B9: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<cedar_policy_core::parser::text_to_cst::grammar::__parse__Ref::RefParser>>::force::{closure#0}>::{closure#0} (in /bridge.so)
+   by 0x58DB928: <std::sys::sync::once::futex::Once>::call (in /bridge.so)
+   by 0x5613B8B: cedar_policy_core::parser::text_to_cst::parse_name (in /bridge.so)
+   by 0x57F4122: <cedar_policy_core::ast::name::Name as core::str::traits::FromStr>::from_str (in /bridge.so)
+   by 0x56151CA: cedar_policy_core::validator::extensions::datetime::extension_schema (in /bridge.so)
+   by 0x54AAC9F: <cedar_policy_core::validator::extensions::ALL_AVAILABLE_EXTENSION_SCHEMA_OBJECTS::{closure#0} as core::ops::function::FnOnce<()>>::call_once (in /bridge.so)
+   by 0x5481093: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<alloc::vec::Vec<cedar_policy_core::validator::extension_schema::ExtensionSchema>>>::force::{closure#0}>::{closure#0} (in /bridge.so)
+   by 0x58DB928: <std::sys::sync::once::futex::Once>::call (in /bridge.so)
+   by 0x5481B9C: <cedar_policy_core::validator::extensions::ExtensionSchemas>::build_all_available (in /bridge.so)
+
+40 bytes in 1 blocks are indirectly lost in loss record 3 of 121
+   at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+   by 0x57E1871: <cedar_policy_core::ast::name::InternalName>::parse_unqualified_name (in /bridge.so)
+   by 0x57E51FA: <cedar_policy_core::ast::name::Name>::parse_unqualified_name (in /bridge.so)
+   by 0x55FB51F: <cedar_policy_core::extensions::ipaddr::names::EXTENSION_NAME::{closure#0} as core::ops::function::FnOnce<()>>::call_once (in /bridge.so)
+   by 0x57DF931: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<cedar_policy_core::ast::name::Name>>::force::{closure#0}>::{closure#0} (in /bridge.so)
+   by 0x58DB928: <std::sys::sync::once::futex::Once>::call (in /bridge.so)
+   by 0x57E8083: cedar_policy_core::extensions::ipaddr::extension (in /bridge.so)
+   by 0x576B08B: <cedar_policy_core::extensions::ALL_AVAILABLE_EXTENSION_OBJECTS::{closure#0} as core::ops::function::FnOnce<()>>::call_once (in /bridge.so)
+   by 0x575C173: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<alloc::vec::Vec<cedar_policy_core::ast::extension::Extension>>>::force::{closure#0}>::{closure#0} (in /bridge.so)
+   by 0x58DB928: <std::sys::sync::once::futex::Once>::call (in /bridge.so)
+   by 0x575D247: <cedar_policy_core::extensions::Extensions>::build_all_available (in /bridge.so)
+   by 0x575C1C1: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<cedar_policy_core::extensions::Extensions>>::force::{closure#0}>::{closure#0} (in /bridge.so)

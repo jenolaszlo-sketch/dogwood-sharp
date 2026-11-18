@@ -1,0 +1,74 @@
+=== concurrent-256 ===
+before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=7488
+after-load-and-identity heap_in_use_bytes=13504 mmap_bytes=0 max_rss_kib=7488
+after-first-mixed-iteration heap_in_use_bytes=163136 mmap_bytes=0 max_rss_kib=10380
+after-warmup heap_in_use_bytes=205648 mmap_bytes=0 max_rss_kib=10380
+after-workload heap_in_use_bytes=235104 mmap_bytes=0 max_rss_kib=11532
+RESIDENT PASS mode=concurrent loads=1 identity=1 warmup=32 iterations=256 calls=1441 allocated_responses=1153 release_checks=1441
+LEAK SUMMARY:
+   definitely lost: 0 bytes in 0 blocks
+   indirectly lost: 0 bytes in 0 blocks
+     possibly lost: 15,084 bytes in 61 blocks
+   still reachable: 58,637 bytes in 284 blocks
+        suppressed: 0 bytes in 0 blocks
+ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+=== concurrent-32 ===
+before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=7056
+after-load-and-identity heap_in_use_bytes=13504 mmap_bytes=0 max_rss_kib=7056
+after-first-mixed-iteration heap_in_use_bytes=164640 mmap_bytes=0 max_rss_kib=10384
+after-warmup heap_in_use_bytes=196816 mmap_bytes=0 max_rss_kib=10384
+after-workload heap_in_use_bytes=226288 mmap_bytes=0 max_rss_kib=11536
+RESIDENT PASS mode=concurrent loads=1 identity=1 warmup=32 iterations=32 calls=321 allocated_responses=257 release_checks=321
+LEAK SUMMARY:
+   definitely lost: 0 bytes in 0 blocks
+   indirectly lost: 0 bytes in 0 blocks
+     possibly lost: 15,084 bytes in 61 blocks
+   still reachable: 58,637 bytes in 284 blocks
+        suppressed: 0 bytes in 0 blocks
+ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+=== sequential-2048 ===
+before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=7056
+after-load-and-identity heap_in_use_bytes=13504 mmap_bytes=0 max_rss_kib=7056
+after-first-mixed-iteration heap_in_use_bytes=164528 mmap_bytes=0 max_rss_kib=10380
+after-warmup heap_in_use_bytes=197792 mmap_bytes=0 max_rss_kib=10380
+after-workload heap_in_use_bytes=230976 mmap_bytes=0 max_rss_kib=10380
+RESIDENT PASS mode=sequential loads=1 identity=1 warmup=32 iterations=2048 calls=10401 allocated_responses=8321 release_checks=10401
+LEAK SUMMARY:
+   definitely lost: 0 bytes in 0 blocks
+   indirectly lost: 0 bytes in 0 blocks
+     possibly lost: 13,756 bytes in 53 blocks
+   still reachable: 43,045 bytes in 176 blocks
+        suppressed: 0 bytes in 0 blocks
+ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+=== sequential-256 ===
+before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=7200
+after-load-and-identity heap_in_use_bytes=13504 mmap_bytes=0 max_rss_kib=7200
+after-first-mixed-iteration heap_in_use_bytes=163200 mmap_bytes=0 max_rss_kib=10380
+after-warmup heap_in_use_bytes=198528 mmap_bytes=0 max_rss_kib=10380
+after-workload heap_in_use_bytes=214224 mmap_bytes=0 max_rss_kib=10380
+RESIDENT PASS mode=sequential loads=1 identity=1 warmup=32 iterations=256 calls=1441 allocated_responses=1153 release_checks=1441
+LEAK SUMMARY:
+   definitely lost: 0 bytes in 0 blocks
+   indirectly lost: 0 bytes in 0 blocks
+     possibly lost: 13,756 bytes in 53 blocks
+   still reachable: 43,045 bytes in 176 blocks
+        suppressed: 0 bytes in 0 blocks
+ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+=== sequential-32 ===
+before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=7200
+after-load-and-identity heap_in_use_bytes=13504 mmap_bytes=0 max_rss_kib=7200
+after-first-mixed-iteration heap_in_use_bytes=163008 mmap_bytes=0 max_rss_kib=10380
+after-warmup heap_in_use_bytes=196032 mmap_bytes=0 max_rss_kib=10380
+after-workload heap_in_use_bytes=206480 mmap_bytes=0 max_rss_kib=10380
+RESIDENT PASS mode=sequential loads=1 identity=1 warmup=32 iterations=32 calls=321 allocated_responses=257 release_checks=321
+LEAK SUMMARY:
+   definitely lost: 0 bytes in 0 blocks
+   indirectly lost: 0 bytes in 0 blocks
+     possibly lost: 13,756 bytes in 53 blocks
+   still reachable: 43,045 bytes in 176 blocks
+        suppressed: 0 bytes in 0 blocks
+ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
