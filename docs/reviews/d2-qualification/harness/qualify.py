@@ -237,6 +237,7 @@ def main():
             inspection_expected.append({"bodies": [bodies[rule_id] for rule_id in upstream["emissionOrder"]],
                                         "validWithBothSchemas": True})
         evidence.append({"case": case, "intent": test["expect"], "upstreamStage": upstream["terminal"],
+                         "upstreamValidated": upstream["terminal"] == "validate" and not upstream["errors"],
                          "generated": upstream.get("fields", []), "validated": actual[3]["validationPassed"],
                          "exported": actual[3]["artifactsExported"], "collision": actual[3]["collision"],
                          "diagnosticRanges": projected_findings(actual[3]["parseDiagnostics"] + actual[3]["validationErrors"]),

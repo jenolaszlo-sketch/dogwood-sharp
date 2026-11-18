@@ -147,7 +147,7 @@ try {
                 $payload = Join-Path $out "$test.bin"
                 [IO.File]::WriteAllBytes($payload, $transportData[$test])
                 $env:D2Q_REPLY = $payload
-                dotnet "$fake/Consumer.dll" transport $test | Tee-Object -FilePath "$out/transport-$framework.log"
+                dotnet "$fake/Consumer.dll" transport $test | Tee-Object -FilePath "$out/transport-$framework.log" -Append
             }
         }
         finally {

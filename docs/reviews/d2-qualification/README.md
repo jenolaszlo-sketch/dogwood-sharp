@@ -27,9 +27,40 @@ a Cedar Core edge from the bridge to the already locked package.
 ## Progress
 
 - [x] Repository and producer CI preflight
-- [ ] Reproduce producer verification and D1 consumer regressions
-- [ ] Independent conformance, collision and exact-bundle checks
-- [ ] Managed response trust boundary and immutable snapshots
-- [ ] Native resource limits, concurrent ownership and sensitivity controls
+- [x] Reproduce producer verification and D1 consumer regressions on Windows
+- [x] Validate the independent corpus, collision and exact-bundle checks locally
+- [x] Exercise the managed response boundary and immutable snapshots locally
+- [x] Exercise native resource ceilings, concurrency and sensitivity controls locally
 - [ ] Complete the three-RID, two-framework qualification matrix
 - [ ] Record findings, evidence hashes and owner recommendations
+
+## Reproduction
+
+Start with a clean qualification checkout based on the commissioned production
+tree. Use the pinned Rust and .NET toolchains, Python 3.11 or later, PowerShell
+7, and a C compiler. Configure MSVC and the Windows SDK on Windows. Install
+Valgrind on Linux. The run assembles reproducible local evidence under the
+ignored `artifacts/d2-qualification/<rid>/` directory.
+
+```powershell
+./docs/reviews/d2-qualification/run.ps1 -RuntimeIdentifier win-x64
+```
+
+Use `linux-x64` or `osx-arm64` on the corresponding host. For a local rerun,
+`-UseExistingProducerAssets` reuses the freshly verified producer image and
+managed assemblies. Qualification CI runs the full regression and harness
+sequence with a read-only workflow token.
+
+`harness/corpus.py` contains independently authored requests and intended
+outcomes. The Rust oracle derives concrete target actions and field names,
+inspects typed original and augmented contexts, and uses Cedar to reparse and
+validate exports in both schema formats. The Python consumer compares both C
+ABI operations with the oracle and the R1 restrictions. The public managed
+consumer runs the same qualified cases under JIT and NativeAOT. Its JIT
+decoder mode probes the real response reader, and an isolated native
+substitute checks UTF-8, JSON, and response-size rejection at the transport.
+
+The sensitivity checks alter disposable copies of observed replies. The
+independent comparator must detect each injected fault. The qualification
+workflow never mutates production code. The managed boundary evidence reports
+the observed outcome of the partial-schema case explicitly. See [findings](findings.md).
