@@ -48,13 +48,13 @@ DogwoodLoweredPolicySet lowered = Dogwood.Lower(
 
 Operations 2 and 3 of the [native ABI](architecture/native-interop.md#d2-operations)
 use the R1 wire contract. Use matching native and managed components for D2.
-A D1-only native asset reports unknown operation (status 3). A pre-R1 D2
-reply does not satisfy the R1 managed response checks.
+A D1-only native asset reports unknown operation (status 3). The R1 managed
+response checks reject replies from pre-R1 D2 assets.
 
 `DogwoodSchema` contains the Cedar action schema and optional event schema,
 macro library and distincter. Both operations use the same distincter for the
-actual lowering they validate. A distincter namespaces the generated IDs; it
-does not waive collision checks against the original action schema.
+actual lowering they validate. Both check the generated IDs against the
+original action schema even with a caller-supplied distincter.
 
 `Dogwood.MaximumSourceBytes` and `DogwoodSchema.MaximumSchemaBytes` independently
 limit decoded UTF-8 text to 1 MiB. Distincters are limited to 256 bytes and use

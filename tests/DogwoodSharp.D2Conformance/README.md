@@ -9,13 +9,17 @@ outcome of parse, lower and validate, derived from the pinned Dogwood crate by
 The differential crate never writes during verification. It re-derives every
 case from the pinned crate, checks the pinned expectation still matches
 upstream, and then compares the native bridge's exported C ABI replies for
-operations 2 (`validate`) and 3 (`lower`) against the same expectations. Cedar
-policy text and augmented schema JSON are compared structurally; diagnostic
-message text is upstream-owned and is outside the assertions.
+operations 2 (`validate`) and 3 (`lower`) against the R1 wire contract.
+It compares Cedar policy and schema text exactly and Cedar schema JSON
+structurally. Diagnostic categories and locations are compared; upstream
+diagnostic message text can vary.
 
-Managed tests read the same file and compare `Dogwood.Validate` and
-`Dogwood.Lower` against the pinned expectations on both frameworks, so the same
-fixtures cover all three runtime identifiers and both frameworks.
+The upstream `expect` for `temporal-policy-conflicting-declaration` retains the
+actual String-to-Boolean replacement. Its `wrapperCollision` annotation
+identifies the intentional wrapper rejection and is verified on both
+operations. The runner preserves upstream validation failures and verifies
+that they have no exported rules or Cedar artifacts. Managed tests run the same
+cases on both frameworks, alongside additional R1 boundary cases.
 
 Regenerate the pinned expectations only when the upstream pin changes:
 

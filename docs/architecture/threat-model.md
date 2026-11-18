@@ -17,7 +17,8 @@ outside the library's security boundary.
 | Threat / failure | Proposed contract | Owner / evidence gate |
 | --- | --- | --- |
 | No matching permit, matching forbid | Preserve default deny and forbid precedence | Library, D3/D5 differential tests |
-| Parse/lower/validation failure | Refuse session activation; explicit diagnostic | Library, D2 adversarial tests |
+| Failed parse, lowering, or validation reaches downstream authorization | Export only the exact successfully checked and validated policy/schema pair, with the distincter used for lowering | Library, D2 differential and managed tests |
+| Generated temporal field replaces a caller-declared field | Reject actual generated names on their upstream-resolved target actions when originally declared, regardless of attribute type or optionality | Library, DL-01 differential and D2 collision tests |
 | Evaluation errors | Preserve raw reference decision/errors; strict enforcement requires clean Allow | Library + consumer, D3 error controls |
 | Missing/malformed temporal context | Reject incomplete/wrong-typed backend result before Cedar; never default a missing binding to trusted false | Library, D5 (false can enable negated policies) |
 | Caller fabricates generated context | Reject reserved temporal IDs, generated namespaces and providers at public input boundary; construct trusted context internally | Library, D5 collision/forgery tests |

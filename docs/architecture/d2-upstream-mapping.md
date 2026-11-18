@@ -16,10 +16,12 @@ reimplemented: the bridge calls the upstream crate.
 | `PolicySchema::from_cedarschema_str(text)` | `policy_schema.rs` | Action schema from Cedar `.cedarschema` text. Not typechecked at construction; typechecking happens during lowering/validation, and over-deep text is refused as `Error::ActionSchema`. |
 | `ParsedPolicySet::parse(source, &service)` | `policy_set.rs` | Parse, unchanged from D1 (operation 1). |
 | `ParsedPolicySet::lower(&policy_schema)` | `policy_set.rs` | Lower to Cedar: mint policy ids, augment the schema with hoisted `context.<id>` fields, derive the event schema. |
-| `ParsedPolicySet::lower_with_distincter(&policy_schema, distincter)` | `policy_set.rs` | Same lowering, but namespacing synthesized ids and hoisted field names under a caller-supplied Cedar identifier so separate lowering calls cannot collide. |
+| `ParsedPolicySet::lower_with_distincter(&policy_schema, distincter)` | `policy_set.rs` | Runs lowering with a caller-selected namespace for synthesized policy IDs and generated context fields. |
 | `ParsedPolicySet::policies()` / `ParsedPolicy::expanded_source()` / `temporal_count()` / `provider_count()` | `policy_set.rs` | Per-rule source text after macro expansion and extension usage counts, for rule/source mapping. |
 | `LoweredPolicySet::as_cedar()` | `policy_set.rs` | `cedar_policy::PolicySet` of lowered policies. Rendered to Cedar text with `Display`. |
 | `LoweredPolicySet::cedar_schema_json()` / `cedar_schema_str()` | `policy_set.rs` | Augmented schema in the Cedar JSON schema form and `.cedarschema` text form. |
+| `LoweredPolicySet::nonrelativized_temporal_fields()` / `TemporalField::{id,target_actions}` | `policy_set.rs`, `api.rs` | Actual generated names and concrete actions resolved by Dogwood's augmentation scope logic. |
+| Cedar `Fragment::from_cedarschema_str` / `to_internal_name_fragment_with_resolved_types` | cedar-policy-core 4.11.0 | Inspect original context records and resolve referenced context names under Cedar's namespace rules. |
 | `LoweredPolicySet::is_self_contained_cedar()` | `policy_set.rs` | Whether the exported Cedar artifacts reproduce Dogwood semantics with no extra context (no hoisted temporal/provider leaves). |
 | `LoweredPolicySet::rules()` / `rule_ref(id)` / `DogwoodRuleRef` | `policy_set.rs` | Rule index to synthesized Cedar policy id mapping, and reverse lookup. |
 | `Validator::new().validate(&lowered)` / `ValidationResult` | `validator.rs`, `error.rs` | Schema-aware validation of the **lowered** set: Cedar findings plus Dogwood dialect findings, each carrying a span in the original `.dw` source. |
@@ -52,71 +54,36 @@ repository). These are the facts D2 must preserve:
 
 ## Mapping to DogwoodSharp
 
-### Native (ABI v1 extension, no breaking change)
+Operations 2 and 3 share a pipeline. Each constructs the service schema, parses
+the source, constructs the action-schema input, lowers with the requested
+distincter, checks generated fields, and validates that exact result. Operation
+3 exports only after those stages succeed. The [native ABI](native-interop.md#d2-operations)
+and [managed API](../managed-api.md#d2-managed-api) describe the response.
 
-Operations 0 and 1 keep their exact existing symbols, statuses and wire
-contract. Two operations are added:
+The collision check uses `nonrelativized_temporal_fields()`. The executable
+`temporal_fields()` view copies the same ID and target actions when it rewrites
+the condition for event pins. `leaf_map()` serves runtime dispatch using the
+already augmented schema. The original declarations are read from a Cedar
+fragment parsed from the caller's action schema. The checker reads inline
+record keys directly, including a key whose original type is undefined and
+would disappear in augmentation. For a referenced context it asks Cedar to
+resolve all names, then follows the qualified common-type references to the
+outer record. This uses the same Cedar version and features as Dogwood.
 
-| Operation | Upstream call | Response |
-| --- | --- | --- |
-| 2 `validate` | `ParsedPolicySet::parse` then `ParsedPolicySet::lower` then `Validator::validate` | Parse/lower/validation stage flags and structured findings |
-| 3 `lower` | `ParsedPolicySet::parse` then `ParsedPolicySet::lower_with_distincter` | Cedar policy text, augmented Cedar schema JSON, rule/source mapping |
+`TemporalField.target_actions` comes from the same upstream scope resolution
+that augmentation uses for explicit actions, action lists, action groups and
+unconstrained scopes. The checker examines each generated name only on those
+concrete actions. It compares key presence, irrespective of type or
+optionality. It reports one deterministic field and action in upstream field
+order and sorted target order. A missing original target or unresolvable
+record stops the pipeline at the collision check.
 
-Both share one request shape so a caller cannot construct an inconsistent one:
-
-```json
-{"source":"...", "policySchema":"...", "eventSchema":"...", "macros":"...", "distincter":"..."}
-```
-
-`eventSchema`, `macros` and `distincter` are optional. Operation 2 rejects a
-request that carries `distincter`, because validation does not name hoisted
-fields; silently ignoring a caller's collision-avoidance input would be worse
-than failing.
-
-Both responses carry the same stage flags so no consumer can mistake a failed
-stage for a completed one:
-
-| Field | Meaning |
-| --- | --- |
-| `parsed` | Parsing succeeded. `policyCount` and `parseDiagnostics` are meaningful only then. |
-| `lowered` | Lowering succeeded. Everything downstream is meaningful only then. |
-| `validationPassed` | Validation ran and produced no errors. Warnings never fail validation. |
-| `stageError` | null, or the fatal pipeline error naming the stage that stopped. |
-
-The stage flag values are the D1 failure values, so `parsed:false` means no
-`policyCount`, an empty `rules` array and `validationPassed:false`.
-
-### Managed
-
-| Managed API | Native operation |
-| --- | --- |
-| `Dogwood.Validate(source, schema)` → `DogwoodValidationResult` | 2 |
-| `Dogwood.Lower(source, schema)` → `DogwoodLoweredPolicySet` | 3 |
-| `DogwoodSchema( PolicySchema, EventSchema?, Macros?, Distincter? )` | request fields |
-| `DogwoodBridgeException` (existing) | unchanged failure surface |
-
-The managed layer adds no parsing, lowering or validation logic: it serializes
-the request, enforces the same argument ceilings the native bridge enforces, and
-converts the JSON reply into immutable snapshots. A distincter that is not a
-valid Cedar identifier is rejected with `ArgumentException` before any native
-call, and again natively.
-
-### Clear separation of outcomes
-
-`Dogwood.Parse` (D1) reports parsing only. `Dogwood.Validate` reports parsing,
-lowering and validation separately. `Dogwood.Lower` reports parsing and
-lowering and returns a bundle only when both succeeded. Authorization is not
-implemented and is not representable in the D2 API.
-
-## Known upstream limitation
-
-Upstream augmentation replaces a caller-declared context attribute whose name
-collides with a synthesized hoisted name (`<namespace>_<k>__temporal_<j>`), so a
-conflicting user field does not survive. This is upstream behaviour that the
-commission's invariants asked the wrapper to prevent, and the wrapper cannot
-prevent it without reimplementing lowering. It is pinned in the fixture
-`temporal-policy-conflicting-declaration` and recorded as DL-01 in
-[d2-implementation.md](../d2-implementation.md) for an owner decision.
+The pinned fixture `temporal-policy-conflicting-declaration` records Dogwood's
+replacement of a caller-supplied String with a required Boolean. Its
+`wrapperCollision` annotation records the intentional DogwoodSharp rejection.
+This boundary protects caller-declared fields without reserving a name prefix.
+R1 also suppresses all artifact export following failed validation. This is an
+export contract over unchanged upstream validation findings.
 
 ## Qualification requirements for an independent D2 reviewer
 
@@ -127,7 +94,7 @@ from the pinned crate rather than trust `lowering-v1.json`, and cover at least:
 - parser/validation failure isolation (an invalid policy never yields a validated
   bundle or authoritative artifacts);
 - augmented-schema structure, generated field types, and conflicting generated
-  fields (DL-01 above);
+  fields (DL-01);
 - rule/source identity preservation, including explicit `@id` annotations and
   generated ids;
 - native limits (schema, source, request, response) and their failure statuses;

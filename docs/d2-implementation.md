@@ -1,4 +1,31 @@
-# DOGWOOD-SHARP-D2-IMPL-01 producer report
+# DogwoodSharp D2 producer implementation
+
+## DOGWOOD-SHARP-D2-R1
+
+R1 reconciles operations 2 and 3 at ABI v1. Both validate the exact policy and
+schema produced by the same lowering, with or without a caller distincter.
+Operation 3 gates export on collision checks and successful validation. The
+original D1 ABI and identity contract remain in effect. See the
+[native wire contract](architecture/native-interop.md#d2-operations) and
+[managed result contract](managed-api.md#d2-managed-api).
+
+| Finding | R1 producer disposition |
+| --- | --- |
+| DL-01 | Remediated. Check actual upstream field IDs and target actions against the original Cedar context declarations. The known replacement remains pinned as upstream behavior and is rejected by both wrapper operations. |
+| DL-02 | Documentation corrected. Decoded per-field limits and the full encoded JSON request limit apply independently. |
+| DL-03 | Open limitation. Cedar warnings continue to carry no source span. |
+| DL-04 | Open limitation. Policy-store integration and higher-level conflict detection remain outside D2. |
+| DL-05 | Reconciled. The D2 producer runs a version-aware copy of the historical D1 controls, including positive and negative operation-2 cases. |
+
+Neither DL-01 nor DL-05 has been independently qualified. Details are in the
+[upstream mapping](architecture/d2-upstream-mapping.md), the
+[D1-on-D2 regression record](d2-r1-verification.md#d1-consumer-regression) and
+the [R1 producer verification record](d2-r1-verification.md).
+
+## DOGWOOD-SHARP-D2-IMPL-01 historical producer report
+
+The following sections record the initial D2 producer baseline and its test
+results before R1. Use the R1 contracts linked above for current behavior.
 
 D1 was accepted with qualifications and closed by the owner's acceptance record
 ([d1-acceptance.md](d1-acceptance.md)). This report covers the D2 commission
@@ -47,8 +74,9 @@ contract: [native-interop.md](architecture/native-interop.md#d2-operations).
 Limits. The D1 request ceiling and source ceiling apply unchanged. Each D2
 schema text field is bounded at 1 MiB, a distincter at 256 bytes, and the D2
 encoded response at 8 MiB (the D1 ceiling stays 2 MiB for operations 0 and 1).
-Because the whole-request ceiling still applies, a maximum-size source leaves no
-room for a schema: that combination fails as status 6 rather than truncating.
+The full JSON request must fit the unchanged encoded envelope limit. A
+maximum-size decoded source can fit alongside a schema when the encoding
+and other fields keep the envelope within its independent limit.
 
 ## Managed additions
 
@@ -81,7 +109,7 @@ empty otherwise. Authorization is not implemented and is not representable.
 | Dogwood-to-Cedar lowering | Implemented | `temporal-policy`, `inline-temporal-macro` |
 | Augmented Cedar schema export (JSON and text forms) | Implemented | `temporal-policy-conflicting-declaration` |
 | Lowered policy id and rule/source mapping | Implemented | `multiple-policies`, `annotated-policy-ids` |
-| Collision-safe lowering namespaces | Implemented (distincter) | `temporal-policy-conflicting-distincters*` |
+| Distincter-based lowering namespaces | Implemented (distincter) | `temporal-policy-conflicting-distincters*` |
 | Native AOT and JIT operation coverage | Implemented | smoke sample, managed suite |
 | Upstream differential qualification fixtures | Implemented (37 cases) | `tests/DogwoodSharp.D2Conformance/lowering-v1.json` |
 | Authorization, temporal evaluation, provider execution | Not implemented | out of scope; `provider-clause-unsupported` proves providers stay off |
@@ -115,10 +143,10 @@ message text is upstream-owned and outside the assertions.
 | ID | Severity | Limitation |
 | --- | --- | --- |
 | DL-01 | Important, documented | Upstream augmentation replaces a user-declared context attribute whose name collides with a synthesized hoisted name (`<namespace>_<k>__temporal_<j>`), so a conflicting user field does not survive. The pinned behaviour is recorded in `temporal-policy-conflicting-declaration`; the wrapper does not re-lower to avoid it. Detecting the collision and failing needs an owner decision on which semantics wins. |
-| DL-02 | Documented | The whole ABI request ceiling applies to D2 requests, so a 1 MiB source leaves no room for a schema. The combination fails as status 6 rather than truncating. |
+| DL-02 | Documented | The full encoded JSON envelope and decoded UTF-8 source have separate limits. JSON escaping and other fields affect the total encoded size. |
 | DL-03 | Documented | Cedar does not publish a validation warning's source span, so warning `location` is always null. Errors carry spans. |
 | DL-04 | Documented | The wrapper adds no higher-level conflict detection, schema comparison or policy-store integration; those need a separate commission with owner agreement. |
-| DL-05 | Important, documented | The preserved independent D1 qualification harness asserts that operation ID 2 is *unimplemented*. Three of its controls - `reject_operation_two`, `reject_operation_precedes_input` and `wire-operation-2` - expect status 3 (unknown operation) for operation 2, and now observe 5, 1 and 5 because the operation exists and rejects those bodies as envelopes. Everything else passes: 81 of 83 C ABI checks per RID, and the complete D1 differential (73 sources, 130 wire requests, 0 message mismatches, 0 wire-length mismatches, response ceiling exercised). The harness is preserved unchanged as commissioned; the D2 independent qualification should re-point those controls at a genuinely unimplemented operation such as 9. |
+| DL-05 | Important, documented | The preserved independent D1 qualification harness asserts that operation ID 2 is *unimplemented*. Three of its controls - `reject_operation_two`, `reject_operation_precedes_input` and `wire-operation-2` - expect status 3 (unknown operation) for operation 2, and now observe 5, 1 and 5 because the operation exists and rejects those bodies as envelopes. The historical native run recorded 81 of 83 C ABI checks per RID, and the complete D1 differential (73 sources, 130 wire requests, 0 message mismatches, 0 wire-length mismatches, response ceiling exercised). The harness is preserved unchanged as commissioned; the D2 independent qualification should re-point those controls at a genuinely unimplemented operation such as 9. |
 
 ## D1 compatibility evidence
 
