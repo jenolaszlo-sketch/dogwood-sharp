@@ -1,8 +1,6 @@
 //! Minimal loader for the exported DogwoodSharp C ABI, so the differential
 //! exercises the same symbols a native consumer uses.
 
-use std::ffi::c_void;
-
 #[repr(C)]
 #[derive(Clone, Copy)]
 pub struct Buffer {
