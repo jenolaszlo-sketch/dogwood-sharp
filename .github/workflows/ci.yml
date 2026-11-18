@@ -1,4 +1,4 @@
-name: D1 native parsing CI
+name: DogwoodSharp producer verification
 on:
   push:
     branches: [main]
@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   verify:
-    name: D1 ${{ matrix.rid }} / net8.0 and net10.0
+    name: Verify ${{ matrix.rid }} / net8.0 and net10.0
     strategy:
       fail-fast: false
       matrix:
@@ -26,6 +26,8 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
@@ -73,10 +75,27 @@ jobs:
             git restore -- src/DogwoodSharp/packages.lock.json
           }
           ./eng/Verify-D1OnD2.ps1 -RuntimeIdentifier '${{ matrix.rid }}' -Valgrind:$IsLinux
+      - name: Verify the archived D2 corpus and decoder controls against R2
+        shell: pwsh
+        run: ./eng/Verify-D2R2.ps1 -RuntimeIdentifier '${{ matrix.rid }}'
+      - name: Measure supported resident native workloads
+        if: matrix.rid == 'linux-x64'
+        shell: bash
+        run: |
+          out=artifacts/d2-r2/resident
+          mkdir -p "$out"
+          cc -std=c11 -D_GNU_SOURCE -O2 -Wall -Wextra -Werror eng/d2-r2/resident.c -ldl -pthread -o "$out/probe"
+          python3 eng/d2-r2/measure-resident.py "$out/probe" \
+            artifacts/native/runtimes/linux-x64/native/libdogwoodsharp_bridge.so "$out" | tee "$out/measurement.log"
+          LD_DEBUG=files dotnet samples/DogwoodSharp.FoundationSmoke/bin/Release/net10.0/DogwoodSharp.FoundationSmoke.dll \
+            2>"$out/managed-loader-full.log"
+          grep 'libdogwoodsharp_bridge\.so' "$out/managed-loader-full.log" >"$out/managed-loader.log"
+          test "$(grep -c 'direct_opencount=1' "$out/managed-loader.log")" -eq 1
+          test "$(grep -c 'opening file=' "$out/managed-loader.log")" -eq 1
       - uses: actions/upload-artifact@v7
         if: always()
         with:
-          name: dogwoodsharp-d1-${{ matrix.rid }}
+          name: dogwoodsharp-d2-r2-${{ matrix.rid }}
           path: |
             artifacts/verification.log
             artifacts/memory-ownership.log
@@ -86,3 +105,8 @@ jobs:
             artifacts/d2-r1-d1-regression/qualification-*.json
             artifacts/test-results/*.trx
             artifacts/native/runtimes
+            artifacts/d2-r2/corpus/${{ matrix.rid }}/*.log
+            artifacts/d2-r2/corpus/${{ matrix.rid }}/*.json
+            artifacts/d2-r2/resident/*.log
+            artifacts/d2-r2/resident/*.json
+            artifacts/d2-r2/resident/*.stdout
