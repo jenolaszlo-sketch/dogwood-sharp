@@ -402,6 +402,7 @@ dependencies = [
  "cedar-policy",
  "cedar-policy-core",
  "dogwood-language",
+ "miette",
  "serde_json",
 ]
 

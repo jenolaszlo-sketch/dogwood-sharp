@@ -142,6 +142,7 @@ try {
         $fakeManifest | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath "$fakeAsset/dogwoodsharp-native.json" -Encoding utf8
         $env:D2Q_IDENTITY = $identityPath
         try {
+            Remove-Item -LiteralPath "$out/transport-$framework.log" -ErrorAction SilentlyContinue
             foreach ($test in ($transportData.Keys | Sort-Object)) {
                 $payload = Join-Path $out "$test.bin"
                 [IO.File]::WriteAllBytes($payload, $transportData[$test])

@@ -241,6 +241,7 @@ def main():
                          "exported": actual[3]["artifactsExported"], "collision": actual[3]["collision"],
                          "diagnosticRanges": projected_findings(actual[3]["parseDiagnostics"] + actual[3]["validationErrors"]),
                          "warnings": projected_findings(actual[3]["validationWarnings"]),
+                         "upstreamWarningLabels": upstream.get("upstreamWarningLabels", []),
                          "reportedRuleIds": [row["cedarPolicyId"] for row in actual[3]["rules"]],
                          "upstreamEmissionOrder": upstream.get("emissionOrder", [])})
         test["validate"] = actual[2]

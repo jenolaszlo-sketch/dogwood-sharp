@@ -175,7 +175,7 @@ static void CheckOutcome(DogwoodValidationResult result, JsonElement expect)
     CheckSequence(result.ValidationErrors.Select(d => (d.Category.ToString(), d.Message, d.Location)), "validationErrors");
     CheckSequence(result.ValidationWarnings.Select(d => (d.Category.ToString(), d.Message, d.Location)), "validationWarnings");
     Require(result.Rules.SequenceEqual(expect.GetProperty("rules").EnumerateArray().Select(row => new PolicyRuleMapping(
-        row.GetProperty("ruleIndex").GetInt32(), row.GetProperty("cedarPolicyId").GetString()!, Optional(row, "sourceText"))),
+        row.GetProperty("ruleIndex").GetInt32(), row.GetProperty("cedarPolicyId").GetString()!, Optional(row, "sourceText")))),
         "rule correspondence");
 
     bool Flag(string name) => expect.GetProperty(name).GetBoolean();

@@ -8,6 +8,7 @@ use dogwood_language::{
     Error, ParsedPolicySet, PolicySchema, ServiceSchema, SourceLoc, ValidationError,
     ValidationWarning, Validator,
 };
+use miette::Diagnostic;
 use serde_json::{Value, json};
 use std::io::{self, BufRead};
 
@@ -102,6 +103,17 @@ fn derive(input: &Value) -> Value {
         }
     }
     let outcome = Validator::new().validate(&lowered);
+    let upstream_labels: Vec<Vec<Value>> = outcome
+        .validation_warnings()
+        .map(|warning| {
+            warning
+                .labels()
+                .into_iter()
+                .flatten()
+                .map(|label| json!({"offset": label.offset(), "length": label.len()}))
+                .collect()
+        })
+        .collect();
     let errors: Vec<_> = outcome
         .validation_errors()
         .map(|error| {
@@ -150,6 +162,7 @@ fn derive(input: &Value) -> Value {
     json!({"terminal": "validate", "policyCount": count, "fields": fields,
         "originalResolved": original.is_some(), "rules": rules, "emissionOrder": emission_order,
         "selfContainedCedar": lowered.is_self_contained_cedar(), "errors": errors, "warnings": warnings,
+        "upstreamWarningLabels": upstream_labels,
         "cedarPolicyText": lowered.as_cedar().to_string(),
         "cedarSchemaJson": serde_json::from_str::<Value>(&lowered.cedar_schema_json().unwrap()).unwrap(),
         "cedarSchemaText": lowered.cedar_schema_str().unwrap()})
