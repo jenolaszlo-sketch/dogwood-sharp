@@ -1,0 +1,20 @@
+R2 managed JIT foundation smoke with the retained R1 Linux bridge on Ubuntu 24.04
+Native image SHA-256 7ede463d8426658e4b59eeea7652cc2089340bff3d98bf0f0c2ac52dbbfa2641
+
+=== net8.0 ===
+DogwoodSharp bridge 0.1.0, Dogwood 1.1.2, Cedar 4.11.0, x86_64-unknown-linux-gnu: passed.
+459:	file=/opt/dogwood-dotnet/shared/Microsoft.NETCore.App/8.0.34//resident-managed/net8.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0];  dynamically loaded by /opt/dogwood-dotnet/shared/Microsoft.NETCore.App/8.0.34/libcoreclr.so [0]
+       459:	file=/resident-managed/net8.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0];  dynamically loaded by /opt/dogwood-dotnet/shared/Microsoft.NETCore.App/8.0.34/libcoreclr.so [0]
+       459:	file=/resident-managed/net8.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0];  generating link map
+       459:	calling init: /resident-managed/net8.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so
+       459:	opening file=/resident-managed/net8.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]; direct_opencount=1
+       459:	calling fini: /resident-managed/net8.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]
+
+=== net10.0 ===
+DogwoodSharp bridge 0.1.0, Dogwood 1.1.2, Cedar 4.11.0, x86_64-unknown-linux-gnu: passed.
+474:	file=/opt/dogwood-dotnet/shared/Microsoft.NETCore.App/10.0.15//resident-managed/net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0];  dynamically loaded by /opt/dogwood-dotnet/shared/Microsoft.NETCore.App/10.0.15/libcoreclr.so [0]
+       474:	file=/resident-managed/net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0];  dynamically loaded by /opt/dogwood-dotnet/shared/Microsoft.NETCore.App/10.0.15/libcoreclr.so [0]
+       474:	file=/resident-managed/net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0];  generating link map
+       474:	calling init: /resident-managed/net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so
+       474:	opening file=/resident-managed/net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]; direct_opencount=1
+       474:	calling fini: /resident-managed/net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]

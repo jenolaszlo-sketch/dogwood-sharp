@@ -1,0 +1,50 @@
+Possible-loss stack excerpts from the local 2,048-round resident runs.
+
+=== sequential-2048 / RESERVED_IDS (1 records) ===
+288 bytes in 1 blocks are possibly lost in loss record 145 of 178
+   at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+   by 0x5782B8C: <hashbrown::raw::RawTableInner>::fallible_with_capacity::<alloc::alloc::Global> (in /bridge.so)
+   by 0x577FA2D: <hashbrown::raw::RawTable<(&str, ())>>::reserve_rehash::<hashbrown::map::make_hasher<&str, (), std::hash::random::RandomState>::{closure#0}> (in /bridge.so)
+   by 0x571A97D: <hashbrown::set::HashSet<&str, std::hash::random::RandomState> as core::iter::traits::collect::Extend<&str>>::extend::<alloc::vec::into_iter::IntoIter<&str>> (in /bridge.so)
+   by 0x57F5651: <cedar_policy_core::ast::name::RESERVED_IDS::{closure#0} as core::ops::function::FnOnce<()>>::call_once (in /bridge.so)
+   by 0x57DF8D1: <std::sync::once::Once>::call_once_force::<<std::sync::lazy_lock::LazyLock<std::collections::hash::set::HashSet<&str>>>::force::{closure#0}>::{closure#0} (in /bridge.so)
+   by 0x58DB928: <std::sys::sync::once::futex::Once>::call (in /bridge.so)
+   by 0x57F47DE: <cedar_policy_core::ast::name::Name as cedar_policy_core::from_normalized_str::FromNormalizedStr>::from_normalized_str (in /bridge.so)
+   by 0x5794CC7: <cedar_policy_core::ast::entity::EntityUID as core::convert::TryFrom<cedar_policy_core::entities::json::value::TypeAndId>>::try_from (in /bridge.so)
+   by 0x55E7388: <cedar_policy_core::entities::json::value::CedarValueJson>::into_expr (in /bridge.so)
+   by 0x55E8E50: <cedar_policy_core::entities::json::value::EntityUidJson>::into_euid (in /bridge.so)
+   by 0x56C00D2: <cedar_policy_core::est::scope_constraints::EqConstraint as core::fmt::Display>::fmt (in /bridge.so)
+   by 0x5903CD9: core::fmt::write (in /bridge.so)
+
+=== sequential-2048 / hybrid::id::LazyStateID (2 records) ===
+116 bytes in 1 blocks are possibly lost in loss record 117 of 178
+   at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+   by 0x583CE61: <hashbrown::raw::RawTable<(regex_automata::util::determinize::state::State, regex_automata::hybrid::id::LazyStateID)>>::reserve_rehash::<hashbrown::map::make_hasher<regex_automata::util::determinize::state::State, regex_automata::hybrid::id::LazyStateID, std::hash::random::RandomState>::{closure#0}> (in /bridge.so)
+   by 0x583DA7F: <hashbrown::map::HashMap<regex_automata::util::determinize::state::State, regex_automata::hybrid::id::LazyStateID, std::hash::random::RandomState>>::insert (in /bridge.so)
+   by 0x5843358: <regex_automata::hybrid::dfa::Lazy>::init_cache (in /bridge.so)
+   by 0x5842DA8: <regex_automata::hybrid::dfa::Cache>::new (in /bridge.so)
+   by 0x580B026: <regex_automata::meta::strategy::Core as regex_automata::meta::strategy::Strategy>::create_cache (in /bridge.so)
+   by 0x578E5DC: <regex_automata::util::pool::inner::Pool<regex_automata::meta::regex::Cache, alloc::boxed::Box<dyn core::ops::function::Fn<(), Output = regex_automata::meta::regex::Cache> + core::panic::unwind_safe::RefUnwindSafe + core::marker::Send + core::marker::Sync + core::panic::unwind_safe::UnwindSafe>>>::get_slow (in /bridge.so)
+   by 0x57E1B6F: <regex_automata::meta::regex::Regex>::search_half (in /bridge.so)
+   by 0x57F45AE: <cedar_policy_core::ast::name::Name as cedar_policy_core::from_normalized_str::FromNormalizedStr>::from_normalized_str (in /bridge.so)
+   by 0x5794CC7: <cedar_policy_core::ast::entity::EntityUID as core::convert::TryFrom<cedar_policy_core::entities::json::value::TypeAndId>>::try_from (in /bridge.so)
+   by 0x55E7388: <cedar_policy_core::entities::json::value::CedarValueJson>::into_expr (in /bridge.so)
+   by 0x55E8E50: <cedar_policy_core::entities::json::value::EntityUidJson>::into_euid (in /bridge.so)
+   by 0x56C00D2: <cedar_policy_core::est::scope_constraints::EqConstraint as core::fmt::Display>::fmt (in /bridge.so)
+
+=== concurrent-2048 / hybrid::id::LazyStateID (4 records) ===
+464 bytes in 4 blocks are possibly lost in loss record 176 of 205
+   at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+   by 0x583CE61: <hashbrown::raw::RawTable<(regex_automata::util::determinize::state::State, regex_automata::hybrid::id::LazyStateID)>>::reserve_rehash::<hashbrown::map::make_hasher<regex_automata::util::determinize::state::State, regex_automata::hybrid::id::LazyStateID, std::hash::random::RandomState>::{closure#0}> (in /bridge.so)
+   by 0x583DA7F: <hashbrown::map::HashMap<regex_automata::util::determinize::state::State, regex_automata::hybrid::id::LazyStateID, std::hash::random::RandomState>>::insert (in /bridge.so)
+   by 0x5843358: <regex_automata::hybrid::dfa::Lazy>::init_cache (in /bridge.so)
+   by 0x5842DA8: <regex_automata::hybrid::dfa::Cache>::new (in /bridge.so)
+   by 0x580B026: <regex_automata::meta::strategy::Core as regex_automata::meta::strategy::Strategy>::create_cache (in /bridge.so)
+   by 0x578E7ED: <regex_automata::util::pool::inner::Pool<regex_automata::meta::regex::Cache, alloc::boxed::Box<dyn core::ops::function::Fn<(), Output = regex_automata::meta::regex::Cache> + core::panic::unwind_safe::RefUnwindSafe + core::marker::Send + core::marker::Sync + core::panic::unwind_safe::UnwindSafe>>>::get_slow (in /bridge.so)
+   by 0x57E1B6F: <regex_automata::meta::regex::Regex>::search_half (in /bridge.so)
+   by 0x57F45AE: <cedar_policy_core::ast::name::Name as cedar_policy_core::from_normalized_str::FromNormalizedStr>::from_normalized_str (in /bridge.so)
+   by 0x5794CC7: <cedar_policy_core::ast::entity::EntityUID as core::convert::TryFrom<cedar_policy_core::entities::json::value::TypeAndId>>::try_from (in /bridge.so)
+   by 0x55E7388: <cedar_policy_core::entities::json::value::CedarValueJson>::into_expr (in /bridge.so)
+   by 0x55E8E50: <cedar_policy_core::entities::json::value::EntityUidJson>::into_euid (in /bridge.so)
+   by 0x56C00D2: <cedar_policy_core::est::scope_constraints::EqConstraint as core::fmt::Display>::fmt (in /bridge.so)
+   by 0x48F8B63: start_thread (pthread_create.c:447)

@@ -1,3 +1,18 @@
+=== concurrent-2048 ===
+before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=7344
+after-load-and-identity heap_in_use_bytes=13504 mmap_bytes=0 max_rss_kib=7344
+after-first-mixed-iteration heap_in_use_bytes=162256 mmap_bytes=0 max_rss_kib=10380
+after-warmup heap_in_use_bytes=201712 mmap_bytes=0 max_rss_kib=10380
+after-workload heap_in_use_bytes=231216 mmap_bytes=0 max_rss_kib=11532
+RESIDENT PASS mode=concurrent loads=1 identity=1 warmup=32 iterations=2048 calls=10401 allocated_responses=8321 release_checks=10401
+LEAK SUMMARY:
+   definitely lost: 0 bytes in 0 blocks
+   indirectly lost: 0 bytes in 0 blocks
+     possibly lost: 15,084 bytes in 61 blocks
+   still reachable: 58,637 bytes in 284 blocks
+        suppressed: 0 bytes in 0 blocks
+ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
 === concurrent-256 ===
 before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=7488
 after-load-and-identity heap_in_use_bytes=13504 mmap_bytes=0 max_rss_kib=7488
@@ -27,6 +42,22 @@ LEAK SUMMARY:
    still reachable: 58,637 bytes in 284 blocks
         suppressed: 0 bytes in 0 blocks
 ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+=== concurrent-32768.extended ===
+before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=7200
+after-load-and-identity heap_in_use_bytes=13504 mmap_bytes=0 max_rss_kib=7200
+after-first-mixed-iteration heap_in_use_bytes=163392 mmap_bytes=0 max_rss_kib=10380
+after-warmup heap_in_use_bytes=210304 mmap_bytes=0 max_rss_kib=10380
+after-workload heap_in_use_bytes=239808 mmap_bytes=0 max_rss_kib=11532
+RESIDENT PASS mode=concurrent loads=1 identity=1 warmup=32 iterations=32768 calls=164001 allocated_responses=131201 release_checks=164001
+
+=== concurrent-8192.extended ===
+before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=7488
+after-load-and-identity heap_in_use_bytes=13504 mmap_bytes=0 max_rss_kib=7488
+after-first-mixed-iteration heap_in_use_bytes=163616 mmap_bytes=0 max_rss_kib=10380
+after-warmup heap_in_use_bytes=197664 mmap_bytes=0 max_rss_kib=10380
+after-workload heap_in_use_bytes=227168 mmap_bytes=0 max_rss_kib=11532
+RESIDENT PASS mode=concurrent loads=1 identity=1 warmup=32 iterations=8192 calls=41121 allocated_responses=32897 release_checks=41121
 
 === sequential-2048 ===
 before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=7056
@@ -72,3 +103,19 @@ LEAK SUMMARY:
    still reachable: 43,045 bytes in 176 blocks
         suppressed: 0 bytes in 0 blocks
 ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+=== sequential-32768.extended ===
+before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=7200
+after-load-and-identity heap_in_use_bytes=13504 mmap_bytes=0 max_rss_kib=7200
+after-first-mixed-iteration heap_in_use_bytes=163920 mmap_bytes=0 max_rss_kib=10380
+after-warmup heap_in_use_bytes=206528 mmap_bytes=0 max_rss_kib=10380
+after-workload heap_in_use_bytes=251056 mmap_bytes=0 max_rss_kib=10380
+RESIDENT PASS mode=sequential loads=1 identity=1 warmup=32 iterations=32768 calls=164001 allocated_responses=131201 release_checks=164001
+
+=== sequential-8192.extended ===
+before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=7200
+after-load-and-identity heap_in_use_bytes=13504 mmap_bytes=0 max_rss_kib=7200
+after-first-mixed-iteration heap_in_use_bytes=164624 mmap_bytes=0 max_rss_kib=10236
+after-warmup heap_in_use_bytes=193072 mmap_bytes=0 max_rss_kib=10236
+after-workload heap_in_use_bytes=233088 mmap_bytes=0 max_rss_kib=10236
+RESIDENT PASS mode=sequential loads=1 identity=1 warmup=32 iterations=8192 calls=41121 allocated_responses=32897 release_checks=41121

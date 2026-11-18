@@ -21,7 +21,10 @@ block with zero declarations. The check uses these structural properties
 independently of the policy count. Qualification compares the two schema
 forms semantically against the trusted bridge.
 
-The managed loader only initializes from the default assembly load context.
+R1 used a lazy default instance alongside a separately callable internal
+loader and a disposable native handle. Disposal could release the image
+while other code retained its function pointers. The R2 managed loader only
+initializes from the default assembly load context.
 Its singleton retains one native reference after ABI and identity checks
 succeed and caches an initialization failure after freeing its temporary
 reference. Calls continue to copy and free the native response in the
@@ -40,9 +43,9 @@ accepting three valid controls and rejecting 18 other faults. See the
 [R1 decoder output](evidence/d2-r2/r1-windows-decoder.txt).
 
 The four original C modes ran in Ubuntu 24.04 (WSL2, glibc 2.39 and Valgrind
-3.22.0) against the R1 Linux producer image from run 44245964368. The observed
-allocation classes follow. Counts are in bytes. Every C buffer assertion
-and reset passed.
+3.22.0) against the R1 Linux producer image. The observed allocation classes
+follow. Counts are in bytes. Every C buffer assertion and reset passed.
+[R1 producer CI run 44245964368](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44245964368).
 
 | Mode | Calls | Definite | Indirect | Possible | Still reachable | Error contexts |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -78,10 +81,60 @@ R2 changes the managed loader and a Rust documentation comment. The producer
 matrix also runs the resident workload on its freshly built R2 image.
 [Local measurements](evidence/d2-r2/local-linux-resident.txt).
 
+At 32, 256 and 2,048 measured rounds, every Memcheck process reported zero
+definite or indirect loss and zero errors. The sequential mode retained a
+constant 13,756 possibly lost bytes and 43,045 still-reachable bytes. The
+fixed four-worker mode retained a constant 15,084 possibly lost bytes and
+58,637 still-reachable bytes. The original extension records remained
+present. The broader workload additionally initialized Cedar's 288-byte
+reserved-identifier lookup and regex DFA caches totaling 332 bytes
+on the sequential thread. Four added workers accounted for another 1,328
+bytes with the same regex stack family. This explains the fixed differences
+observed between the measured cases without reclassifying or suppressing
+any of them. At the largest Memcheck size each process checked 10,401
+releases, including 8,321 populated response buffers.
+[Additional resident stacks](evidence/d2-r2/resident-additional-stacks.txt).
+
+Direct native runs at 8,192 and 32,768 rounds extended the allocator
+observations. At 32,768 rounds the sequential and concurrent processes
+reported 251,056 and 239,808 bytes of glibc in-use heap respectively, with
+peak RSS approximately 10 and 11 MiB. Relative to 32 rounds, the heap
+figures changed by tens of KiB across a 1,024-fold increase in the
+measured workload. The exact Memcheck retained totals stayed flat through
+its tested sizes. These results support bounded initialization and
+per-worker caches for this workload. The measurements establish neither a
+general quota nor a platform-wide memory bound.
+
 ## Producer results
 
-The implementation, native residency probe and archived corpus adapter
-are checkpointed. The full producer matrix and handoff evidence are pending.
+The production source and test commit is
+`d4d62b4825d2cb0d43554e6bb34b9d6a7dc238fd`, tree
+`a582171f4b213464eab3a6a459aa2bc3540e80ab`.
+
+Local Windows verification passed the locked build, format and lint checks,
+13 Rust tests, 69 managed tests per framework, 39 D2 differential cases
+with 78 replies, and producer JIT and NativeAOT smokes under both frameworks.
+The D1 adapter passed 88 C ABI checks, 73 source and 131 wire differential
+cases, 114 managed scenarios per framework and both NativeAOT smokes.
+
+The disposable D2 adapter runs the archived oracle, corpus and boundary
+controls. It verifies the preserved qualification trees and fails if the
+original partial reply is accepted. Its Linux gate retains the old unload
+control as a diagnostic. On Windows it passed 35 cases per framework and
+execution mode, 70 ABI replies, 13 Cedar round trips, 216 concurrent calls,
+26 ABI transport controls, five injected fault detections, and three
+managed transport faults per framework. The original decoder mutation
+changed from acceptance on R1 to rejection on R2 under both frameworks.
+Its three positive controls and 18 other rejection controls passed on both.
+[Windows verification excerpts](evidence/d2-r2/local-windows-results.txt).
+
+The R2 managed JIT smoke also ran locally in Ubuntu 24.04 with the verified
+R1 native image. The ELF loader recorded a single open with reference count
+one per process on .NET 8 and .NET 10.
+[Linux managed loader trace](evidence/d2-r2/local-linux-managed-loader.txt).
+
+The full [producer matrix](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44289567088)
+is running against the source and test commit above.
 
 ## Independent requalification scope
 
