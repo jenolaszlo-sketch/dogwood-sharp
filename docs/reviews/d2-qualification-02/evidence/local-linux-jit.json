@@ -1,0 +1,28 @@
+{
+  "net8.0": {
+    "app": [
+      "CUSTOM CONTEXT PASS collectible=True",
+      "CUSTOM CONTEXT PASS collectible=False",
+      "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+    ],
+    "trace": [
+      "       450:\tcalling init: /qual02/managed-net8.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+      "       450:\topening file=/qual02/managed-net8.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]; direct_opencount=1",
+      "       450:\tcalling fini: /qual02/managed-net8.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]"
+    ],
+    "rawTraceSha256": "0365caf5c710832c26195a39606909c4d51340b295db1d6caf08089a21359fb3"
+  },
+  "net10.0": {
+    "app": [
+      "CUSTOM CONTEXT PASS collectible=True",
+      "CUSTOM CONTEXT PASS collectible=False",
+      "REAL PASS first-contenders=8 repeat=128 schema-cases=7"
+    ],
+    "trace": [
+      "       491:\tcalling init: /qual02/managed-net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+      "       491:\topening file=/qual02/managed-net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]; direct_opencount=1",
+      "       491:\tcalling fini: /qual02/managed-net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]"
+    ],
+    "rawTraceSha256": "2a26af2b54d0fcedb600cc4d1c0c376891aad2254fbd37e2a829048871882c63"
+  }
+}
