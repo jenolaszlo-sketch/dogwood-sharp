@@ -1,7 +1,8 @@
 # ADR-0001: staged reference and CedarSharp backends
 
 Status: **Accepted with D0 qualifications. D1 accepted with qualifications and
-closed. D2 authorized.** Proposed 2026-11-16.
+closed. D2 remediation required pending independent requalification and
+separate owner acceptance.** Proposed 2026-11-16.
 
 Context: Dogwood supplies temporal semantics and public engine seams. CedarSharp
 is preferred for final Cedar evaluation, but the resolved Cedar versions differ
@@ -25,3 +26,9 @@ reservations and Hufu integration remain separate projects.
 The D1 commission records owner acceptance of this approach. D3 must separately
 resolve version skew, mixed entity conformance, callback lifetime/AOT and error
 identity. Technical qualification and owner acceptance are separate records.
+
+The [D2 owner lifetime decision](../d2-r2-owner-decisions.md) requires the
+D2-enabled native image to remain resident until process termination. D3
+architecture must account for this boundary in plugin hosts, hot reload and
+collectible assembly contexts. Process isolation is a future option for
+hosts that need native image replacement or memory reclamation.

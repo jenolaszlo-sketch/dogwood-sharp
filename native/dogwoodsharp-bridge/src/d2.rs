@@ -371,8 +371,8 @@ fn finding(error: &ValidationError, source: &str) -> Finding {
     }
 }
 
-/// Cedar publishes a warning's text but not its source span through the public
-/// surface, so only the message is exported.
+/// D2 projects warning locations as null. Upstream labels require verification
+/// of source provenance and offset rebasing before projection.
 fn finding_warning(warning: &ValidationWarning) -> Finding {
     let (category, location) = match warning {
         ValidationWarning::Cedar(_) => ("cedar", None),

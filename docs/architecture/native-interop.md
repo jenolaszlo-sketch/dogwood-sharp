@@ -47,11 +47,27 @@ native components from the same revision. The D1 identity response is unchanged.
   native allocator transfers ownership to the caller. Release the unchanged
   buffer using the same library's `dogwoodsharp_free_v1`. Free resets the slot
   to `{NULL, 0}` and accepts a null pointer or an already empty slot. A copied
-  descriptor is an alias and must never be freed. Keep the library loaded
-  until every live buffer has been released.
+  descriptor is an alias and must never be freed. The historical D1 ownership
+  rule keeps the image loaded until all live buffers have been released. The
+  D2-enabled image adds a process-lifetime obligation.
 - Calls may run concurrently with independent buffers and immutable request
   storage. Callers must synchronize access to any shared slot. These contracts
   require valid pointers and cannot validate addresses supplied by a native caller.
+
+### D2 image lifetime
+
+Native C hosts must hold a reference to the D2-enabled library for the life
+of the process, alongside releasing each owned response as specified above.
+Use a single load for concurrent calls and leave its reference held at
+shutdown. D2 can initialize process-global lazy state in the pinned
+dependencies. Releasing every response still leaves that state resident.
+Closing the last reference after D2 calls can strand dependency allocations
+and invalidates the corresponding function pointers. The ABI cannot enforce
+the caller's loader behavior. Dynamic unload and reload are unsupported.
+
+The archived D1-only asset retains its accepted historical contract. Use
+of D1 operations through the D2-enabled distribution follows the D2 hosting
+contract for that image. See the [R2 producer investigation](../d2-r2-verification.md).
 
 The JSON request ceiling is 6,291,520 bytes. The decoded policy source ceiling
 is 1,048,576 UTF-8 bytes. Operations 2 and 3 additionally bound each schema text
@@ -156,4 +172,6 @@ Failure to resolve an expected original context fails the collision check.
 
 Validation spans address UTF-8 policy source. The bridge restores the three
 bytes of a stripped leading UTF-8 BOM to upstream offsets, as for parsing.
-Cedar validation warnings have null locations in the wire record.
+Cedar validation warnings have null locations in the wire record. Pinned
+Cedar warnings can expose diagnostic labels. Mapping these labels requires
+source provenance and offset-rebasing verification.

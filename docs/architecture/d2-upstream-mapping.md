@@ -45,9 +45,11 @@ repository). These are the facts D2 must preserve:
 4. An invalid action schema fails **lowering** with a fatal `Error`, not with a
    validation finding. Missing or malformed schema information therefore never
    produces a bundle.
-5. Validation is a separate pass over the lowered set. Errors carry a span in
-   the original Dogwood source; warnings do not expose a span through the
-   public surface, so only their message is exported.
+5. Validation is a separate pass over the lowered set. The wrapper projects
+   warning locations as null and preserves category and message. Pinned Cedar
+   warnings can expose diagnostic labels. Projecting those labels requires
+   verifying the source provenance and rebasing byte offsets into the authored
+   Dogwood source.
 6. An empty policy set lowers to zero rules and validates successfully.
 7. An invalid distincter is rejected with `Error::InvalidDistincter` and never
    silently renamed.

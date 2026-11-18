@@ -1,5 +1,11 @@
 # DogwoodSharp D2 producer implementation
 
+## DOGWOOD-SHARP-D2-R2
+
+See the [owner decisions](d2-r2-owner-decisions.md), [current finding
+tracking](d2-findings.md) and [producer verification](d2-r2-verification.md).
+The following R1 section records its producer disposition at that revision.
+
 ## DOGWOOD-SHARP-D2-R1
 
 R1 reconciles operations 2 and 3 at ABI v1. Both validate the exact policy and
@@ -13,7 +19,7 @@ original D1 ABI and identity contract remain in effect. See the
 | --- | --- |
 | DL-01 | Remediated. Check actual upstream field IDs and target actions against the original Cedar context declarations. The known replacement remains pinned as upstream behavior and is rejected by both wrapper operations. |
 | DL-02 | Documentation corrected. Decoded per-field limits and the full encoded JSON request limit apply independently. |
-| DL-03 | Open limitation. Cedar warnings continue to carry no source span. |
+| DL-03 | Open limitation. The wrapper projects Cedar warning locations as null. |
 | DL-04 | Open limitation. Policy-store integration and higher-level conflict detection remain outside D2. |
 | DL-05 | Reconciled. The D2 producer runs a version-aware copy of the historical D1 controls, including positive and negative operation-2 cases. |
 
@@ -144,7 +150,7 @@ message text is upstream-owned and outside the assertions.
 | --- | --- | --- |
 | DL-01 | Important, documented | Upstream augmentation replaces a user-declared context attribute whose name collides with a synthesized hoisted name (`<namespace>_<k>__temporal_<j>`), so a conflicting user field does not survive. The pinned behaviour is recorded in `temporal-policy-conflicting-declaration`; the wrapper does not re-lower to avoid it. Detecting the collision and failing needs an owner decision on which semantics wins. |
 | DL-02 | Documented | The full encoded JSON envelope and decoded UTF-8 source have separate limits. JSON escaping and other fields affect the total encoded size. |
-| DL-03 | Documented | Cedar does not publish a validation warning's source span, so warning `location` is always null. Errors carry spans. |
+| DL-03 | Documented | The wrapper projects Cedar warning `location` as null. Pinned Cedar warnings can expose diagnostic labels. Mapping them requires source provenance and byte-offset rebasing verification. |
 | DL-04 | Documented | The wrapper adds no higher-level conflict detection, schema comparison or policy-store integration; those need a separate commission with owner agreement. |
 | DL-05 | Important, documented | The preserved independent D1 qualification harness asserts that operation ID 2 is *unimplemented*. Three of its controls - `reject_operation_two`, `reject_operation_precedes_input` and `wire-operation-2` - expect status 3 (unknown operation) for operation 2, and now observe 5, 1 and 5 because the operation exists and rejects those bodies as envelopes. The historical native run recorded 81 of 83 C ABI checks per RID, and the complete D1 differential (73 sources, 130 wire requests, 0 message mismatches, 0 wire-length mismatches, response ceiling exercised). The harness is preserved unchanged as commissioned; the D2 independent qualification should re-point those controls at a genuinely unimplemented operation such as 9. |
 

@@ -26,12 +26,18 @@ outside the library's security boundary.
 | Timestamp manipulation | Trusted clock/sequence source; enforce strict increase per ordered stream | Consumer + session guard, D4/D7 |
 | Cross-tenant/session disclosure | Separate sessions/storage; explicit tenant key; pins are not authentication/storage isolation | Consumer + session API, D7 cross-key tests |
 | Provider DoS/network access | net off; pure providers; bounded operations/data; hard time isolation where needed | Library profile + host, D6/D7 |
-| Native use-after-free/panic | Owned buffers, SafeHandle, panic containment, serialized session access | Library, D1/D5 lifetime tests |
+| Native use-after-free/panic | Owned buffers, panic containment and resident D2 image. Future session handles require their own lifetime and synchronization rules | Library, D1 ownership and D2-R2 residency controls |
 | ABI/binary substitution | Check ABI, upstream revision, features, RID and hash before use; trusted distribution required | Library/package pipeline, D8 |
 | Diagnostic leakage | Structured codes, bounded messages, opt-in source snippets; redact events/secrets | Library + consumer logging, D7 |
 | Parser/history exhaustion | Input/depth/node/event/history/response limits; explicit capacity failures | Library + host, D1/D4/D7 |
 | Unsupported features | Reject at load; never silently weaken a policy | Library, D2 feature matrix |
 | Concurrent spending | Evaluation does not reserve funds; transactional commit/reservation at effect boundary | Consumer infrastructure, separate roadmap |
+
+The [D2 hosting boundary](native-interop.md#d2-image-lifetime) requires
+process-lifetime residency. Concurrent callers retain independent buffer
+ownership. Plugin unload and hot reload cannot reclaim native dependency
+state. A future isolated worker could provide reclamation through process
+termination and bound the impact of native failures. D2 runs in process.
 
 ## Reference behavior that must remain visible
 

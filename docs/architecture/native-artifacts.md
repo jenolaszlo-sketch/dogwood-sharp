@@ -39,8 +39,10 @@ fixed location. It checks the manifest identity and image SHA-256 before
 loading the absolute path. It then checks the exported ABI and the nine
 identity fields returned by operation 0. The Windows load restricts dependency
 lookup to System32. On Linux and macOS the platform loader resolves the image's
-system dependencies. The verified image stays loaded for the process lifetime.
-Unsupported platforms and absent assets fail explicitly.
+system dependencies. One default-context managed binding retains the verified
+D2-enabled image for the process lifetime. A failed initialization releases
+its loader reference and the binding caches the failure. Unsupported platforms
+and absent assets fail explicitly.
 
 SHA-256 detects damage and substitution relative to the manifest. Publisher
 authenticity requires a trusted delivery channel and an app directory protected

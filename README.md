@@ -4,8 +4,9 @@ An independent .NET library for parsing Dogwood temporal policy source on
 .NET 8 and .NET 10. Licensed under Apache-2.0.
 
 D1 provides policy parsing, macro expansion, structured diagnostics and native
-version discovery through the pinned Dogwood parser. Independent qualification
-and owner acceptance are required before work on D2.
+version discovery through the pinned Dogwood parser. D2 adds schema validation
+and policy lowering and remains under remediation pending independent
+requalification and separate owner acceptance.
 
 ```csharp
 using DogwoodSharp;

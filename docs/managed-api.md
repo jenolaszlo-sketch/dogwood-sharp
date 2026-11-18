@@ -26,9 +26,9 @@ expansion. Schema validation and authorization are beyond D1.
 Null source raises `ArgumentNullException`. Unpaired surrogates or oversized
 source raise `ArgumentException`. `DogwoodBridgeException.Failure` identifies
 asset or identity failure, nonzero native call status, and malformed responses.
-`NativeStatus` carries the raw status for a failed native call. The process-wide
-loader caches its initial load result, including any initial failure. Restart
-the process after correcting an asset deployment.
+`NativeStatus` carries the raw status for a failed native call. The D2-enabled
+distribution uses the [process-lifetime loader](#native-library-lifetime) for
+D1 and D2 calls.
 
 The wrapper uses explicit JSON handling and unmanaged function pointers. The
 verification script runs a NativeAOT consumer for each target framework.
@@ -78,7 +78,42 @@ artifact strings and the rule mapping are empty. `SelfContainedCedar` reports
 whether the lowered policy requires generated context values. Temporal policy
 exports still require values computed by a temporal engine.
 
+For an exported bundle, the decoder reads the JSON schema as Cedar's map of
+namespaces. Cedar 4.11 emits text for each named namespace, including empty
+ones. The unnamed namespace emits text when it declares a common type, entity
+type, or action. If the JSON structure requires text, the text must contain a
+non-whitespace character. Otherwise the text must be the empty string. An
+empty policy set can still export a nonempty schema. Contradictions fail with
+`DogwoodBridgeFailure.MalformedResponse`. These are structural checks. The
+managed API trusts the native bridge to serialize both forms from the same
+validated fragment. Cedar round trips and differential conformance verify
+semantic equivalence during qualification.
+
 `RuleIndex` and `CedarPolicyId` trace each validated rule to its Dogwood
 source position. Export additionally includes the macro-expanded `SourceText`.
-Validation findings include a category, an upstream message and a UTF-8
-location when available. Authorization is outside the D2 surface.
+Validation findings include a category and an upstream message. Error
+locations, when supplied, are UTF-8 byte ranges. D2 projects warning locations
+as null. Pinned Cedar warnings can expose diagnostic labels. Mapping them
+requires checking source provenance and rebasing byte offsets to the authored
+Dogwood source. Authorization is outside the D2 surface.
+
+## Native library lifetime
+
+In the supported JIT host, load DogwoodSharp in the default
+`AssemblyLoadContext`. A plugin can call a copy shared by the host. Private
+copies in custom contexts fail with `LoadOrIdentity` before acquiring a
+native reference, including copies in collectible contexts. NativeAOT
+executables use the same lazy initialization and residency policy.
+
+The first operation verifies the asset and native identity. Successful
+initialization retains one loader reference until the process exits. An
+initialization failure releases any acquired reference after the identity
+response is freed. The managed singleton caches either result. Restart the
+process to replace an image or retry a failed deployment. Managed calls copy
+and release each native response buffer immediately. Concurrent calls share
+the resident function pointers and use independent buffers.
+
+Plugin unload and managed hot reload leave the native image resident. A
+future process-isolated host could support native-memory reclamation or
+image replacement by restarting its worker. D2 supports in-process hosting
+and process shutdown. See the [native caller contract](architecture/native-interop.md#d2-image-lifetime).
