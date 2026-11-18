@@ -1,0 +1,1204 @@
+{
+  "cases": 35,
+  "ABIReplies": 70,
+  "CedarRoundTrips": 13,
+  "concurrentCalls": 216,
+  "transport": {
+    "empty": {
+      "operation": 2,
+      "status": 1,
+      "responseBytes": 0
+    },
+    "unsupported-precedes-empty": {
+      "operation": 9,
+      "status": 3,
+      "responseBytes": 0
+    },
+    "unsupported-precedes-size": {
+      "operation": 9,
+      "status": 3,
+      "responseBytes": 0
+    },
+    "abi-precedes-operation": {
+      "operation": 9,
+      "status": 2,
+      "responseBytes": 0
+    },
+    "op2-d1-envelope": {
+      "operation": 2,
+      "status": 5,
+      "responseBytes": 0
+    },
+    "op3-null-required": {
+      "operation": 3,
+      "status": 5,
+      "responseBytes": 0
+    },
+    "unknown-property": {
+      "operation": 2,
+      "status": 5,
+      "responseBytes": 0
+    },
+    "duplicate-property": {
+      "operation": 2,
+      "status": 5,
+      "responseBytes": 0
+    },
+    "invalid-utf8": {
+      "operation": 3,
+      "status": 4,
+      "responseBytes": 0
+    },
+    "invalid-json": {
+      "operation": 3,
+      "status": 5,
+      "responseBytes": 0
+    },
+    "exact-encoded-ceiling": {
+      "operation": 2,
+      "status": 0,
+      "responseBytes": 329
+    },
+    "over-encoded-ceiling": {
+      "operation": 2,
+      "status": 6,
+      "responseBytes": 0
+    },
+    "exact-source": {
+      "operation": 2,
+      "status": 0,
+      "responseBytes": 329
+    },
+    "over-source": {
+      "operation": 2,
+      "status": 6,
+      "responseBytes": 0
+    },
+    "exact-policySchema": {
+      "operation": 2,
+      "status": 0,
+      "responseBytes": 329
+    },
+    "over-policySchema": {
+      "operation": 2,
+      "status": 6,
+      "responseBytes": 0
+    },
+    "exact-eventSchema": {
+      "operation": 2,
+      "status": 0,
+      "responseBytes": 329
+    },
+    "over-eventSchema": {
+      "operation": 2,
+      "status": 6,
+      "responseBytes": 0
+    },
+    "exact-macros": {
+      "operation": 2,
+      "status": 0,
+      "responseBytes": 329
+    },
+    "over-macros": {
+      "operation": 2,
+      "status": 6,
+      "responseBytes": 0
+    },
+    "exact-distincter": {
+      "operation": 3,
+      "status": 0,
+      "responseBytes": 1867
+    },
+    "over-distincter": {
+      "operation": 3,
+      "status": 6,
+      "responseBytes": 0
+    },
+    "D1-response-limit": {
+      "operation": 1,
+      "status": 6,
+      "responseBytes": 0
+    },
+    "D2-large-validation": {
+      "operation": 2,
+      "status": 0,
+      "responseBytes": 586
+    },
+    "D2-response-limit": {
+      "operation": 3,
+      "status": 6,
+      "responseBytes": 0
+    },
+    "post-limit-independent-call": {
+      "operation": 3,
+      "status": 0,
+      "responseBytes": 1867
+    }
+  },
+  "sensitivity": {
+    "bypass-collision": "collisionCheckPassed",
+    "export-before-validation": "artifactsExported",
+    "drop-distincter": "rules",
+    "wrong-dispatch": "operation-specific shape",
+    "partial-artifact-set": "operation-specific shape"
+  },
+  "evidence": [
+    {
+      "case": "cedar-policy",
+      "intent": "export",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [],
+      "validated": true,
+      "exported": true,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [
+        "policy_0"
+      ],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "cedar-empty-export",
+      "intent": "export",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [],
+      "validated": true,
+      "exported": true,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": []
+    },
+    {
+      "case": "namespace-and-repeated-id-annotations",
+      "intent": "export",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [],
+      "validated": true,
+      "exported": true,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [
+        "tagged_0",
+        "tagged_1"
+      ],
+      "upstreamEmissionOrder": [
+        "tagged_0",
+        "tagged_1"
+      ]
+    },
+    {
+      "case": "ordered-twelve-rules",
+      "intent": "export",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [],
+      "validated": true,
+      "exported": true,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [
+        "order_0",
+        "order_1",
+        "order_2",
+        "order_3",
+        "order_4",
+        "order_5",
+        "order_6",
+        "order_7",
+        "order_8",
+        "order_9",
+        "order_10",
+        "order_11"
+      ],
+      "upstreamEmissionOrder": [
+        "order_0",
+        "order_1",
+        "order_2",
+        "order_3",
+        "order_4",
+        "order_5",
+        "order_6",
+        "order_7",
+        "order_8",
+        "order_9",
+        "order_10",
+        "order_11"
+      ]
+    },
+    {
+      "case": "macro-library-and-expansion",
+      "intent": "export",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [],
+      "validated": true,
+      "exported": true,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [
+        "policy_0"
+      ],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "alternate-event-schema",
+      "intent": "export",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": null,
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": true,
+      "exported": true,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [
+        "policy_0"
+      ],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "temporal-default",
+      "intent": "export",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": null,
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": true,
+      "exported": true,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [
+        "policy_0"
+      ],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "temporal-custom",
+      "intent": "export",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "ledgerBatch_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": null,
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": true,
+      "exported": true,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [
+        "ledgerBatch_0"
+      ],
+      "upstreamEmissionOrder": [
+        "ledgerBatch_0"
+      ]
+    },
+    {
+      "case": "cedar-warning-only",
+      "intent": "warn",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [],
+      "validated": true,
+      "exported": true,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [
+        {
+          "category": "cedar",
+          "location": null
+        }
+      ],
+      "upstreamWarningLabels": [
+        [
+          {
+            "offset": 0,
+            "length": 78
+          }
+        ]
+      ],
+      "reportedRuleIds": [
+        "policy_0"
+      ],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "temporal-unknown-event",
+      "intent": "validation",
+      "upstreamStage": "validate",
+      "upstreamValidated": false,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": null,
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": false,
+      "exported": false,
+      "collision": null,
+      "diagnosticRanges": [
+        {
+          "category": "temporal",
+          "location": {
+            "offset": 79,
+            "length": 78
+          }
+        }
+      ],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "validation-utf8",
+      "intent": "validation",
+      "upstreamStage": "validate",
+      "upstreamValidated": false,
+      "generated": [],
+      "validated": false,
+      "exported": false,
+      "collision": null,
+      "diagnosticRanges": [
+        {
+          "category": "cedar",
+          "location": {
+            "offset": 85,
+            "length": 16
+          }
+        }
+      ],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "ledgerBatch_0"
+      ]
+    },
+    {
+      "case": "validation-utf8-bom",
+      "intent": "validation",
+      "upstreamStage": "validate",
+      "upstreamValidated": false,
+      "generated": [],
+      "validated": false,
+      "exported": false,
+      "collision": null,
+      "diagnosticRanges": [
+        {
+          "category": "cedar",
+          "location": {
+            "offset": 85,
+            "length": 16
+          }
+        }
+      ],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "ledgerBatch_0"
+      ]
+    },
+    {
+      "case": "parse-utf8-bom",
+      "intent": "parse",
+      "upstreamStage": "parse",
+      "upstreamValidated": false,
+      "generated": [],
+      "validated": false,
+      "exported": false,
+      "collision": null,
+      "diagnosticRanges": [
+        {
+          "category": "syntax",
+          "location": {
+            "offset": 26,
+            "length": 1
+          }
+        }
+      ],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": []
+    },
+    {
+      "case": "invalid-event-schema",
+      "intent": "service-schema",
+      "upstreamStage": "service-schema",
+      "upstreamValidated": false,
+      "generated": [],
+      "validated": false,
+      "exported": false,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": []
+    },
+    {
+      "case": "action-schema-nesting",
+      "intent": "action-schema",
+      "upstreamStage": "action-schema",
+      "upstreamValidated": false,
+      "generated": [],
+      "validated": false,
+      "exported": false,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": []
+    },
+    {
+      "case": "action-schema-syntax",
+      "intent": "lower",
+      "upstreamStage": "lower",
+      "upstreamValidated": false,
+      "generated": [],
+      "validated": false,
+      "exported": false,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": []
+    },
+    {
+      "case": "invalid-distincter",
+      "intent": "lower",
+      "upstreamStage": "lower",
+      "upstreamValidated": false,
+      "generated": [],
+      "validated": false,
+      "exported": false,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": []
+    },
+    {
+      "case": "unresolvable-context",
+      "intent": "lower",
+      "upstreamStage": "lower",
+      "upstreamValidated": false,
+      "generated": [],
+      "validated": false,
+      "exported": false,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": []
+    },
+    {
+      "case": "cyclic-context-alias",
+      "intent": "lower",
+      "upstreamStage": "lower",
+      "upstreamValidated": false,
+      "generated": [],
+      "validated": false,
+      "exported": false,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": []
+    },
+    {
+      "case": "original-overwrite",
+      "intent": "collision",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": {
+            "type": "String",
+            "required": true
+          },
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": false,
+      "exported": false,
+      "collision": {
+        "field": "policy_0__temporal_0",
+        "actionNamespace": "Ledger",
+        "actionId": "post"
+      },
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "equal-required-type",
+      "intent": "collision",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": {
+            "type": "Bool",
+            "required": true
+          },
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": false,
+      "exported": false,
+      "collision": {
+        "field": "policy_0__temporal_0",
+        "actionNamespace": "Ledger",
+        "actionId": "post"
+      },
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "equal-optional-type",
+      "intent": "collision",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": {
+            "type": "Bool",
+            "required": false
+          },
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": false,
+      "exported": false,
+      "collision": {
+        "field": "policy_0__temporal_0",
+        "actionNamespace": "Ledger",
+        "actionId": "post"
+      },
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "shared-alias-chain",
+      "intent": "collision",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": {
+            "type": "Bool",
+            "required": true
+          },
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": false,
+      "exported": false,
+      "collision": {
+        "field": "policy_0__temporal_0",
+        "actionNamespace": "Ledger",
+        "actionId": "post"
+      },
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "cross-namespace-alias",
+      "intent": "collision",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": {
+            "type": "String",
+            "required": false
+          },
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": false,
+      "exported": false,
+      "collision": {
+        "field": "policy_0__temporal_0",
+        "actionNamespace": "Ledger",
+        "actionId": "post"
+      },
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "transitive-group",
+      "intent": "collision",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "draft",
+          "original": null,
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        },
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": {
+            "type": "Long",
+            "required": true
+          },
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": false,
+      "exported": false,
+      "collision": {
+        "field": "policy_0__temporal_0",
+        "actionNamespace": "Ledger",
+        "actionId": "post"
+      },
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "unconstrained-target",
+      "intent": "collision",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "draft",
+          "original": {
+            "type": "Long",
+            "required": true
+          },
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        },
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": null,
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": false,
+      "exported": false,
+      "collision": {
+        "field": "policy_0__temporal_0",
+        "actionNamespace": "Ledger",
+        "actionId": "draft"
+      },
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "multiple-affected-actions",
+      "intent": "collision",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "draft",
+          "original": {
+            "type": "String",
+            "required": true
+          },
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        },
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": {
+            "type": "Long",
+            "required": true
+          },
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": false,
+      "exported": false,
+      "collision": {
+        "field": "policy_0__temporal_0",
+        "actionNamespace": "Ledger",
+        "actionId": "draft"
+      },
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "second-generated-field",
+      "intent": "collision",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": null,
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        },
+        {
+          "field": "policy_0__temporal_1",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": {
+            "type": "Bool",
+            "required": true
+          },
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": false,
+      "exported": false,
+      "collision": {
+        "field": "policy_0__temporal_1",
+        "actionNamespace": "Ledger",
+        "actionId": "post"
+      },
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "first-of-many-conflicts",
+      "intent": "collision",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": {
+            "type": "String",
+            "required": true
+          },
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        },
+        {
+          "field": "policy_0__temporal_1",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": {
+            "type": "Bool",
+            "required": true
+          },
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": false,
+      "exported": false,
+      "collision": {
+        "field": "policy_0__temporal_0",
+        "actionNamespace": "Ledger",
+        "actionId": "post"
+      },
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "custom-distincter-collision",
+      "intent": "collision",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "ledgerBatch_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": {
+            "type": "Bool",
+            "required": true
+          },
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": false,
+      "exported": false,
+      "collision": {
+        "field": "ledgerBatch_0__temporal_0",
+        "actionNamespace": "Ledger",
+        "actionId": "post"
+      },
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "ledgerBatch_0"
+      ]
+    },
+    {
+      "case": "custom-distincter-unrelated-default",
+      "intent": "export",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "ledgerBatch_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": null,
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": true,
+      "exported": true,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [
+        "ledgerBatch_0"
+      ],
+      "upstreamEmissionOrder": [
+        "ledgerBatch_0"
+      ]
+    },
+    {
+      "case": "unaffected-action",
+      "intent": "export",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": null,
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": true,
+      "exported": true,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [
+        "policy_0"
+      ],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "nested-lookalike",
+      "intent": "export",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": null,
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": true,
+      "exported": true,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [
+        "policy_0"
+      ],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "case-sensitive-lookalike",
+      "intent": "export",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": null,
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": true,
+      "exported": true,
+      "collision": null,
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [
+        "policy_0"
+      ],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    },
+    {
+      "case": "list-scope",
+      "intent": "collision",
+      "upstreamStage": "validate",
+      "upstreamValidated": true,
+      "generated": [
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "draft",
+          "original": {
+            "type": "Bool",
+            "required": true
+          },
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        },
+        {
+          "field": "policy_0__temporal_0",
+          "actionNamespace": "Ledger",
+          "actionId": "post",
+          "original": null,
+          "augmented": {
+            "type": "Bool",
+            "required": true
+          }
+        }
+      ],
+      "validated": false,
+      "exported": false,
+      "collision": {
+        "field": "policy_0__temporal_0",
+        "actionNamespace": "Ledger",
+        "actionId": "draft"
+      },
+      "diagnosticRanges": [],
+      "warnings": [],
+      "upstreamWarningLabels": [],
+      "reportedRuleIds": [],
+      "upstreamEmissionOrder": [
+        "policy_0"
+      ]
+    }
+  ],
+  "nativeSHA256": "1dbc030e1f36a37556ee412621c8d36fb4d90387f8b1d33d9441d58a05d885a3",
+  "identity": {
+    "abiVersion": 1,
+    "bridgeVersion": "0.1.0",
+    "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+    "dogwoodVersion": "1.1.2",
+    "cedarVersion": "4.11.0",
+    "rustVersion": "1.99.1",
+    "target": "aarch64-apple-darwin",
+    "dogwoodFeatures": [],
+    "cedarFeatures": [
+      "datetime",
+      "decimal",
+      "ipaddr"
+    ]
+  }
+}

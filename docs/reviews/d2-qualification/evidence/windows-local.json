@@ -1,0 +1,40 @@
+{
+  "provenance": {
+    "baseline": "d0dbf762ab1c0d12a3e2ed21e0e338f09170c314",
+    "baselineTree": "21ffc920e01a0c9875e33c572a947aff502d9b25",
+    "checkout": "838a32d3678dfdc79e769b4c6f2ca58265bdfeeb",
+    "checkoutTree": "9599051e64eccc05fbc0606bd049f364ddeb6419",
+    "rid": "win-x64",
+    "os": "Microsoft Windows 10.0.26200",
+    "runnerImage": " ",
+    "rust": "rustc 1.99.1 (58cf8f9c3 2026-10-13)\nbinary: rustc\ncommit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67\ncommit-date: 2026-10-13\nhost: x86_64-pc-windows-msvc\nrelease: 1.99.1\nLLVM version: 23.1.1",
+    "dotnet": ".NET SDK:\n Version:           10.0.404\n Commit:            2ab2854867\n Workload version:  10.0.400-manifests.ad9f6d83\n MSBuild version:   18.9.15+2ab285486\n\nRuntime Environment:\n OS Name:     Windows\n OS Version:  10.0.26200\n OS Platform: Windows\n RID:         win-x64\n Base Path:   D:\\projects\\dogwood-sharp\\artifacts\\verification-dotnet\\sdk\\10.0.404\\\n\n.NET workloads installed:\nThere are no installed workloads to display.\nConfigured to use workload sets when installing new manifests.\nNo workload sets are installed. Run \"dotnet workload restore\" to install a workload set.\n\nHost:\n  Version:      10.0.15\n  Architecture: x64\n  Commit:       8e0f8ed231\n\n.NET SDKs installed:\n  10.0.404 [D:\\projects\\dogwood-sharp\\artifacts\\verification-dotnet\\sdk]\n\n.NET runtimes installed:\n  Microsoft.AspNetCore.App 10.0.15 [D:\\projects\\dogwood-sharp\\artifacts\\verification-dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.NETCore.App 8.0.34 [D:\\projects\\dogwood-sharp\\artifacts\\verification-dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.15 [D:\\projects\\dogwood-sharp\\artifacts\\verification-dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.WindowsDesktop.App 10.0.15 [D:\\projects\\dogwood-sharp\\artifacts\\verification-dotnet\\shared\\Microsoft.WindowsDesktop.App]\n\nOther architectures found:\n  x86   [C:\\Program Files (x86)\\dotnet]\n    registered at [HKLM\\SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x86\\InstallLocation]\n\nEnvironment variables:\n  DOTNET_ROOT                              [D:\\projects\\dogwood-sharp\\artifacts\\verification-dotnet]\n\nglobal.json file:\n  D:\\projects\\dogwood-sharp\\global.json\n\nLearn more:\n  https://aka.ms/dotnet/info\n\nDownload .NET:\n  https://aka.ms/dotnet/download",
+    "python": "Python 3.14.8",
+    "bridgeLock": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+    "oracleLock": "6350fc819a6a392cb68720e434487f46c3f86cd3d65e24cad76957c8ef0a0da4",
+    "nativeImage": "7b40e9a32fc90753748887965ea7728ad7721991dba4455cc25b3b58b60f5972"
+  },
+  "native": [
+    "13",
+    "0",
+    "0"
+  ],
+  "managed": [
+    [
+      "0",
+      "44",
+      "0",
+      "44"
+    ],
+    [
+      "0",
+      "44",
+      "0",
+      "44"
+    ]
+  ],
+  "D2ProducerCases": 39,
+  "D1Sources": 73,
+  "D1WireRequests": 131,
+  "D1ConsumerScenariosPerFramework": 114
+}

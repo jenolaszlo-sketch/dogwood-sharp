@@ -1,0 +1,901 @@
+{
+  "runs": [
+    {
+      "run": {
+        "attempt": 1,
+        "conclusion": "failure",
+        "databaseId": 44258963165,
+        "headSha": "838a32d3678dfdc79e769b4c6f2ca58265bdfeeb",
+        "jobs": [
+          {
+            "completedAt": "2026-11-18T07:42:34Z",
+            "conclusion": "success",
+            "databaseId": 134647369744,
+            "name": "Qualify osx-arm64 on .NET 8 and .NET 10",
+            "startedAt": "2026-11-18T07:27:03Z",
+            "status": "completed",
+            "steps": [
+              {
+                "completedAt": "2026-11-18T07:27:08Z",
+                "conclusion": "success",
+                "name": "Set up job",
+                "number": 1,
+                "startedAt": "2026-11-18T07:27:04Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:27:10Z",
+                "conclusion": "success",
+                "name": "Run actions/checkout@v5",
+                "number": 2,
+                "startedAt": "2026-11-18T07:27:08Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:27:48Z",
+                "conclusion": "success",
+                "name": "Run actions/setup-dotnet@v5",
+                "number": 3,
+                "startedAt": "2026-11-18T07:27:10Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:28:09Z",
+                "conclusion": "success",
+                "name": "Run actions-rust-lang/setup-rust-toolchain@v1",
+                "number": 4,
+                "startedAt": "2026-11-18T07:27:48Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:28:09Z",
+                "conclusion": "skipped",
+                "name": "Install Linux memory checker",
+                "number": 5,
+                "startedAt": "2026-11-18T07:28:09Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:28:09Z",
+                "conclusion": "skipped",
+                "name": "Prepare MSVC for the C consumer",
+                "number": 6,
+                "startedAt": "2026-11-18T07:28:09Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:42:22Z",
+                "conclusion": "success",
+                "name": "Reproduce regressions and run qualification consumers",
+                "number": 7,
+                "startedAt": "2026-11-18T07:28:09Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:42:24Z",
+                "conclusion": "success",
+                "name": "Upload qualification evidence",
+                "number": 8,
+                "startedAt": "2026-11-18T07:42:22Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:42:24Z",
+                "conclusion": "success",
+                "name": "Post Run actions-rust-lang/setup-rust-toolchain@v1",
+                "number": 14,
+                "startedAt": "2026-11-18T07:42:24Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:42:25Z",
+                "conclusion": "success",
+                "name": "Post Run actions/setup-dotnet@v5",
+                "number": 15,
+                "startedAt": "2026-11-18T07:42:24Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:42:26Z",
+                "conclusion": "success",
+                "name": "Post Run actions/checkout@v5",
+                "number": 16,
+                "startedAt": "2026-11-18T07:42:25Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:42:31Z",
+                "conclusion": "success",
+                "name": "Complete job",
+                "number": 17,
+                "startedAt": "2026-11-18T07:42:26Z",
+                "status": "completed"
+              }
+            ],
+            "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44258963165/job/134647369744"
+          },
+          {
+            "completedAt": "2026-11-18T07:41:03Z",
+            "conclusion": "failure",
+            "databaseId": 134647370101,
+            "name": "Qualify linux-x64 on .NET 8 and .NET 10",
+            "startedAt": "2026-11-18T07:27:03Z",
+            "status": "completed",
+            "steps": [
+              {
+                "completedAt": "2026-11-18T07:27:08Z",
+                "conclusion": "success",
+                "name": "Set up job",
+                "number": 1,
+                "startedAt": "2026-11-18T07:27:04Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:27:12Z",
+                "conclusion": "success",
+                "name": "Run actions/checkout@v5",
+                "number": 2,
+                "startedAt": "2026-11-18T07:27:08Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:27:13Z",
+                "conclusion": "success",
+                "name": "Run actions/setup-dotnet@v5",
+                "number": 3,
+                "startedAt": "2026-11-18T07:27:12Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:27:22Z",
+                "conclusion": "success",
+                "name": "Run actions-rust-lang/setup-rust-toolchain@v1",
+                "number": 4,
+                "startedAt": "2026-11-18T07:27:13Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:33:22Z",
+                "conclusion": "success",
+                "name": "Install Linux memory checker",
+                "number": 5,
+                "startedAt": "2026-11-18T07:27:22Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:33:22Z",
+                "conclusion": "skipped",
+                "name": "Prepare MSVC for the C consumer",
+                "number": 6,
+                "startedAt": "2026-11-18T07:33:22Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:40:57Z",
+                "conclusion": "failure",
+                "name": "Reproduce regressions and run qualification consumers",
+                "number": 7,
+                "startedAt": "2026-11-18T07:33:22Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:41:00Z",
+                "conclusion": "success",
+                "name": "Upload qualification evidence",
+                "number": 8,
+                "startedAt": "2026-11-18T07:40:57Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:41:00Z",
+                "conclusion": "success",
+                "name": "Post Run actions-rust-lang/setup-rust-toolchain@v1",
+                "number": 14,
+                "startedAt": "2026-11-18T07:41:00Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:41:00Z",
+                "conclusion": "skipped",
+                "name": "Post Run actions/setup-dotnet@v5",
+                "number": 15,
+                "startedAt": "2026-11-18T07:41:00Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:41:00Z",
+                "conclusion": "success",
+                "name": "Post Run actions/checkout@v5",
+                "number": 16,
+                "startedAt": "2026-11-18T07:41:00Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:41:00Z",
+                "conclusion": "success",
+                "name": "Complete job",
+                "number": 17,
+                "startedAt": "2026-11-18T07:41:00Z",
+                "status": "completed"
+              }
+            ],
+            "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44258963165/job/134647370101"
+          },
+          {
+            "completedAt": "2026-11-18T07:47:07Z",
+            "conclusion": "success",
+            "databaseId": 134647370105,
+            "name": "Qualify win-x64 on .NET 8 and .NET 10",
+            "startedAt": "2026-11-18T07:27:03Z",
+            "status": "completed",
+            "steps": [
+              {
+                "completedAt": "2026-11-18T07:27:07Z",
+                "conclusion": "success",
+                "name": "Set up job",
+                "number": 1,
+                "startedAt": "2026-11-18T07:27:04Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:27:13Z",
+                "conclusion": "success",
+                "name": "Run actions/checkout@v5",
+                "number": 2,
+                "startedAt": "2026-11-18T07:27:07Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:28:12Z",
+                "conclusion": "success",
+                "name": "Run actions/setup-dotnet@v5",
+                "number": 3,
+                "startedAt": "2026-11-18T07:27:13Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:28:28Z",
+                "conclusion": "success",
+                "name": "Run actions-rust-lang/setup-rust-toolchain@v1",
+                "number": 4,
+                "startedAt": "2026-11-18T07:28:12Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:28:28Z",
+                "conclusion": "skipped",
+                "name": "Install Linux memory checker",
+                "number": 5,
+                "startedAt": "2026-11-18T07:28:28Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:28:33Z",
+                "conclusion": "success",
+                "name": "Prepare MSVC for the C consumer",
+                "number": 6,
+                "startedAt": "2026-11-18T07:28:28Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:47:02Z",
+                "conclusion": "success",
+                "name": "Reproduce regressions and run qualification consumers",
+                "number": 7,
+                "startedAt": "2026-11-18T07:28:33Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:47:03Z",
+                "conclusion": "success",
+                "name": "Upload qualification evidence",
+                "number": 8,
+                "startedAt": "2026-11-18T07:47:02Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:47:03Z",
+                "conclusion": "success",
+                "name": "Post Run actions-rust-lang/setup-rust-toolchain@v1",
+                "number": 14,
+                "startedAt": "2026-11-18T07:47:03Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:47:03Z",
+                "conclusion": "success",
+                "name": "Post Run actions/setup-dotnet@v5",
+                "number": 15,
+                "startedAt": "2026-11-18T07:47:03Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:47:06Z",
+                "conclusion": "success",
+                "name": "Post Run actions/checkout@v5",
+                "number": 16,
+                "startedAt": "2026-11-18T07:47:03Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T07:47:06Z",
+                "conclusion": "success",
+                "name": "Complete job",
+                "number": 17,
+                "startedAt": "2026-11-18T07:47:06Z",
+                "status": "completed"
+              }
+            ],
+            "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44258963165/job/134647370105"
+          }
+        ],
+        "status": "completed",
+        "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44258963165"
+      },
+      "artifactArchives": [
+        {
+          "archive_download_url": "https://api.github.com/repos/jenolaszlo-sketch/dogwood-sharp/actions/artifacts/14408220917/zip",
+          "digest": "sha256:845642ab61784cccd2e799618a370245b27f095811231ddd68aecee7b4904b23",
+          "id": 14408220917,
+          "name": "dogwood-d2-qual-linux-x64",
+          "size_in_bytes": 260212
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/jenolaszlo-sketch/dogwood-sharp/actions/artifacts/14408122554/zip",
+          "digest": "sha256:359dcae027f4b786c0ae25d0d9eafdde47ed3266e1b1271ef8357a3ecc47f333",
+          "id": 14408122554,
+          "name": "dogwood-d2-qual-osx-arm64",
+          "size_in_bytes": 256239
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/jenolaszlo-sketch/dogwood-sharp/actions/artifacts/14407594061/zip",
+          "digest": "sha256:b31bc009c5599c4ff25ea1685bb2297d0fcedea314dce1793b898af3e2b563bb",
+          "id": 14407594061,
+          "name": "dogwood-d2-qual-win-x64",
+          "size_in_bytes": 263426
+        }
+      ]
+    },
+    {
+      "run": {
+        "attempt": 1,
+        "conclusion": "failure",
+        "databaseId": 44280904593,
+        "headSha": "2b55d471df9a91764692d653621b12e1a465f054",
+        "jobs": [
+          {
+            "completedAt": "2026-11-18T10:09:42Z",
+            "conclusion": "failure",
+            "databaseId": 134721018682,
+            "name": "Qualify linux-x64 on .NET 8 and .NET 10",
+            "startedAt": "2026-11-18T09:58:32Z",
+            "status": "completed",
+            "steps": [
+              {
+                "completedAt": "2026-11-18T09:58:34Z",
+                "conclusion": "success",
+                "name": "Set up job",
+                "number": 1,
+                "startedAt": "2026-11-18T09:58:33Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T09:58:35Z",
+                "conclusion": "success",
+                "name": "Run actions/checkout@v5",
+                "number": 2,
+                "startedAt": "2026-11-18T09:58:34Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T09:58:36Z",
+                "conclusion": "success",
+                "name": "Run actions/setup-dotnet@v5",
+                "number": 3,
+                "startedAt": "2026-11-18T09:58:35Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T09:58:45Z",
+                "conclusion": "success",
+                "name": "Run actions-rust-lang/setup-rust-toolchain@v1",
+                "number": 4,
+                "startedAt": "2026-11-18T09:58:36Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T09:58:59Z",
+                "conclusion": "success",
+                "name": "Install Linux memory checker",
+                "number": 5,
+                "startedAt": "2026-11-18T09:58:45Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T09:58:59Z",
+                "conclusion": "skipped",
+                "name": "Prepare MSVC for the C consumer",
+                "number": 6,
+                "startedAt": "2026-11-18T09:58:59Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T10:09:39Z",
+                "conclusion": "failure",
+                "name": "Reproduce regressions and run qualification consumers",
+                "number": 7,
+                "startedAt": "2026-11-18T09:58:59Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T10:09:40Z",
+                "conclusion": "success",
+                "name": "Upload qualification evidence",
+                "number": 8,
+                "startedAt": "2026-11-18T10:09:39Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T10:09:40Z",
+                "conclusion": "success",
+                "name": "Post Run actions-rust-lang/setup-rust-toolchain@v1",
+                "number": 14,
+                "startedAt": "2026-11-18T10:09:40Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T10:09:40Z",
+                "conclusion": "skipped",
+                "name": "Post Run actions/setup-dotnet@v5",
+                "number": 15,
+                "startedAt": "2026-11-18T10:09:40Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T10:09:40Z",
+                "conclusion": "success",
+                "name": "Post Run actions/checkout@v5",
+                "number": 16,
+                "startedAt": "2026-11-18T10:09:40Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-11-18T10:09:40Z",
+                "conclusion": "success",
+                "name": "Complete job",
+                "number": 17,
+                "startedAt": "2026-11-18T10:09:40Z",
+                "status": "completed"
+              }
+            ],
+            "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44280904593/job/134721018682"
+          }
+        ],
+        "status": "completed",
+        "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44280904593"
+      },
+      "artifactArchives": [
+        {
+          "archive_download_url": "https://api.github.com/repos/jenolaszlo-sketch/dogwood-sharp/actions/artifacts/14418250444/zip",
+          "digest": "sha256:76873173c0da00755c5df73e023b4205dc9e536981f62ddd4b905868a22b3ac0",
+          "id": 14418250444,
+          "name": "dogwood-d2-qual-linux-x64",
+          "size_in_bytes": 270717
+        }
+      ]
+    }
+  ],
+  "matrix": {
+    "win-x64": {
+      "provenance": {
+        "baseline": "d0dbf762ab1c0d12a3e2ed21e0e338f09170c314",
+        "baselineTree": "21ffc920e01a0c9875e33c572a947aff502d9b25",
+        "checkout": "838a32d3678dfdc79e769b4c6f2ca58265bdfeeb",
+        "checkoutTree": "9599051e64eccc05fbc0606bd049f364ddeb6419",
+        "rid": "win-x64",
+        "os": "Microsoft Windows 10.0.26100",
+        "runnerImage": "win25-vs2026 20261103.298.1",
+        "rust": "rustc 1.99.1 (58cf8f9c3 2026-10-13)\nbinary: rustc\ncommit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67\ncommit-date: 2026-10-13\nhost: x86_64-pc-windows-msvc\nrelease: 1.99.1\nLLVM version: 23.1.1",
+        "dotnet": ".NET SDK:\n Version:           10.0.404\n Commit:            2ab2854867\n Workload version:  10.0.400-manifests.899c35d8\n MSBuild version:   18.9.15+2ab285486\n\nRuntime Environment:\n OS Name:     Windows\n OS Version:  10.0.26100\n OS Platform: Windows\n RID:         win-x64\n Base Path:   C:\\Program Files\\dotnet\\sdk\\10.0.404\\\n\n.NET workloads installed:\n [maui-windows]\n   Installation Source: VS 18.11.12328.437\n   Manifest Version:    10.0.110/10.0.100\n   Manifest Path:       C:\\Program Files\\dotnet\\sdk-manifests\\10.0.100\\microsoft.net.sdk.maui\\10.0.110\\WorkloadManifest.json\n   Install Type:              Msi\n\n [maccatalyst]\n   Installation Source: VS 18.11.12328.437\n   Manifest Version:    26.5.10315/10.0.100\n   Manifest Path:       C:\\Program Files\\dotnet\\sdk-manifests\\10.0.100\\microsoft.net.sdk.maccatalyst\\26.5.10315\\WorkloadManifest.json\n   Install Type:              Msi\n\n [ios]\n   Installation Source: VS 18.11.12328.437\n   Manifest Version:    26.5.10315/10.0.100\n   Manifest Path:       C:\\Program Files\\dotnet\\sdk-manifests\\10.0.100\\microsoft.net.sdk.ios\\26.5.10315\\WorkloadManifest.json\n   Install Type:              Msi\n\n [android]\n   Installation Source: VS 18.11.12328.437\n   Manifest Version:    36.1.118/10.0.100\n   Manifest Path:       C:\\Program Files\\dotnet\\sdk-manifests\\10.0.100\\microsoft.net.sdk.android\\36.1.118\\WorkloadManifest.json\n   Install Type:              Msi\n\n [wasm-tools]\n   Installation Source: VS 18.11.12328.437\n   Manifest Version:    10.0.114/10.0.100\n   Manifest Path:       C:\\Program Files\\dotnet\\sdk-manifests\\10.0.100\\microsoft.net.workload.mono.toolchain.current\\10.0.114\\WorkloadManifest.json\n   Install Type:              Msi\n\nConfigured to use workload sets when installing new manifests.\nNo workload sets are installed. Run \"dotnet workload restore\" to install a workload set.\n\nHost:\n  Version:      10.0.15\n  Architecture: x64\n  Commit:       8e0f8ed231\n\n.NET SDKs installed:\n  8.0.133 [C:\\Program Files\\dotnet\\sdk]\n  8.0.206 [C:\\Program Files\\dotnet\\sdk]\n  8.0.319 [C:\\Program Files\\dotnet\\sdk]\n  8.0.427 [C:\\Program Files\\dotnet\\sdk]\n  8.0.428 [C:\\Program Files\\dotnet\\sdk]\n  9.0.123 [C:\\Program Files\\dotnet\\sdk]\n  9.0.205 [C:\\Program Files\\dotnet\\sdk]\n  9.0.320 [C:\\Program Files\\dotnet\\sdk]\n  10.0.114 [C:\\Program Files\\dotnet\\sdk]\n  10.0.204 [C:\\Program Files\\dotnet\\sdk]\n  10.0.303 [C:\\Program Files\\dotnet\\sdk]\n  10.0.403 [C:\\Program Files\\dotnet\\sdk]\n  10.0.404 [C:\\Program Files\\dotnet\\sdk]\n\n.NET runtimes installed:\n  Microsoft.AspNetCore.App 8.0.6 [C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 8.0.22 [C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 8.0.33 [C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 8.0.34 [C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 9.0.6 [C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 9.0.22 [C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.8 [C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.11 [C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.14 [C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.15 [C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.NETCore.App 8.0.6 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 8.0.22 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 8.0.33 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 8.0.34 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 9.0.6 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 9.0.22 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.8 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.11 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.14 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.15 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.WindowsDesktop.App 8.0.6 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 8.0.22 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 8.0.33 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 8.0.34 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 9.0.6 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 9.0.22 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 10.0.8 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 10.0.11 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 10.0.14 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 10.0.15 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]\n\nOther architectures found:\n  x86   [C:\\Program Files (x86)\\dotnet]\n    registered at [HKLM\\SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x86\\InstallLocation]\n\nEnvironment variables:\n  DOTNET_MULTILEVEL_LOOKUP                 [0]\n  DOTNET_NOLOGO                            [1]\n  DOTNET_ROOT                              [C:\\Program Files\\dotnet]\n  DOTNET_SKIP_FIRST_TIME_EXPERIENCE        [1]\n\nglobal.json file:\n  D:\\a\\dogwood-sharp\\dogwood-sharp\\global.json\n\nLearn more:\n  https://aka.ms/dotnet/info\n\nDownload .NET:\n  https://aka.ms/dotnet/download",
+        "python": "Python 3.12.10",
+        "bridgeLock": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+        "oracleLock": "6350fc819a6a392cb68720e434487f46c3f86cd3d65e24cad76957c8ef0a0da4",
+        "nativeImage": "dbe23bd1d8bf65de658232d991fd5e87fc6773ed8f51ab1b2b419b44b996614b"
+      },
+      "manifest": {
+        "manifestVersion": 1,
+        "rid": "win-x64",
+        "file": "dogwoodsharp_bridge.dll",
+        "sha256": "dbe23bd1d8bf65de658232d991fd5e87fc6773ed8f51ab1b2b419b44b996614b",
+        "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+        "abiVersion": 1,
+        "bridgeVersion": "0.1.0",
+        "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+        "dogwoodVersion": "1.1.2",
+        "cedarVersion": "4.11.0",
+        "rustVersion": "1.99.1",
+        "target": "x86_64-pc-windows-msvc",
+        "dogwoodFeatures": [],
+        "cedarFeatures": [
+          "datetime",
+          "decimal",
+          "ipaddr"
+        ]
+      },
+      "nativeTests": {
+        "passed": 13,
+        "failed": 0,
+        "ignored": 0
+      },
+      "producerD2Corpus": {
+        "cases": 39,
+        "replies": 78,
+        "failures": 0
+      },
+      "D1": {
+        "cChecks": 88,
+        "sources": 73,
+        "wireRequests": 131
+      },
+      "matchedResolvedGraphPackages": 181,
+      "frameworks": {
+        "net8.0": {
+          "managedRegressions": 44,
+          "managedRegressionFailures": 0,
+          "managedRegressionSkipped": 0,
+          "d1Consumer": 114,
+          "d1ConsumerFailures": 0,
+          "producerSmokes": [
+            "JIT",
+            "NativeAOT"
+          ],
+          "D1ConsumerNativeAOT": true,
+          "independentJIT": 35,
+          "independentNativeAOT": 35,
+          "immutableSnapshotPerMode": 1,
+          "decoderPositive": 3,
+          "decoderRejected": 18,
+          "partialSchemaAccepted": true,
+          "transportPassed": [
+            "invalid-json",
+            "invalid-utf8",
+            "oversized"
+          ]
+        },
+        "net10.0": {
+          "managedRegressions": 44,
+          "managedRegressionFailures": 0,
+          "managedRegressionSkipped": 0,
+          "d1Consumer": 114,
+          "d1ConsumerFailures": 0,
+          "producerSmokes": [
+            "JIT",
+            "NativeAOT"
+          ],
+          "D1ConsumerNativeAOT": true,
+          "independentJIT": 35,
+          "independentNativeAOT": 35,
+          "immutableSnapshotPerMode": 1,
+          "decoderPositive": 3,
+          "decoderRejected": 18,
+          "partialSchemaAccepted": true,
+          "transportPassed": [
+            "invalid-json",
+            "invalid-utf8",
+            "oversized"
+          ]
+        }
+      },
+      "nativeQualification": {
+        "cases": 35,
+        "ABIReplies": 70,
+        "CedarRoundTrips": 13,
+        "concurrentCalls": 216,
+        "sensitivity": {
+          "bypass-collision": "collisionCheckPassed",
+          "export-before-validation": "artifactsExported",
+          "drop-distincter": "rules",
+          "wrong-dispatch": "operation-specific shape",
+          "partial-artifact-set": "operation-specific shape"
+        }
+      },
+      "nativeTransportControls": 26
+    },
+    "linux-x64": {
+      "provenance": {
+        "baseline": "d0dbf762ab1c0d12a3e2ed21e0e338f09170c314",
+        "baselineTree": "21ffc920e01a0c9875e33c572a947aff502d9b25",
+        "checkout": "2b55d471df9a91764692d653621b12e1a465f054",
+        "checkoutTree": "1619288f1d1a303a796683676cafa0b5074cc750",
+        "rid": "linux-x64",
+        "os": "Ubuntu 24.04.5 LTS",
+        "runnerImage": "ubuntu24 20261111.370.1",
+        "rust": "rustc 1.99.1 (58cf8f9c3 2026-10-13)\nbinary: rustc\ncommit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67\ncommit-date: 2026-10-13\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.1\nLLVM version: 23.1.1",
+        "dotnet": ".NET SDK:\n Version:           10.0.404\n Commit:            2ab2854867\n Workload version:  10.0.400-manifests.ad9f6d83\n MSBuild version:   18.9.15+2ab285486\n\nRuntime Environment:\n OS Name:     ubuntu\n OS Version:  24.04\n OS Platform: Linux\n RID:         linux-x64\n Base Path:   /usr/share/dotnet/sdk/10.0.404/\n\n.NET workloads installed:\nThere are no installed workloads to display.\nConfigured to use workload sets when installing new manifests.\nNo workload sets are installed. Run \"dotnet workload restore\" to install a workload set.\n\nHost:\n  Version:      11.0.0\n  Architecture: x64\n  Commit:       297acf930f\n\n.NET SDKs installed:\n  8.0.134 [/usr/share/dotnet/sdk]\n  8.0.206 [/usr/share/dotnet/sdk]\n  8.0.319 [/usr/share/dotnet/sdk]\n  8.0.428 [/usr/share/dotnet/sdk]\n  9.0.124 [/usr/share/dotnet/sdk]\n  9.0.205 [/usr/share/dotnet/sdk]\n  9.0.321 [/usr/share/dotnet/sdk]\n  10.0.115 [/usr/share/dotnet/sdk]\n  10.0.204 [/usr/share/dotnet/sdk]\n  10.0.303 [/usr/share/dotnet/sdk]\n  10.0.404 [/usr/share/dotnet/sdk]\n  11.0.100 [/usr/share/dotnet/sdk]\n\n.NET runtimes installed:\n  Microsoft.AspNetCore.App 8.0.6 [/usr/share/dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 8.0.22 [/usr/share/dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 8.0.34 [/usr/share/dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 9.0.6 [/usr/share/dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 9.0.23 [/usr/share/dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.8 [/usr/share/dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.11 [/usr/share/dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.15 [/usr/share/dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 11.0.0 [/usr/share/dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.NETCore.App 8.0.6 [/usr/share/dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 8.0.22 [/usr/share/dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 8.0.34 [/usr/share/dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 9.0.6 [/usr/share/dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 9.0.23 [/usr/share/dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.8 [/usr/share/dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.11 [/usr/share/dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.15 [/usr/share/dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 11.0.0 [/usr/share/dotnet/shared/Microsoft.NETCore.App]\n\nOther architectures found:\n  None\n\nEnvironment variables:\n  DOTNET_MULTILEVEL_LOOKUP                 [0]\n  DOTNET_NOLOGO                            [1]\n  DOTNET_ROOT                              [/usr/share/dotnet]\n  DOTNET_SKIP_FIRST_TIME_EXPERIENCE        [1]\n\nglobal.json file:\n  /home/runner/work/dogwood-sharp/dogwood-sharp/global.json\n\nLearn more:\n  https://aka.ms/dotnet/info\n\nDownload .NET:\n  https://aka.ms/dotnet/download",
+        "python": "Python 3.12.3",
+        "bridgeLock": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+        "oracleLock": "6350fc819a6a392cb68720e434487f46c3f86cd3d65e24cad76957c8ef0a0da4",
+        "nativeImage": "7ede463d8426658e4b59eeea7652cc2089340bff3d98bf0f0c2ac52dbbfa2641"
+      },
+      "manifest": {
+        "manifestVersion": 1,
+        "rid": "linux-x64",
+        "file": "libdogwoodsharp_bridge.so",
+        "sha256": "7ede463d8426658e4b59eeea7652cc2089340bff3d98bf0f0c2ac52dbbfa2641",
+        "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+        "abiVersion": 1,
+        "bridgeVersion": "0.1.0",
+        "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+        "dogwoodVersion": "1.1.2",
+        "cedarVersion": "4.11.0",
+        "rustVersion": "1.99.1",
+        "target": "x86_64-unknown-linux-gnu",
+        "dogwoodFeatures": [],
+        "cedarFeatures": [
+          "datetime",
+          "decimal",
+          "ipaddr"
+        ]
+      },
+      "nativeTests": {
+        "passed": 13,
+        "failed": 0,
+        "ignored": 0
+      },
+      "producerD2Corpus": {
+        "cases": 39,
+        "replies": 78,
+        "failures": 0
+      },
+      "D1": {
+        "cChecks": 88,
+        "sources": 73,
+        "wireRequests": 131
+      },
+      "matchedResolvedGraphPackages": 177,
+      "frameworks": {
+        "net8.0": {
+          "managedRegressions": 44,
+          "managedRegressionFailures": 0,
+          "managedRegressionSkipped": 0,
+          "d1Consumer": 114,
+          "d1ConsumerFailures": 0,
+          "producerSmokes": [
+            "JIT",
+            "NativeAOT"
+          ],
+          "D1ConsumerNativeAOT": true,
+          "independentJIT": 35,
+          "independentNativeAOT": 35,
+          "immutableSnapshotPerMode": 1,
+          "decoderPositive": 3,
+          "decoderRejected": 18,
+          "partialSchemaAccepted": true,
+          "transportPassed": [
+            "invalid-json",
+            "invalid-utf8",
+            "oversized"
+          ]
+        },
+        "net10.0": {
+          "managedRegressions": 44,
+          "managedRegressionFailures": 0,
+          "managedRegressionSkipped": 0,
+          "d1Consumer": 114,
+          "d1ConsumerFailures": 0,
+          "producerSmokes": [
+            "JIT",
+            "NativeAOT"
+          ],
+          "D1ConsumerNativeAOT": true,
+          "independentJIT": 35,
+          "independentNativeAOT": 35,
+          "immutableSnapshotPerMode": 1,
+          "decoderPositive": 3,
+          "decoderRejected": 18,
+          "partialSchemaAccepted": true,
+          "transportPassed": [
+            "invalid-json",
+            "invalid-utf8",
+            "oversized"
+          ]
+        }
+      },
+      "nativeQualification": {
+        "cases": 35,
+        "ABIReplies": 70,
+        "CedarRoundTrips": 13,
+        "concurrentCalls": 216,
+        "sensitivity": {
+          "bypass-collision": "collisionCheckPassed",
+          "export-before-validation": "artifactsExported",
+          "drop-distincter": "rules",
+          "wrong-dispatch": "operation-specific shape",
+          "partial-artifact-set": "operation-specific shape"
+        }
+      },
+      "nativeTransportControls": 26,
+      "initialUnload": {
+        "errors": 122,
+        "contexts": 122,
+        "sha256": "7cca2ab3b57b4de77ae4280e1830187ab360312d4830b6a36f8db7d15d532103",
+        "definitelyLostBytes": 3460,
+        "indirectlyLostBytes": 39456,
+        "possiblyLostBytes": 0
+      },
+      "ownershipControls": {
+        "loader-only": {
+          "errors": 0,
+          "contexts": 0,
+          "sha256": "2d27d2ce5c162bbbb39b5424bf40487f84f790cf3e1926b67d1f92e9c7d92368",
+          "definitelyLostBytes": 0,
+          "indirectlyLostBytes": 0,
+          "possiblyLostBytes": 0
+        },
+        "parse-unload": {
+          "errors": 0,
+          "contexts": 0,
+          "sha256": "e2bd260286b34b0e2a3a741a6d408ca0636540ffe2505299ad3930e8426b7345",
+          "definitelyLostBytes": 0,
+          "indirectlyLostBytes": 0,
+          "possiblyLostBytes": 0
+        },
+        "resident": {
+          "errors": 0,
+          "contexts": 0,
+          "sha256": "19b60c590ce35a4f391fdb978fff75b271e6761a42b7189a553676859ac2120f",
+          "definitelyLostBytes": 0,
+          "indirectlyLostBytes": 0,
+          "possiblyLostBytes": 13136
+        },
+        "mixed-unload": {
+          "errors": 121,
+          "contexts": 121,
+          "sha256": "fa9593c261b3387d75781b08fce61e80f5cb26634368725a648a8ff523ea452d",
+          "definitelyLostBytes": 3460,
+          "indirectlyLostBytes": 39456,
+          "possiblyLostBytes": 0
+        }
+      },
+      "nativeMemcheck": {
+        "version_and_repeated_output_lifecycle": {
+          "errors": 0,
+          "contexts": 0,
+          "sha256": "fdf2acb5c173a1201a2559d51bec367436404f9b85834b6d1046e5177c6033a2",
+          "definitelyLostBytes": 0,
+          "indirectlyLostBytes": 0,
+          "possiblyLostBytes": 48
+        },
+        "d2_repeated_output_lifecycle": {
+          "errors": 0,
+          "contexts": 0,
+          "sha256": "8eaec6bc67fb68edb0bb83771c62f4de3ff37cde83e1e0c82e8d11336b953155",
+          "definitelyLostBytes": 0,
+          "indirectlyLostBytes": 0,
+          "possiblyLostBytes": 13804
+        }
+      },
+      "D1ConsumerMemcheck": {
+        "result": "pass",
+        "errorSummary": "0 errors",
+        "definitelyLost": "0 bytes",
+        "log": "logs/native-selftest-valgrind.log"
+      }
+    },
+    "osx-arm64": {
+      "provenance": {
+        "baseline": "d0dbf762ab1c0d12a3e2ed21e0e338f09170c314",
+        "baselineTree": "21ffc920e01a0c9875e33c572a947aff502d9b25",
+        "checkout": "838a32d3678dfdc79e769b4c6f2ca58265bdfeeb",
+        "checkoutTree": "9599051e64eccc05fbc0606bd049f364ddeb6419",
+        "rid": "osx-arm64",
+        "os": "macOS 15.8.2",
+        "runnerImage": "macos15 20261104.0514.1",
+        "rust": "rustc 1.99.1 (58cf8f9c3 2026-10-13)\nbinary: rustc\ncommit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67\ncommit-date: 2026-10-13\nhost: aarch64-apple-darwin\nrelease: 1.99.1\nLLVM version: 23.1.1",
+        "dotnet": ".NET SDK:\n Version:           10.0.404\n Commit:            2ab2854867\n Workload version:  10.0.400-manifests.ad9f6d83\n MSBuild version:   18.9.15+2ab285486\n\nRuntime Environment:\n OS Name:     Mac OS X\n OS Version:  15.8\n OS Platform: Darwin\n RID:         osx-arm64\n Base Path:   /Users/runner/.dotnet/sdk/10.0.404/\n\n.NET workloads installed:\nThere are no installed workloads to display.\nConfigured to use workload sets when installing new manifests.\nNo workload sets are installed. Run \"dotnet workload restore\" to install a workload set.\n\nHost:\n  Version:      10.0.15\n  Architecture: arm64\n  Commit:       8e0f8ed231\n\n.NET SDKs installed:\n  8.0.101 [/Users/runner/.dotnet/sdk]\n  8.0.204 [/Users/runner/.dotnet/sdk]\n  8.0.303 [/Users/runner/.dotnet/sdk]\n  8.0.427 [/Users/runner/.dotnet/sdk]\n  8.0.428 [/Users/runner/.dotnet/sdk]\n  9.0.102 [/Users/runner/.dotnet/sdk]\n  9.0.203 [/Users/runner/.dotnet/sdk]\n  9.0.320 [/Users/runner/.dotnet/sdk]\n  10.0.103 [/Users/runner/.dotnet/sdk]\n  10.0.203 [/Users/runner/.dotnet/sdk]\n  10.0.302 [/Users/runner/.dotnet/sdk]\n  10.0.403 [/Users/runner/.dotnet/sdk]\n  10.0.404 [/Users/runner/.dotnet/sdk]\n\n.NET runtimes installed:\n  Microsoft.AspNetCore.App 8.0.1 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 8.0.4 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 8.0.7 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 8.0.33 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 8.0.34 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 9.0.1 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 9.0.4 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 9.0.22 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.3 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.7 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.10 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.14 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.15 [/Users/runner/.dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.NETCore.App 8.0.1 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 8.0.4 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 8.0.7 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 8.0.33 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 8.0.34 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 9.0.1 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 9.0.4 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 9.0.22 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.3 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.7 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.10 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.14 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.15 [/Users/runner/.dotnet/shared/Microsoft.NETCore.App]\n\nOther architectures found:\n  None\n\nEnvironment variables:\n  DOTNET_MULTILEVEL_LOOKUP                 [0]\n  DOTNET_NOLOGO                            [1]\n  DOTNET_ROOT                              [/Users/runner/.dotnet]\n  DOTNET_SKIP_FIRST_TIME_EXPERIENCE        [1]\n\nglobal.json file:\n  /Users/runner/work/dogwood-sharp/dogwood-sharp/global.json\n\nLearn more:\n  https://aka.ms/dotnet/info\n\nDownload .NET:\n  https://aka.ms/dotnet/download",
+        "python": "Python 3.15.2",
+        "bridgeLock": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+        "oracleLock": "6350fc819a6a392cb68720e434487f46c3f86cd3d65e24cad76957c8ef0a0da4",
+        "nativeImage": "1dbc030e1f36a37556ee412621c8d36fb4d90387f8b1d33d9441d58a05d885a3"
+      },
+      "manifest": {
+        "manifestVersion": 1,
+        "rid": "osx-arm64",
+        "file": "libdogwoodsharp_bridge.dylib",
+        "sha256": "1dbc030e1f36a37556ee412621c8d36fb4d90387f8b1d33d9441d58a05d885a3",
+        "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+        "abiVersion": 1,
+        "bridgeVersion": "0.1.0",
+        "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+        "dogwoodVersion": "1.1.2",
+        "cedarVersion": "4.11.0",
+        "rustVersion": "1.99.1",
+        "target": "aarch64-apple-darwin",
+        "dogwoodFeatures": [],
+        "cedarFeatures": [
+          "datetime",
+          "decimal",
+          "ipaddr"
+        ]
+      },
+      "nativeTests": {
+        "passed": 13,
+        "failed": 0,
+        "ignored": 0
+      },
+      "producerD2Corpus": {
+        "cases": 39,
+        "replies": 78,
+        "failures": 0
+      },
+      "D1": {
+        "cChecks": 88,
+        "sources": 73,
+        "wireRequests": 131
+      },
+      "matchedResolvedGraphPackages": 179,
+      "frameworks": {
+        "net8.0": {
+          "managedRegressions": 44,
+          "managedRegressionFailures": 0,
+          "managedRegressionSkipped": 0,
+          "d1Consumer": 114,
+          "d1ConsumerFailures": 0,
+          "producerSmokes": [
+            "JIT",
+            "NativeAOT"
+          ],
+          "D1ConsumerNativeAOT": true,
+          "independentJIT": 35,
+          "independentNativeAOT": 35,
+          "immutableSnapshotPerMode": 1,
+          "decoderPositive": 3,
+          "decoderRejected": 18,
+          "partialSchemaAccepted": true,
+          "transportPassed": [
+            "invalid-json",
+            "invalid-utf8",
+            "oversized"
+          ]
+        },
+        "net10.0": {
+          "managedRegressions": 44,
+          "managedRegressionFailures": 0,
+          "managedRegressionSkipped": 0,
+          "d1Consumer": 114,
+          "d1ConsumerFailures": 0,
+          "producerSmokes": [
+            "JIT",
+            "NativeAOT"
+          ],
+          "D1ConsumerNativeAOT": true,
+          "independentJIT": 35,
+          "independentNativeAOT": 35,
+          "immutableSnapshotPerMode": 1,
+          "decoderPositive": 3,
+          "decoderRejected": 18,
+          "partialSchemaAccepted": true,
+          "transportPassed": [
+            "invalid-json",
+            "invalid-utf8",
+            "oversized"
+          ]
+        }
+      },
+      "nativeQualification": {
+        "cases": 35,
+        "ABIReplies": 70,
+        "CedarRoundTrips": 13,
+        "concurrentCalls": 216,
+        "sensitivity": {
+          "bypass-collision": "collisionCheckPassed",
+          "export-before-validation": "artifactsExported",
+          "drop-distincter": "rules",
+          "wrong-dispatch": "operation-specific shape",
+          "partial-artifact-set": "operation-specific shape"
+        }
+      },
+      "nativeTransportControls": 26
+    }
+  }
+}

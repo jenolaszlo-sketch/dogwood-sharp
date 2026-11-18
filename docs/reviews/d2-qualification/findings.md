@@ -16,7 +16,7 @@ include a genuinely empty policy and schema export.
 **Expected.** Managed decoding rejects the incomplete bundle with
 `DogwoodBridgeFailure.MalformedResponse`.
 
-**Observed.** On Windows under .NET 8 and .NET 10, decoding returned an object
+**Observed.** In all six JIT platform and framework cells, decoding returned an object
 with `ArtifactsExported == true`, `IsLowered == true` and an empty
 `CedarSchemaText`. The same decoder rejected a missing property and malformed
 schema JSON. The public native operations returned complete artifacts for the
@@ -57,10 +57,11 @@ and compare it with the wrapper's warning location on both operations.
 The explanation should distinguish the wire projection from the upstream
 API's diagnostic labels.
 
-**Observed.** Validation passed with one Cedar warning. The pinned upstream
-warning's public diagnostic label reported offset 0 and length 78 in the
-local probe. Both wrapper operations reported a null warning location, in
-agreement with the wire contract.
+**Observed.** On all three RIDs validation passed with one Cedar warning. Its
+pinned upstream public diagnostic label reported offset 0 and length 78.
+Both wrapper operations reported a null warning location, in agreement with
+the wire contract. Mapping any upstream label into authored source would
+also require checking source provenance and byte-offset rebasing.
 
 **Location.** [finding_warning](../../../native/dogwoodsharp-bridge/src/d2.rs)
 projects warning locations as null. Cedar 4.11.0 forwards diagnostic labels
@@ -95,13 +96,36 @@ lost bytes and 122 error contexts. The separate Rust D1 and D2 lifetime
 tests and the archived C consumer regression had zero memory errors.
 The first run stopped before the independent Linux managed consumers.
 
+**Follow-up on Linux x64 with Valgrind 3.22.0.**
+
+| Control | C calls | Errors | Definitely lost | Indirectly lost | Possibly lost |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Open and close the image | 0 | 0 | 0 | 0 | 0 |
+| D1 parse and unload | 32 | 0 | 0 | 0 | 0 |
+| D1 and D2 calls, image resident at exit | 128 | 0 | 0 | 0 | 13,136 bytes |
+| Same D1 and D2 calls, then unload | 128 | 121 | 3,460 bytes | 39,456 bytes | 0 |
+
+All C call and release assertions passed. The exact byte losses reproduced
+with symbols retained. The follow-up completed the Linux managed cases in
+both frameworks and then reported the failed ownership gate.
+
 **Implementation location.** The sequence crosses the native call and
 release exports in [lib.rs](../../../native/dogwoodsharp-bridge/src/lib.rs).
-The initial unloaded-object report contains unresolved frames. The
-qualification follow-up retains debug information for unloaded objects and
-compares loader-only, D1 parse, resident mixed, and unloaded mixed controls.
+Symbolized stacks include Cedar's lazily initialized schema and entity-name
+parsers and its extension tables. They are reached through Dogwood event
+schema derivation, lowering and validation. See the
+[initial log](evidence/initial-valgrind-ownership.log),
+[symbolized follow-up log](evidence/valgrind-ownership-mixed-unload.log), and
+[resident control](evidence/valgrind-ownership-resident.log).
 
-**Impact and next action.** Qualification of the Linux native unload path is
-pending attribution. Keep the initial raw Valgrind report and use the control
-results to distinguish returned-buffer ownership from library unload and
-dependency-lifetime effects.
+**Impact.** The mixed D2 sequence leaves dependency allocations behind after
+native library unload, even when the consumer releases every response first.
+The resident control reports no definite or indirect loss under the same
+workload. The measured loss is for a single unload after D2 use. Repeated
+load/unload amplification and memory behavior on other operating systems
+remain unmeasured.
+
+**Recommended action.** Decide the supported native library lifetime before
+D2 acceptance. Requalify unload after remediation if unload remains
+supported. If the owner adopts a process-lifetime boundary, document and
+verify that contract and its consequences for downstream hosting.

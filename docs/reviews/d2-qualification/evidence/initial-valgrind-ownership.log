@@ -1,0 +1,190 @@
+==16069== Memcheck, a memory error detector
+==16069== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==16069== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==16069== Command: /home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/d2-qualification/linux-x64/ownership /home/runner/work/dogwood-sharp/dogwood-sharp/artifacts/native/runtimes/linux-x64/native/libdogwoodsharp_bridge.so
+==16069== Parent PID: 4157
+==16069==
+==16069==
+==16069== HEAP SUMMARY:
+==16069==     in use at exit: 43,068 bytes in 162 blocks
+==16069==   total heap usage: 68,250 allocs, 68,088 frees, 26,675,719 bytes allocated
+==16069==
+==16069== 36 bytes in 1 blocks are definitely lost in loss record 2 of 123
+==16069==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16069==    by 0x57883A3: ???
+==16069==    by 0x5642AE5: ???
+==16069==    by 0x5489159: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x5693778: ???
+==16069==    by 0x52676D9: ???
+==16069==    by 0x51E9520: ???
+==16069==    by 0x51ED0E5: ???
+==16069==    by 0x51E9434: ???
+==16069==    by 0x51A9136: ???
+==16069==    by 0x51BC58A: ???
+==16069==
+==16069== 52 bytes in 1 blocks are definitely lost in loss record 27 of 123
+==16069==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16069==    by 0x57883A3: ???
+==16069==    by 0x548A265: ???
+==16069==    by 0x56175B9: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x561C09B: ???
+==16069==    by 0x57E9692: ???
+==16069==    by 0x57ED1FA: ???
+==16069==    by 0x560351F: ???
+==16069==    by 0x57E7931: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x57F0083: ???
+==16069==
+==16069== 52 bytes in 1 blocks are definitely lost in loss record 28 of 123
+==16069==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16069==    by 0x57883A3: ???
+==16069==    by 0x55A4875: ???
+==16069==    by 0x56175B9: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x561BB8B: ???
+==16069==    by 0x57FC122: ???
+==16069==    by 0x561D1CA: ???
+==16069==    by 0x54B2C9F: ???
+==16069==    by 0x5489093: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x5489B9C: ???
+==16069==
+==16069== 104 bytes in 1 blocks are definitely lost in loss record 80 of 123
+==16069==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16069==    by 0x5546102: ???
+==16069==    by 0x57E706D: ???
+==16069==    by 0x5489ADD: ???
+==16069==    by 0x54890E3: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x579777C: ???
+==16069==    by 0x54E2CAC: ???
+==16069==    by 0x579796D: ???
+==16069==    by 0x54031A9: ???
+==16069==    by 0x53A1DD1: ???
+==16069==    by 0x53A1789: ???
+==16069==
+==16069== 152 bytes in 1 blocks are definitely lost in loss record 95 of 123
+==16069==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16069==    by 0x578AB8C: ???
+==16069==    by 0x578751F: ???
+==16069==    by 0x573627C: ???
+==16069==    by 0x57678D8: ???
+==16069==    by 0x57651BB: ???
+==16069==    by 0x57641C1: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x5765180: ???
+==16069==    by 0x52676C2: ???
+==16069==    by 0x51E9520: ???
+==16069==    by 0x51ED0E5: ???
+==16069==
+==16069== 560 bytes in 1 blocks are definitely lost in loss record 106 of 123
+==16069==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16069==    by 0x578AB8C: ???
+==16069==    by 0x5785B8F: ???
+==16069==    by 0x5735F5C: ???
+==16069==    by 0x57675A1: ???
+==16069==    by 0x57651BB: ???
+==16069==    by 0x57641C1: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x5765180: ???
+==16069==    by 0x52676C2: ???
+==16069==    by 0x51E9520: ???
+==16069==    by 0x51ED0E5: ???
+==16069==
+==16069== 560 bytes in 1 blocks are definitely lost in loss record 107 of 123
+==16069==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16069==    by 0x578AB8C: ???
+==16069==    by 0x5785B8F: ???
+==16069==    by 0x57360EC: ???
+==16069==    by 0x57492DE: ???
+==16069==    by 0x5489A6C: ???
+==16069==    by 0x54890E3: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x579777C: ???
+==16069==    by 0x54E2CAC: ???
+==16069==    by 0x579796D: ???
+==16069==    by 0x54031A9: ???
+==16069==
+==16069== 5,968 (400 direct, 5,568 indirect) bytes in 1 blocks are definitely lost in loss record 119 of 123
+==16069==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16069==    by 0x58490DF: ???
+==16069==    by 0x5852A3F: ???
+==16069==    by 0x578990A: ???
+==16069==    by 0x5642AE5: ???
+==16069==    by 0x5489159: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x5693778: ???
+==16069==    by 0x52676D9: ???
+==16069==    by 0x51E9520: ???
+==16069==    by 0x51ED0E5: ???
+==16069==    by 0x51E9434: ???
+==16069==
+==16069== 7,104 (336 direct, 6,768 indirect) bytes in 1 blocks are definitely lost in loss record 120 of 123
+==16069==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16069==    by 0x54B2C72: ???
+==16069==    by 0x5489093: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x5489B9C: ???
+==16069==    by 0x54890E3: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x579777C: ???
+==16069==    by 0x54E2CAC: ???
+==16069==    by 0x579796D: ???
+==16069==    by 0x54031A9: ???
+==16069==    by 0x53A1DD1: ???
+==16069==
+==16069== 7,208 (400 direct, 6,808 indirect) bytes in 1 blocks are definitely lost in loss record 121 of 123
+==16069==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16069==    by 0x58490DF: ???
+==16069==    by 0x5852A3F: ???
+==16069==    by 0x578990A: ???
+==16069==    by 0x548A265: ???
+==16069==    by 0x56175B9: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x561C09B: ???
+==16069==    by 0x57E9692: ???
+==16069==    by 0x57ED1FA: ???
+==16069==    by 0x560351F: ???
+==16069==    by 0x57E7931: ???
+==16069==
+==16069== 7,208 (400 direct, 6,808 indirect) bytes in 1 blocks are definitely lost in loss record 122 of 123
+==16069==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16069==    by 0x58490DF: ???
+==16069==    by 0x5852A3F: ???
+==16069==    by 0x578990A: ???
+==16069==    by 0x55A4875: ???
+==16069==    by 0x56175B9: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x561BB8B: ???
+==16069==    by 0x57FC122: ???
+==16069==    by 0x561D1CA: ???
+==16069==    by 0x54B2C9F: ???
+==16069==    by 0x5489093: ???
+==16069==
+==16069== 13,912 (408 direct, 13,504 indirect) bytes in 1 blocks are definitely lost in loss record 123 of 123
+==16069==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16069==    by 0x5773074: ???
+==16069==    by 0x5764173: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x5765247: ???
+==16069==    by 0x57641C1: ???
+==16069==    by 0x58E3928: ???
+==16069==    by 0x5765180: ???
+==16069==    by 0x52676C2: ???
+==16069==    by 0x51E9520: ???
+==16069==    by 0x51ED0E5: ???
+==16069==    by 0x51E9434: ???
+==16069==
+==16069== LEAK SUMMARY:
+==16069==    definitely lost: 3,460 bytes in 12 blocks
+==16069==    indirectly lost: 39,456 bytes in 149 blocks
+==16069==      possibly lost: 0 bytes in 0 blocks
+==16069==    still reachable: 152 bytes in 1 blocks
+==16069==         suppressed: 0 bytes in 0 blocks
+==16069== Reachable blocks (those to which a pointer was found) are not shown.
+==16069== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==16069==
+==16069== For lists of detected and suppressed errors, rerun with: -s
+==16069== ERROR SUMMARY: 122 errors from 122 contexts (suppressed: 0 from 0)
