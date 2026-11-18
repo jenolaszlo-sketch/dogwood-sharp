@@ -73,3 +73,35 @@ the upstream location capability is broader than the producer report states.
 **Recommended action.** Retain the current D2 wire limitation and describe
 it as a wrapper projection. Evaluate mapping the upstream diagnostic labels
 through a separately authorized contract change if a consumer needs them.
+
+## QD2-03 · Major · Linux memory loss after releasing buffers and unloading the bridge
+
+**Requirement.** WP-Q1-7 requires independent native ownership and Linux
+memory checking. The ABI keeps the library loaded until all live buffers
+are released. The consumer completes that lifetime before closing the image.
+
+**Reproduction.** On Linux x64, build `harness/ownership.c` as shown in
+`run.ps1`. Run the `mixed-unload` control against the verified bridge under
+Valgrind. The control opens the image, completes 32 iterations of D1 parse,
+D2 export, rejected D2 validation and a malformed operation-2 envelope,
+releases every buffer, and closes the image using `dlclose`.
+
+**Expected.** Each buffer resets upon release. Linux reports zero definite
+or indirect loss after this native ownership and unload sequence.
+
+**Observed in the first run.** All 128 C call assertions and buffer resets
+passed. Memcheck then reported 3,460 definitely lost bytes, 39,456 indirectly
+lost bytes and 122 error contexts. The separate Rust D1 and D2 lifetime
+tests and the archived C consumer regression had zero memory errors.
+The first run stopped before the independent Linux managed consumers.
+
+**Implementation location.** The sequence crosses the native call and
+release exports in [lib.rs](../../../native/dogwoodsharp-bridge/src/lib.rs).
+The initial unloaded-object report contains unresolved frames. The
+qualification follow-up retains debug information for unloaded objects and
+compares loader-only, D1 parse, resident mixed, and unloaded mixed controls.
+
+**Impact and next action.** Qualification of the Linux native unload path is
+pending attribution. Keep the initial raw Valgrind report and use the control
+results to distinguish returned-buffer ownership from library unload and
+dependency-lifetime effects.

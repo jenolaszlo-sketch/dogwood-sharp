@@ -103,6 +103,7 @@ try {
     & $python -B "$PSScriptRoot/harness/qualify.py" $oracleImage $image $out |
         Tee-Object -FilePath "$out/independent.log"
 
+    $ownershipFailures = @()
     if ($IsLinux) {
         $suite = cargo test --locked --release --manifest-path $bridge --no-run --message-format=json |
             ForEach-Object { ConvertFrom-Json -AsHashtable -InputObject $_ } |
@@ -113,8 +114,30 @@ try {
             valgrind @vargs "--log-file=$out/valgrind-$test.log" $suite --exact "tests::$test"
         }
         cc -std=c11 -D_GNU_SOURCE -O2 -Wall -Wextra -Werror "$PSScriptRoot/harness/ownership.c" -ldl -o "$out/ownership"
-        valgrind @vargs "--log-file=$out/valgrind-ownership.log" "$out/ownership" $image |
-            Tee-Object -FilePath "$out/ownership.log"
+        $controlArgs = @('--error-exitcode=97', '--leak-check=full', '--errors-for-leak-kinds=definite,indirect',
+            '--keep-debuginfo=yes')
+        Remove-Item -LiteralPath "$out/ownership.log" -ErrorAction SilentlyContinue
+        foreach ($control in @('loader-only', 'parse-unload', 'resident', 'mixed-unload')) {
+            # Collect all controls and the managed results before failing the
+            # job for any Memcheck finding. Retain the full diagnostic stacks.
+            $PSNativeCommandUseErrorActionPreference = $false
+            try {
+                valgrind @controlArgs "--log-file=$out/valgrind-ownership-$control.log" "$out/ownership" $image $control |
+                    Tee-Object -FilePath "$out/ownership.log" -Append
+                $exitCode = $LASTEXITCODE
+            }
+            finally {
+                $PSNativeCommandUseErrorActionPreference = $true
+            }
+            if ($exitCode -eq 97) {
+                $ownershipFailures += $control
+            }
+            elseif ($exitCode -ne 0) {
+                throw "Ownership consumer $control exited $exitCode."
+            }
+        }
+        [ordered]@{ nonPassingControls = $ownershipFailures } |
+            ConvertTo-Json | Set-Content -LiteralPath "$out/ownership-result.json" -Encoding utf8
     }
 
     $project = Join-Path $PSScriptRoot 'harness/managed/Consumer.csproj'
@@ -159,6 +182,9 @@ try {
         & "$publish/Consumer$suffix" corpus $fixtures | Tee-Object -FilePath "$out/aot-$framework.log"
     }
     Assert-QualifiedTree
+    if ($ownershipFailures.Count) {
+        throw "Valgrind ownership gate failed for $($ownershipFailures -join ', ')."
+    }
 }
 finally {
     Pop-Location
