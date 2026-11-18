@@ -46,11 +46,23 @@ fn d2_operation_gate_rejects_unknown_operations() {
 #[test]
 fn d2_envelope_rejections_leave_empty_output() {
     let mut buffer = Buffer::EMPTY;
-    let request = d2_request(&d2_body("permit(principal, action, resource);"), &d2_body(SCHEMA_TEXT), "");
+    let request = d2_request(
+        &d2_body("permit(principal, action, resource);"),
+        &d2_body(SCHEMA_TEXT),
+        "",
+    );
     let cases: &[(u32, &[u8], Status)] = &[
         // Missing an action schema.
-        (OPERATION_LOWER, b"{\"source\":\"\"}", Status::InvalidEnvelope),
-        (OPERATION_LOWER, b"{\"policySchema\":\"\"}", Status::InvalidEnvelope),
+        (
+            OPERATION_LOWER,
+            b"{\"source\":\"\"}",
+            Status::InvalidEnvelope,
+        ),
+        (
+            OPERATION_LOWER,
+            b"{\"policySchema\":\"\"}",
+            Status::InvalidEnvelope,
+        ),
         // Wrong value kinds.
         (
             OPERATION_LOWER,
@@ -112,17 +124,34 @@ fn d2_envelope_rejections_leave_empty_output() {
 fn d2_request_limits_are_enforced() {
     let mut buffer = Buffer::EMPTY;
 
-    let oversized_source = d2_request(&d2_body(&"a".repeat(SOURCE_LIMIT + 1)), &d2_body(SCHEMA_TEXT), "");
+    let oversized_source = d2_request(
+        &d2_body(&"a".repeat(SOURCE_LIMIT + 1)),
+        &d2_body(SCHEMA_TEXT),
+        "",
+    );
     assert_eq!(
-        call(ABI, OPERATION_LOWER, oversized_source.as_bytes(), &mut buffer),
+        call(
+            ABI,
+            OPERATION_LOWER,
+            oversized_source.as_bytes(),
+            &mut buffer
+        ),
         Status::Limit as u32
     );
     release(&mut buffer);
 
-    let oversized_schema =
-        d2_request(&d2_body(&"a".repeat(SCHEMA_LIMIT + 1)), &d2_body(SCHEMA_TEXT), "");
+    let oversized_schema = d2_request(
+        &d2_body(&"a".repeat(SCHEMA_LIMIT + 1)),
+        &d2_body(SCHEMA_TEXT),
+        "",
+    );
     assert_eq!(
-        call(ABI, OPERATION_LOWER, oversized_schema.as_bytes(), &mut buffer),
+        call(
+            ABI,
+            OPERATION_LOWER,
+            oversized_schema.as_bytes(),
+            &mut buffer
+        ),
         Status::Limit as u32
     );
     release(&mut buffer);
@@ -130,10 +159,18 @@ fn d2_request_limits_are_enforced() {
     let oversized_event_schema = d2_request(
         &d2_body("permit(principal, action, resource);"),
         &d2_body(SCHEMA_TEXT),
-        &format!(",\"eventSchema\":{}", d2_body(&"a".repeat(SCHEMA_LIMIT + 1))),
+        &format!(
+            ",\"eventSchema\":{}",
+            d2_body(&"a".repeat(SCHEMA_LIMIT + 1))
+        ),
     );
     assert_eq!(
-        call(ABI, OPERATION_LOWER, oversized_event_schema.as_bytes(), &mut buffer),
+        call(
+            ABI,
+            OPERATION_LOWER,
+            oversized_event_schema.as_bytes(),
+            &mut buffer
+        ),
         Status::Limit as u32
     );
     release(&mut buffer);
@@ -141,10 +178,18 @@ fn d2_request_limits_are_enforced() {
     let oversized_distincter = d2_request(
         &d2_body("permit(principal, action, resource);"),
         &d2_body(SCHEMA_TEXT),
-        &format!(",\"distincter\":{}", d2_body(&"a".repeat(DISTINCTER_LIMIT + 1))),
+        &format!(
+            ",\"distincter\":{}",
+            d2_body(&"a".repeat(DISTINCTER_LIMIT + 1))
+        ),
     );
     assert_eq!(
-        call(ABI, OPERATION_LOWER, oversized_distincter.as_bytes(), &mut buffer),
+        call(
+            ABI,
+            OPERATION_LOWER,
+            oversized_distincter.as_bytes(),
+            &mut buffer
+        ),
         Status::Limit as u32
     );
     release(&mut buffer);
@@ -190,7 +235,11 @@ fn d2_failed_stages_never_look_complete() {
     assert_eq!(reply["ruleCount"], 0);
     assert_eq!(reply["policyCount"], serde_json::Value::Null);
     assert_eq!(reply["stageError"], serde_json::Value::Null);
-    assert!(reply["parseDiagnostics"].as_array().is_some_and(|d| !d.is_empty()));
+    assert!(
+        reply["parseDiagnostics"]
+            .as_array()
+            .is_some_and(|d| !d.is_empty())
+    );
     release(&mut buffer);
 
     // A lowering failure: succeeded to parse, then stopped with a stage error.
@@ -211,12 +260,14 @@ fn d2_failed_stages_never_look_complete() {
     assert_eq!(reply["stageError"]["category"], "schema");
     assert_eq!(reply["cedarPolicyText"], "");
     assert_eq!(reply["cedarSchemaJson"], "");
-    assert_eq!(reply["rules"].as_array().is_some_and(|r| r.is_empty()), true);
+    assert!(reply["rules"].as_array().is_some_and(|r| r.is_empty()));
     release(&mut buffer);
 
     // A validation failure is still a completed pipeline with findings.
     let request = d2_request(
-        &d2_body("permit(principal, action == App::Action::\"read\", resource) when { context.nope > 3 };"),
+        &d2_body(
+            "permit(principal, action == App::Action::\"read\", resource) when { context.nope > 3 };",
+        ),
         &d2_body(SCHEMA_TEXT),
         "",
     );
@@ -230,7 +281,11 @@ fn d2_failed_stages_never_look_complete() {
     assert_eq!(reply["validationPassed"], false);
     assert_eq!(reply["ruleCount"], 1);
     assert_eq!(reply["stageError"], serde_json::Value::Null);
-    assert!(reply["validationErrors"].as_array().is_some_and(|e| !e.is_empty()));
+    assert!(
+        reply["validationErrors"]
+            .as_array()
+            .is_some_and(|e| !e.is_empty())
+    );
     release(&mut buffer);
 }
 
@@ -284,39 +339,41 @@ fn d2_lowering_matches_pinned_upstream() {
         release(&mut buffer);
 
         match ParsedPolicySet::parse(source, &service) {
-            Ok(parsed) => match parsed.lower(&PolicySchema::from_cedarschema_str(policy_schema).unwrap()) {
-                Ok(lowered) => {
-                    assert_eq!(reply["parsed"], true, "{source}");
-                    assert_eq!(reply["lowered"], true, "{source}");
-                    assert_eq!(reply["ruleCount"], lowered.rules().count(), "{source}");
-                    assert_eq!(reply["ruleCount"], rule_count, "{source}");
-                    assert_eq!(
-                        reply["cedarPolicyText"],
-                        Value::String(lowered.as_cedar().to_string()),
-                        "{source}"
-                    );
-                    assert_eq!(
-                        reply["selfContainedCedar"],
-                        lowered.is_self_contained_cedar(),
-                        "{source}"
-                    );
+            Ok(parsed) => {
+                match parsed.lower(&PolicySchema::from_cedarschema_str(policy_schema).unwrap()) {
+                    Ok(lowered) => {
+                        assert_eq!(reply["parsed"], true, "{source}");
+                        assert_eq!(reply["lowered"], true, "{source}");
+                        assert_eq!(reply["ruleCount"], lowered.rules().count(), "{source}");
+                        assert_eq!(reply["ruleCount"], rule_count, "{source}");
+                        assert_eq!(
+                            reply["cedarPolicyText"],
+                            Value::String(lowered.as_cedar().to_string()),
+                            "{source}"
+                        );
+                        assert_eq!(
+                            reply["selfContainedCedar"],
+                            lowered.is_self_contained_cedar(),
+                            "{source}"
+                        );
+                    }
+                    Err(_) => {
+                        assert_eq!(reply["parsed"], true, "{source}");
+                        assert_eq!(reply["lowered"], false, "{source}");
+                        assert_eq!(reply["ruleCount"], 0, "{source}");
+                        assert_eq!(reply["stageError"]["stage"], "lower", "{source}");
+                        assert_eq!(reply["stageError"]["category"], "schema", "{source}");
+                        assert!(
+                            !reply["stageError"]["message"].as_str().unwrap().is_empty(),
+                            "{source}"
+                        );
+                    }
                 }
-                Err(_) => {
-                    assert_eq!(reply["parsed"], true, "{source}");
-                    assert_eq!(reply["lowered"], false, "{source}");
-                    assert_eq!(reply["ruleCount"], 0, "{source}");
-                    assert_eq!(reply["stageError"]["stage"], "lower", "{source}");
-                    assert_eq!(reply["stageError"]["category"], "schema", "{source}");
-                    assert!(
-                        !reply["stageError"]["message"].as_str().unwrap().is_empty(),
-                        "{source}"
-                    );
-                }
-            },
+            }
             Err(_) => {
                 assert_eq!(reply["parsed"], false, "{source}");
                 assert_eq!(reply["lowered"], false, "{source}");
-                assert_eq!(parse_ok, false, "{source}");
+                assert!(!parse_ok, "{source}");
             }
         }
     }

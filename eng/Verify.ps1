@@ -20,6 +20,8 @@ if (!$RuntimeIdentifier) {
 $smoke = 'samples/DogwoodSharp.FoundationSmoke'
 $tests = 'tests/DogwoodSharp.Tests'
 $bridge = 'native/dogwoodsharp-bridge/Cargo.toml'
+$d2diff = 'native/dogwoodsharp-d2-diff/Cargo.toml'
+$d2fixture = 'tests/DogwoodSharp.D2Conformance/lowering-v1.json'
 Push-Location (Split-Path $PSScriptRoot -Parent)
 try {
     dotnet --info
@@ -35,6 +37,17 @@ try {
     $relative = "runtimes/$RuntimeIdentifier/native"
     $asset = "artifacts/native/$relative"
     $binary = (Get-Content -Raw -LiteralPath "$asset/dogwoodsharp-native.json" | ConvertFrom-Json).file
+
+    # The D2 differential resolves its own upstream graph, so it needs a locked
+    # build before it can load the freshly produced bridge image.
+    cargo build --release --locked --manifest-path $d2diff
+    $d2diffBinary = Join-Path (Resolve-Path 'native/dogwoodsharp-d2-diff/target/release') `
+        $(if ($IsWindows) { 'dogwoodsharp-d2-diff.exe' } else { 'dogwoodsharp-d2-diff' })
+    & $d2diffBinary verify $d2fixture --library "$asset/$binary"
+    if ($LASTEXITCODE -ne 0) {
+        throw 'The D2 differential runner reported differences from the pinned upstream parser.'
+    }
+
     New-Item -ItemType Directory -Force -Path artifacts/test-assets | Out-Null
     rustc --edition 2024 --crate-type cdylib "$tests/invalid_abi.rs" -o "artifacts/test-assets/$binary"
 
