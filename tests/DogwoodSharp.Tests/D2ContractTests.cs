@@ -183,6 +183,10 @@ public sealed class D2ContractTests
     [InlineData("rules", "[]")]
     [InlineData("cedarPolicyText", "null")]
     [InlineData("cedarSchemaJson", "\"[]\"")]
+    [InlineData("cedarSchemaJson", "null")]
+    [InlineData("cedarSchemaText", "null")]
+    [InlineData("cedarSchemaText", "\"\"")]
+    [InlineData("cedarSchemaText", "\" \\t\\n\"")]
     [InlineData("validationErrors", """[{"category":"cedar","message":"error","location":null}]""")]
     [InlineData("collision", """{"field":"f","actionNamespace":null,"actionId":"read"}""")]
     public void RejectsContradictoryNativeReplies(string property, string replacement)
@@ -193,7 +197,9 @@ public sealed class D2ContractTests
              "collisionCheckPassed":true,"collision":null,"validationPassed":true,
              "validationErrors":[],"validationWarnings":[],"artifactsExported":true,"stageError":null,
              "rules":[{"ruleIndex":0,"cedarPolicyId":"policy_0","sourceText":"permit(principal,action,resource);"}],
-             "cedarPolicyText":"permit(principal,action,resource);","cedarSchemaJson":"{}","cedarSchemaText":""}
+             "cedarPolicyText":"permit(principal,action,resource);",
+             "cedarSchemaJson":"{\"App\":{\"entityTypes\":{},\"actions\":{}}}",
+             "cedarSchemaText":"namespace App {\n}\n"}
             """)!.AsObject();
         using (var positive = JsonDocument.Parse(reply.ToJsonString()))
         {
@@ -205,6 +211,63 @@ public sealed class D2ContractTests
         var exception = Assert.Throws<DogwoodBridgeException>(() =>
             NativeBridge.ReadLoweredResult(malformed.RootElement, 40));
         Assert.Equal(DogwoodBridgeFailure.MalformedResponse, exception.Failure);
+    }
+
+    [Theory]
+    [InlineData("", false)]
+    [InlineData("entity User;", true)]
+    [InlineData("namespace Empty {}", true)]
+    [InlineData("namespace App { entity User; }", true)]
+    [InlineData("type Shared = String;", true)]
+    public void ExportsBothSchemaFormsWithNoPolicies(string schema, bool hasText)
+    {
+        var lowered = Dogwood.Lower("", new DogwoodSchema(schema));
+
+        Assert.True(lowered.ArtifactsExported, Describe(lowered));
+        Assert.True(lowered.IsLowered);
+        Assert.Empty(lowered.CedarPolicyText);
+        Assert.Empty(lowered.Rules);
+        Assert.Equal(hasText, !string.IsNullOrWhiteSpace(lowered.CedarSchemaText));
+        using var schemaJson = JsonDocument.Parse(lowered.CedarSchemaJson);
+        Assert.Equal(hasText, schemaJson.RootElement.EnumerateObject().MoveNext());
+    }
+
+    [Theory]
+    [InlineData("{}", "", true)]
+    [InlineData("""{"":{"entityTypes":{},"actions":{}}}""", "", true)]
+    [InlineData("{}", "entity Phantom;", false)]
+    [InlineData("{}", " \t\n", false)]
+    [InlineData("""{"":{"entityTypes":{},"actions":{}}}""", "entity Phantom;", false)]
+    [InlineData("""{"App":{"entityTypes":{},"actions":{}}}""", "", false)]
+    [InlineData("""{"":{"entityTypes":{"User":{}},"actions":{}}}""", "", false)]
+    [InlineData("""{"":{"entityTypes":{},"actions":{"read":{}}}}""", "", false)]
+    [InlineData("""{"":{"entityTypes":{},"actions":{},"commonTypes":{"T":{"type":"String"}}}}""", "", false)]
+    [InlineData("""{"App":{"entityTypes":{},"actions":{}}}""", "  \n", false)]
+    [InlineData("""{"App":null}""", "namespace App {}", false)]
+    [InlineData("""{"App":{"entityTypes":[],"actions":{}}}""", "namespace App {}", false)]
+    [InlineData("{", "", false)]
+    public void ChecksSchemaCompletenessIndependentlyOfRuleCount(string schemaJson, string schemaText, bool complete)
+    {
+        var reply = JsonNode.Parse("""
+            {"serviceSchemaBuilt":true,"parsed":true,"policyCount":0,"parseDiagnostics":[],
+             "actionSchemaBuilt":true,"lowered":true,"ruleCount":0,"selfContainedCedar":true,
+             "collisionCheckPassed":true,"collision":null,"validationPassed":true,
+             "validationErrors":[],"validationWarnings":[],"artifactsExported":true,"stageError":null,
+             "rules":[],"cedarPolicyText":""}
+            """)!.AsObject();
+        reply["cedarSchemaJson"] = schemaJson;
+        reply["cedarSchemaText"] = schemaText;
+        using var document = JsonDocument.Parse(reply.ToJsonString());
+        if (complete)
+        {
+            Assert.True(NativeBridge.ReadLoweredResult(document.RootElement, 0).IsLowered);
+        }
+        else
+        {
+            var exception = Assert.Throws<DogwoodBridgeException>(() =>
+                NativeBridge.ReadLoweredResult(document.RootElement, 0));
+            Assert.Equal(DogwoodBridgeFailure.MalformedResponse, exception.Failure);
+        }
     }
 
     private static string Temporal(string action) => $"permit (principal, {action}, resource) {Event};";

@@ -260,7 +260,8 @@ internal sealed unsafe class NativeBridge : IDisposable
             if (exported)
             {
                 using var schema = JsonDocument.Parse(schemaJson);
-                if (schema.RootElement.ValueKind != JsonValueKind.Object ||
+                bool schemaHasText = SchemaHasText(schema.RootElement);
+                if ((schemaHasText ? string.IsNullOrWhiteSpace(schemaText) : schemaText.Length != 0) ||
                     string.IsNullOrWhiteSpace(policy) != (validation.RuleCount == 0))
                 {
                     throw new JsonException("Invalid validated artifacts.");
@@ -277,6 +278,30 @@ internal sealed unsafe class NativeBridge : IDisposable
         {
             throw Malformed(exception);
         }
+    }
+
+    private static bool SchemaHasText(JsonElement schema)
+    {
+        // Cedar 4.11 emits every named namespace, including empty ones.
+        // The unnamed namespace emits only its common types, entities and actions.
+        bool hasText = false;
+        foreach (var entry in schema.EnumerateObject())
+        {
+            var definition = entry.Value;
+            if (!definition.TryGetProperty("entityTypes", out var entities) ||
+                !definition.TryGetProperty("actions", out var actions))
+            {
+                throw new JsonException("Missing Cedar schema declaration map.");
+            }
+
+            bool hasEntities = entities.EnumerateObject().MoveNext();
+            bool hasActions = actions.EnumerateObject().MoveNext();
+            bool hasTypes = definition.TryGetProperty("commonTypes", out var types) &&
+                types.EnumerateObject().MoveNext();
+            hasText |= entry.Name.Length != 0 || hasEntities || hasActions || hasTypes;
+        }
+
+        return hasText;
     }
 
     private static (DogwoodValidationResult Validation, bool Exported) ReadPipeline(
