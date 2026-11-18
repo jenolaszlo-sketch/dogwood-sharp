@@ -88,6 +88,16 @@ descriptors and calibrates the presence observation with independent
 [First macOS artifact](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44336764662/artifacts/14443082066),
 [Apple dlclose reference](https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man3/dlclose.3.html).
 
+The calibrated follow-up uses harness commit
+`b8b4bdc2b5a792db1e6565aa8231ca6a3b6a0c54`, tree
+`5c3597a38d73d0f93a7cc5804610691bbf9611fd`, and the same production
+checkout. Only the Mac-specific probe path changed.
+[Calibrated macOS run 44340579802](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44340579802).
+GitHub cancelled that run before runner assignment and executed zero
+checks. The next isolated dispatch uses the macOS 26 Arm64 hosted image
+for the same `osx-arm64` target and the same qualification checks.
+[GitHub-hosted runner architectures](https://docs.github.com/en/actions/reference/runners/github-hosted-runners#standard-github-hosted-runners-for-public-repositories).
+
 ## Schema completeness and warning projection
 
 Cedar Core 4.11.0's fragment formatter prints a block for each named

@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         include: ${{ fromJSON(inputs.platform == 'win-x64' && '[{"os":"windows-2025","rid":"win-x64"}]' || inputs.platform == 'linux-x64' && '[{"os":"ubuntu-24.04","rid":"linux-x64"}]' || inputs.platform == 'osx-arm64' && '[{"os":"macos-15","rid":"osx-arm64"}]' || '[{"os":"windows-2025","rid":"win-x64"},{"os":"ubuntu-24.04","rid":"linux-x64"},{"os":"macos-15","rid":"osx-arm64"}]') }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ inputs.platform == 'osx-arm64' && 'macos-26' || matrix.os }}
     timeout-minutes: 70
     steps:
       - uses: actions/checkout@v5
