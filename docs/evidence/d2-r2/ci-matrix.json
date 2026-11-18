@@ -1,0 +1,165 @@
+{
+  "run": 44289567088,
+  "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44289567088",
+  "commit": "d4d62b4825d2cb0d43554e6bb34b9d6a7dc238fd",
+  "tree": "a582171f4b213464eab3a6a459aa2bc3540e80ab",
+  "result": "success",
+  "createdAt": "2026-11-18T10:53:12Z",
+  "updatedAt": "2026-11-18T11:18:35Z",
+  "platforms": {
+    "win-x64": {
+      "job": 134750948259,
+      "result": "success",
+      "runnerImage": "win25-vs2026 20261103.298.1",
+      "artifact": 14421682401,
+      "artifactUrl": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44289567088/artifacts/14421682401",
+      "artifactDigest": "sha256:94c06d4e920e77a49f9a59569065133f2468b80832eb937c91fd7194e4338e75",
+      "manifestSha256": "63d674c29e0192ce61d4b9d42315605eb9ea8914673d1ff3abc854a4a0c831c7",
+      "nativeImageSha256": "212864e29a039131e83d5256eb88d92fa794bbda713bde295c8ca12f0b30847c",
+      "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+      "oracleLockSha256": "6350fc819a6a392cb68720e434487f46c3f86cd3d65e24cad76957c8ef0a0da4",
+      "lockedGraphPackages": 181,
+      "rustTestsPassed": 13,
+      "d1NativeControlsPassed": 88,
+      "d1DifferentialSources": 73,
+      "d1DifferentialWireCases": 131,
+      "producerD2DifferentialCases": 39,
+      "archivedD2AbiReplies": 70,
+      "archivedCedarRoundTrips": 13,
+      "archivedD2ConcurrentCalls": 216,
+      "archivedD2AbiTransportControls": 26,
+      "archivedD2SensitivityFaultsDetected": {
+        "bypass-collision": "collisionCheckPassed",
+        "export-before-validation": "artifactsExported",
+        "drop-distincter": "rules",
+        "wrong-dispatch": "operation-specific shape",
+        "partial-artifact-set": "operation-specific shape"
+      },
+      "frameworks": {
+        "net8.0": {
+          "managedPassed": 69,
+          "d1ConsumerScenariosPassed": 114,
+          "d2CorpusJitPassed": 35,
+          "d2CorpusNativeAotPassed": 35,
+          "d2DecoderValidControls": 3,
+          "d2DecoderOtherRejected": 18,
+          "qd201Rejected": true,
+          "d2ManagedTransportFaultsRejected": 3
+        },
+        "net10.0": {
+          "managedPassed": 69,
+          "d1ConsumerScenariosPassed": 114,
+          "d2CorpusJitPassed": 35,
+          "d2CorpusNativeAotPassed": 35,
+          "d2DecoderValidControls": 3,
+          "d2DecoderOtherRejected": 18,
+          "qd201Rejected": true,
+          "d2ManagedTransportFaultsRejected": 3
+        }
+      }
+    },
+    "linux-x64": {
+      "job": 134750949580,
+      "result": "success",
+      "runnerImage": "ubuntu24 20261111.127.1",
+      "artifact": 14423170564,
+      "artifactUrl": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44289567088/artifacts/14423170564",
+      "artifactDigest": "sha256:74966ba036893f5194d8e381a87ab9224eb4d235c93fbb7747fbfdc085b81be3",
+      "manifestSha256": "2a44033c27121ffaf972a897d9299ef1bb8e0f2154fde5bc95b391ffda60d2dc",
+      "nativeImageSha256": "7ede463d8426658e4b59eeea7652cc2089340bff3d98bf0f0c2ac52dbbfa2641",
+      "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+      "oracleLockSha256": "6350fc819a6a392cb68720e434487f46c3f86cd3d65e24cad76957c8ef0a0da4",
+      "lockedGraphPackages": 177,
+      "rustTestsPassed": 13,
+      "d1NativeControlsPassed": 88,
+      "d1DifferentialSources": 73,
+      "d1DifferentialWireCases": 131,
+      "producerD2DifferentialCases": 39,
+      "archivedD2AbiReplies": 70,
+      "archivedCedarRoundTrips": 13,
+      "archivedD2ConcurrentCalls": 216,
+      "archivedD2AbiTransportControls": 26,
+      "archivedD2SensitivityFaultsDetected": {
+        "bypass-collision": "collisionCheckPassed",
+        "export-before-validation": "artifactsExported",
+        "drop-distincter": "rules",
+        "wrong-dispatch": "operation-specific shape",
+        "partial-artifact-set": "operation-specific shape"
+      },
+      "frameworks": {
+        "net8.0": {
+          "managedPassed": 69,
+          "d1ConsumerScenariosPassed": 114,
+          "d2CorpusJitPassed": 35,
+          "d2CorpusNativeAotPassed": 35,
+          "d2DecoderValidControls": 3,
+          "d2DecoderOtherRejected": 18,
+          "qd201Rejected": true,
+          "d2ManagedTransportFaultsRejected": 3
+        },
+        "net10.0": {
+          "managedPassed": 69,
+          "d1ConsumerScenariosPassed": 114,
+          "d2CorpusJitPassed": 35,
+          "d2CorpusNativeAotPassed": 35,
+          "d2DecoderValidControls": 3,
+          "d2DecoderOtherRejected": 18,
+          "qd201Rejected": true,
+          "d2ManagedTransportFaultsRejected": 3
+        }
+      },
+      "residentEvidence": "ci-linux-resident.json"
+    },
+    "osx-arm64": {
+      "job": 134750948922,
+      "result": "success",
+      "runnerImage": "macos15 20261104.0514.1",
+      "artifact": 14420509954,
+      "artifactUrl": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44289567088/artifacts/14420509954",
+      "artifactDigest": "sha256:8799f3ba25763c011e46acba2ffec617efb0a473405a5573f6a9c9ac61ca55ce",
+      "manifestSha256": "9c9a814ed7eaddb6ee554780dd46975031e90018b371f196a6134bce7cd18040",
+      "nativeImageSha256": "1dbc030e1f36a37556ee412621c8d36fb4d90387f8b1d33d9441d58a05d885a3",
+      "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+      "oracleLockSha256": "6350fc819a6a392cb68720e434487f46c3f86cd3d65e24cad76957c8ef0a0da4",
+      "lockedGraphPackages": 179,
+      "rustTestsPassed": 13,
+      "d1NativeControlsPassed": 88,
+      "d1DifferentialSources": 73,
+      "d1DifferentialWireCases": 131,
+      "producerD2DifferentialCases": 39,
+      "archivedD2AbiReplies": 70,
+      "archivedCedarRoundTrips": 13,
+      "archivedD2ConcurrentCalls": 216,
+      "archivedD2AbiTransportControls": 26,
+      "archivedD2SensitivityFaultsDetected": {
+        "bypass-collision": "collisionCheckPassed",
+        "export-before-validation": "artifactsExported",
+        "drop-distincter": "rules",
+        "wrong-dispatch": "operation-specific shape",
+        "partial-artifact-set": "operation-specific shape"
+      },
+      "frameworks": {
+        "net8.0": {
+          "managedPassed": 69,
+          "d1ConsumerScenariosPassed": 114,
+          "d2CorpusJitPassed": 35,
+          "d2CorpusNativeAotPassed": 35,
+          "d2DecoderValidControls": 3,
+          "d2DecoderOtherRejected": 18,
+          "qd201Rejected": true,
+          "d2ManagedTransportFaultsRejected": 3
+        },
+        "net10.0": {
+          "managedPassed": 69,
+          "d1ConsumerScenariosPassed": 114,
+          "d2CorpusJitPassed": 35,
+          "d2CorpusNativeAotPassed": 35,
+          "d2DecoderValidControls": 3,
+          "d2DecoderOtherRejected": 18,
+          "qd201Rejected": true,
+          "d2ManagedTransportFaultsRejected": 3
+        }
+      }
+    }
+  }
+}

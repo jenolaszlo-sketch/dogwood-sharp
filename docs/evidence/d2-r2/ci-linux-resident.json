@@ -1,0 +1,329 @@
+{
+  "resident": [
+    {
+      "mode": "sequential",
+      "iterations": 32,
+      "exit": 0,
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        13756,
+        53
+      ],
+      "still reachable": [
+        42461,
+        176
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "nativeSamples": [
+        "before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=13608",
+        "after-load-and-identity heap_in_use_bytes=13808 mmap_bytes=0 max_rss_kib=13608",
+        "after-first-mixed-iteration heap_in_use_bytes=162528 mmap_bytes=0 max_rss_kib=13608",
+        "after-warmup heap_in_use_bytes=200368 mmap_bytes=0 max_rss_kib=13608",
+        "after-workload heap_in_use_bytes=212176 mmap_bytes=0 max_rss_kib=13608",
+        "RESIDENT PASS mode=sequential loads=1 identity=1 warmup=32 iterations=32 calls=321 allocated_responses=257 release_checks=321"
+      ],
+      "memcheckSha256": "1c2e6f92d25d14b8b39213d2aa24f3a99629e8bc76c8bc76df9e25f03f84596b"
+    },
+    {
+      "mode": "sequential",
+      "iterations": 256,
+      "exit": 0,
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        13756,
+        53
+      ],
+      "still reachable": [
+        42461,
+        176
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "nativeSamples": [
+        "before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=15400",
+        "after-load-and-identity heap_in_use_bytes=13808 mmap_bytes=0 max_rss_kib=15400",
+        "after-first-mixed-iteration heap_in_use_bytes=163968 mmap_bytes=0 max_rss_kib=15400",
+        "after-warmup heap_in_use_bytes=203232 mmap_bytes=0 max_rss_kib=15400",
+        "after-workload heap_in_use_bytes=231744 mmap_bytes=0 max_rss_kib=15400",
+        "RESIDENT PASS mode=sequential loads=1 identity=1 warmup=32 iterations=256 calls=1441 allocated_responses=1153 release_checks=1441"
+      ],
+      "memcheckSha256": "cb1979f48279cb98f0a6208faa298d3eb42b4d37221813a00b3d2a247a8f2572"
+    },
+    {
+      "mode": "sequential",
+      "iterations": 2048,
+      "exit": 0,
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        13756,
+        53
+      ],
+      "still reachable": [
+        42461,
+        176
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "nativeSamples": [
+        "before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=16348",
+        "after-load-and-identity heap_in_use_bytes=13808 mmap_bytes=0 max_rss_kib=16348",
+        "after-first-mixed-iteration heap_in_use_bytes=161424 mmap_bytes=0 max_rss_kib=16348",
+        "after-warmup heap_in_use_bytes=202896 mmap_bytes=0 max_rss_kib=16348",
+        "after-workload heap_in_use_bytes=227712 mmap_bytes=0 max_rss_kib=16348",
+        "RESIDENT PASS mode=sequential loads=1 identity=1 warmup=32 iterations=2048 calls=10401 allocated_responses=8321 release_checks=10401"
+      ],
+      "memcheckSha256": "450ae5bfffd953c1d5569872bf57f8dfea7ffdd95f8c675b605829874f303e1c"
+    },
+    {
+      "mode": "concurrent",
+      "iterations": 32,
+      "exit": 0,
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        15084,
+        61
+      ],
+      "still reachable": [
+        58053,
+        284
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "nativeSamples": [
+        "before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=16348",
+        "after-load-and-identity heap_in_use_bytes=13808 mmap_bytes=0 max_rss_kib=16348",
+        "after-first-mixed-iteration heap_in_use_bytes=163088 mmap_bytes=0 max_rss_kib=16348",
+        "after-warmup heap_in_use_bytes=212288 mmap_bytes=0 max_rss_kib=16348",
+        "after-workload heap_in_use_bytes=241456 mmap_bytes=0 max_rss_kib=16348",
+        "RESIDENT PASS mode=concurrent loads=1 identity=1 warmup=32 iterations=32 calls=321 allocated_responses=257 release_checks=321"
+      ],
+      "memcheckSha256": "af8f571209375524af9bec0865b20004db9bfe43429ebde3e5fd389fa64f70e1"
+    },
+    {
+      "mode": "concurrent",
+      "iterations": 256,
+      "exit": 0,
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        15084,
+        61
+      ],
+      "still reachable": [
+        58053,
+        284
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "nativeSamples": [
+        "before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=17116",
+        "after-load-and-identity heap_in_use_bytes=13808 mmap_bytes=0 max_rss_kib=17116",
+        "after-first-mixed-iteration heap_in_use_bytes=163216 mmap_bytes=0 max_rss_kib=17116",
+        "after-warmup heap_in_use_bytes=206608 mmap_bytes=0 max_rss_kib=17116",
+        "after-workload heap_in_use_bytes=235120 mmap_bytes=0 max_rss_kib=17116",
+        "RESIDENT PASS mode=concurrent loads=1 identity=1 warmup=32 iterations=256 calls=1441 allocated_responses=1153 release_checks=1441"
+      ],
+      "memcheckSha256": "1b7cb0016a5049d735fa0ea82b48e3176a869fa576a3fce83d549fe0b37c16a4"
+    },
+    {
+      "mode": "concurrent",
+      "iterations": 2048,
+      "exit": 0,
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        15084,
+        61
+      ],
+      "still reachable": [
+        58053,
+        284
+      ],
+      "suppressed": [
+        0,
+        0
+      ],
+      "errors": 0,
+      "nativeSamples": [
+        "before-load heap_in_use_bytes=0 mmap_bytes=0 max_rss_kib=17116",
+        "after-load-and-identity heap_in_use_bytes=13808 mmap_bytes=0 max_rss_kib=17116",
+        "after-first-mixed-iteration heap_in_use_bytes=160368 mmap_bytes=0 max_rss_kib=17116",
+        "after-warmup heap_in_use_bytes=191968 mmap_bytes=0 max_rss_kib=17116",
+        "after-workload heap_in_use_bytes=220512 mmap_bytes=0 max_rss_kib=17116",
+        "RESIDENT PASS mode=concurrent loads=1 identity=1 warmup=32 iterations=2048 calls=10401 allocated_responses=8321 release_checks=10401"
+      ],
+      "memcheckSha256": "7f8f5c7f7f27fc6613951d161d51a61c792dec176c6d9f72a3735180455d7b98"
+    }
+  ],
+  "archivedOwnershipDiagnostics": {
+    "nonPassingControls": [
+      "mixed-unload"
+    ]
+  },
+  "managedLoaderTrace": [
+    "     16810:\tfile=/usr/share/dotnet/shared/Microsoft.NETCore.App/10.0.15//home/runner/work/dogwood-sharp/dogwood-sharp/samples/DogwoodSharp.FoundationSmoke/bin/Release/net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0];  dynamically loaded by /usr/share/dotnet/shared/Microsoft.NETCore.App/10.0.15/libcoreclr.so [0]",
+    "     16810:\tfile=/home/runner/work/dogwood-sharp/dogwood-sharp/samples/DogwoodSharp.FoundationSmoke/bin/Release/net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0];  dynamically loaded by /usr/share/dotnet/shared/Microsoft.NETCore.App/10.0.15/libcoreclr.so [0]",
+    "     16810:\tfile=/home/runner/work/dogwood-sharp/dogwood-sharp/samples/DogwoodSharp.FoundationSmoke/bin/Release/net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0];  generating link map",
+    "     16810:\tcalling init: /home/runner/work/dogwood-sharp/dogwood-sharp/samples/DogwoodSharp.FoundationSmoke/bin/Release/net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+    "     16810:\topening file=/home/runner/work/dogwood-sharp/dogwood-sharp/samples/DogwoodSharp.FoundationSmoke/bin/Release/net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]; direct_opencount=1",
+    "     16810:\tcalling fini: /home/runner/work/dogwood-sharp/dogwood-sharp/samples/DogwoodSharp.FoundationSmoke/bin/Release/net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so [0]"
+  ],
+  "archivedOwnershipControls": {
+    "loader-only": {
+      "callsWithReleaseAssertions": 0,
+      "errors": 0,
+      "logSha256": "8e461a6c14820a31d5a18db6b00f7b5dfaed33088af1ab46edc707db48c763cf",
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        0,
+        0
+      ],
+      "still reachable": [
+        0,
+        0
+      ],
+      "suppressed": [
+        0,
+        0
+      ]
+    },
+    "parse-unload": {
+      "callsWithReleaseAssertions": 32,
+      "errors": 0,
+      "logSha256": "d60f683f47b9a3c098cb4f515b6e9fe0e85a874e62bc46021fbdbfa2f66908bb",
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        0,
+        0
+      ],
+      "still reachable": [
+        152,
+        1
+      ],
+      "suppressed": [
+        0,
+        0
+      ]
+    },
+    "resident": {
+      "callsWithReleaseAssertions": 128,
+      "errors": 0,
+      "logSha256": "e47f518f16886c79fe58d0c4fd1bdc3488e7d88eef76bd87764a770ba1cc8a93",
+      "definitely lost": [
+        0,
+        0
+      ],
+      "indirectly lost": [
+        0,
+        0
+      ],
+      "possibly lost": [
+        13136,
+        50
+      ],
+      "still reachable": [
+        33827,
+        120
+      ],
+      "suppressed": [
+        0,
+        0
+      ]
+    },
+    "mixed-unload": {
+      "callsWithReleaseAssertions": 128,
+      "errors": 122,
+      "logSha256": "0c58ed5c1a9f2c780207999264d1df22dd5c50220c1bdffc92aba61620b21687",
+      "definitely lost": [
+        3460,
+        12
+      ],
+      "indirectly lost": [
+        39456,
+        149
+      ],
+      "possibly lost": [
+        0,
+        0
+      ],
+      "still reachable": [
+        152,
+        1
+      ],
+      "suppressed": [
+        0,
+        0
+      ]
+    }
+  }
+}

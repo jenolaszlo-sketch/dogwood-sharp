@@ -1,5 +1,10 @@
 # DOGWOOD-SHARP-D2-R2 producer verification
 
+**A. IMPLEMENTED, READY FOR INDEPENDENT REQUALIFICATION**
+
+D2 remains remediation required pending D2-QUAL-02 and separate owner
+acceptance.
+
 ## Baseline and change scope
 
 Local `main` began clean and matched live `origin/main` at
@@ -133,8 +138,77 @@ R1 native image. The ELF loader recorded a single open with reference count
 one per process on .NET 8 and .NET 10.
 [Linux managed loader trace](evidence/d2-r2/local-linux-managed-loader.txt).
 
-The full [producer matrix](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44289567088)
-is running against the source and test commit above.
+The hosted producer matrix passed on the source and test commit above.
+Its artifact manifests match the downloaded images. The evidence commits
+following that revision contain only the report, finding tracking and
+supporting evidence.
+[Producer CI run 44289567088](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44289567088).
+
+| RID | .NET 8 | .NET 10 | Locked graph | CI artifact |
+| --- | --- | --- | ---: | --- |
+| `win-x64` | Pass | Pass | 181 packages | [14421682401](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44289567088/artifacts/14421682401) |
+| `linux-x64` | Pass | Pass | 177 packages | [14423170564](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44289567088/artifacts/14423170564) |
+| `osx-arm64` | Pass | Pass | 179 packages | [14420509954](https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44289567088/artifacts/14420509954) |
+
+Every cell passed 69 managed and 114 version-aware D1 scenarios with zero
+failures or skips, the producer JIT and NativeAOT smokes, and 35 archived
+D2 corpus scenarios in each execution mode. Per RID, 13 native Rust tests,
+88 D1 C checks, the 73-source and 131-request D1 differential, and the
+39-case D2 differential passed. The archived D2 C comparison passed 70 ABI
+replies, 13 Cedar round trips, 216 concurrent calls, 26 transport controls
+and five sensitivity controls. In all six cells the managed boundary accepted
+three valid controls and rejected 18 other malformed replies, three transport
+faults and the original QD2-01 mutation. Locked dependency comparisons, Rust
+and .NET formatting, lint, build and image verification passed.
+[Matrix evidence](evidence/d2-r2/ci-matrix.json).
+
+The hosted Linux build had the same native SHA-256 as the R1 image used in
+the local investigation. All six hosted resident sweeps passed, with zero
+definite or indirect loss and zero Memcheck errors. The sequential possible
+and still-reachable totals stayed at 13,756 and 42,461 bytes respectively.
+With four workers they stayed at 15,084 and 58,053 bytes. Peak native RSS
+was 16,348 KiB in the largest sequential run and 17,116 KiB in the largest
+concurrent run. The managed ELF loader trace counted one open. The largest
+C runs each verified 10,401 releases. None of these runs used custom
+suppression rules.
+
+| Finding and control | Unchanged R1 reproduction | R2 producer reproduction |
+| --- | --- | --- |
+| QD2-01 partial-schema mutation | Accepted on both local Windows frameworks and all six archived cells | Rejected with `MalformedResponse` on all six cells. Valid empty and nonempty bundles pass. |
+| QD2-03 original mixed workload held resident | 0 definite or indirect bytes, 13,136 possibly lost bytes | 0 definite or indirect bytes, the same 13,136 possibly lost bytes. The larger supported workloads retained stable totals. |
+| QD2-03 original mixed workload followed by unload | 3,460 definite and 39,456 indirect bytes after every release passed | The same two byte totals after every release passed. Kept as an unsupported diagnostic. |
+
+Memcheck remains a bounded empirical check under the measured Linux
+workloads. The hosting contract keeps the library resident and the
+qualification continues to record the upstream unload losses.
+[Linux residency and diagnostic evidence](evidence/d2-r2/ci-linux-resident.json).
+
+The archived D1 and D2 qualification trees, D1 acceptance, R1 verification
+and archived workflows match the starting revision. All ten archived D2
+evidence checksums verified, and the committed lockfiles match the baseline.
+[Retained R2 evidence checksums](evidence/d2-r2/SHA256SUMS),
+[full local log digests](evidence/d2-r2/local-raw-SHA256SUMS).
+
+## Reproducing the producer checks
+
+Use the pinned toolchains on the host for the target RID. Run
+`eng/Verify.ps1`, `eng/Verify-D1OnD2.ps1` and `eng/Verify-D2R2.ps1` in
+that order with the same `-RuntimeIdentifier`. The last script expects a
+clean checkout and reuses the verified asset. If NativeAOT restore added a
+RID-specific section to the library lock, restore that generated change
+before the archived corpus run.
+
+On Linux, install Valgrind and its matching libc debug symbols. Build and
+run the resident consumer with the asset produced by `eng/Verify.ps1`.
+
+```bash
+mkdir -p artifacts/d2-r2/resident
+cc -std=c11 -D_GNU_SOURCE -O2 -Wall -Wextra -Werror eng/d2-r2/resident.c \
+  -ldl -pthread -o artifacts/d2-r2/resident/probe
+python3 eng/d2-r2/measure-resident.py artifacts/d2-r2/resident/probe \
+  artifacts/native/runtimes/linux-x64/native/libdogwoodsharp_bridge.so \
+  artifacts/d2-r2/resident
+```
 
 ## Independent requalification scope
 
