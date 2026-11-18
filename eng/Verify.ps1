@@ -40,12 +40,14 @@ try {
 
     # The D2 differential resolves its own upstream graph, so it needs a locked
     # build before it can load the freshly produced bridge image.
+    cargo fmt --manifest-path $d2diff --check
+    cargo clippy --locked --release --manifest-path $d2diff --all-targets -- -D warnings
     cargo build --release --locked --manifest-path $d2diff
     $d2diffBinary = Join-Path (Resolve-Path 'native/dogwoodsharp-d2-diff/target/release') `
         $(if ($IsWindows) { 'dogwoodsharp-d2-diff.exe' } else { 'dogwoodsharp-d2-diff' })
     & $d2diffBinary verify $d2fixture --library "$asset/$binary"
     if ($LASTEXITCODE -ne 0) {
-        throw 'The D2 differential runner reported differences from the pinned upstream parser.'
+        throw 'The D2 differential runner failed upstream or wrapper contract comparison.'
     }
 
     New-Item -ItemType Directory -Force -Path artifacts/test-assets | Out-Null

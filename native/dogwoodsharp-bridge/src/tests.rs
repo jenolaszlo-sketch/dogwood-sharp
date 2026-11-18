@@ -389,6 +389,67 @@ fn d2_lowering_matches_pinned_upstream() {
 }
 
 #[test]
+fn d2_repeated_output_lifecycle() {
+    let good = d2_request(&d2_body(""), &d2_body(SCHEMA_TEXT), "");
+    let invalid = d2_request(
+        &d2_body("permit(principal, action, resource) when { context.unknown > 3 };"),
+        &d2_body(SCHEMA_TEXT),
+        "",
+    );
+    for _ in 0..64 {
+        let mut good_output = Buffer::EMPTY;
+        let mut invalid_output = Buffer::EMPTY;
+        assert_eq!(
+            call(ABI, OPERATION_LOWER, good.as_bytes(), &mut good_output),
+            0
+        );
+        assert_eq!(
+            call(
+                ABI,
+                OPERATION_LOWER,
+                invalid.as_bytes(),
+                &mut invalid_output
+            ),
+            0
+        );
+        assert_ne!(good_output.data, invalid_output.data);
+        assert_eq!(read(&good_output)["artifactsExported"], true);
+        release(&mut good_output);
+        let rejected = read(&invalid_output);
+        assert_eq!(rejected["lowered"], true);
+        assert_eq!(rejected["validationPassed"], false);
+        assert_eq!(rejected["artifactsExported"], false);
+        assert_eq!(rejected["cedarSchemaJson"], "");
+        assert!(!rejected["validationErrors"].as_array().unwrap().is_empty());
+        release(&mut invalid_output);
+        release(&mut invalid_output);
+    }
+}
+
+#[test]
+fn d2_decoded_source_and_encoded_request_limits_are_independent() {
+    let source = format!("//{}", "a".repeat(SOURCE_LIMIT - 2));
+    let request = d2_request(&d2_body(&source), &d2_body(SCHEMA_TEXT), "");
+    let mut buffer = Buffer::EMPTY;
+    assert_eq!(
+        call(ABI, OPERATION_LOWER, request.as_bytes(), &mut buffer),
+        0
+    );
+    assert_eq!(read(&buffer)["artifactsExported"], true);
+    release(&mut buffer);
+
+    let escaped_source = format!("\"\\u002f\\u002f{}\"", "\\u0061".repeat(SOURCE_LIMIT - 2));
+    let request = d2_request(&escaped_source, &d2_body(SCHEMA_TEXT), "");
+    assert!(request.len() > REQUEST_LIMIT);
+    assert_eq!(
+        call(ABI, OPERATION_LOWER, request.as_bytes(), &mut buffer),
+        Status::Limit as u32
+    );
+    assert!(buffer.data.is_null());
+    assert_eq!(buffer.len, 0);
+}
+
+#[test]
 fn version_and_repeated_output_lifecycle() {
     assert_eq!(dogwoodsharp_abi_version(), 1);
     let mut buffer = Buffer::EMPTY;

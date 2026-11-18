@@ -23,7 +23,7 @@ jobs:
           - os: macos-15
             rid: osx-arm64
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 35
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-dotnet@v5
@@ -56,6 +56,21 @@ jobs:
             --no-run --message-format=json | jq -er 'select(.profile.test == true and .executable != null) | .executable')
           valgrind --error-exitcode=1 --leak-check=full --errors-for-leak-kinds=definite,indirect \
             --log-file=artifacts/memory-ownership.log "$suite" --exact tests::version_and_repeated_output_lifecycle
+          valgrind --error-exitcode=1 --leak-check=full --errors-for-leak-kinds=definite,indirect \
+            --log-file=artifacts/d2-memory-ownership.log "$suite" --exact tests::d2_repeated_output_lifecycle
+      - name: Prepare MSVC for the D1 consumer regression
+        if: matrix.rid == 'win-x64'
+        uses: ilammy/msvc-dev-cmd@v1
+      - name: Run version-aware D1 consumer regression
+        shell: pwsh
+        run: |
+          Remove-Item Env:Platform -ErrorAction SilentlyContinue
+          Remove-Item Env:Configuration -ErrorAction SilentlyContinue
+          # AOT restore may add RID-specific sections to the tracked library lock.
+          if (git status --porcelain -- src/DogwoodSharp/packages.lock.json) {
+            git restore -- src/DogwoodSharp/packages.lock.json
+          }
+          ./eng/Verify-D1OnD2.ps1 -RuntimeIdentifier '${{ matrix.rid }}' -Valgrind:$IsLinux
       - name: Audit managed dependencies
         run: dotnet list DogwoodSharp.slnx package --vulnerable --include-transitive
       - uses: actions/upload-artifact@v7
@@ -65,5 +80,9 @@ jobs:
           path: |
             artifacts/verification.log
             artifacts/memory-ownership.log
+            artifacts/d2-memory-ownership.log
+            artifacts/d2-r1-d1-regression/logs
+            artifacts/d2-r1-d1-regression/reports
+            artifacts/d2-r1-d1-regression/qualification-*.json
             artifacts/test-results/*.trx
             artifacts/native/runtimes
