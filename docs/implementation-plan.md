@@ -49,6 +49,8 @@ implementing speculative infrastructure.
 ## D3: CedarSharp interoperability
 
 - Dependencies: D2.
+- Status: D3-E1 feasibility investigation completed with decision B; full
+  implementation is not authorized. See [the E1 report](d3-e1-compatibility.md).
 - Work packages / scope: Complete request/entity export; callback prototype; version pair; error mapping.
 - Public API: Explicit experimental CedarSharp backend only after gate.
 - Explicit exclusions: General temporal claims, CedarSharp changes in this repo.

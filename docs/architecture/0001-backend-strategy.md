@@ -1,8 +1,9 @@
 # ADR-0001: staged reference and CedarSharp backends
 
 Status: **Accepted with D0 qualifications. D1 accepted with qualifications and
-closed. D2 remediation required pending independent requalification and
-separate owner acceptance.** Proposed 2026-11-16.
+closed. D2 accepted with qualifications and closed. D3-E1 completed with
+compatibility decision B; full D3 implementation remains unauthorized.**
+Proposed 2026-11-16.
 
 Context: Dogwood supplies temporal semantics and public engine seams. CedarSharp
 is preferred for final Cedar evaluation, but the resolved Cedar versions differ
@@ -23,9 +24,12 @@ Cedar deduplication; strong differential oracle; API design is deferred until
 the boundary is proven. A-only remains the fallback. Durable storage, distributed
 reservations and Hufu integration remain separate projects.
 
-The D1 commission records owner acceptance of this approach. D3 must separately
-resolve version skew, mixed entity conformance, callback lifetime/AOT and error
-identity. Technical qualification and owner acceptance are separate records.
+The D1 commission records owner acceptance of this approach. D3-E1 established
+the 4.11.0/4.13.0 version pair and ID-preserving request construction for a
+bounded corpus, with decision B (compatible with qualifications). Full D3 must
+still resolve upstream entity-store equivalence, trusted temporal wiring,
+concurrency and cross-platform qualification before a backend promise. Technical
+qualification and owner acceptance are separate records.
 
 The [D2 owner lifetime decision](../d2-r2-owner-decisions.md) requires the
 D2-enabled native image to remain resident until process termination. D3
