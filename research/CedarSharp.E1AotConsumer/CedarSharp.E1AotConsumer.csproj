@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    D3-E1 NativeAOT consumer check (research only).
+
+    A minimal host that loads both native images in one process: the Dogwood
+    bridge (Cedar 4.11) and the CedarSharp package image (Cedar 4.13). It
+    proves that the candidate D3 architecture can be published as a trimmed
+    NativeAOT executable, which is the packaging shape the repository already
+    qualifies for DogwoodSharp alone. See docs/d3-e1-compatibility.md.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TrimMode>full</TrimMode>
+    <IsTrimmable>true</IsTrimmable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/DogwoodSharp/DogwoodSharp.csproj" />
+    <PackageReference Include="CedarSharp" />
+  </ItemGroup>
+</Project>
