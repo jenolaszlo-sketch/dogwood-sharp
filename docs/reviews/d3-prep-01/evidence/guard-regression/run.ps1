@@ -58,7 +58,7 @@ function Reset-ToGuard([string] $ClonePath, [string] $Commit) {
 function Invoke-Guard([string] $ClonePath) {
     $script = Join-Path $ClonePath 'eng/Verify-D2R2.ps1'
     $arguments = @('-NoLogo', '-NoProfile', '-NonInteractive', '-File', $script, '-RuntimeIdentifier', 'win-x64', '-GuardOnly')
-    Write-Output "> $pwsh $($arguments -join ' ')"
+    Write-Information "> $pwsh $($arguments -join ' ')"
     $commands.Add([ordered]@{
         command = $pwsh
         arguments = $arguments
