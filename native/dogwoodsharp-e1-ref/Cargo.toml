@@ -1,0 +1,15 @@
+[package]
+name = "dogwoodsharp-e1-ref"
+version = "0.0.0"
+edition = "2024"
+publish = false
+license = "Apache-2.0"
+
+# Independent E1 differential reference. It forwards the same JSON envelopes
+# the CedarSharp native bridge receives to Cedar's own FFI, but against the
+# bridge's pinned Cedar 4.11.0 SDK, so managed tests can compare engine
+# outputs across the version pair. It is test tooling: it never runs inside a
+# production execution path.
+
+[dependencies]
+cedar-policy = { version = "=4.11.0", default-features = false, features = ["ipaddr", "decimal", "datetime"] }
