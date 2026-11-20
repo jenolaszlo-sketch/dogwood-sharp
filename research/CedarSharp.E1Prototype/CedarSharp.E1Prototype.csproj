@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    D3-E1 CedarSharp interoperability prototype (research only).
+
+    Isolated from production API surfaces: not part of DogwoodSharp.slnx, not a
+    public API, and never packaged. It consumes the existing D2 DogwoodSharp
+    export and the pinned CedarSharp 1.0.0 package to answer the E1 feasibility
+    questions with executable evidence. See docs/d3-e1-compatibility.md.
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/DogwoodSharp/DogwoodSharp.csproj" />
+    <PackageReference Include="CedarSharp" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="All" />
+  </ItemGroup>
+</Project>
