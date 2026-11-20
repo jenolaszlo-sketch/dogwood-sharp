@@ -168,6 +168,8 @@ Before those failures the jobs passed the substantive checks: the D2 differentia
 
 **Remediation / deferred gate.** Before D3 implementation starts, the producer must resolve the guard conflict (re-pin the archived revision or scope the guard to the files it actually owns), re-run the producer verification workflow to green on the three RIDs, and record the macOS runner network failure as an infrastructure retry. This qualification does not modify the workflow or the archived harness.
 
+**Effect of this delivery on the guard.** This qualification adds files under `docs/reviews`, so the archived-R2 guard remains non-empty at the delivery commit as well; the producer-verification run for the delivery commit (`44769041043`) was in progress at the time of writing and is recorded as pending, never as passed. The owner should expect the same guard failure to recur on `win-x64` and `linux-x64` until the guard is re-pinned or scoped.
+
 ### QD3-04 — Determining-policy ID order is unstable between identical requests
 
 **Severity:** Low.

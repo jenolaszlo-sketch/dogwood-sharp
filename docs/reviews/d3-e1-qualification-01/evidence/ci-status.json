@@ -55,6 +55,15 @@
       "conclusion": "success",
       "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44289567088",
       "note": "last green producer-verification run; it predates the addition of docs/reviews/d2-qualification-02/**"
+    },
+    {
+      "id": 44769041043,
+      "workflow": "DogwoodSharp producer verification",
+      "headSha": "14f18acf336dd0e895c144e3a4777a1e5f616fb2",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44769041043",
+      "note": "producer-verification run triggered by this qualification delivery; pending at the time of writing and recorded as pending, never as passed"
     }
   ],
   "guardAnalysis": {
@@ -63,6 +72,8 @@
     "guard": "git diff --name-only b79fdffa07ac45cb49c5ee2ef100299f2d2adcf5 HEAD -- docs/reviews docs/d1-acceptance.md .github/workflows/d1-qualification.yml .github/workflows/d2-qualification.yml must be empty",
     "nonEmptyAtQualifiedRevision": true,
     "nonEmptyAtPrecedingGreenCommit9db149d": true,
+    "nonEmptyAtQualificationCommit14f18ac": true,
+    "qualificationDeliveryNote": "this qualification adds docs/reviews/d3-e1-qualification-01/**, so the archived-R2 guard stays non-empty at the delivery commit as well; the guard must be re-pinned or scoped to the files it owns before the producer-verification workflow can be green",
     "conclusion": "the conflict pre-dates the D3-E1 commits: the D2 R2 requalification added docs/reviews/d2-qualification-02/** after the archived D2 revision, and the archived-R2 guard forbids any change under docs/reviews since that revision",
     "whyItSurfacedNow": "commit 28073db (QUAL-02 attest six passing cells) carried the '[skip ci]' marker, so the producer-verification workflow did not run between the D2 R2 requalification commit and the D3-E1 delivery commit; 001bd3e was the first producer-verification run to exercise the guard",
     "attribution": {
@@ -70,7 +81,8 @@
       "c61d096": "added native/dogwoodsharp-e1-ref (Cedar 4.11 FFI reference)",
       "489b6f0": "added research/CedarSharp.E1Prototype",
       "7c8654b": "added research/CedarSharp.E1AotConsumer",
-      "001bd3e": "added the D3-E1 reports and D2 acceptance record"
+      "001bd3e": "added the D3-E1 reports and D2 acceptance record",
+      "14f18ac": "added docs/reviews/d3-e1-qualification-01/** (this qualification report, reviewer harness and evidence)"
     },
     "d3E1FilesOutsideDocsReviews": true,
     "d3E1FilesInsideDocsReviews": []
