@@ -2,8 +2,15 @@
 
 Status: **Accepted with D0 qualifications. D1 accepted with qualifications and
 closed. D2 accepted with qualifications and closed. D3-E1 completed with
-compatibility decision B; full D3 implementation remains unauthorized.**
+compatibility decision B; D3-PREP-01 selected the schema-carrying,
+request-validating CedarSharp path; full D3 implementation remains
+unauthorized.**
 Proposed 2026-11-16.
+
+D3-PREP-01 status update, 2026-11-21: the D3-E1 acceptance resolved D3-E1 as
+a candidate backend but did not authorize full D3. The accepted integration
+contract supersedes the historical callback-based preferred implementation in
+`options.md`; the native upstream reference remains the differential oracle.
 
 Context: Dogwood supplies temporal semantics and public engine seams. CedarSharp
 is preferred for final Cedar evaluation, but the resolved Cedar versions differ

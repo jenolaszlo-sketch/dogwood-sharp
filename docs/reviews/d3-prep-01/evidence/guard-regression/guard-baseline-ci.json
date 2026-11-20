@@ -1,0 +1,32 @@
+﻿{
+    "schemaVersion":  1,
+    "artifact":  "guard-baseline-ci.json",
+    "baselineRun":  44769429084,
+    "baselineHeadSha":  "3f22013bcc4e1d30e173ac4f5121322686d046a5",
+    "baselineConclusion":  "failure",
+    "remediationRun":  44793572785,
+    "remediationHeadSha":  "584fab31cacb0ad9dab3c5463f53a86956e947a2",
+    "remediationConclusion":  "success",
+    "jobs":  [
+                 {
+                     "jobId":  136402852110,
+                     "name":  "Verify linux-x64 / net8.0 and net10.0",
+                     "conclusion":  "failure",
+                     "status":  "completed"
+                 },
+                 {
+                     "jobId":  136402852512,
+                     "name":  "Verify osx-arm64 / net8.0 and net10.0",
+                     "conclusion":  "failure",
+                     "status":  "completed"
+                 },
+                 {
+                     "jobId":  136402852848,
+                     "name":  "Verify win-x64 / net8.0 and net10.0",
+                     "conclusion":  "failure",
+                     "status":  "completed"
+                 }
+             ],
+    "retrievalDate":  "2026-11-20",
+    "note":  "Baseline run 3f22013 failed all three producer verification jobs at the archived-R2 guard. The remediation run 447935 passed all three."
+}

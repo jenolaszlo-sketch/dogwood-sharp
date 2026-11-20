@@ -8,6 +8,7 @@ $PSNativeCommandUseErrorActionPreference = $true
 Set-StrictMode -Version Latest
 
 $archiveRevision = 'b79fdffa07ac45cb49c5ee2ef100299f2d2adcf5'
+$preflightRevision = 'e73c1caedb2df27f975f25bcdfe3f122d951ca9a'
 $protectedArchive = 'docs/reviews/d2-qualification'
 $tempParent = Join-Path $env:LOCALAPPDATA 'Temp/opencode'
 if (-not (Test-Path $tempParent)) {
@@ -15,10 +16,29 @@ if (-not (Test-Path $tempParent)) {
 }
 $clone = Join-Path $tempParent ("dogwood-sharp-d3-prep-guard-" + [guid]::NewGuid().ToString('N'))
 $cases = @()
+$result = $null
 $cleanup = [ordered]@{ attempted = $false; removed = $false; path = $clone }
+$commands = [System.Collections.Generic.List[object]]::new()
 $pwsh = (Get-Command pwsh.exe -ErrorAction Stop).Source
+$protectedPaths = @(
+    'docs/reviews/d2-qualification',
+    'docs/d1-acceptance.md',
+    '.github/workflows/d1-qualification.yml',
+    '.github/workflows/d2-qualification.yml'
+)
+$legacyGuardPaths = @(
+    'docs/reviews',
+    'docs/d1-acceptance.md',
+    '.github/workflows/d1-qualification.yml',
+    '.github/workflows/d2-qualification.yml'
+)
 
 function Invoke-Git([string] $ClonePath, [string[]] $Arguments) {
+    $commands.Add([ordered]@{
+        command = 'git'
+        arguments = @('-C', $ClonePath) + $Arguments
+        workingDirectory = $ClonePath
+    })
     $output = @(& git -C $ClonePath @Arguments 2>&1)
     if ($LASTEXITCODE -ne 0) {
         throw "git $($Arguments -join ' ') failed in ${ClonePath}: $($output -join [Environment]::NewLine)"
@@ -37,9 +57,16 @@ function Reset-ToGuard([string] $ClonePath, [string] $Commit) {
 
 function Invoke-Guard([string] $ClonePath) {
     $script = Join-Path $ClonePath 'eng/Verify-D2R2.ps1'
+    $arguments = @('-NoLogo', '-NoProfile', '-NonInteractive', '-File', $script, '-RuntimeIdentifier', 'win-x64', '-GuardOnly')
+    Write-Output "> $pwsh $($arguments -join ' ')"
+    $commands.Add([ordered]@{
+        command = $pwsh
+        arguments = $arguments
+        workingDirectory = $ClonePath
+    })
     $PSNativeCommandUseErrorActionPreference = $false
     try {
-        $output = @(& $pwsh -NoLogo -NoProfile -NonInteractive -File $script -RuntimeIdentifier win-x64 -GuardOnly 2>&1)
+        $output = @(& $pwsh @arguments 2>&1)
         $exitCode = $LASTEXITCODE
     }
     finally {
@@ -56,19 +83,54 @@ try {
         throw "RepositoryPath is not a Git checkout: $RepositoryPath"
     }
 
+    $sourceHead = (@(Invoke-Git $RepositoryPath @('rev-parse', 'HEAD'))[0]).Trim()
+    $sourceTree = (@(Invoke-Git $RepositoryPath @('rev-parse', 'HEAD^{tree}'))[0]).Trim()
+    $sourceBranch = (@(Invoke-Git $RepositoryPath @('symbolic-ref', '--short', 'HEAD'))[0]).Trim()
+    $sourceCommitTime = (@(Invoke-Git $RepositoryPath @('show', '-s', '--format=%cI', 'HEAD'))[0]).Trim()
+    $sourceStatus = @(Invoke-Git $RepositoryPath @('status', '--porcelain=v1', '--untracked-files=all'))
+    if ($sourceStatus.Count -ne 0) {
+        throw "Guard evidence requires a clean source checkout; $($sourceStatus.Count) path(s) are dirty."
+    }
+    $originMain = (@(Invoke-Git $RepositoryPath @('rev-parse', 'origin/main'))[0]).Trim()
+    $divergence = (@(Invoke-Git $RepositoryPath @('rev-list', '--left-right', '--count', 'HEAD...origin/main'))[0]).Trim() -split '\s+'
+
+    foreach ($ancestor in @($archiveRevision, $preflightRevision)) {
+        Invoke-Git $RepositoryPath @('merge-base', '--is-ancestor', $ancestor, 'HEAD') | Out-Null
+    }
+
+    $sourceGuardPath = Join-Path $RepositoryPath 'eng/Verify-D2R2.ps1'
+    $sourceGuardSha256 = (Get-FileHash -LiteralPath $sourceGuardPath -Algorithm SHA256).Hash
+    $sourceGuardBlob = (@(Invoke-Git $RepositoryPath @('rev-parse', 'HEAD:eng/Verify-D2R2.ps1'))[0]).Trim()
+    $protectedDiffArguments = @('diff', '--name-status', $archiveRevision, 'HEAD', '--') + $protectedPaths
+    $sourceProtectedDiff = @(Invoke-Git $RepositoryPath $protectedDiffArguments)
+    if ($sourceProtectedDiff.Count -ne 0) {
+        throw "The remediated protected scope already differs from the archive: $($sourceProtectedDiff -join '; ')"
+    }
+
+    $legacyDiffArguments = @('diff', '--name-only', $archiveRevision, $preflightRevision, '--') + $legacyGuardPaths
+    $legacyObservedChanges = @(Invoke-Git $RepositoryPath $legacyDiffArguments)
+
     & git clone --no-hardlinks --quiet $RepositoryPath $clone
     if ($LASTEXITCODE -ne 0) {
         throw "Unable to create disposable clone at $clone."
     }
+    $commands.Add([ordered]@{
+        command = 'git'
+        arguments = @('clone', '--no-hardlinks', '--quiet', $RepositoryPath, $clone)
+        workingDirectory = $tempParent
+    })
     Invoke-Git $clone @('config', 'user.name', 'D3 PREP guard regression') | Out-Null
     Invoke-Git $clone @('config', 'user.email', 'd3-prep-guard@example.invalid') | Out-Null
 
-    # The script under test is copied into the disposable clone and committed,
-    # so every case starts from a clean tree and the production guard path is
-    # tested exactly as shipped rather than by a mocked implementation.
-    Copy-Item -LiteralPath (Join-Path $RepositoryPath 'eng/Verify-D2R2.ps1') -Destination (Join-Path $clone 'eng/Verify-D2R2.ps1') -Force
-    Commit-All $clone 'test: stage remediated archived-R2 guard'
+    $cloneGuardPath = Join-Path $clone 'eng/Verify-D2R2.ps1'
+    $cloneGuardSha256 = (Get-FileHash -LiteralPath $cloneGuardPath -Algorithm SHA256).Hash
+    if ($sourceGuardSha256 -cne $cloneGuardSha256) {
+        throw 'The disposable clone does not contain the exact source guard.'
+    }
     $guardCommit = (@(Invoke-Git $clone @('rev-parse', 'HEAD'))[0]).Trim()
+    if ($guardCommit -cne $sourceHead) {
+        throw "The disposable clone is not at the source revision: $guardCommit != $sourceHead"
+    }
 
     # 1. Unchanged archive and protected paths pass.
     $unchanged = Invoke-Guard $clone
@@ -136,16 +198,47 @@ try {
 
     $failed = @($cases | Where-Object { -not $_.passed }).Count
     $result = [ordered]@{
-        schemaVersion = 1
+        schemaVersion = 3
         commission = 'DOGWOOD-SHARP-D3-PREP-01'
         repository = $RepositoryPath
-        archiveRevision = $archiveRevision
-        guardCommit = $guardCommit
+        source = [ordered]@{
+            head = $sourceHead
+            tree = $sourceTree
+            branch = $sourceBranch
+            commitTime = $sourceCommitTime
+            worktreeCleanAtStart = $true
+            dirtyFileCount = 0
+            originMain = $originMain
+            aheadBehind = [ordered]@{
+                ahead = [int] $divergence[0]
+                behind = [int] $divergence[1]
+            }
+            guardBlob = $sourceGuardBlob
+            guardSha256 = $sourceGuardSha256
+            runnerSha256 = (Get-FileHash -LiteralPath $PSCommandPath -Algorithm SHA256).Hash
+        }
+        baseline = [ordered]@{
+            archiveRevision = $archiveRevision
+            archiveTree = (@(Invoke-Git $RepositoryPath @('rev-parse', "$archiveRevision^{tree}"))[0]).Trim()
+            preflightRevision = $preflightRevision
+            preflightTree = (@(Invoke-Git $RepositoryPath @('rev-parse', "$preflightRevision^{tree}"))[0]).Trim()
+            legacyGuardScope = $legacyGuardPaths
+            legacyObservedChangeCount = $legacyObservedChanges.Count
+            legacyObservedChanges = $legacyObservedChanges
+        }
+        scope = [ordered]@{
+            protectedPaths = $protectedPaths
+            guardCommit = $guardCommit
+            guardMatchedSource = ($guardCommit -ceq $sourceHead)
+            protectedPathDiff = $sourceProtectedDiff
+        }
         runtime = [ordered]@{
             os = [Environment]::OSVersion.VersionString
+            architecture = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString()
             powershell = $PSVersionTable.PSVersion.ToString()
             git = (@(Invoke-Git $clone @('version'))[0]).Trim()
         }
+        commands = $commands
         summary = [ordered]@{
             total = $cases.Count
             passed = $cases.Count - $failed
@@ -154,7 +247,7 @@ try {
         cases = $cases
         cleanup = $cleanup
     }
-    $result | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $OutputPath -Encoding utf8
+    $result | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $OutputPath -Encoding utf8
     if ($failed) {
         throw "Archived-R2 guard regression failed: $failed case(s) failed."
     }
@@ -166,10 +259,8 @@ finally {
         Remove-Item -LiteralPath $clone -Recurse -Force
     }
     $cleanup.removed = -not (Test-Path -LiteralPath $clone)
-    if (Test-Path -LiteralPath $OutputPath) {
-        # The summary is written before cleanup so its contents can include
-        # the cleanup result; rewrite it after the disposable tree is gone.
+    if ($null -ne $result -and (Test-Path -LiteralPath $OutputPath)) {
         $result.cleanup = $cleanup
-        $result | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $OutputPath -Encoding utf8
+        $result | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $OutputPath -Encoding utf8
     }
 }

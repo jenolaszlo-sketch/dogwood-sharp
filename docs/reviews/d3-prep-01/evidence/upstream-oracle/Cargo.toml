@@ -1,0 +1,22 @@
+[package]
+name = "dogwoodsharp-upstream-oracle"
+version = "0.0.0"
+edition = "2024"
+publish = false
+license = "Apache-2.0"
+
+# DOGWOOD-SHARP-D3-PREP-01 upstream differential oracle.
+#
+# This harness links the *actual* upstream Dogwood authorizer
+# (dogwood-language at the revision the D2 bridge pins) and executes one
+# Dogwood-source request through it. It exists to calibrate the D3 upstream
+# differential reference (PREP-01C) and to measure the exact semantic
+# differences between upstream and the D2-lowered CedarSharp path
+# (PREP-01B). It is test tooling: it is not a production execution path, it
+# is not part of any shipped binary, and nothing in DogwoodSharp.slnx
+# references it.
+
+[dependencies]
+dogwood-language = { git = "https://github.com/dogwood-policy/dogwood", rev = "929f49e7305534ac61ef06cf8e47269c596dc851", default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

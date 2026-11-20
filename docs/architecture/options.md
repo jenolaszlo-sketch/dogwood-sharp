@@ -1,8 +1,19 @@
 # Architecture options and recommendation
 
+Status update, 2026-11-21: D3-E1 was accepted with qualifications and owner
+acceptance of D3-PREP-01 only. The accepted [D3 integration
+contract](d3-integration-contract.md) therefore selects the managed,
+schema-carrying, request-validating CedarSharp path shown in option A. The
+historical callback-based implementation described below is superseded as the
+future D3 design and remains only as proposal material. It does not authorize
+any D3 implementation by itself.
+
 Recommendation: **Option C, staged**. Establish a native reference backend as
 the oracle, and qualify a separate CedarSharp-backed path before exposing it as
-a supported backend. This is a proposal awaiting owner acceptance.
+a supported backend. The pre-D3-E1 proposal described a preferred callback;
+the current D3 design is the direct schema-carrying path in option A. This
+proposal awaiting owner acceptance is historical; see
+[the integration contract](../d3-integration-contract.md).
 
 | Criterion | A: full native authorizer | B: CedarSharp decision path | C: native reference plus qualified CedarSharp path |
 | --- | --- | --- | --- |
