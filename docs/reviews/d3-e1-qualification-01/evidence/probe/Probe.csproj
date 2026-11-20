@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    DOGWOOD-SHARP-D3-E1-Q1 independent reviewer probe harness.
+
+    Reviewer-owned evidence tooling: not part of DogwoodSharp.slnx, never
+    packaged, and never a production path. It drives the pinned CedarSharp
+    1.0.0 public API, the D2 DogwoodSharp bridge, and the Cedar 4.11 FFI
+    reference from one process and writes machine-readable results to the
+    evidence directory. See docs/reviews/d3-e1-qualification-01/README.md.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\src\DogwoodSharp\DogwoodSharp.csproj" />
+    <PackageReference Include="CedarSharp" />
+  </ItemGroup>
+</Project>

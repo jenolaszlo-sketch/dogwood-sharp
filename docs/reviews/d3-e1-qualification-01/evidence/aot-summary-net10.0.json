@@ -1,0 +1,10 @@
+{
+  "targetFramework": "net10.0",
+  "publishDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\q1-aot-net10.0",
+  "cedarSharpNativeAtPublishRoot": true,
+  "unstagedExitCode": 1,
+  "stagedExitCode": 0,
+  "unstagedAgainExitCode": 1,
+  "unstagedMessage": "AotProbe outcome=failed -> D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-e1-qualification-01\\evidence\\aot-results-net10.0-unstaged.json",
+  "stagedExeSha256": "82B587986EE3FCDAE637E56631127BAF1D5FF4BFBCDE2B55A0DBAACE759E6CAC"
+}

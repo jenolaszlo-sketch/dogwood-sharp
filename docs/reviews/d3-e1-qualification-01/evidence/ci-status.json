@@ -1,0 +1,78 @@
+{
+  "recordedAtUtc": "2026-11-20",
+  "repository": "jenolaszlo-sketch/dogwood-sharp",
+  "qualifiedRevision": "001bd3e930011ca8de7098087b0ac1bafdcad30f",
+  "qualifiedTree": "df11aaa372af5742d32d195f4c70ffb4ea9d964d",
+  "runs": [
+    {
+      "id": 44683180759,
+      "workflow": "DogwoodSharp producer verification",
+      "headSha": "001bd3e930011ca8de7098087b0ac1bafdcad30f",
+      "conclusion": "failure",
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44683180759",
+      "jobs": [
+        {
+          "name": "Verify win-x64 / net8.0 and net10.0",
+          "conclusion": "failure",
+          "firstFailingStep": "Verify the archived D2 corpus and decoder controls against R2",
+          "failure": "R2 producer verification requires a clean checkout with intact historical evidence",
+          "cause": "guard, not a semantic failure"
+        },
+        {
+          "name": "Verify linux-x64 / net8.0 and net10.0",
+          "conclusion": "failure",
+          "firstFailingStep": "Verify the archived D2 corpus and decoder controls against R2",
+          "failure": "R2 producer verification requires a clean checkout with intact historical evidence",
+          "cause": "guard, not a semantic failure"
+        },
+        {
+          "name": "Verify osx-arm64 / net8.0 and net10.0",
+          "conclusion": "failure",
+          "firstFailingStep": "Verify native integration on both frameworks",
+          "failure": "cargo could not download https://static.crates.io/crates/bytes/1.12.2/download after 3 retries (DNS: Could not resolve host name index.crates.io); artifact upload also failed with ENOTFOUND",
+          "cause": "runner network failure, not a code defect"
+        }
+      ],
+      "checksThatPassedBeforeTheFailure": [
+        "13 Rust bridge tests passed (osx-arm64 job: 'test result: ok. 13 passed; 0 failed')",
+        "D2 differential on win-x64: 'DIFFERENTIAL cases=39 failures=0'",
+        "D2 differential on linux-x64: 'DIFFERENTIAL cases=39 failures=0'",
+        "D1 independent differential on win-x64: 'message mismatches: 0; wire length mismatches: 0'",
+        "D1 independent differential on linux-x64: 'message mismatches: 0; wire length mismatches: 0'"
+      ]
+    },
+    {
+      "id": 44343763763,
+      "workflow": "D2 R2 independent requalification",
+      "headSha": "9db149d6964652c7a306e16faebc03f080b1a413",
+      "conclusion": "success",
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44343763763"
+    },
+    {
+      "id": 44289567088,
+      "workflow": "DogwoodSharp producer verification",
+      "headSha": "d4d62b4825d2cb0d43554e6bb34b9d6a7dc238fd",
+      "conclusion": "success",
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44289567088",
+      "note": "last green producer-verification run; it predates the addition of docs/reviews/d2-qualification-02/**"
+    }
+  ],
+  "guardAnalysis": {
+    "script": "eng/Verify-D2R2.ps1",
+    "archivedRevision": "b79fdffa07ac45cb49c5ee2ef100299f2d2adcf5",
+    "guard": "git diff --name-only b79fdffa07ac45cb49c5ee2ef100299f2d2adcf5 HEAD -- docs/reviews docs/d1-acceptance.md .github/workflows/d1-qualification.yml .github/workflows/d2-qualification.yml must be empty",
+    "nonEmptyAtQualifiedRevision": true,
+    "nonEmptyAtPrecedingGreenCommit9db149d": true,
+    "conclusion": "the conflict pre-dates the D3-E1 commits: the D2 R2 requalification added docs/reviews/d2-qualification-02/** after the archived D2 revision, and the archived-R2 guard forbids any change under docs/reviews since that revision",
+    "whyItSurfacedNow": "commit 28073db (QUAL-02 attest six passing cells) carried the '[skip ci]' marker, so the producer-verification workflow did not run between the D2 R2 requalification commit and the D3-E1 delivery commit; 001bd3e was the first producer-verification run to exercise the guard",
+    "attribution": {
+      "28073db": "modified docs/reviews/d2-qualification-02/README.md, docs/reviews/d2-qualification-02/evidence/SHA256SUMS and added docs/reviews/d2-qualification-02/evidence/ci-matrix.json",
+      "c61d096": "added native/dogwoodsharp-e1-ref (Cedar 4.11 FFI reference)",
+      "489b6f0": "added research/CedarSharp.E1Prototype",
+      "7c8654b": "added research/CedarSharp.E1AotConsumer",
+      "001bd3e": "added the D3-E1 reports and D2 acceptance record"
+    },
+    "d3E1FilesOutsideDocsReviews": true,
+    "d3E1FilesInsideDocsReviews": []
+  }
+}

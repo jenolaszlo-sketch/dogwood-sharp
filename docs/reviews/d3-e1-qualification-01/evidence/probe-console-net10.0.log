@@ -1,0 +1,51 @@
+PASS Q1-01-A1 FromPolicies preserves non-sequential caller policy IDs
+PASS Q1-01-A2 Reordered supply: decisions are identical, ID order follows supply
+PASS Q1-01-A3 FromText renumbers to policy0..N and ignores @id for identity
+PASS Q1-01-A4 Determining-ID order is unordered; the set is stable
+PASS Q1-01-A5 Forbid precedence over a satisfied permit
+PASS Q1-01-A6 Policy evaluation errors carry the failing policy's caller-assigned ID; enforcement gates reject the result
+PASS Q1-01-A7 Operation failures are rejected before any Allow
+PASS Q1-01-A8 Raw Allow can carry policy errors; clean-Allow is the enforcement gate
+PASS Q1-02-B1 Owner attribute matches the principal
+PASS Q1-02-B2 Owner mismatch denies without error
+PASS Q1-02-B3 Condition true allows; false denies cleanly
+PASS Q1-02-B4 Principal membership: parent edge matches; missing edge denies without error
+PASS Q1-02-B5 Action group membership resolves from the schema alone
+PASS Q1-02-B6 Missing referenced entity fails closed with a policy error
+PASS Q1-02-B7 has on a present entity: absent attribute allows, present attribute denies, both error-free
+PASS Q1-02-B8 Scope-principal `has` probes: absent vs bare vs attributed (schema-less)
+PASS Q1-02-B9 validateRequest rejects a scope type outside the action's appliesTo; without validation the request is silently evaluated
+PASS Q1-02-B10 Missing required context attribute fails closed on every path
+PASS Q1-02-B11 ipaddr/decimal/datetime extensions evaluate; malformed extension input is rejected
+PASS Q1-02-B12 D2 lowering input space: unguarded optional-attribute access is not exportable
+PASS Q1-03-C1 Schema-less with explicit action entities: action-group membership resolves
+PASS Q1-03-C2 Schema-less without action entities denies silently
+PASS Q1-03-C3 Pre-validate with the augmented schema, then authorize schema-less with a bare scope principal
+PASS Q1-03-C4 Incomplete supplied entity fails closed in both the authorize and pre-validation paths
+PASS Q1-03-C5 Exported schema JSON/text round-trip with identical outcomes
+PASS Q1-03-C6 Exported IDs: FromText renumbers; FromPolicies with paired bodies preserves them
+PASS Q1-03-C7 Generated-field collision is rejected at lowering (fail closed)
+PASS Q1-04-D1 Lowered temporal policy exposes a generated Boolean context field
+PASS Q1-04-D2 Harness-injected temporal boolean drives the decision
+PASS Q1-04-D4 Caller-supplied temporal value flips the decision (trust-boundary evidence)
+PASS Q1-04-D3 Missing generated temporal field fails closed on every path
+PASS Q1-04-D5 Cross-request isolation on a shared engine
+PASS Q1-04-D6-true Cedar 4.11 reference agrees on the temporal wiring envelope
+PASS Q1-04-D6-false Cedar 4.11 reference agrees on the temporal wiring envelope
+PASS Q1-05-E1 D2 bridge and CedarSharp native coexist in one process
+PASS Q1-06-F1 Cedar 4.11 reference identity
+PASS Q1-06-F2-count-true count condition true
+PASS Q1-06-F2-count-false count condition false
+PASS Q1-06-F2-owner-match owner matches
+PASS Q1-06-F2-owner-missing-entity owner references absent entity
+PASS Q1-06-F2-parents-match principal hierarchy match
+PASS Q1-06-F2-action-group-schema action group with schema
+PASS Q1-06-F2-action-group-schemaless action group without schema
+PASS Q1-06-F2-has-absent-principal scope principal absent
+PASS Q1-06-F2-has-bare-principal bare scope principal present
+PASS Q1-06-F2-has-attributed-principal scope principal with token
+PASS Q1-06-F2-extensions extension values
+PASS Q1-06-F2-raw-allow-with-error raw allow with a policy error
+PASS Q1-06-F2-summary Differential subset summary
+
+results: 49 cases, 0 failures -> D:\projects\dogwood-sharp\docs\reviews\d3-e1-qualification-01\evidence\probe-results-net10.0.json

@@ -1,0 +1,11 @@
+{
+  "bridge_error": "DogwoodBridgeException: Could not load the verified DogwoodSharp asset for win-x64."
+  "cedarsharp_sdk": "4.13.0"
+  "cedarsharp_language": "4.5"
+  "cedarsharp_sha256": "77de6976a7ae5b961920bb6843d39b32f3faf285f16b723581680e9c06c03895"
+  "check_cedarsharp_sdk_4_13_0": "pass"
+  "check_cedarsharp_sha256_matches_manifest": "pass"
+  "flow_error": "DogwoodBridgeException: Could not load the verified DogwoodSharp asset for win-x64."
+  "dotnet": "10.0.15"
+  "outcome": "failed"
+}

@@ -1,0 +1,30 @@
+{
+  "generatedAtUtc": "2026-11-20T15:50:56.7280665Z",
+  "head": "001bd3e930011ca8de7098087b0ac1bafdcad30f",
+  "tree": "df11aaa372af5742d32d195f4c70ffb4ea9d964d",
+  "dirtyFiles": 1,
+  "bridgeSha256": "8ABF40D2526EAB650003E7EE1C05D97AA82CBEB69890849E867333EA54914D63",
+  "bridgeManifest": {
+    "manifestVersion": 1,
+    "rid": "win-x64",
+    "file": "dogwoodsharp_bridge.dll",
+    "sha256": "8abf40d2526eab650003e7ee1c05d97aa82cbeb69890849e867333ea54914d63",
+    "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+    "abiVersion": 1,
+    "bridgeVersion": "0.1.0",
+    "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+    "dogwoodVersion": "1.1.2",
+    "cedarVersion": "4.11.0",
+    "rustVersion": "1.99.1",
+    "target": "x86_64-pc-windows-msvc",
+    "dogwoodFeatures": [],
+    "cedarFeatures": [
+      "datetime",
+      "decimal",
+      "ipaddr"
+    ]
+  },
+  "referenceExeSha256": "D617B02A12C511A67ADBB03F1F0388D19926664D5C4EAF916500AFF431E7EBB8",
+  "referenceTreeClean": true,
+  "cedarSharpNativeSha256": "77DE6976A7AE5B961920BB6843D39B32F3FAF285F16B723581680E9C06C03895"
+}

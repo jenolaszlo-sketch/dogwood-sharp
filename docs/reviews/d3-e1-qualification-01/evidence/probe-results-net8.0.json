@@ -1,0 +1,1312 @@
+{
+  "meta": {
+    "generatedAtUtc": "2026-11-20T15:50:55.8900501Z",
+    "dotNet": "8.0.31",
+    "framework": ".NET 8.0.31",
+    "rid": "win-x64",
+    "os": "Microsoft Windows 10.0.26200",
+    "cedarSharp": {
+      "abiVersion": 1,
+      "sdkVersion": "4.13.0",
+      "languageVersion": "4.5",
+      "bridgeVersion": "0.1.0",
+      "rustVersion": "1.94.0",
+      "target": "x86_64-pc-windows-msvc",
+      "features": [
+        "ipaddr",
+        "decimal",
+        "datetime"
+      ],
+      "nativePath": "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-e1-qualification-01\\evidence\\probe\\bin\\Release\\net8.0\\runtimes\\win-x64\\native\\cedarsharp_native.dll",
+      "sha256": "77de6976a7ae5b961920bb6843d39b32f3faf285f16b723581680e9c06c03895"
+    },
+    "dogwoodBridge": {
+      "abiVersion": 1,
+      "bridgeVersion": "0.1.0",
+      "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+      "dogwoodVersion": "1.1.2",
+      "cedarVersion": "4.11.0",
+      "rustVersion": "1.99.1",
+      "target": "x86_64-pc-windows-msvc"
+    },
+    "reference": {
+      "binary": "D:\\projects\\dogwood-sharp\\native\\dogwoodsharp-e1-ref\\target\\release\\dogwoodsharp-e1-ref.exe",
+      "sdkVersion": "4.11.0",
+      "languageVersion": "4.5"
+    }
+  },
+  "summary": {
+    "total": 49,
+    "failed": 0,
+    "passed": 49
+  },
+  "cases": [
+    {
+      "id": "Q1-01-A1",
+      "name": "FromPolicies preserves non-sequential caller policy IDs",
+      "expectation": "Allow; determining is exactly [z-rule-9] (count\u003E4 matches at 5); PolicyIds keep supplied order",
+      "verdict": "pass",
+      "observed": {
+        "policyIds": [
+          "z-rule-9",
+          "a-rule-42",
+          "m-rule-0"
+        ],
+        "result": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "z-rule-9"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        }
+      }
+    },
+    {
+      "id": "Q1-01-A2",
+      "name": "Reordered supply: decisions are identical, ID order follows supply",
+      "expectation": "Allow; determining [z-rule-9]; PolicyIds [m-rule-0, a-rule-42, z-rule-9]",
+      "verdict": "pass",
+      "observed": {
+        "policyIds": [
+          "m-rule-0",
+          "a-rule-42",
+          "z-rule-9"
+        ],
+        "result": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "z-rule-9"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        }
+      }
+    },
+    {
+      "id": "Q1-01-A3",
+      "name": "FromText renumbers to policy0..N and ignores @id for identity",
+      "expectation": "Allow; determining [policy0] (not custom-a); the PolicyIds property is empty for text sets (IDs are not materialized for plain-text sets), recorded as adapter evidence",
+      "verdict": "pass",
+      "observed": {
+        "policyIds": [],
+        "result": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "policy0"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        }
+      },
+      "note": "Determining diagnostics still carry the positional policy0 identity, so a FromText set cannot report caller-meaningful IDs; the D3 adapter must use FromPolicies pairing."
+    },
+    {
+      "id": "Q1-01-A4",
+      "name": "Determining-ID order is unordered; the set is stable",
+      "expectation": "Every run Allow with determining set {p0,p1,p2}; order stability recorded, not required",
+      "verdict": "pass",
+      "observed": {
+        "runs": [
+          [
+            "p2",
+            "p0",
+            "p1"
+          ],
+          [
+            "p1",
+            "p0",
+            "p2"
+          ],
+          [
+            "p2",
+            "p1",
+            "p0"
+          ],
+          [
+            "p2",
+            "p0",
+            "p1"
+          ],
+          [
+            "p0",
+            "p2",
+            "p1"
+          ]
+        ],
+        "orderStableAcrossRuns": false
+      }
+    },
+    {
+      "id": "Q1-01-A5",
+      "name": "Forbid precedence over a satisfied permit",
+      "expectation": "Deny; determining [deny-all]; no policy errors",
+      "verdict": "pass",
+      "observed": {
+        "success": true,
+        "decision": "Deny",
+        "determining": [
+          "deny-all"
+        ],
+        "policyErrors": [],
+        "errors": [],
+        "warnings": [],
+        "isCleanAllow": false,
+        "isCleanDeny": true,
+        "isErrorFree": true
+      }
+    },
+    {
+      "id": "Q1-01-A6",
+      "name": "Policy evaluation errors carry the failing policy\u0027s caller-assigned ID; enforcement gates reject the result",
+      "expectation": "Allow determined by the good permit (a failing permit does not fire, per-policy error semantics); policy error on [broken]; not error-free; RequireAllow/EnsureNoErrors throw CedarAuthorizationException",
+      "verdict": "pass",
+      "observed": {
+        "result": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "counting"
+          ],
+          "policyErrors": [
+            {
+              "policyId": "broken",
+              "message": "record does not have the attribute \u0060missing\u0060"
+            }
+          ],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": false,
+          "isErrorFree": false
+        },
+        "requireAllow": "CedarAuthorizationException",
+        "ensureNoErrors": "CedarAuthorizationException"
+      }
+    },
+    {
+      "id": "Q1-01-A7",
+      "name": "Operation failures are rejected before any Allow",
+      "expectation": "Malformed entities JSON throws (no result); duplicate policy IDs are rejected",
+      "verdict": "pass",
+      "observed": {
+        "malformedEntities": "System.Text.Json.JsonReaderException: \u0027n\u0027 is an invalid start of a property name. Expected a \u0027\u0022\u0027. LineNumber: 0 | BytePositionInLine: 1.",
+        "duplicateIds": "System.ArgumentException: Duplicate policy ID \u0027dup\u0027. (Parameter \u0027policies\u0027)"
+      }
+    },
+    {
+      "id": "Q1-01-A8",
+      "name": "Raw Allow can carry policy errors; clean-Allow is the enforcement gate",
+      "expectation": "Allow with policy error on [broken]; IsCleanAllow false; RequireAllow throws",
+      "verdict": "pass",
+      "observed": {
+        "result": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "good"
+          ],
+          "policyErrors": [
+            {
+              "policyId": "broken",
+              "message": "record does not have the attribute \u0060missing\u0060"
+            }
+          ],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": false,
+          "isErrorFree": false
+        },
+        "requireAllow": "CedarAuthorizationException"
+      },
+      "note": "Direct-Cedar semantics; upstream forwards evaluation errors in diagnostics without flipping the decision (api.rs decide/decide_at)."
+    },
+    {
+      "id": "Q1-02-B1",
+      "name": "Owner attribute matches the principal",
+      "expectation": "Allow; determining [p]; no errors",
+      "verdict": "pass",
+      "observed": {
+        "success": true,
+        "decision": "Allow",
+        "determining": [
+          "p"
+        ],
+        "policyErrors": [],
+        "errors": [],
+        "warnings": [],
+        "isCleanAllow": true,
+        "isCleanDeny": false,
+        "isErrorFree": true
+      }
+    },
+    {
+      "id": "Q1-02-B2",
+      "name": "Owner mismatch denies without error",
+      "expectation": "Deny; no determining; no policy errors",
+      "verdict": "pass",
+      "observed": {
+        "success": true,
+        "decision": "Deny",
+        "determining": [],
+        "policyErrors": [],
+        "errors": [],
+        "warnings": [],
+        "isCleanAllow": false,
+        "isCleanDeny": true,
+        "isErrorFree": true
+      }
+    },
+    {
+      "id": "Q1-02-B3",
+      "name": "Condition true allows; false denies cleanly",
+      "expectation": "count=5 -\u003E Allow [p]; count=1 -\u003E Deny, no errors, no determining",
+      "verdict": "pass",
+      "observed": {
+        "count5": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "p"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        },
+        "count1": {
+          "success": true,
+          "decision": "Deny",
+          "determining": [],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": true,
+          "isErrorFree": true
+        }
+      }
+    },
+    {
+      "id": "Q1-02-B4",
+      "name": "Principal membership: parent edge matches; missing edge denies without error",
+      "expectation": "With edge -\u003E Allow [p]; without edge -\u003E Deny, no errors",
+      "verdict": "pass",
+      "observed": {
+        "withEdge": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "p"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        },
+        "withoutEdge": {
+          "success": true,
+          "decision": "Deny",
+          "determining": [],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": true,
+          "isErrorFree": true
+        }
+      }
+    },
+    {
+      "id": "Q1-02-B5",
+      "name": "Action group membership resolves from the schema alone",
+      "expectation": "Allow; determining [p]; no errors; no action entities supplied",
+      "verdict": "pass",
+      "observed": {
+        "success": true,
+        "decision": "Allow",
+        "determining": [
+          "p"
+        ],
+        "policyErrors": [],
+        "errors": [],
+        "warnings": [],
+        "isCleanAllow": true,
+        "isCleanDeny": false,
+        "isErrorFree": true
+      }
+    },
+    {
+      "id": "Q1-02-B6",
+      "name": "Missing referenced entity fails closed with a policy error",
+      "expectation": "Deny; policy error on [p] (entity does not exist); never Allow",
+      "verdict": "pass",
+      "observed": {
+        "success": true,
+        "decision": "Deny",
+        "determining": [],
+        "policyErrors": [
+          {
+            "policyId": "p",
+            "message": "entity \u0060App::User::\u0022bob\u0022\u0060 does not exist"
+          }
+        ],
+        "errors": [],
+        "warnings": [],
+        "isCleanAllow": false,
+        "isCleanDeny": false,
+        "isErrorFree": false
+      }
+    },
+    {
+      "id": "Q1-02-B7",
+      "name": "has on a present entity: absent attribute allows, present attribute denies, both error-free",
+      "expectation": "no secret -\u003E Allow [p] no errors; secret=true -\u003E Deny no errors",
+      "verdict": "pass",
+      "observed": {
+        "withoutSecret": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "p"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        },
+        "withSecret": {
+          "success": true,
+          "decision": "Deny",
+          "determining": [],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": true,
+          "isErrorFree": true
+        }
+      }
+    },
+    {
+      "id": "Q1-02-B8",
+      "name": "Scope-principal \u0060has\u0060 probes: absent vs bare vs attributed (schema-less)",
+      "expectation": "bare principal -\u003E Allow no errors (upstream-equivalent); principal with token -\u003E Deny no errors; absent-principal and schema-carrying-absent runs are recorded evidence, not assumed",
+      "verdict": "pass",
+      "observed": {
+        "principalAbsent": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "p"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        },
+        "barePrincipal": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "p"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        },
+        "principalWithToken": {
+          "success": true,
+          "decision": "Deny",
+          "determining": [],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": true,
+          "isErrorFree": true
+        },
+        "schemaCarryingPrincipalAbsent": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "p"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        }
+      },
+      "note": "Upstream build_entities inserts a bare scope principal for absent uids (api.rs three tiers); direct Cedar with the scope entity absent is engine behavior, recorded as evidence."
+    },
+    {
+      "id": "Q1-02-B9",
+      "name": "validateRequest rejects a scope type outside the action\u0027s appliesTo; without validation the request is silently evaluated",
+      "expectation": "validated run is NOT an Allow (fail closed); unvalidated run observed (expected Allow: no scope constraint is evaluated schema-less)",
+      "verdict": "pass",
+      "observed": {
+        "validated": {
+          "success": false,
+          "decision": null,
+          "determining": [],
+          "policyErrors": [],
+          "errors": [
+            "principal type \u0060App::Ghost\u0060 is not declared in the schema"
+          ],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": false,
+          "isErrorFree": false
+        },
+        "unvalidated": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "p"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        }
+      },
+      "note": "The D3 adapter must always carry the augmented schema or pre-validate the scope; a schema-less pass-through would authorize principals outside the action\u0027s appliesTo."
+    },
+    {
+      "id": "Q1-02-B10",
+      "name": "Missing required context attribute fails closed on every path",
+      "expectation": "validated: not Allow; schema-carrying unvalidated: observed (expected Deny with evaluation error); schema-less: Deny with evaluation error on context.count",
+      "verdict": "pass",
+      "observed": {
+        "validated": {
+          "success": false,
+          "decision": null,
+          "determining": [],
+          "policyErrors": [],
+          "errors": [
+            "while parsing context, expected the record to have an attribute \u0060count\u0060, but it does not"
+          ],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": false,
+          "isErrorFree": false
+        },
+        "unvalidatedWithSchema": {
+          "success": false,
+          "decision": null,
+          "determining": [],
+          "policyErrors": [],
+          "errors": [
+            "while parsing context, expected the record to have an attribute \u0060count\u0060, but it does not"
+          ],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": false,
+          "isErrorFree": false
+        },
+        "unvalidated": {
+          "success": true,
+          "decision": "Deny",
+          "determining": [],
+          "policyErrors": [
+            {
+              "policyId": "p",
+              "message": "record does not have the attribute \u0060count\u0060"
+            }
+          ],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": false,
+          "isErrorFree": false
+        }
+      }
+    },
+    {
+      "id": "Q1-02-B11",
+      "name": "ipaddr/decimal/datetime extensions evaluate; malformed extension input is rejected",
+      "expectation": "valid ipv4/decimal/datetime -\u003E Allow [p]; ipv6 -\u003E Deny no errors; invalid ip -\u003E rejected (no Allow)",
+      "verdict": "pass",
+      "observed": {
+        "allowed": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "p"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        },
+        "ipv6": {
+          "success": true,
+          "decision": "Deny",
+          "determining": [],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": true,
+          "isErrorFree": true
+        },
+        "malformed": "no-exception: "
+      }
+    },
+    {
+      "id": "Q1-02-B12",
+      "name": "D2 lowering input space: unguarded optional-attribute access is not exportable",
+      "expectation": "Unguarded form -\u003E no artifacts exported (strict Cedar validation); guarded form -\u003E artifacts exported; direct CedarSharp evaluation of the unguarded policy fails closed",
+      "verdict": "pass",
+      "observed": {
+        "unguarded": {
+          "artifactsExported": false,
+          "stageError": null,
+          "exception": null
+        },
+        "guarded": {
+          "artifactsExported": true,
+          "stageError": null,
+          "exception": null,
+          "exportedRuleIds": [
+            "q1_0"
+          ]
+        },
+        "directEvaluation": {
+          "success": true,
+          "decision": "Deny",
+          "determining": [],
+          "policyErrors": [
+            {
+              "policyId": "p",
+              "message": "entity \u0060App::User::\u0022bob\u0022\u0060 does not exist"
+            }
+          ],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": false,
+          "isErrorFree": false
+        }
+      },
+      "note": "Cedar\u0027s strict validation rejects an unguarded read of an optional attribute, so this policy is outside the D2-exportable set; a missing lowering must surface as an error, not as an empty evaluation."
+    },
+    {
+      "id": "Q1-03-C1",
+      "name": "Schema-less with explicit action entities: action-group membership resolves",
+      "expectation": "Allow; determining [p]; no errors",
+      "verdict": "pass",
+      "observed": {
+        "success": true,
+        "decision": "Allow",
+        "determining": [
+          "p"
+        ],
+        "policyErrors": [],
+        "errors": [],
+        "warnings": [],
+        "isCleanAllow": true,
+        "isCleanDeny": false,
+        "isErrorFree": true
+      },
+      "note": "Hand-written action entities mirror the upstream pipeline\u0027s explicit merge of schema action entities (api.rs build_entities tier 3)."
+    },
+    {
+      "id": "Q1-03-C2",
+      "name": "Schema-less without action entities denies silently",
+      "expectation": "Deny; no determining; no errors (membership unresolvable)",
+      "verdict": "pass",
+      "observed": {
+        "success": true,
+        "decision": "Deny",
+        "determining": [],
+        "policyErrors": [],
+        "errors": [],
+        "warnings": [],
+        "isCleanAllow": false,
+        "isCleanDeny": true,
+        "isErrorFree": true
+      }
+    },
+    {
+      "id": "Q1-03-C3",
+      "name": "Pre-validate with the augmented schema, then authorize schema-less with a bare scope principal",
+      "expectation": "CheckEntities/CheckContext/CheckFullRequest all succeed; schema-less authorize -\u003E Allow [p] no errors (matches upstream bare-entity semantics)",
+      "verdict": "pass",
+      "observed": {
+        "checkEntities": true,
+        "checkContext": true,
+        "checkFullRequest": true,
+        "result": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "p"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        }
+      }
+    },
+    {
+      "id": "Q1-03-C4",
+      "name": "Incomplete supplied entity fails closed in both the authorize and pre-validation paths",
+      "expectation": "Schema-carrying authorize does NOT Allow (rejects or denies with error); CheckEntities fails",
+      "verdict": "pass",
+      "observed": {
+        "authorize": "{\u0022success\u0022:false,\u0022decision\u0022:null,\u0022determining\u0022:[],\u0022policyErrors\u0022:[],\u0022errors\u0022:[\u0022entity does not conform to the schema: expected entity \\u0060App::Session::\\u0022s1\\u0022\\u0060 to have attribute \\u0060token\\u0060, but it does not\u0022],\u0022warnings\u0022:[],\u0022isCleanAllow\u0022:false,\u0022isCleanDeny\u0022:false,\u0022isErrorFree\u0022:false}",
+        "checkEntitiesSuccess": false,
+        "checkEntitiesErrors": [
+          "entity does not conform to the schema: expected entity \u0060App::Session::\u0022s1\u0022\u0060 to have attribute \u0060token\u0060, but it does not"
+        ]
+      }
+    },
+    {
+      "id": "Q1-03-C5",
+      "name": "Exported schema JSON/text round-trip with identical outcomes",
+      "expectation": "Both export forms authorize identically (same decision, determining set, policy-error set); value equality of the two CedarSchema snapshots is recorded but not required",
+      "verdict": "pass",
+      "observed": {
+        "valueEqual": false,
+        "behaviorallyEqual": true,
+        "viaJson": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        },
+        "viaText": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        }
+      },
+      "note": "CedarSharp schema equality is by upstream JSON representation; the two export forms of the same augmented schema are not value-equal even though they authorize identically. A D3 adapter must cache/compare using one export form consistently."
+    },
+    {
+      "id": "Q1-03-C6",
+      "name": "Exported IDs: FromText renumbers; FromPolicies with paired bodies preserves them",
+      "expectation": "Exported ids [q1_0, q1_1, q1_2]; FromText determining [policy0] (renumbered, PolicyIds property empty for text sets); paired FromPolicies keeps IDs and reports determining [q1_0]",
+      "verdict": "pass",
+      "observed": {
+        "exportedIds": [
+          "q1_0",
+          "q1_1",
+          "q1_2"
+        ],
+        "fromTextIds": [],
+        "fromText": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "policy0"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        },
+        "pairedIds": [
+          "q1_0",
+          "q1_1",
+          "q1_2"
+        ],
+        "paired": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        }
+      }
+    },
+    {
+      "id": "Q1-03-C7",
+      "name": "Generated-field collision is rejected at lowering (fail closed)",
+      "expectation": "No artifacts; StageError at CollisionCheck with GeneratedContextFieldCollision; collision field q1t_0__temporal_0",
+      "verdict": "pass",
+      "observed": {
+        "artifactsExported": false,
+        "stageError": {
+          "stage": "CollisionCheck",
+          "category": "GeneratedContextFieldCollision",
+          "message": "A generated temporal field is already declared in the original action context."
+        },
+        "collision": "DogwoodContextFieldCollision { Field = q1t_0__temporal_0, ActionNamespace = Test, ActionId = Read }"
+      }
+    },
+    {
+      "id": "Q1-04-D1",
+      "name": "Lowered temporal policy exposes a generated Boolean context field",
+      "expectation": "Artifacts exported; policy reads exactly one generated \u003Cdistincter\u003E__temporal_N field; the augmented schema declares it; the authored schema does not; not self-contained",
+      "verdict": "pass",
+      "observed": {
+        "generatedField": "q1t_0__temporal_0",
+        "selfContained": false,
+        "augmentedSchemaDeclaresField": true,
+        "authoredSchemaDeclaresField": false,
+        "exportedRuleIds": [
+          "q1t_0"
+        ]
+      }
+    },
+    {
+      "id": "Q1-04-D2",
+      "name": "Harness-injected temporal boolean drives the decision",
+      "expectation": "true -\u003E Allow with determining [exported id]; false -\u003E Deny with no determining and no errors",
+      "verdict": "pass",
+      "observed": {
+        "true": {
+          "success": true,
+          "decision": "Allow",
+          "determining": [
+            "q1t_0"
+          ],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": true,
+          "isCleanDeny": false,
+          "isErrorFree": true
+        },
+        "false": {
+          "success": true,
+          "decision": "Deny",
+          "determining": [],
+          "policyErrors": [],
+          "errors": [],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": true,
+          "isErrorFree": true
+        },
+        "exportedRuleId": "q1t_0"
+      },
+      "note": "Research-only wiring: the generated field is caller-supplied here to demonstrate the trust boundary; production must compute it inside the trusted pipeline."
+    },
+    {
+      "id": "Q1-04-D4",
+      "name": "Caller-supplied temporal value flips the decision (trust-boundary evidence)",
+      "expectation": "The two runs differ only in the caller-supplied generated boolean and produce opposite decisions",
+      "verdict": "pass",
+      "observed": {
+        "true": "Allow",
+        "false": "Deny"
+      }
+    },
+    {
+      "id": "Q1-04-D3",
+      "name": "Missing generated temporal field fails closed on every path",
+      "expectation": "validated: not Allow (request validation); unvalidated: not Allow (evaluation error); observed categories recorded",
+      "verdict": "pass",
+      "observed": {
+        "validated": {
+          "success": false,
+          "decision": null,
+          "determining": [],
+          "policyErrors": [],
+          "errors": [
+            "while parsing context, expected the record to have an attribute \u0060q1t_0__temporal_0\u0060, but it does not"
+          ],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": false,
+          "isErrorFree": false
+        },
+        "unvalidated": {
+          "success": false,
+          "decision": null,
+          "determining": [],
+          "policyErrors": [],
+          "errors": [
+            "while parsing context, expected the record to have an attribute \u0060q1t_0__temporal_0\u0060, but it does not"
+          ],
+          "warnings": [],
+          "isCleanAllow": false,
+          "isCleanDeny": false,
+          "isErrorFree": false
+        }
+      }
+    },
+    {
+      "id": "Q1-04-D5",
+      "name": "Cross-request isolation on a shared engine",
+      "expectation": "true, false, true in sequence -\u003E Allow, Deny, Allow (no state bleed)",
+      "verdict": "pass",
+      "observed": {
+        "sequence": [
+          "Allow",
+          "Deny",
+          "Allow"
+        ]
+      }
+    },
+    {
+      "id": "Q1-04-D6-true",
+      "name": "Cedar 4.11 reference agrees on the temporal wiring envelope",
+      "expectation": "Reference decision allow",
+      "verdict": "pass",
+      "observed": {
+        "failed": false,
+        "decision": "allow",
+        "determining": [
+          "q1t_0"
+        ],
+        "policyErrorIds": [],
+        "policyErrorMessages": []
+      }
+    },
+    {
+      "id": "Q1-04-D6-false",
+      "name": "Cedar 4.11 reference agrees on the temporal wiring envelope",
+      "expectation": "Reference decision deny",
+      "verdict": "pass",
+      "observed": {
+        "failed": false,
+        "decision": "deny",
+        "determining": [],
+        "policyErrorIds": [],
+        "policyErrorMessages": []
+      }
+    },
+    {
+      "id": "Q1-05-E1",
+      "name": "D2 bridge and CedarSharp native coexist in one process",
+      "expectation": "Bridge Cedar 4.11.0 at revision 929f49e*; CedarSharp SDK 4.13.0 with the recorded SHA-256; a full lower-\u003Eauthorize flow succeeds in-process",
+      "verdict": "pass",
+      "observed": {
+        "identity": "{\u0022bridgeCedar\u0022:\u00224.11.0\u0022,\u0022bridgeRevision\u0022:\u0022929f49e7305534ac61ef06cf8e47269c596dc851\u0022,\u0022cedarSharpSdk\u0022:\u00224.13.0\u0022,\u0022cedarSharpSha256\u0022:\u002277de6976a7ae5b961920bb6843d39b32f3faf285f16b723581680e9c06c03895\u0022}",
+        "flow": "{\u0022success\u0022:true,\u0022decision\u0022:\u0022Allow\u0022,\u0022determining\u0022:[\u0022q1_0\u0022],\u0022policyErrors\u0022:[],\u0022errors\u0022:[],\u0022warnings\u0022:[],\u0022isCleanAllow\u0022:true,\u0022isCleanDeny\u0022:false,\u0022isErrorFree\u0022:true}"
+      }
+    },
+    {
+      "id": "Q1-06-F1",
+      "name": "Cedar 4.11 reference identity",
+      "expectation": "Reference sdkVersion 4.11.0 (the bridge\u0027s pinned Cedar); language 4.5",
+      "verdict": "pass",
+      "observed": {
+        "sdkVersion": "4.11.0"
+      },
+      "note": "The reference wraps cedar_policy::ffi directly; agreement with it is supporting evidence, not proof of upstream Dogwood-authorizer equivalence."
+    },
+    {
+      "id": "Q1-06-F2-count-true",
+      "name": "count condition true",
+      "expectation": "CedarSharp (4.13) and the Cedar 4.11 reference produce identical normalized answers for the identical envelope",
+      "verdict": "pass",
+      "observed": {
+        "cedarSharp": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": [],
+          "errors": []
+        },
+        "reference": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": []
+        },
+        "detail": "identical (decision, determining set, policy-error id set, failed-ness)",
+        "messageWordingIdentical": true
+      }
+    },
+    {
+      "id": "Q1-06-F2-count-false",
+      "name": "count condition false",
+      "expectation": "CedarSharp (4.13) and the Cedar 4.11 reference produce identical normalized answers for the identical envelope",
+      "verdict": "pass",
+      "observed": {
+        "cedarSharp": {
+          "failed": false,
+          "decision": "deny",
+          "determining": [],
+          "policyErrorIds": [],
+          "policyErrorMessages": [],
+          "errors": []
+        },
+        "reference": {
+          "failed": false,
+          "decision": "deny",
+          "determining": [],
+          "policyErrorIds": [],
+          "policyErrorMessages": []
+        },
+        "detail": "identical (decision, determining set, policy-error id set, failed-ness)",
+        "messageWordingIdentical": true
+      }
+    },
+    {
+      "id": "Q1-06-F2-owner-match",
+      "name": "owner matches",
+      "expectation": "CedarSharp (4.13) and the Cedar 4.11 reference produce identical normalized answers for the identical envelope",
+      "verdict": "pass",
+      "observed": {
+        "cedarSharp": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": [],
+          "errors": []
+        },
+        "reference": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": []
+        },
+        "detail": "identical (decision, determining set, policy-error id set, failed-ness)",
+        "messageWordingIdentical": true
+      }
+    },
+    {
+      "id": "Q1-06-F2-owner-missing-entity",
+      "name": "owner references absent entity",
+      "expectation": "CedarSharp (4.13) and the Cedar 4.11 reference produce identical normalized answers for the identical envelope",
+      "verdict": "pass",
+      "observed": {
+        "cedarSharp": {
+          "failed": false,
+          "decision": "deny",
+          "determining": [],
+          "policyErrorIds": [],
+          "policyErrorMessages": [],
+          "errors": []
+        },
+        "reference": {
+          "failed": false,
+          "decision": "deny",
+          "determining": [],
+          "policyErrorIds": [],
+          "policyErrorMessages": []
+        },
+        "detail": "identical (decision, determining set, policy-error id set, failed-ness)",
+        "messageWordingIdentical": true
+      },
+      "note": "the has-guard is required by the D2 lowering\u0027s strict validation of optional attributes"
+    },
+    {
+      "id": "Q1-06-F2-parents-match",
+      "name": "principal hierarchy match",
+      "expectation": "CedarSharp (4.13) and the Cedar 4.11 reference produce identical normalized answers for the identical envelope",
+      "verdict": "pass",
+      "observed": {
+        "cedarSharp": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": [],
+          "errors": []
+        },
+        "reference": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": []
+        },
+        "detail": "identical (decision, determining set, policy-error id set, failed-ness)",
+        "messageWordingIdentical": true
+      }
+    },
+    {
+      "id": "Q1-06-F2-action-group-schema",
+      "name": "action group with schema",
+      "expectation": "CedarSharp (4.13) and the Cedar 4.11 reference produce identical normalized answers for the identical envelope",
+      "verdict": "pass",
+      "observed": {
+        "cedarSharp": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": [],
+          "errors": []
+        },
+        "reference": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": []
+        },
+        "detail": "identical (decision, determining set, policy-error id set, failed-ness)",
+        "messageWordingIdentical": true
+      }
+    },
+    {
+      "id": "Q1-06-F2-action-group-schemaless",
+      "name": "action group without schema",
+      "expectation": "CedarSharp (4.13) and the Cedar 4.11 reference produce identical normalized answers for the identical envelope",
+      "verdict": "pass",
+      "observed": {
+        "cedarSharp": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": [],
+          "errors": []
+        },
+        "reference": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": []
+        },
+        "detail": "identical (decision, determining set, policy-error id set, failed-ness)",
+        "messageWordingIdentical": true
+      },
+      "note": "explicit action entities, schema-less"
+    },
+    {
+      "id": "Q1-06-F2-has-absent-principal",
+      "name": "scope principal absent",
+      "expectation": "CedarSharp (4.13) and the Cedar 4.11 reference produce identical normalized answers for the identical envelope",
+      "verdict": "pass",
+      "observed": {
+        "cedarSharp": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": [],
+          "errors": []
+        },
+        "reference": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": []
+        },
+        "detail": "identical (decision, determining set, policy-error id set, failed-ness)",
+        "messageWordingIdentical": true
+      },
+      "note": "the upstream-vs-direct probe envelope"
+    },
+    {
+      "id": "Q1-06-F2-has-bare-principal",
+      "name": "bare scope principal present",
+      "expectation": "CedarSharp (4.13) and the Cedar 4.11 reference produce identical normalized answers for the identical envelope",
+      "verdict": "pass",
+      "observed": {
+        "cedarSharp": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": [],
+          "errors": []
+        },
+        "reference": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": []
+        },
+        "detail": "identical (decision, determining set, policy-error id set, failed-ness)",
+        "messageWordingIdentical": true
+      }
+    },
+    {
+      "id": "Q1-06-F2-has-attributed-principal",
+      "name": "scope principal with token",
+      "expectation": "CedarSharp (4.13) and the Cedar 4.11 reference produce identical normalized answers for the identical envelope",
+      "verdict": "pass",
+      "observed": {
+        "cedarSharp": {
+          "failed": false,
+          "decision": "deny",
+          "determining": [],
+          "policyErrorIds": [],
+          "policyErrorMessages": [],
+          "errors": []
+        },
+        "reference": {
+          "failed": false,
+          "decision": "deny",
+          "determining": [],
+          "policyErrorIds": [],
+          "policyErrorMessages": []
+        },
+        "detail": "identical (decision, determining set, policy-error id set, failed-ness)",
+        "messageWordingIdentical": true
+      }
+    },
+    {
+      "id": "Q1-06-F2-extensions",
+      "name": "extension values",
+      "expectation": "CedarSharp (4.13) and the Cedar 4.11 reference produce identical normalized answers for the identical envelope",
+      "verdict": "pass",
+      "observed": {
+        "cedarSharp": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": [],
+          "errors": []
+        },
+        "reference": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "policyErrorMessages": []
+        },
+        "detail": "identical (decision, determining set, policy-error id set, failed-ness)",
+        "messageWordingIdentical": true
+      }
+    },
+    {
+      "id": "Q1-06-F2-raw-allow-with-error",
+      "name": "raw allow with a policy error",
+      "expectation": "CedarSharp (4.13) and the Cedar 4.11 reference produce identical normalized answers for the identical envelope",
+      "verdict": "pass",
+      "observed": {
+        "cedarSharp": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "raw-good"
+          ],
+          "policyErrorIds": [
+            "raw-broken"
+          ],
+          "policyErrorMessages": [
+            "record does not have the attribute \u0060missing\u0060"
+          ],
+          "errors": []
+        },
+        "reference": {
+          "failed": false,
+          "decision": "allow",
+          "determining": [
+            "raw-good"
+          ],
+          "policyErrorIds": [
+            "raw-broken"
+          ],
+          "policyErrorMessages": [
+            "record does not have the attribute \u0060missing\u0060"
+          ]
+        },
+        "detail": "identical (decision, determining set, policy-error id set, failed-ness)",
+        "messageWordingIdentical": true
+      }
+    },
+    {
+      "id": "Q1-06-F2-summary",
+      "name": "Differential subset summary",
+      "expectation": "Every executed envelope matches",
+      "verdict": "pass",
+      "observed": {
+        "matched": 12,
+        "executed": 12,
+        "defined": 12
+      }
+    }
+  ]
+}

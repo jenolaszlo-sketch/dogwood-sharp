@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    DOGWOOD-SHARP-D3-E1-Q1 NativeAOT smoke consumer (reviewer evidence
+    tooling). Published with PublishAot for win-x64 to reproduce the D2-bridge
+    + CedarSharp native coexistence under AOT on both supported TFMs. It is
+    not part of DogwoodSharp.slnx and never a production path. Reflection-free
+    by design: results are written as hand-built JSON.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <PublishAot>true</PublishAot>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\src\DogwoodSharp\DogwoodSharp.csproj" />
+    <PackageReference Include="CedarSharp" />
+  </ItemGroup>
+</Project>

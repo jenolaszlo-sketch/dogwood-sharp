@@ -1,0 +1,6 @@
+  Determining projects to restore...
+  Restored D:\projects\dogwood-sharp\src\DogwoodSharp\DogwoodSharp.csproj (in 248 ms).
+  1 of 2 projects are up-to-date for restore.
+  DogwoodSharp -> D:\projects\dogwood-sharp\src\DogwoodSharp\bin\Release\net8.0\DogwoodSharp.dll
+  AotProbe -> D:\projects\dogwood-sharp\docs\reviews\d3-e1-qualification-01\evidence\probe-aot\bin\Release\net8.0\win-x64\AotProbe.dll
+  AotProbe -> C:\Users\Laszlos\AppData\Local\Temp\opencode\q1-aot-net8.0\
