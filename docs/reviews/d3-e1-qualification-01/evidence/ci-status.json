@@ -60,10 +60,50 @@
       "id": 44769041043,
       "workflow": "DogwoodSharp producer verification",
       "headSha": "14f18acf336dd0e895c144e3a4777a1e5f616fb2",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "cancelled",
       "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44769041043",
-      "note": "producer-verification run triggered by this qualification delivery; pending at the time of writing and recorded as pending, never as passed"
+      "note": "producer-verification run triggered by the first qualification commit; cancelled by GitHub when the follow-up push superseded it, so no result was produced"
+    },
+    {
+      "id": 44769429084,
+      "workflow": "DogwoodSharp producer verification",
+      "headSha": "3f22013bcc4e1d30e173ac4f5121322686d046a5",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44769429084",
+      "jobs": [
+        {
+          "name": "Verify win-x64 / net8.0 and net10.0",
+          "conclusion": "failure",
+          "firstFailingStep": "Verify the archived D2 corpus and decoder controls against R2",
+          "failure": "R2 producer verification requires a clean checkout with intact historical evidence",
+          "cause": "guard, not a semantic failure"
+        },
+        {
+          "name": "Verify linux-x64 / net8.0 and net10.0",
+          "conclusion": "failure",
+          "firstFailingStep": "Verify the archived D2 corpus and decoder controls against R2",
+          "failure": "R2 producer verification requires a clean checkout with intact historical evidence",
+          "cause": "guard, not a semantic failure"
+        },
+        {
+          "name": "Verify osx-arm64 / net8.0 and net10.0",
+          "conclusion": "failure",
+          "firstFailingStep": "Verify the archived D2 corpus and decoder controls against R2",
+          "failure": "R2 producer verification requires a clean checkout with intact historical evidence",
+          "cause": "guard, not a semantic failure"
+        }
+      ],
+      "checksThatPassedBeforeTheFailure": [
+        "win-x64, linux-x64 and osx-arm64: 'Verify native integration on both frameworks' succeeded",
+        "linux-x64: 'Check native buffer ownership with Valgrind' succeeded",
+        "win-x64, linux-x64 and osx-arm64: 'Audit managed dependencies' succeeded",
+        "win-x64, linux-x64 and osx-arm64: 'Run version-aware D1 consumer regression' succeeded",
+        "the macOS runner network fault of run 44683180759 did not recur in this run"
+      ],
+      "guardListedFiles": "the guard output lists the pre-existing docs/reviews/d2-qualification-02/** entries together with this qualification's docs/reviews/d3-e1-qualification-01/** files, confirming the delivery keeps the archived-R2 diff non-empty",
+      "note": "the delivery commit's producer-verification run fails on the documented pre-existing guard, exactly as QD3-03 predicts; no CedarSharp, D3-E1 or reviewer-harness defect is implicated"
     }
   ],
   "guardAnalysis": {
