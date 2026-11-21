@@ -42,6 +42,39 @@ $cleanup = [ordered]@{
 }
 $postRunStatus = @()
 $unexpectedSourceChanges = @()
+$staleOutputsRemoved = [System.Collections.Generic.List[string]]::new()
+
+function Get-StatusPath([string] $StatusLine) {
+    if ([string]::IsNullOrWhiteSpace($StatusLine) -or $StatusLine.Length -lt 4) {
+        return $null
+    }
+    $path = $StatusLine.Substring(3).Trim()
+    if ($path -match '^(?<old>.+) -> (?<new>.+)$') {
+        $path = $Matches['new']
+    }
+    return $path.Replace('\', '/')
+}
+
+function Get-UnexpectedStatus([object[]] $Status) {
+    $unexpected = @()
+    foreach ($line in @($Status)) {
+        $path = Get-StatusPath $line
+        if ($null -eq $path -or $expectedOutputPaths -notcontains $path) {
+            $unexpected += $line
+        }
+    }
+    return $unexpected
+}
+
+function Remove-StaleEvidenceOutputs {
+    foreach ($relativePath in $expectedOutputPaths) {
+        $path = Join-Path $repository $relativePath
+        if (Test-Path -LiteralPath $path) {
+            Remove-Item -LiteralPath $path -Force
+            $staleOutputsRemoved.Add($relativePath)
+        }
+    }
+}
 
 function Invoke-Checked([string] $Command, [string[]] $Arguments, [string] $WorkingDirectory) {
     Push-Location $WorkingDirectory
@@ -73,13 +106,21 @@ function Get-RelativePath([string] $Path) {
 }
 
 try {
+    $sourceStatusBeforeCleanup = @(& git -C $repository status --porcelain=v1 --untracked-files=all)
+    $unexpectedBeforeCleanup = @(Get-UnexpectedStatus $sourceStatusBeforeCleanup)
+    if ($unexpectedBeforeCleanup.Count -ne 0) {
+        throw "Probe evidence requires a clean source checkout; unexpected change(s): $($unexpectedBeforeCleanup -join '; ')"
+    }
+
+    Remove-StaleEvidenceOutputs
     $sourceHead = (@(& git -C $repository rev-parse HEAD)[0]).Trim()
     $sourceTree = (@(& git -C $repository rev-parse 'HEAD^{tree}')[0]).Trim()
     $sourceBranch = (@(& git -C $repository symbolic-ref --short HEAD)[0]).Trim()
     $sourceCommitTime = (@(& git -C $repository show -s --format=%cI HEAD)[0]).Trim()
     $sourceStatus = @(& git -C $repository status --porcelain=v1 --untracked-files=all)
-    if ($sourceStatus.Count -ne 0) {
-        throw "Probe evidence requires a clean source checkout; $($sourceStatus.Count) path(s) are dirty."
+    $unexpectedSourceChangesAtStart = @(Get-UnexpectedStatus $sourceStatus)
+    if ($unexpectedSourceChangesAtStart.Count -ne 0) {
+        throw "Probe evidence requires a clean source checkout; unexpected change(s): $($unexpectedSourceChangesAtStart -join '; ')"
     }
     $originMain = (@(& git -C $repository rev-parse origin/main)[0]).Trim()
     $divergence = (@(& git -C $repository rev-list --left-right --count HEAD...origin/main)[0]).Trim() -split '\s+'
@@ -102,6 +143,7 @@ try {
     }
 
     Write-Output '== verifying the locked upstream dependency =='
+    Invoke-Checked 'cargo' @('fetch', '--locked', '--offline', '--manifest-path', (Join-Path $oracleProject 'Cargo.toml')) $repository | Out-Null
     $cargoTree = Invoke-Checked 'cargo' @(
         'tree',
         '--locked',
@@ -114,9 +156,6 @@ try {
     if ($cargoTreeText -notmatch [regex]::Escape($expectedUpstreamRevision.Substring(0, 7))) {
         throw "Cargo tree did not resolve the expected upstream revision: $cargoTreeText"
     }
-
-    Write-Output '== building the upstream Dogwood authorizer oracle (locked) =='
-    Invoke-Checked 'cargo' @('build', '--locked', '--release', '--offline', '--manifest-path', (Join-Path $oracleProject 'Cargo.toml')) $repository | Out-Null
 
     $cargoHome = if ($env:CARGO_HOME) { $env:CARGO_HOME } else { Join-Path $env:USERPROFILE '.cargo' }
     $checkoutPattern = Join-Path $cargoHome 'git/checkouts/dogwood-*/*/dogwood-language/Cargo.toml'
@@ -141,6 +180,9 @@ try {
     $upstreamCheckout = $matchingCheckouts[0]
     $upstreamCheckoutHead = (@(& git -C $upstreamCheckout rev-parse HEAD)[0]).Trim()
     $upstreamCheckoutTree = (@(& git -C $upstreamCheckout rev-parse 'HEAD^{tree}')[0]).Trim()
+
+    Write-Output '== building the upstream Dogwood authorizer oracle (locked) =='
+    Invoke-Checked 'cargo' @('build', '--locked', '--release', '--offline', '--manifest-path', (Join-Path $oracleProject 'Cargo.toml')) $repository | Out-Null
 
     Write-Output '== restoring and building the managed differential probe =='
     Invoke-Checked 'dotnet' @('restore', $project, '--locked-mode', '--nologo') $repository | Out-Null
@@ -210,15 +252,7 @@ try {
     }
 
     $postRunStatus = @(& git -C $repository status --porcelain=v1 --untracked-files=all)
-    $unexpectedSourceChanges = @(
-        $postRunStatus | Where-Object {
-            if ($_.Length -lt 4) {
-                return $true
-            }
-            $path = $_.Substring(3).Trim().Replace('\', '/')
-            return $expectedOutputPaths -notcontains $path
-        }
-    )
+    $unexpectedSourceChanges = @(Get-UnexpectedStatus $postRunStatus)
 
     $identity = [ordered]@{
         schemaVersion = 3
@@ -228,8 +262,12 @@ try {
             tree = $sourceTree
             branch = $sourceBranch
             commitTime = $sourceCommitTime
-            worktreeCleanAtStart = $true
-            dirtyFileCount = 0
+            worktreeCleanAtStart = ($sourceStatus.Count -eq 0)
+            dirtyFileCount = $sourceStatus.Count
+            sourceStatusAtStart = $sourceStatus
+            sourceStatusBeforeStaleOutputRemoval = $sourceStatusBeforeCleanup
+            unexpectedSourceChangesAtStart = $unexpectedSourceChangesAtStart
+            staleOutputsRemoved = $staleOutputsRemoved
             originMain = $originMain
             aheadBehind = [ordered]@{
                 ahead = [int] $divergence[0]
@@ -271,6 +309,13 @@ try {
         cleanup = $cleanup
     }
     $identity | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $OutputPath -Encoding utf8
+    # Re-read status after the summary itself exists so the evidence lists the
+    # exact expected evidence set (including probe-run.json) and nothing else.
+    $postRunStatus = @(& git -C $repository status --porcelain=v1 --untracked-files=all)
+    $unexpectedSourceChanges = @(Get-UnexpectedStatus $postRunStatus)
+    $identity.source.postRunStatus = $postRunStatus
+    $identity.source.unexpectedSourceChanges = $unexpectedSourceChanges
+    $identity | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $OutputPath -Encoding utf8
     if ($unexpectedSourceChanges.Count -ne 0) {
         throw "Probe run changed unexpected source paths: $($unexpectedSourceChanges -join '; ')"
     }
@@ -286,6 +331,10 @@ finally {
     $cleanup.residualPaths = @($generatedPaths | Where-Object { Test-Path -LiteralPath $_ })
     $cleanup.removed = $cleanup.residualPaths.Count -eq 0
     if ($null -ne $identity -and (Test-Path -LiteralPath $OutputPath)) {
+        $postRunStatus = @(& git -C $repository status --porcelain=v1 --untracked-files=all)
+        $unexpectedSourceChanges = @(Get-UnexpectedStatus $postRunStatus)
+        $identity.source.postRunStatus = $postRunStatus
+        $identity.source.unexpectedSourceChanges = $unexpectedSourceChanges
         $identity.cleanup = $cleanup
         $identity | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $OutputPath -Encoding utf8
     }

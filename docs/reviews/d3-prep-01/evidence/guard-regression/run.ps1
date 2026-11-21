@@ -20,6 +20,12 @@ $result = $null
 $cleanup = [ordered]@{ attempted = $false; removed = $false; path = $clone }
 $commands = [System.Collections.Generic.List[object]]::new()
 $pwsh = (Get-Command pwsh.exe -ErrorAction Stop).Source
+$expectedOutputPaths = @(
+    'docs/reviews/d3-prep-01/evidence/guard-regression/guard-regression.json'
+)
+$staleOutputsRemoved = [System.Collections.Generic.List[string]]::new()
+$postRunStatus = @()
+$unexpectedSourceChanges = @()
 $protectedPaths = @(
     'docs/reviews/d2-qualification',
     'docs/d1-acceptance.md',
@@ -32,6 +38,38 @@ $legacyGuardPaths = @(
     '.github/workflows/d1-qualification.yml',
     '.github/workflows/d2-qualification.yml'
 )
+
+function Get-StatusPath([string] $StatusLine) {
+    if ([string]::IsNullOrWhiteSpace($StatusLine) -or $StatusLine.Length -lt 4) {
+        return $null
+    }
+    $path = $StatusLine.Substring(3).Trim()
+    if ($path -match '^(?<old>.+) -> (?<new>.+)$') {
+        $path = $Matches['new']
+    }
+    return $path.Replace('\', '/')
+}
+
+function Get-UnexpectedStatus([object[]] $Status) {
+    $unexpected = @()
+    foreach ($line in @($Status)) {
+        $path = Get-StatusPath $line
+        if ($null -eq $path -or $expectedOutputPaths -notcontains $path) {
+            $unexpected += $line
+        }
+    }
+    return $unexpected
+}
+
+function Remove-StaleEvidenceOutputs {
+    foreach ($relativePath in $expectedOutputPaths) {
+        $path = Join-Path $RepositoryPath $relativePath
+        if (Test-Path -LiteralPath $path) {
+            Remove-Item -LiteralPath $path -Force
+            $staleOutputsRemoved.Add($relativePath)
+        }
+    }
+}
 
 function Invoke-Git([string] $ClonePath, [string[]] $Arguments) {
     $commands.Add([ordered]@{
@@ -83,13 +121,21 @@ try {
         throw "RepositoryPath is not a Git checkout: $RepositoryPath"
     }
 
+    $sourceStatusBeforeCleanup = @(Invoke-Git $RepositoryPath @('status', '--porcelain=v1', '--untracked-files=all'))
+    $unexpectedBeforeCleanup = @(Get-UnexpectedStatus $sourceStatusBeforeCleanup)
+    if ($unexpectedBeforeCleanup.Count -ne 0) {
+        throw "Guard evidence requires a clean source checkout; unexpected change(s): $($unexpectedBeforeCleanup -join '; ')"
+    }
+
+    Remove-StaleEvidenceOutputs
     $sourceHead = (@(Invoke-Git $RepositoryPath @('rev-parse', 'HEAD'))[0]).Trim()
     $sourceTree = (@(Invoke-Git $RepositoryPath @('rev-parse', 'HEAD^{tree}'))[0]).Trim()
     $sourceBranch = (@(Invoke-Git $RepositoryPath @('symbolic-ref', '--short', 'HEAD'))[0]).Trim()
     $sourceCommitTime = (@(Invoke-Git $RepositoryPath @('show', '-s', '--format=%cI', 'HEAD'))[0]).Trim()
     $sourceStatus = @(Invoke-Git $RepositoryPath @('status', '--porcelain=v1', '--untracked-files=all'))
-    if ($sourceStatus.Count -ne 0) {
-        throw "Guard evidence requires a clean source checkout; $($sourceStatus.Count) path(s) are dirty."
+    $unexpectedSourceChangesAtStart = @(Get-UnexpectedStatus $sourceStatus)
+    if ($unexpectedSourceChangesAtStart.Count -ne 0) {
+        throw "Guard evidence requires a clean source checkout; unexpected change(s): $($unexpectedSourceChangesAtStart -join '; ')"
     }
     $originMain = (@(Invoke-Git $RepositoryPath @('rev-parse', 'origin/main'))[0]).Trim()
     $divergence = (@(Invoke-Git $RepositoryPath @('rev-list', '--left-right', '--count', 'HEAD...origin/main'))[0]).Trim() -split '\s+'
@@ -197,6 +243,8 @@ try {
     }
 
     $failed = @($cases | Where-Object { -not $_.passed }).Count
+    $postRunStatus = @(Invoke-Git $RepositoryPath @('status', '--porcelain=v1', '--untracked-files=all'))
+    $unexpectedSourceChanges = @(Get-UnexpectedStatus $postRunStatus)
     $result = [ordered]@{
         schemaVersion = 3
         commission = 'DOGWOOD-SHARP-D3-PREP-01'
@@ -206,8 +254,14 @@ try {
             tree = $sourceTree
             branch = $sourceBranch
             commitTime = $sourceCommitTime
-            worktreeCleanAtStart = $true
-            dirtyFileCount = 0
+            worktreeCleanAtStart = ($sourceStatus.Count -eq 0)
+            dirtyFileCount = $sourceStatus.Count
+            sourceStatusAtStart = $sourceStatus
+            sourceStatusBeforeStaleOutputRemoval = $sourceStatusBeforeCleanup
+            unexpectedSourceChangesAtStart = $unexpectedSourceChangesAtStart
+            staleOutputsRemoved = $staleOutputsRemoved
+            postRunStatus = $postRunStatus
+            unexpectedSourceChanges = $unexpectedSourceChanges
             originMain = $originMain
             aheadBehind = [ordered]@{
                 ahead = [int] $divergence[0]
@@ -248,6 +302,16 @@ try {
         cleanup = $cleanup
     }
     $result | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $OutputPath -Encoding utf8
+    # Re-read status after the evidence file exists so the record includes the
+    # expected output path itself and no unrelated source changes.
+    $postRunStatus = @(Invoke-Git $RepositoryPath @('status', '--porcelain=v1', '--untracked-files=all'))
+    $unexpectedSourceChanges = @(Get-UnexpectedStatus $postRunStatus)
+    $result.source.postRunStatus = $postRunStatus
+    $result.source.unexpectedSourceChanges = $unexpectedSourceChanges
+    $result | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $OutputPath -Encoding utf8
+    if ($unexpectedSourceChanges.Count -ne 0) {
+        throw "Guard regression changed unexpected source paths: $($unexpectedSourceChanges -join '; ')"
+    }
     if ($failed) {
         throw "Archived-R2 guard regression failed: $failed case(s) failed."
     }
@@ -260,6 +324,10 @@ finally {
     }
     $cleanup.removed = -not (Test-Path -LiteralPath $clone)
     if ($null -ne $result -and (Test-Path -LiteralPath $OutputPath)) {
+        $postRunStatus = @(Invoke-Git $RepositoryPath @('status', '--porcelain=v1', '--untracked-files=all'))
+        $unexpectedSourceChanges = @(Get-UnexpectedStatus $postRunStatus)
+        $result.source.postRunStatus = $postRunStatus
+        $result.source.unexpectedSourceChanges = $unexpectedSourceChanges
         $result.cleanup = $cleanup
         $result | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $OutputPath -Encoding utf8
     }

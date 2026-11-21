@@ -340,9 +340,12 @@ concurrency, lifecycle, or full matrix gates.
 
 The PREP calibration produced these bounded differences. The executable
 versioned register is `probe/differences.json`; the runner verifies each
-listed case's exact decision, error-presence, stage, error-category, and
-fail-closed observation. Each row must become an explicitly encoded expected
-difference in the mandatory corpus.
+listed case's exact decision, error-presence, operation-failed state, and
+normalized error-category observation, and cross-checks the register's
+versioned per-case observations. The register's stage labels and
+fail-closed-effect text are contract documentation for this calibration; they
+are not independently machine-validated by the PREP runner. Each row must
+become an explicitly encoded expected difference in the mandatory corpus.
 
 | Difference ID | Agreement class | PREP cases | Upstream observation | Selected D3 observation | Basis and required contract |
 | --- | --- | --- | --- | --- | --- |
