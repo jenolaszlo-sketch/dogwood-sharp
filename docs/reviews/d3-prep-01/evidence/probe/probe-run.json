@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 3,
+  "commission": "DOGWOOD-SHARP-D3-PREP-01",
+  "source": {
+    "head": "a95c5dbfb6fdae4fd571466f49220d7283c9b6cd",
+    "tree": "69fc265227060674ba894673cde23b865c900494",
+    "branch": "main",
+    "commitTime": "2026-11-21T17:23:09+08:00",
+    "worktreeCleanAtStart": true,
+    "dirtyFileCount": 0,
+    "sourceStatusAtStart": [],
+    "sourceStatusBeforeStaleOutputRemoval": [],
+    "unexpectedSourceChangesAtStart": [],
+    "staleOutputsRemoved": [],
+    "originMain": "a95c5dbfb6fdae4fd571466f49220d7283c9b6cd",
+    "aheadBehind": {
+      "ahead": 0,
+      "behind": 0
+    },
+    "postRunStatus": [
+      "?? docs/reviews/d3-prep-01/evidence/probe/prep-console-net10.0.log",
+      "?? docs/reviews/d3-prep-01/evidence/probe/prep-console-net8.0.log",
+      "?? docs/reviews/d3-prep-01/evidence/probe/prep-results-net10.0.json",
+      "?? docs/reviews/d3-prep-01/evidence/probe/prep-results-net8.0.json",
+      "?? docs/reviews/d3-prep-01/evidence/probe/probe-run.json"
+    ],
+    "unexpectedSourceChanges": []
+  },
+  "upstream": {
+    "repository": "https://github.com/dogwood-policy/dogwood",
+    "revision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+    "checkoutHead": "929f49e7305534ac61ef06cf8e47269c596dc851",
+    "checkoutTree": "e8fbf0b20de69d34b422aa82d8d46d626b9ed143",
+    "checkoutPath": "C:\\Users\\Laszlos\\.cargo\\git\\checkouts\\dogwood-96ea9d749adb391c\\929f49e",
+    "matchingCheckoutCount": 1,
+    "version": "dogwood-language 1.1.2",
+    "cedarVersion": "4.11.0",
+    "cargoTree": "> cargo tree --locked --offline --manifest-path C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\upstream-oracle\\Cargo.toml -p dogwood-language --depth 0\r\ndogwood-language v1.1.2 (https://github.com/dogwood-policy/dogwood?rev=929f49e7305534ac61ef06cf8e47269c596dc851#929f49e7)",
+    "cargoLock": "3B448AEADC587C2C211AE7DEE59476EF551C270E51A11298CF301C8315F090F0",
+    "oracleSha256": "953A8BF71432ABF9F28536EA915A4AB4AF66A4027889F20E105EB6D680F08060"
+  },
+  "managed": {
+    "dotnet": "10.0.404",
+    "packageLock": "2D57741F811A9A22417AB414D9C58D54E4FF766397F4E98A72570B3F8DEBB374",
+    "bridgeSha256": "8ABF40D2526EAB650003E7EE1C05D97AA82CBEB69890849E867333EA54914D63",
+    "cedarSharpNativeSha256": "77DE6976A7AE5B961920BB6843D39B32F3FAF285F16B723581680E9C06C03895"
+  },
+  "harnessFiles": {
+    "probe/Program.cs": "2DADADF2DC137C01B39C9B643F512D1C3C4DDEF55C376B8F2BF107876147F4D5",
+    "probe/fixtures.json": "8ECA647F53B31AA87D6B124147A1F138605866B0FADD4D0D7A438E6ACF18BB7C",
+    "probe/differences.json": "D272788F0C72B23ED132910B55D56FD030EEDDA79EA3CD393274F37AC38DD345",
+    "probe/PrepProbe.csproj": "FBB57709EF9E95A197C19CA60C0FFF1331E17B32CB28B23A4D33EB48CDFF97ED",
+    "probe/packages.lock.json": "2D57741F811A9A22417AB414D9C58D54E4FF766397F4E98A72570B3F8DEBB374",
+    "probe/run.ps1": "53014A724C1FC963BCFC7FBDD1AAE9BC344F29647311D88E8BDEE1B2B33E5EC7",
+    "upstream-oracle/Cargo.toml": "99937A98B727277F86330E1B05241F10695EAEE82CAD4850C203B39ED9CCEF4D",
+    "upstream-oracle/Cargo.lock": "3B448AEADC587C2C211AE7DEE59476EF551C270E51A11298CF301C8315F090F0",
+    "upstream-oracle/src/main.rs": "3288D8EA6B1BB7CBC23A6855EAC2A63762ABBEC2B68B162922702493E0B7C544"
+  },
+  "runtime": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "architecture": "X64",
+    "powershell": "7.7.0",
+    "git": "git version 2.55.0.windows.3",
+    "cargo": "cargo 1.99.1 (5f94df478 2026-08-27)",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)"
+  },
+  "commands": [
+    {
+      "command": "cargo",
+      "arguments": [
+        "tree",
+        "--locked",
+        "--offline",
+        "--manifest-path",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\upstream-oracle\\Cargo.toml",
+        "-p",
+        "dogwood-language",
+        "--depth",
+        "0"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db"
+    },
+    {
+      "command": "cargo",
+      "arguments": [
+        "build",
+        "--locked",
+        "--release",
+        "--offline",
+        "--manifest-path",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\upstream-oracle\\Cargo.toml"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db"
+    },
+    {
+      "command": "dotnet",
+      "arguments": [
+        "restore",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\probe\\PrepProbe.csproj",
+        "--locked-mode",
+        "--nologo"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db"
+    },
+    {
+      "command": "dotnet",
+      "arguments": [
+        "build",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\probe\\PrepProbe.csproj",
+        "-c",
+        "Release",
+        "--no-restore",
+        "--nologo"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db"
+    },
+    {
+      "command": "dotnet",
+      "arguments": [
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\probe\\bin\\Release\\net8.0\\PrepProbe.dll",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\probe\\prep-results-net8.0.json",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\upstream-oracle\\target\\release\\dogwoodsharp-upstream-oracle.exe",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\probe\\fixtures.json",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\probe\\differences.json"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db"
+    },
+    {
+      "command": "dotnet",
+      "arguments": [
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\probe\\bin\\Release\\net10.0\\PrepProbe.dll",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\probe\\prep-results-net10.0.json",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\upstream-oracle\\target\\release\\dogwoodsharp-upstream-oracle.exe",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\probe\\fixtures.json",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db\\docs\\reviews\\d3-prep-01\\evidence\\probe\\differences.json"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-probe-a95c5db"
+    }
+  ],
+  "summary": {
+    "net8.0": {
+      "total": 16,
+      "passed": 16,
+      "failed": 0,
+      "result": "docs/reviews/d3-prep-01/evidence/probe/prep-results-net8.0.json",
+      "log": "docs/reviews/d3-prep-01/evidence/probe/prep-console-net8.0.log"
+    },
+    "net10.0": {
+      "total": 16,
+      "passed": 16,
+      "failed": 0,
+      "result": "docs/reviews/d3-prep-01/evidence/probe/prep-results-net10.0.json",
+      "log": "docs/reviews/d3-prep-01/evidence/probe/prep-console-net10.0.log"
+    }
+  },
+  "cleanup": {
+    "attempted": true,
+    "removed": true,
+    "paths": [
+      "docs/reviews/d3-prep-01/evidence/probe/bin",
+      "docs/reviews/d3-prep-01/evidence/probe/obj",
+      "docs/reviews/d3-prep-01/evidence/upstream-oracle/target"
+    ],
+    "residualPaths": []
+  }
+}

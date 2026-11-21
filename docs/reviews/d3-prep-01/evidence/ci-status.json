@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "commission": "DOGWOOD-SHARP-D3-PREP-01",
+  "repository": "jenolaszlo-sketch/dogwood-sharp",
+  "evidenceBinding": {
+    "revision": "a95c5dbfb6fdae4fd571466f49220d7283c9b6cd",
+    "tree": "69fc265227060674ba894673cde23b865c900494",
+    "branch": "main",
+    "hostedRun": 44889338862
+  },
+  "runs": [
+    {
+      "role": "guard-baseline",
+      "id": 44769429084,
+      "workflow": "DogwoodSharp producer verification",
+      "event": "push",
+      "headSha": "3f22013bcc4e1d30e173ac4f5121322686d046a5",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44769429084",
+      "createdAt": "2026-11-20T16:03:11Z",
+      "updatedAt": "2026-11-20T16:23:09Z",
+      "jobs": [
+        {
+          "id": 136402852110,
+          "name": "Verify linux-x64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-20T16:03:21Z",
+          "completedAt": "2026-11-20T16:12:30Z"
+        },
+        {
+          "id": 136402852512,
+          "name": "Verify osx-arm64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-20T16:03:21Z",
+          "completedAt": "2026-11-20T16:18:47Z"
+        },
+        {
+          "id": 136402852848,
+          "name": "Verify win-x64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-20T16:03:20Z",
+          "completedAt": "2026-11-20T16:23:08Z"
+        }
+      ],
+      "note": "The pre-remediation delivery failed all three producer jobs at the over-broad archived-R2 guard; the substantive D1/D2 checks that ran before that step passed."
+    },
+    {
+      "role": "guard-remediation",
+      "id": 44793572785,
+      "workflow": "DogwoodSharp producer verification",
+      "event": "push",
+      "headSha": "584fab31cacb0ad9dab3c5463f53a86956e947a2",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44793572785",
+      "createdAt": "2026-11-20T18:31:29Z",
+      "updatedAt": "2026-11-20T18:51:31Z",
+      "jobs": [
+        {
+          "id": 136487203765,
+          "name": "Verify win-x64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T18:31:32Z",
+          "completedAt": "2026-11-20T18:48:29Z"
+        },
+        {
+          "id": 136487204242,
+          "name": "Verify osx-arm64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T18:36:35Z",
+          "completedAt": "2026-11-20T18:51:30Z"
+        },
+        {
+          "id": 136487204375,
+          "name": "Verify linux-x64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T18:31:32Z",
+          "completedAt": "2026-11-20T18:47:18Z"
+        }
+      ],
+      "note": "The scoped guard fix passed all three producer-verification jobs."
+    },
+    {
+      "role": "semantic-evidence-design",
+      "id": 44810332659,
+      "workflow": "DogwoodSharp producer verification",
+      "event": "push",
+      "headSha": "c79b423c35ff56a98c02d795da3f3f6009109d17",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44810332659",
+      "createdAt": "2026-11-20T20:19:38Z",
+      "updatedAt": "2026-11-20T20:35:28Z",
+      "jobs": [
+        {
+          "id": 136544941533,
+          "name": "Verify linux-x64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T20:19:40Z",
+          "completedAt": "2026-11-20T20:35:27Z"
+        },
+        {
+          "id": 136544941899,
+          "name": "Verify osx-arm64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T20:19:41Z",
+          "completedAt": "2026-11-20T20:34:14Z"
+        },
+        {
+          "id": 136544941977,
+          "name": "Verify win-x64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T20:19:40Z",
+          "completedAt": "2026-11-20T20:33:37Z"
+        }
+      ],
+      "note": "The semantic/evidence design revision passed all three producer-verification jobs."
+    },
+    {
+      "role": "guard-runner-result-isolation",
+      "id": 44813436333,
+      "workflow": "DogwoodSharp producer verification",
+      "event": "push",
+      "headSha": "59f9bd7b6e38229f7aabebee5a5ca5224a72a2ef",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44813436333",
+      "createdAt": "2026-11-20T20:40:11Z",
+      "updatedAt": "2026-11-20T21:00:41Z",
+      "jobs": [
+        {
+          "id": 136555568439,
+          "name": "Verify osx-arm64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T20:40:14Z",
+          "completedAt": "2026-11-20T20:53:31Z"
+        },
+        {
+          "id": 136555568910,
+          "name": "Verify linux-x64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T20:40:14Z",
+          "completedAt": "2026-11-20T21:00:41Z"
+        },
+        {
+          "id": 136555569051,
+          "name": "Verify win-x64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T20:40:14Z",
+          "completedAt": "2026-11-20T20:58:44Z"
+        }
+      ],
+      "note": "The guard-runner result-isolation fix passed all three producer-verification jobs."
+    },
+    {
+      "role": "evidence-binding",
+      "id": 44889338862,
+      "workflow": "DogwoodSharp producer verification",
+      "event": "push",
+      "headSha": "a95c5dbfb6fdae4fd571466f49220d7283c9b6cd",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44889338862",
+      "createdAt": "2026-11-21T09:23:13Z",
+      "updatedAt": "2026-11-21T09:46:10Z",
+      "jobs": [
+        {
+          "id": 136801532847,
+          "name": "Verify osx-arm64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T09:23:21Z",
+          "completedAt": "2026-11-21T09:36:05Z"
+        },
+        {
+          "id": 136801533156,
+          "name": "Verify linux-x64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T09:23:21Z",
+          "completedAt": "2026-11-21T09:39:10Z"
+        },
+        {
+          "id": 136801533177,
+          "name": "Verify win-x64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T09:23:21Z",
+          "completedAt": "2026-11-21T09:46:09Z"
+        }
+      ],
+      "note": "The final evidence-binding harness revision passed all three producer-verification jobs."
+    }
+  ],
+  "guardScope": {
+    "archivedRevision": "b79fdffa07ac45cb49c5ee2ef100299f2d2adcf5",
+    "protectedPaths": [
+      "docs/reviews/d2-qualification",
+      "docs/d1-acceptance.md",
+      ".github/workflows/d1-qualification.yml",
+      ".github/workflows/d2-qualification.yml"
+    ],
+    "remediationRevision": "584fab31cacb0ad9dab3c5463f53a86956e947a2",
+    "regressionCases": 5,
+    "regressionEvidence": "docs/reviews/d3-prep-01/evidence/guard-regression/guard-regression.json"
+  },
+  "scope": {
+    "workflow": "DogwoodSharp producer verification",
+    "qualifiedRids": [
+      "win-x64",
+      "linux-x64",
+      "osx-arm64"
+    ],
+    "qualifiedTfms": [
+      "net8.0",
+      "net10.0"
+    ],
+    "probeQualification": "The hosted workflow verifies the producer D1/D2 gates and archived-R2 guard after remediation. It does not execute the PREP upstream-authorizer differential on Linux or macOS.",
+    "localProbeQualification": "The PREP differential was executed only on Windows win-x64 with net8.0 and net10.0."
+  }
+}

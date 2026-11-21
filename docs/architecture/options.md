@@ -2,7 +2,7 @@
 
 Status update, 2026-11-21: D3-E1 was accepted with qualifications and owner
 acceptance of D3-PREP-01 only. The accepted [D3 integration
-contract](d3-integration-contract.md) therefore selects the managed,
+contract](../d3-integration-contract.md) therefore selects the managed,
 schema-carrying, request-validating CedarSharp path shown in option A. The
 historical callback-based implementation described below is superseded as the
 future D3 design and remains only as proposal material. It does not authorize

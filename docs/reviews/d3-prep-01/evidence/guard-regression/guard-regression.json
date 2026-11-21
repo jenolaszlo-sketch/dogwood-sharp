@@ -1,0 +1,608 @@
+{
+  "schemaVersion": 3,
+  "commission": "DOGWOOD-SHARP-D3-PREP-01",
+  "repository": "D:\\projects\\dogwood-sharp",
+  "source": {
+    "head": "a95c5dbfb6fdae4fd571466f49220d7283c9b6cd",
+    "tree": "69fc265227060674ba894673cde23b865c900494",
+    "branch": "main",
+    "commitTime": "2026-11-21T17:23:09+08:00",
+    "worktreeCleanAtStart": true,
+    "dirtyFileCount": 0,
+    "sourceStatusAtStart": [],
+    "sourceStatusBeforeStaleOutputRemoval": [],
+    "unexpectedSourceChangesAtStart": [],
+    "staleOutputsRemoved": [],
+    "postRunStatus": [
+      "?? docs/reviews/d3-prep-01/evidence/guard-regression/guard-regression.json"
+    ],
+    "unexpectedSourceChanges": [],
+    "originMain": "a95c5dbfb6fdae4fd571466f49220d7283c9b6cd",
+    "aheadBehind": {
+      "ahead": 0,
+      "behind": 0
+    },
+    "guardBlob": "10d11e23ef607e71b899b1d70a8c2805c3372fac",
+    "guardSha256": "7E388A608B94C7130CF1E2895F74BD6F28FEA8A19DA4406211E59A7F95301075",
+    "runnerSha256": "5C480F06181997722F80D164E78A1241548A6AD8F086667D072CA93E05BB5F94"
+  },
+  "baseline": {
+    "archiveRevision": "b79fdffa07ac45cb49c5ee2ef100299f2d2adcf5",
+    "archiveTree": "52ff328299222707f4e63db0cc355677e83af889",
+    "preflightRevision": "e73c1caedb2df27f975f25bcdfe3f122d951ca9a",
+    "preflightTree": "f65498e89e2ec39e08b4103e6c6d7082b2e09f4b",
+    "legacyGuardScope": [
+      "docs/reviews",
+      "docs/d1-acceptance.md",
+      ".github/workflows/d1-qualification.yml",
+      ".github/workflows/d2-qualification.yml"
+    ],
+    "legacyObservedChangeCount": 51,
+    "legacyObservedChanges": [
+      "docs/reviews/d2-qualification-02/README.md",
+      "docs/reviews/d2-qualification-02/drive.py",
+      "docs/reviews/d2-qualification-02/evidence/SHA256SUMS",
+      "docs/reviews/d2-qualification-02/evidence/ci-linux-memory.json",
+      "docs/reviews/d2-qualification-02/evidence/ci-matrix.json",
+      "docs/reviews/d2-qualification-02/evidence/local-affinity.json",
+      "docs/reviews/d2-qualification-02/evidence/local-linux-jit.json",
+      "docs/reviews/d2-qualification-02/evidence/local-linux.json",
+      "docs/reviews/d2-qualification-02/evidence/local-windows.json",
+      "docs/reviews/d2-qualification-02/fixtures.json",
+      "docs/reviews/d2-qualification-02/identity-only.c",
+      "docs/reviews/d2-qualification-02/managed/Probe.csproj",
+      "docs/reviews/d2-qualification-02/managed/Program.cs",
+      "docs/reviews/d2-qualification-02/memory.py",
+      "docs/reviews/d2-qualification-02/ownership.c",
+      "docs/reviews/d2-qualification-02/prepare.py",
+      "docs/reviews/d2-qualification-02/run.ps1",
+      "docs/reviews/d2-qualification-02/schema-oracle.rs",
+      "docs/reviews/d2-qualification-02/transport.rs",
+      "docs/reviews/d3-e1-qualification-01/README.md",
+      "docs/reviews/d3-e1-qualification-01/aot.ps1",
+      "docs/reviews/d3-e1-qualification-01/evidence/SHA256SUMS",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-console-net10.0-staged.log",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-console-net10.0-unstaged-again.log",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-console-net10.0-unstaged.log",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-console-net8.0-staged.log",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-console-net8.0-unstaged-again.log",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-console-net8.0-unstaged.log",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-publish-net10.0.log",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-publish-net8.0.log",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-results-net10.0-staged.json",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-results-net10.0-unstaged-again.json",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-results-net10.0-unstaged.json",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-results-net8.0-staged.json",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-results-net8.0-unstaged-again.json",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-results-net8.0-unstaged.json",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-summary-net10.0.json",
+      "docs/reviews/d3-e1-qualification-01/evidence/aot-summary-net8.0.json",
+      "docs/reviews/d3-e1-qualification-01/evidence/asset-identity.json",
+      "docs/reviews/d3-e1-qualification-01/evidence/ci-status.json",
+      "docs/reviews/d3-e1-qualification-01/evidence/probe-aot/AotProbe.csproj",
+      "docs/reviews/d3-e1-qualification-01/evidence/probe-aot/Program.cs",
+      "docs/reviews/d3-e1-qualification-01/evidence/probe-console-net10.0.log",
+      "docs/reviews/d3-e1-qualification-01/evidence/probe-console-net8.0.log",
+      "docs/reviews/d3-e1-qualification-01/evidence/probe-results-net10.0.json",
+      "docs/reviews/d3-e1-qualification-01/evidence/probe-results-net8.0.json",
+      "docs/reviews/d3-e1-qualification-01/evidence/probe/Probe.csproj",
+      "docs/reviews/d3-e1-qualification-01/evidence/probe/Program.cs",
+      "docs/reviews/d3-e1-qualification-01/evidence/producer-prototype-tests-net10.0.log",
+      "docs/reviews/d3-e1-qualification-01/evidence/producer-prototype-tests-net8.0.log",
+      "docs/reviews/d3-e1-qualification-01/run.ps1"
+    ]
+  },
+  "scope": {
+    "protectedPaths": [
+      "docs/reviews/d2-qualification",
+      "docs/d1-acceptance.md",
+      ".github/workflows/d1-qualification.yml",
+      ".github/workflows/d2-qualification.yml"
+    ],
+    "guardCommit": "a95c5dbfb6fdae4fd571466f49220d7283c9b6cd",
+    "guardMatchedSource": true,
+    "protectedPathDiff": []
+  },
+  "runtime": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "architecture": "X64",
+    "powershell": "7.7.0",
+    "git": "git version 2.55.0.windows.3"
+  },
+  "commands": [
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "rev-parse",
+        "HEAD"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "rev-parse",
+        "HEAD^{tree}"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "symbolic-ref",
+        "--short",
+        "HEAD"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "show",
+        "-s",
+        "--format=%cI",
+        "HEAD"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "rev-parse",
+        "origin/main"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "rev-list",
+        "--left-right",
+        "--count",
+        "HEAD...origin/main"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "merge-base",
+        "--is-ancestor",
+        "b79fdffa07ac45cb49c5ee2ef100299f2d2adcf5",
+        "HEAD"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "merge-base",
+        "--is-ancestor",
+        "e73c1caedb2df27f975f25bcdfe3f122d951ca9a",
+        "HEAD"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "rev-parse",
+        "HEAD:eng/Verify-D2R2.ps1"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "diff",
+        "--name-status",
+        "b79fdffa07ac45cb49c5ee2ef100299f2d2adcf5",
+        "HEAD",
+        "--",
+        "docs/reviews/d2-qualification",
+        "docs/d1-acceptance.md",
+        ".github/workflows/d1-qualification.yml",
+        ".github/workflows/d2-qualification.yml"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "diff",
+        "--name-only",
+        "b79fdffa07ac45cb49c5ee2ef100299f2d2adcf5",
+        "e73c1caedb2df27f975f25bcdfe3f122d951ca9a",
+        "--",
+        "docs/reviews",
+        "docs/d1-acceptance.md",
+        ".github/workflows/d1-qualification.yml",
+        ".github/workflows/d2-qualification.yml"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "clone",
+        "--no-hardlinks",
+        "--quiet",
+        "D:\\projects\\dogwood-sharp",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "config",
+        "user.name",
+        "D3 PREP guard regression"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "config",
+        "user.email",
+        "d3-prep-guard@example.invalid"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "rev-parse",
+        "HEAD"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "C:\\Users\\Laszlos\\AppData\\Local\\PowerShell\\pwsh.exe",
+      "arguments": [
+        "-NoLogo",
+        "-NoProfile",
+        "-NonInteractive",
+        "-File",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0\\eng\\Verify-D2R2.ps1",
+        "-RuntimeIdentifier",
+        "win-x64",
+        "-GuardOnly"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "add",
+        "-A"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "commit",
+        "-m",
+        "test: add unrelated qualification report"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "C:\\Users\\Laszlos\\AppData\\Local\\PowerShell\\pwsh.exe",
+      "arguments": [
+        "-NoLogo",
+        "-NoProfile",
+        "-NonInteractive",
+        "-File",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0\\eng\\Verify-D2R2.ps1",
+        "-RuntimeIdentifier",
+        "win-x64",
+        "-GuardOnly"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "reset",
+        "--hard",
+        "a95c5dbfb6fdae4fd571466f49220d7283c9b6cd"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "add",
+        "-A"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "commit",
+        "-m",
+        "test: modify protected archive"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "C:\\Users\\Laszlos\\AppData\\Local\\PowerShell\\pwsh.exe",
+      "arguments": [
+        "-NoLogo",
+        "-NoProfile",
+        "-NonInteractive",
+        "-File",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0\\eng\\Verify-D2R2.ps1",
+        "-RuntimeIdentifier",
+        "win-x64",
+        "-GuardOnly"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "reset",
+        "--hard",
+        "a95c5dbfb6fdae4fd571466f49220d7283c9b6cd"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "add",
+        "-A"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "commit",
+        "-m",
+        "test: delete protected archive file"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "C:\\Users\\Laszlos\\AppData\\Local\\PowerShell\\pwsh.exe",
+      "arguments": [
+        "-NoLogo",
+        "-NoProfile",
+        "-NonInteractive",
+        "-File",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0\\eng\\Verify-D2R2.ps1",
+        "-RuntimeIdentifier",
+        "win-x64",
+        "-GuardOnly"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "reset",
+        "--hard",
+        "a95c5dbfb6fdae4fd571466f49220d7283c9b6cd"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "add",
+        "-A"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "commit",
+        "-m",
+        "test: add unauthorized archive file"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "C:\\Users\\Laszlos\\AppData\\Local\\PowerShell\\pwsh.exe",
+      "arguments": [
+        "-NoLogo",
+        "-NoProfile",
+        "-NonInteractive",
+        "-File",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0\\eng\\Verify-D2R2.ps1",
+        "-RuntimeIdentifier",
+        "win-x64",
+        "-GuardOnly"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "rev-parse",
+        "b79fdffa07ac45cb49c5ee2ef100299f2d2adcf5^{tree}"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "rev-parse",
+        "e73c1caedb2df27f975f25bcdfe3f122d951ca9a^{tree}"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0",
+        "version"
+      ],
+      "workingDirectory": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "git",
+      "arguments": [
+        "-C",
+        "D:\\projects\\dogwood-sharp",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0
+  },
+  "cases": [
+    {
+      "id": "unchanged",
+      "expected": "pass",
+      "exitCode": 0,
+      "passed": true,
+      "output": "Archived-R2 evidence guard passed."
+    },
+    {
+      "id": "new-unrelated-report",
+      "expected": "pass",
+      "exitCode": 0,
+      "passed": true,
+      "output": "Archived-R2 evidence guard passed."
+    },
+    {
+      "id": "modified-protected-archive",
+      "expected": "fail",
+      "exitCode": 1,
+      "passed": true,
+      "output": "\u001b[31;1mException: \u001b[0mC:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0\\eng\\Verify-D2R2.ps1:70\r\n\u001b[36;1mLine |\u001b[0m\r\n\u001b[36;1m\u001b[36;1m  70 | \u001b[0m         \u001b[36;1mthrow \"Archived-R2 evidence integrity failed; protected paths\u001b[0m .\r\n\u001b[36;1m     | \u001b[31;1m         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[0m\r\n\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m     | \u001b[31;1mArchived-R2 evidence integrity failed; protected paths changed since b79fdffa07ac45cb49c5ee2ef100299f2d2adcf5:  \u001b[0m\r\n\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m\u001b[31;1m\u001b[36;1m     | \u001b[31;1m- modification or replacement: docs/reviews/d2-qualification/README.md [M]\u001b[0m\r\n\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m\u001b[31;1m\u001b[36;1m\u001b[31;1m\u001b[0m"
+    },
+    {
+      "id": "deleted-protected-archive",
+      "expected": "fail",
+      "exitCode": 1,
+      "passed": true,
+      "output": "\u001b[31;1mException: \u001b[0mC:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0\\eng\\Verify-D2R2.ps1:70\r\n\u001b[36;1mLine |\u001b[0m\r\n\u001b[36;1m\u001b[36;1m  70 | \u001b[0m         \u001b[36;1mthrow \"Archived-R2 evidence integrity failed; protected paths\u001b[0m .\r\n\u001b[36;1m     | \u001b[31;1m         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[0m\r\n\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m     | \u001b[31;1mArchived-R2 evidence integrity failed; protected paths changed since b79fdffa07ac45cb49c5ee2ef100299f2d2adcf5:  \u001b[0m\r\n\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m\u001b[31;1m\u001b[36;1m     | \u001b[31;1m- deletion: docs/reviews/d2-qualification/README.md [D]\u001b[0m\r\n\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m\u001b[31;1m\u001b[36;1m\u001b[31;1m\u001b[0m"
+    },
+    {
+      "id": "unauthorized-addition-protected-archive",
+      "expected": "fail",
+      "exitCode": 1,
+      "passed": true,
+      "output": "\u001b[31;1mException: \u001b[0mC:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0\\eng\\Verify-D2R2.ps1:70\r\n\u001b[36;1mLine |\u001b[0m\r\n\u001b[36;1m\u001b[36;1m  70 | \u001b[0m         \u001b[36;1mthrow \"Archived-R2 evidence integrity failed; protected paths\u001b[0m .\r\n\u001b[36;1m     | \u001b[31;1m         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[0m\r\n\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m     | \u001b[31;1mArchived-R2 evidence integrity failed; protected paths changed since b79fdffa07ac45cb49c5ee2ef100299f2d2adcf5:  \u001b[0m\r\n\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m\u001b[31;1m\u001b[36;1m     | \u001b[31;1m- unauthorized addition: docs/reviews/d2-qualification/unauthorized-addition.txt [A]\u001b[0m\r\n\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m\u001b[31;1m\u001b[36;1m\u001b[31;1m\u001b[0m"
+    }
+  ],
+  "cleanup": {
+    "attempted": true,
+    "removed": true,
+    "path": "C:\\Users\\Laszlos\\AppData\\Local\\Temp\\opencode\\dogwood-sharp-d3-prep-guard-e70ab6fb87c149bea335ca7c464083d0"
+  }
+}
