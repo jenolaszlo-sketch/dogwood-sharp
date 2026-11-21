@@ -143,7 +143,6 @@ try {
     }
 
     Write-Output '== verifying the locked upstream dependency =='
-    Invoke-Checked 'cargo' @('fetch', '--locked', '--offline', '--manifest-path', (Join-Path $oracleProject 'Cargo.toml')) $repository | Out-Null
     $cargoTree = Invoke-Checked 'cargo' @(
         'tree',
         '--locked',
