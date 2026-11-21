@@ -53,9 +53,11 @@ synced `main` revision:
 | Toolchains | .NET SDK 10.0.404; Cargo 1.99.1; rustc 1.99.1 (`x86_64-pc-windows-msvc`) |
 
 The evidence-binding revision contains the final harness and contract sources
-used by both local runs. The later review-delivery commit adds this review,
-durable evidence, and one broken-link correction; the final delivery revision
-and hosted run are recorded in `evidence/ci-status.json`.
+used by both local runs. The durable review/evidence delivery commit
+`eba3cc40b83cc3cdb41117089bbd046e2b6fadc9` adds this review, durable evidence,
+and one broken-link correction; its hosted run `44891906183` is recorded in
+`evidence/ci-status.json`. The final status-only CI record commit and its
+hosted run are reported in the final handoff.
 
 ## Method
 
@@ -121,6 +123,7 @@ an authorization decision.
 | Rust format | `cargo fmt --check` | Exit 0 | `evidence/quality-checks.json` |
 | Rust lint | Locked offline release clippy, all targets, warnings denied | Exit 0 | `evidence/quality-checks.json` |
 | Hosted producer verification | `win-x64`, `linux-x64`, `osx-arm64` | Run `44889338862` succeeded in all three jobs | `evidence/ci-status.json` |
+| Review/evidence delivery verification | `eba3cc4`; `win-x64`, `linux-x64`, `osx-arm64` | Run `44891906183` succeeded in all three jobs | `evidence/ci-status.json` |
 | Evidence integrity | Every file listed by `evidence/SHA256SUMS` | 19/19 hashes verified | `evidence/SHA256SUMS` |
 
 The hosted workflow is the producer-verification matrix. It verifies that the

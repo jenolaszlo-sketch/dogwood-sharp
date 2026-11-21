@@ -203,6 +203,45 @@
         }
       ],
       "note": "The final evidence-binding harness revision passed all three producer-verification jobs."
+    },
+    {
+      "role": "final-delivery",
+      "id": 44891906183,
+      "workflow": "DogwoodSharp producer verification",
+      "event": "push",
+      "headSha": "eba3cc40b83cc3cdb41117089bbd046e2b6fadc9",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44891906183",
+      "createdAt": "2026-11-21T09:56:07Z",
+      "updatedAt": "2026-11-21T10:18:21Z",
+      "jobs": [
+        {
+          "id": 136809351545,
+          "name": "Verify linux-x64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T09:56:10Z",
+          "completedAt": "2026-11-21T10:12:13Z"
+        },
+        {
+          "id": 136809351710,
+          "name": "Verify osx-arm64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T09:56:10Z",
+          "completedAt": "2026-11-21T10:07:44Z"
+        },
+        {
+          "id": 136809351757,
+          "name": "Verify win-x64 / net8.0 and net10.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T09:56:11Z",
+          "completedAt": "2026-11-21T10:18:20Z"
+        }
+      ],
+      "note": "The durable review/evidence delivery commit passed all three producer-verification jobs."
     }
   ],
   "guardScope": {
@@ -230,5 +269,12 @@
     ],
     "probeQualification": "The hosted workflow verifies the producer D1/D2 gates and archived-R2 guard after remediation. It does not execute the PREP upstream-authorizer differential on Linux or macOS.",
     "localProbeQualification": "The PREP differential was executed only on Windows win-x64 with net8.0 and net10.0."
+  },
+  "finalDelivery": {
+    "revision": "eba3cc40b83cc3cdb41117089bbd046e2b6fadc9",
+    "tree": "bc7915a7c2863ee5f856cbc45b6c6f704ff4a77a",
+    "branch": "main",
+    "hostedRun": 44891906183,
+    "note": "The subsequent status-only CI record commit and hosted run are reported in the final handoff."
   }
 }
