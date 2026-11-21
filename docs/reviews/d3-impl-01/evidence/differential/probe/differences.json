@@ -1,0 +1,256 @@
+{
+  "schemaVersion": 1,
+  "commission": "DOGWOOD-SHARP-D3-PREP-01",
+  "differences": [
+    {
+      "id": "ED-01",
+      "dimension": "entity-store-mode",
+      "agreementClass": "expected-difference",
+      "cases": [
+        "P1-08-absent-scope-entity-required-attribute",
+        "P1-11-raw-allow-with-policy-error"
+      ],
+      "upstreamObservation": "Upstream adds an omitted scope principal as a bare, unchecked entity.",
+      "d3Observation": "The selected schema-carrying mode leaves the omitted scope principal absent.",
+      "failClosedEffect": "Attribute evaluation fails closed; a raw Allow with an error is not authorization.",
+      "caseObservations": {
+        "P1-08-absent-scope-entity-required-attribute": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "deny",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        },
+        "P1-11-raw-allow-with-policy-error": {
+          "upstream": {
+            "decision": "allow",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "allow",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ED-02",
+      "dimension": "conformance-failure-stage",
+      "agreementClass": "expected-difference",
+      "cases": [
+        "P1-07-incomplete-supplied-scope-entity",
+        "P1-09-entity-schema-violation"
+      ],
+      "upstreamObservation": "A caller-entity conformance failure becomes a fail-closed Deny with diagnostics.",
+      "d3Observation": "Schema request validation returns an operation failure with no decision.",
+      "failClosedEffect": "Neither side authorizes the invalid request.",
+      "caseObservations": {
+        "P1-07-incomplete-supplied-scope-entity": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          }
+        },
+        "P1-09-entity-schema-violation": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ED-03",
+      "dimension": "missing-entity-diagnostic-category",
+      "agreementClass": "expected-difference",
+      "cases": [
+        "P1-08-absent-scope-entity-required-attribute",
+        "P1-11-raw-allow-with-policy-error"
+      ],
+      "upstreamObservation": "The bare scope entity is reported as missing the required attribute.",
+      "d3Observation": "The absent scope entity is reported as missing.",
+      "failClosedEffect": "The diagnostic category differs; the failing policy does not authorize.",
+      "caseObservations": {
+        "P1-08-absent-scope-entity-required-attribute": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "deny",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        },
+        "P1-11-raw-allow-with-policy-error": {
+          "upstream": {
+            "decision": "allow",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "allow",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ED-04",
+      "dimension": "scope-applicability-enforcement",
+      "agreementClass": "expected-difference",
+      "cases": [
+        "P1-10-principal-outside-appliesto",
+        "P1-10b-principal-declared-but-outside-appliesto",
+        "P1-10c-resource-outside-appliesto",
+        "P1-10d-action-not-declared"
+      ],
+      "upstreamObservation": "The calibrated upstream decision path does not enforce the action's complete appliesTo constraints and can allow an out-of-scope principal or resource.",
+      "d3Observation": "Schema request validation rejects the out-of-appliesTo scope or undeclared action before a decision.",
+      "failClosedEffect": "This owner-approved stricter D3 contract prevents the upstream out-of-scope Allow.",
+      "caseObservations": {
+        "P1-10-principal-outside-appliesto": {
+          "upstream": {
+            "decision": "allow",
+            "hasErrors": false,
+            "errorCategories": []
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "operation-error"
+            ]
+          }
+        },
+        "P1-10b-principal-declared-but-outside-appliesto": {
+          "upstream": {
+            "decision": "allow",
+            "hasErrors": false,
+            "errorCategories": []
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "scope-mismatch"
+            ]
+          }
+        },
+        "P1-10c-resource-outside-appliesto": {
+          "upstream": {
+            "decision": "allow",
+            "hasErrors": false,
+            "errorCategories": []
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "scope-mismatch"
+            ]
+          }
+        },
+        "P1-10d-action-not-declared": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": false,
+            "errorCategories": []
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "undeclared-action"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ED-05",
+      "dimension": "context-failure-stage",
+      "agreementClass": "expected-difference",
+      "cases": [
+        "P1-12-missing-context-attribute"
+      ],
+      "upstreamObservation": "A missing required context attribute is reported as a policy-evaluation error in a fail-closed Deny.",
+      "d3Observation": "Schema context parsing returns an operation failure with no decision.",
+      "failClosedEffect": "Neither side authorizes the request.",
+      "caseObservations": {
+        "P1-12-missing-context-attribute": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <!-- Experimental schema-carrying CedarSharp authorization adapter. Kept out of the
+         stable package and the DogwoodSharp assembly until D3 qualification and the owner
+         gate pass; see docs/d3-integration-contract.md section 4.1. -->
+    <RootNamespace>DogwoodSharp.Experimental.CedarSharp</RootNamespace>
+    <AssemblyName>DogwoodSharp.CedarSharp</AssemblyName>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsAotCompatible>true</IsAotCompatible>
+    <IsTrimmable>true</IsTrimmable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../DogwoodSharp/DogwoodSharp.csproj" />
+    <PackageReference Include="CedarSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="DogwoodSharp.CedarSharp.Tests" />
+  </ItemGroup>
+</Project>

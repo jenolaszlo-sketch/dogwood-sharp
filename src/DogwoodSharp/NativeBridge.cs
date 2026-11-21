@@ -263,8 +263,16 @@ internal sealed unsafe class NativeBridge
             string policy = ReadText(json, "cedarPolicyText");
             string schemaJson = ReadText(json, "cedarSchemaJson");
             string schemaText = ReadText(json, "cedarSchemaText");
+            ImmutableArray<string> generatedFields = default;
             if (exported)
             {
+                // The reserved generated context fields are an additive, optional export (present on
+                // the D3 per-rule path); their absence preserves the D1/D2 wire contract.
+                if (json.TryGetProperty("generatedContextFields", out _))
+                {
+                    generatedFields = ReadGeneratedContextFields(json);
+                }
+
                 using var schema = JsonDocument.Parse(schemaJson);
                 bool schemaHasText = SchemaHasText(schema.RootElement);
                 if ((schemaHasText ? string.IsNullOrWhiteSpace(schemaText) : schemaText.Length != 0) ||
@@ -278,7 +286,7 @@ internal sealed unsafe class NativeBridge
                 throw new JsonException("Unexpected artifacts without a successful export.");
             }
 
-            return new DogwoodLoweredPolicySet(validation, exported, policy, schemaJson, schemaText);
+            return new DogwoodLoweredPolicySet(validation, exported, policy, schemaJson, schemaText, generatedFields);
         }
         catch (Exception exception) when (exception is JsonException or InvalidOperationException or FormatException)
         {
@@ -317,7 +325,17 @@ internal sealed unsafe class NativeBridge
             "actionSchemaBuilt", "lowered", "ruleCount", "selfContainedCedar", "collisionCheckPassed",
             "collision", "validationPassed", "validationErrors", "validationWarnings",
             "artifactsExported", "stageError", "rules"];
-        RequireProperties(json, export ? [.. properties, "cedarPolicyText", "cedarSchemaJson", "cedarSchemaText"] : properties);
+        if (export)
+        {
+            RequirePropertiesWithOptional(
+                json,
+                [.. properties, "cedarPolicyText", "cedarSchemaJson", "cedarSchemaText"],
+                ["generatedContextFields"]);
+        }
+        else
+        {
+            RequireProperties(json, properties);
+        }
 
         bool service = json.GetProperty("serviceSchemaBuilt").GetBoolean();
         var (parsed, policyCount, parseDiagnostics) = ReadStage(json, sourceBytes);
@@ -507,7 +525,7 @@ internal sealed unsafe class NativeBridge
         {
             if (withSource)
             {
-                RequireProperties(rule, "ruleIndex", "cedarPolicyId", "sourceText");
+                RequirePropertiesWithOptional(rule, ["ruleIndex", "cedarPolicyId", "sourceText"], ["cedarBody"]);
             }
             else
             {
@@ -517,12 +535,40 @@ internal sealed unsafe class NativeBridge
             int index = rule.GetProperty("ruleIndex").GetInt32();
             string id = ReadText(rule, "cedarPolicyId");
             string? source = withSource ? ReadText(rule, "sourceText") : null;
+            string? body = withSource && rule.TryGetProperty("cedarBody", out var bodyValue)
+                ? (bodyValue.ValueKind == JsonValueKind.String
+                    ? bodyValue.GetString()
+                    : throw new JsonException("Invalid Cedar policy body."))
+                : null;
             if (index != builder.Count || id.Length == 0 || !ids.Add(id) || source is "")
             {
                 throw new JsonException("Invalid rule mapping.");
             }
 
-            builder.Add(new PolicyRuleMapping(index, id, source));
+            builder.Add(new PolicyRuleMapping(index, id, source, body));
+        }
+
+        return builder.MoveToImmutable();
+    }
+
+    private static ImmutableArray<string> ReadGeneratedContextFields(JsonElement json)
+    {
+        var builder = ImmutableArray.CreateBuilder<string>(json.GetProperty("generatedContextFields").GetArrayLength());
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var field in json.GetProperty("generatedContextFields").EnumerateArray())
+        {
+            if (field.ValueKind != JsonValueKind.String)
+            {
+                throw new JsonException("Invalid generated context field kind.");
+            }
+
+            string name = field.GetString() ?? throw new JsonException("Missing generated context field.");
+            if (name.Length == 0 || !seen.Add(name))
+            {
+                throw new JsonException("Invalid generated context field.");
+            }
+
+            builder.Add(name);
         }
 
         return builder.MoveToImmutable();
@@ -602,6 +648,25 @@ internal sealed unsafe class NativeBridge
         }
 
         if (seen.Count != names.Length)
+        {
+            throw new JsonException("Missing required JSON property.");
+        }
+    }
+
+    private static void RequirePropertiesWithOptional(JsonElement json, string[] required, string[] optional)
+    {
+        var wanted = new HashSet<string>(required, StringComparer.Ordinal);
+        var allowed = new HashSet<string>(required.Concat(optional), StringComparer.Ordinal);
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var property in json.EnumerateObject())
+        {
+            if (!allowed.Contains(property.Name) || !seen.Add(property.Name))
+            {
+                throw new JsonException("Unexpected or duplicate JSON property.");
+            }
+        }
+
+        if (!wanted.IsSubsetOf(seen))
         {
             throw new JsonException("Missing required JSON property.");
         }

@@ -196,10 +196,11 @@ public sealed class D2ContractTests
              "actionSchemaBuilt":true,"lowered":true,"ruleCount":1,"selfContainedCedar":true,
              "collisionCheckPassed":true,"collision":null,"validationPassed":true,
              "validationErrors":[],"validationWarnings":[],"artifactsExported":true,"stageError":null,
-             "rules":[{"ruleIndex":0,"cedarPolicyId":"policy_0","sourceText":"permit(principal,action,resource);"}],
+             "rules":[{"ruleIndex":0,"cedarPolicyId":"policy_0","sourceText":"permit(principal,action,resource);","cedarBody":"permit(principal,action,resource);"}],
              "cedarPolicyText":"permit(principal,action,resource);",
              "cedarSchemaJson":"{\"App\":{\"entityTypes\":{},\"actions\":{}}}",
-             "cedarSchemaText":"namespace App {\n}\n"}
+             "cedarSchemaText":"namespace App {\n}\n",
+             "generatedContextFields":[]}
             """)!.AsObject();
         using (var positive = JsonDocument.Parse(reply.ToJsonString()))
         {
@@ -253,7 +254,8 @@ public sealed class D2ContractTests
              "actionSchemaBuilt":true,"lowered":true,"ruleCount":0,"selfContainedCedar":true,
              "collisionCheckPassed":true,"collision":null,"validationPassed":true,
              "validationErrors":[],"validationWarnings":[],"artifactsExported":true,"stageError":null,
-             "rules":[],"cedarPolicyText":""}
+             "rules":[],"cedarPolicyText":"",
+             "generatedContextFields":[]}
             """)!.AsObject();
         reply["cedarSchemaJson"] = schemaJson;
         reply["cedarSchemaText"] = schemaText;

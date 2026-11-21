@@ -67,6 +67,8 @@ pub(super) struct Expect {
     pub(super) cedar_schema_json: Value,
     #[serde(rename = "cedarSchemaText")]
     pub(super) cedar_schema_text: String,
+    #[serde(rename = "generatedContextFields", default)]
+    pub(super) generated_context_fields: Vec<String>,
     #[serde(rename = "validationPassed")]
     pub(super) validation_passed: bool,
     #[serde(rename = "validationErrors")]
@@ -95,8 +97,10 @@ pub(super) struct RuleExpect {
     pub(super) rule_index: usize,
     #[serde(rename = "cedarPolicyId")]
     pub(super) cedar_policy_id: String,
-    #[serde(rename = "sourceText")]
+    #[serde(rename = "sourceText", default)]
     pub(super) source_text: String,
+    #[serde(rename = "cedarBody", default)]
+    pub(super) cedar_body: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, PartialEq, Debug)]
@@ -202,6 +206,19 @@ pub(super) fn derive(case: &Case, manifest: &Manifest) -> Expect {
     };
 
     let validation = Validator::new().validate(&lowered);
+    // The exact per-id Cedar bodies, keyed by the id the compiled set stores
+    // each policy under, and the trusted-pipeline-owned context field names.
+    let mut bodies = std::collections::HashMap::new();
+    for policy in lowered.as_cedar().policies() {
+        bodies.insert(policy.id().to_string(), policy.to_string());
+    }
+    let mut generated_context_fields: Vec<String> = lowered
+        .temporal_fields()
+        .map(|field| field.id.clone())
+        .collect();
+    if lowered.provider_fields().next().is_some() {
+        generated_context_fields.push("providers".to_owned());
+    }
     Expect {
         parsed: true,
         policy_count: Some(parsed.policy_count()),
@@ -210,20 +227,28 @@ pub(super) fn derive(case: &Case, manifest: &Manifest) -> Expect {
         self_contained_cedar: lowered.is_self_contained_cedar(),
         rules: lowered
             .rules()
-            .map(|rule| RuleExpect {
-                rule_index: rule.rule_index,
-                cedar_policy_id: rule.cedar_policy_id,
-                source_text: parsed
-                    .policies()
-                    .find(|policy| policy.index() == rule.rule_index)
-                    .map(|policy| policy.expanded_source())
-                    .unwrap_or_default(),
+            .map(|rule| {
+                let cedar_body = bodies
+                    .get(&rule.cedar_policy_id)
+                    .cloned()
+                    .unwrap_or_default();
+                RuleExpect {
+                    rule_index: rule.rule_index,
+                    cedar_policy_id: rule.cedar_policy_id,
+                    source_text: parsed
+                        .policies()
+                        .find(|policy| policy.index() == rule.rule_index)
+                        .map(|policy| policy.expanded_source())
+                        .unwrap_or_default(),
+                    cedar_body,
+                }
             })
             .collect(),
         cedar_policy_text: lowered.as_cedar().to_string(),
         cedar_schema_json: serde_json::from_str(&lowered.cedar_schema_json().unwrap_or_default())
             .unwrap_or(Value::Null),
         cedar_schema_text: lowered.cedar_schema_str().unwrap_or_default(),
+        generated_context_fields,
         validation_passed: validation.validation_passed(),
         validation_errors: validation
             .validation_errors()

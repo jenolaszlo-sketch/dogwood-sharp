@@ -222,6 +222,99 @@ fn d2_validate_and_export_use_the_same_distincter() {
 }
 
 #[test]
+fn d2_export_supplies_exact_per_rule_bodies() {
+    // The export pairs each generated Cedar id with the exact body of the compiled Cedar policy,
+    // independent of source order and without splitting the concatenated text. Expected pairs are
+    // derived directly from the pinned crate's `Policy` objects, not the ABI output.
+    const BODY_SCHEMA: &str = "namespace App { entity User; entity Doc { owners: Set<User>, count: Long }; action \"read\" appliesTo { principal: [User], resource: [Doc] }; }";
+    let source = concat!(
+        "permit(principal, action == App::Action::\"read\", resource);",
+        "forbid(principal, action == App::Action::\"read\", resource) when { resource.count > 5 };",
+        "permit(principal, action == App::Action::\"read\", resource) when { principal in resource.owners };",
+    );
+
+    let lowered = ParsedPolicySet::parse(source, &ServiceSchema::defaults())
+        .and_then(|parsed| {
+            parsed.lower_with_distincter(
+                &PolicySchema::from_cedarschema_str(BODY_SCHEMA).unwrap(),
+                "d3",
+            )
+        })
+        .unwrap();
+    let mut expected: std::collections::HashMap<String, String> = std::collections::HashMap::new();
+    for policy in lowered.as_cedar().policies() {
+        expected.insert(policy.id().to_string(), policy.to_string());
+    }
+    let expected_ids: std::collections::HashSet<String> =
+        lowered.rules().map(|rule| rule.cedar_policy_id).collect();
+
+    let mut buffer = Buffer::EMPTY;
+    let request = d2_request(
+        &d2_body(source),
+        &d2_body(BODY_SCHEMA),
+        ",\"distincter\":\"d3\"",
+    );
+    assert_eq!(
+        call(ABI, OPERATION_LOWER, request.as_bytes(), &mut buffer),
+        0
+    );
+    let reply = read(&buffer);
+    assert_eq!(reply["artifactsExported"], true);
+
+    let rules = reply["rules"].as_array().unwrap();
+    assert_eq!(rules.len(), expected_ids.len());
+    let mut seen = std::collections::HashSet::new();
+    for rule in rules {
+        let id = rule["cedarPolicyId"].as_str().unwrap();
+        let body = rule["cedarBody"]
+            .as_str()
+            .expect("every exported rule carries an exact body");
+        assert!(seen.insert(id.to_owned()), "duplicate exported id {id}");
+        let rendered = expected
+            .get(id)
+            .unwrap_or_else(|| panic!("id {id} is not stored by the lowered Cedar set"));
+        assert_eq!(
+            body, rendered,
+            "the exported body for {id} differs from the compiled policy"
+        );
+        let trimmed = body.trim_start();
+        assert!(
+            trimmed.contains("permit(") || trimmed.contains("forbid("),
+            "body for {id} is not a policy: {body}"
+        );
+    }
+    assert_eq!(seen, expected_ids);
+    release(&mut buffer);
+}
+
+#[test]
+fn d2_export_reports_generated_context_fields() {
+    // A self-contained export owns no trusted context field. The fixture's temporal family is a
+    // non-self-contained member; the export names each generated field it requires.
+    let manifest: Value = serde_json::from_str(include_str!(
+        "../../../tests/DogwoodSharp.D2Conformance/lowering-v1.json"
+    ))
+    .unwrap();
+    let schema = manifest["defaultPolicySchema"].as_str().unwrap();
+
+    let mut buffer = Buffer::EMPTY;
+
+    let request = d2_request(
+        &d2_body("permit(principal, action == App::Action::\"read\", resource);"),
+        &d2_body(schema),
+        "",
+    );
+    assert_eq!(
+        call(ABI, OPERATION_LOWER, request.as_bytes(), &mut buffer),
+        0
+    );
+    let reply = read(&buffer);
+    release(&mut buffer);
+    assert_eq!(reply["artifactsExported"], true);
+    assert_eq!(reply["selfContainedCedar"], true);
+    assert_eq!(reply["generatedContextFields"], json!([]));
+}
+#[test]
 fn d2_failed_stages_never_look_complete() {
     let mut buffer = Buffer::EMPTY;
 

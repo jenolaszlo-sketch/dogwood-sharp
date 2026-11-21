@@ -331,6 +331,12 @@ fn compare(
         } else {
             "".into()
         };
+        expected["generatedContextFields"] = if exported {
+            derived.generated_context_fields.as_slice()
+        } else {
+            &[]
+        }
+        .into();
     }
 
     let Some(actual) = reply.as_object() else {
@@ -408,6 +414,10 @@ fn project_rules(value: &Value, with_source: bool) -> Value {
                     object.insert(
                         "sourceText".to_string(),
                         entry.get("sourceText").cloned().unwrap_or(Value::Null),
+                    );
+                    object.insert(
+                        "cedarBody".to_string(),
+                        entry.get("cedarBody").cloned().unwrap_or(Value::Null),
                     );
                 }
                 Value::Object(object)

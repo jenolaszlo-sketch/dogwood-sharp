@@ -1,0 +1,213 @@
+﻿.NET SDK:
+ Version:           10.0.404
+ Commit:            2ab2854867
+ Workload version:  10.0.400-manifests.ad9f6d83
+ MSBuild version:   18.9.15+2ab285486
+
+Runtime Environment:
+ OS Name:     Windows
+ OS Version:  10.0.26200
+ OS Platform: Windows
+ RID:         win-x64
+ Base Path:   C:\Users\Laszlos\dogwood-dotnet\sdk\10.0.404\
+
+.NET workloads installed:
+There are no installed workloads to display.
+Configured to use workload sets when installing new manifests.
+No workload sets are installed. Run "dotnet workload restore" to install a workload set.
+
+Host:
+  Version:      10.0.15
+  Architecture: x64
+  Commit:       8e0f8ed231
+
+.NET SDKs installed:
+  10.0.404 [C:\Users\Laszlos\dogwood-dotnet\sdk]
+
+.NET runtimes installed:
+  Microsoft.AspNetCore.App 10.0.15 [C:\Users\Laszlos\dogwood-dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.NETCore.App 8.0.34 [C:\Users\Laszlos\dogwood-dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.NETCore.App 10.0.15 [C:\Users\Laszlos\dogwood-dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.WindowsDesktop.App 10.0.15 [C:\Users\Laszlos\dogwood-dotnet\shared\Microsoft.WindowsDesktop.App]
+
+Other architectures found:
+  x86   [C:\Program Files (x86)\dotnet]
+    registered at [HKLM\SOFTWARE\dotnet\Setup\InstalledVersions\x86\InstallLocation]
+
+Environment variables:
+  DOTNET_ROOT                              [C:\Users\Laszlos\dogwood-dotnet]
+
+global.json file:
+  D:\projects\dogwood-sharp\global.json
+
+Learn more:
+  https://aka.ms/dotnet/info
+
+Download .NET:
+  https://aka.ms/dotnet/download
+rustc 1.99.1 (58cf8f9c3 2026-10-13)
+binary: rustc
+commit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67
+commit-date: 2026-10-13
+host: x86_64-pc-windows-msvc
+release: 1.99.1
+LLVM version: 23.1.1
+cedar-policy 4.11.0: datetime, decimal, default, ipaddr
+cedar-policy-core 4.11.0: datetime, decimal, default, ipaddr
+cedar-policy-formatter 4.11.0: 
+pwsh.exe :     Finished `release` profile [optimized] target(s) in 0.33s
+At line:3 char:1
++ & "$env:LOCALAPPDATA\PowerShell\pwsh.exe" -NoProfile -ExecutionPolicy ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (    Finished `r...get(s) in 0.33s:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+{
+  "manifestVersion": 1,
+  "rid": "win-x64",
+  "file": "dogwoodsharp_bridge.dll",
+  "sha256": "f1b4a27843804ec73b0d5bf75c49c4c0729f1af318af81e0fd90cf91c544eb1a",
+  "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+  "abiVersion": 1,
+  "bridgeVersion": "0.1.0",
+  "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+  "dogwoodVersion": "1.1.2",
+  "cedarVersion": "4.11.0",
+  "rustVersion": "1.99.1",
+  "target": "x86_64-pc-windows-msvc",
+  "dogwoodFeatures": [],
+  "cedarFeatures": [
+    "datetime",
+    "decimal",
+    "ipaddr"
+  ]
+}
+    Finished `release` profile [optimized] target(s) in 0.37s
+    Finished `release` profile [optimized] target(s) in 0.37s
+     Running unittests src\lib.rs 
+(native\dogwoodsharp-bridge\target\release\deps\dogwoodsharp_bridge-31799bc7b2207a6d.exe)
+
+running 15 tests
+test tests::d2_operation_gate_rejects_unknown_operations ... ok
+test tests::invalid_input_leaves_empty_output ... ok
+
+thread 'tests::unwind_returns_panic_status_without_disabling_subsequent_calls' (19096) panicked at src\lib.rs:93:33:
+injected test panic
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test tests::unwind_returns_panic_status_without_disabling_subsequent_calls ... ok
+test tests::version_and_repeated_output_lifecycle ... ok
+test tests::d2_failed_stages_never_look_complete ... ok
+test tests::d2_envelope_rejections_leave_empty_output ... ok
+test tests::d2_export_reports_generated_context_fields ... ok
+malformed: syntax [{"offset":7,"length":1}]
+invalid-effect: syntax [{"offset":0,"length":5}]
+unicode-before-error: syntax [{"offset":18,"length":1}]
+test tests::d2_validate_and_export_use_the_same_distincter ... ok
+test tests::d2_export_supplies_exact_per_rule_bodies ... ok
+macro-arity: macro [{"offset":70,"length":17}]
+experimental-arithmetic-disabled: syntax [{"offset":52,"length":152}]
+bom-before-error: syntax [{"offset":10,"length":1}]
+multiple-errors: syntax [{"offset":0,"length":5},{"offset":36,"length":5}]
+test tests::differential_against_pinned_parser ... ok
+test tests::d2_request_limits_are_enforced ... ok
+test tests::d2_lowering_matches_pinned_upstream ... ok
+test tests::request_source_and_response_limits ... ok
+test tests::d2_decoded_source_and_encoded_request_limits_are_independent ... ok
+test tests::d2_repeated_output_lifecycle ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+   Doc-tests dogwoodsharp_bridge
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  DogwoodSharp -> D:\projects\dogwood-sharp\src\DogwoodSharp\bin\Release\net8.0\DogwoodSharp.dll
+  DogwoodSharp -> D:\projects\dogwood-sharp\src\DogwoodSharp\bin\Release\net10.0\DogwoodSharp.dll
+  DogwoodSharp.CedarSharp -> D:\projects\dogwood-sharp\src\DogwoodSharp.CedarSharp\bin\Release\net8.0\DogwoodSharp.CedarSharp.dll
+  DogwoodSharp.FoundationSmoke -> D:\projects\dogwood-sharp\samples\DogwoodSharp.FoundationSmoke\bin\Release\net8.0\DogwoodSharp.FoundationSmoke.dll
+  DogwoodSharp.CedarSharp -> D:\projects\dogwood-sharp\src\DogwoodSharp.CedarSharp\bin\Release\net10.0\DogwoodSharp.CedarSharp.dll
+  DogwoodSharp.Tests -> D:\projects\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll
+  DogwoodSharp.Tests -> D:\projects\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net10.0\DogwoodSharp.Tests.dll
+  DogwoodSharp.FoundationSmoke -> D:\projects\dogwood-sharp\samples\DogwoodSharp.FoundationSmoke\bin\Release\net10.0\DogwoodSharp.FoundationSmoke.dll
+  DogwoodSharp.CedarSharp.Tests -> D:\projects\dogwood-sharp\tests\DogwoodSharp.CedarSharp.Tests\bin\Release\net8.0\DogwoodSharp.CedarSharp.Tests.dll
+  DogwoodSharp.CedarSharp.Tests -> D:\projects\dogwood-sharp\tests\DogwoodSharp.CedarSharp.Tests\bin\Release\net10.0\DogwoodSharp.CedarSharp.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.62
+    Finished `release` profile [optimized] target(s) in 0.38s
+    Finished `release` profile [optimized] target(s) in 0.37s
+DIFFERENTIAL cases=39 fixture=tests/DogwoodSharp.D2Conformance/lowering-v1.json library=artifacts/native/runtimes/win-x64/native/dogwoodsharp_bridge.dll
+  valid-cedar-permit: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=true wrapperCollision=false
+  valid-cedar-anonymous-scope: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=true wrapperCollision=false
+  valid-cedar-anonymous-with-entity-check: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=true wrapperCollision=false
+  valid-cedar-forbid: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=true wrapperCollision=false
+  empty-policy-set: parsed=true lowered=true rules=0 selfContainedCedar=true upstreamValidationPassed=true wrapperCollision=false
+  comments-only: parsed=true lowered=true rules=0 selfContainedCedar=true upstreamValidationPassed=true wrapperCollision=false
+  inline-cedar-macro: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=true wrapperCollision=false
+  inline-temporal-macro: parsed=true lowered=true rules=1 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  temporal-policy: parsed=true lowered=true rules=1 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  temporal-policy-conflicting-declaration: parsed=true lowered=true rules=1 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=true
+  temporal-policy-conflicting-distincters: parsed=true lowered=true rules=1 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  temporal-policy-conflicting-distincters-again: parsed=true lowered=true rules=1 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  temporal-array-argument-rejected: parsed=true lowered=false rules=0 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  temporal-declared-field-undeclared-on-event: parsed=true lowered=true rules=1 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  multiple-policies: parsed=true lowered=true rules=3 selfContainedCedar=true upstreamValidationPassed=true wrapperCollision=false
+  annotated-policy-ids: parsed=true lowered=true rules=2 selfContainedCedar=true upstreamValidationPassed=true wrapperCollision=false
+  library-macro-used-from-policy: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=true wrapperCollision=false
+  library-macro-shadowed-by-policy: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=true wrapperCollision=false
+  event-schema-override: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=true wrapperCollision=false
+  event-schema-cedar-syntax-rejected: parsed=false lowered=false rules=0 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  empty-event-schema-rejected: parsed=false lowered=false rules=0 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  unknown-action: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=false wrapperCollision=false
+  unknown-entity-type: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=false wrapperCollision=false
+  unknown-context-attribute: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=false wrapperCollision=false
+  type-mismatch: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=false wrapperCollision=false
+  missing-generated-context-field: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=false wrapperCollision=false
+  empty-action-schema: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=false wrapperCollision=false
+  whitespace-action-schema: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=false wrapperCollision=false
+  malformed-action-schema: parsed=true lowered=false rules=0 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  over-deep-action-schema: parsed=true lowered=false rules=0 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  parse-failure: parsed=false lowered=false rules=0 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  macro-failure: parsed=false lowered=false rules=0 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  provider-clause-unsupported: parsed=false lowered=false rules=0 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  temporal-experimental-arithmetic-unsupported: parsed=false lowered=false rules=0 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  invalid-distincter: parsed=true lowered=false rules=0 selfContainedCedar=false upstreamValidationPassed=false wrapperCollision=false
+  unicode-unknown-attribute-location: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=false wrapperCollision=false
+  bom-unknown-attribute-location: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=false wrapperCollision=false
+  validated-temporal-with-distincter: parsed=true lowered=true rules=1 selfContainedCedar=false upstreamValidationPassed=true wrapperCollision=false
+  validation-warning-only: parsed=true lowered=true rules=1 selfContainedCedar=true upstreamValidationPassed=true wrapperCollision=false
+DIFFERENTIAL cases=39 failures=0
+RESULT PASS
+Test run for D:\projects\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net8.0\DogwoodSharp.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+WARNING: Overwriting results file: D:\projects\dogwood-sharp\artifacts\test-results\net8.0.trx
+Results File: D:\projects\dogwood-sharp\artifacts\test-results\net8.0.trx
+
+Passed!  - Failed:     0, Passed:    69, Skipped:     0, Total:    69, Duration: 233 ms - DogwoodSharp.Tests.dll (net8.0)
+Test run for D:\projects\dogwood-sharp\tests\DogwoodSharp.CedarSharp.Tests\bin\Release\net8.0\DogwoodSharp.CedarSharp.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+WARNING: Overwriting results file: D:\projects\dogwood-sharp\artifacts\test-results\d3-net8.0.trx
+Results File: D:\projects\dogwood-sharp\artifacts\test-results\d3-net8.0.trx
+
+Passed!  - Failed:     0, Passed:    17, Skipped:     0, Total:    17, Duration: 325 ms - DogwoodSharp.CedarSharp.Tests.dll (net8.0)
+DogwoodSharp bridge 0.1.0, Dogwood 1.1.2, Cedar 4.11.0, x86_64-pc-windows-msvc: passed.
+Test run for D:\projects\dogwood-sharp\tests\DogwoodSharp.Tests\bin\Release\net10.0\DogwoodSharp.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+WARNING: Overwriting results file: D:\projects\dogwood-sharp\artifacts\test-results\net10.0.trx
+Results File: D:\projects\dogwood-sharp\artifacts\test-results\net10.0.trx
+
+Passed!  - Failed:     0, Passed:    69, Skipped:     0, Total:    69, Duration: 231 ms - DogwoodSharp.Tests.dll (net10.0)
+Test run for D:\projects\dogwood-sharp\tests\DogwoodSharp.CedarSharp.Tests\bin\Release\net10.0\DogwoodSharp.CedarSharp.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+WARNING: Overwriting results file: D:\projects\dogwood-sharp\artifacts\test-results\d3-net10.0.trx
+Results File: D:\projects\dogwood-sharp\artifacts\test-results\d3-net10.0.trx
+
+Passed!  - Failed:     0, Passed:    17, Skipped:     0, Total:    17, Duration: 332 ms - DogwoodSharp.CedarSharp.Tests.dll (net10.0)
+DogwoodSharp bridge 0.1.0, Dogwood 1.1.2, Cedar 4.11.0, x86_64-pc-windows-msvc: passed.

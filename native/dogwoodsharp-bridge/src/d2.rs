@@ -66,7 +66,8 @@ struct StageError {
     location: Option<Location>,
 }
 
-/// One validated rule, in source order. Export also supplies its expanded source.
+/// One validated rule, in source order. Export also supplies its expanded
+/// source and the exact Cedar body for its generated policy id.
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 struct Rule {
@@ -74,6 +75,12 @@ struct Rule {
     cedar_policy_id: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     source_text: Option<String>,
+    /// The exact Cedar body stored under <see cref="cedar_policy_id"/>, rendered
+    /// from the compiled `cedar_policy::Policy`. It is never split from the
+    /// concatenated `cedar_policy_text`, so a consumer can build an
+    /// identity-bearing policy set from `(id, body)` pairs.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    cedar_body: Option<String>,
 }
 
 /// One validation finding, in upstream order.
@@ -113,6 +120,11 @@ struct Artifacts {
     cedar_policy_text: String,
     cedar_schema_json: String,
     cedar_schema_text: String,
+    /// The trusted-pipeline-owned generated context field names: each hoisted
+    /// temporal boolean's top-level field name, plus the single reserved
+    /// `providers` record when any provider field is hoisted. A consumer must
+    /// reject a caller request that carries any of these before dispatch.
+    generated_context_fields: Vec<String>,
 }
 
 pub(super) fn run(operation: u32, request: &Request) -> Result<Box<[u8]>, Status> {
@@ -259,6 +271,7 @@ fn pipeline(request: &Request, export: bool) -> Result<Reply, Status> {
                 rule_index: rule.rule_index,
                 cedar_policy_id: rule.cedar_policy_id,
                 source_text: None,
+                cedar_body: None,
             })
             .collect();
     }
@@ -269,6 +282,16 @@ fn export_artifacts(
     lowered: &LoweredPolicySet,
     parsed: &ParsedPolicySet,
 ) -> Result<(Artifacts, Vec<Rule>), String> {
+    // The exact per-rule Cedar bodies, keyed by the id the lowered Cedar set
+    // stores each policy under. Each body is rendered from the compiled
+    // `cedar_policy::Policy` (via its `Display`), never split from the
+    // concatenated `cedar_policy_text`, so the pair `(id, body)` is a complete
+    // identity-bearing export independent of source order.
+    let mut bodies = std::collections::HashMap::new();
+    for policy in lowered.as_cedar().policies() {
+        bodies.insert(policy.id().to_string(), policy.to_string());
+    }
+
     let mut policies = parsed.policies();
     let mut rules = Vec::with_capacity(policies.len());
     for rule in lowered.rules() {
@@ -276,10 +299,14 @@ fn export_artifacts(
             .next()
             .filter(|policy| policy.index() == rule.rule_index)
             .ok_or("The lowered rule mapping does not match the parsed set.")?;
+        let body = bodies
+            .get(&rule.cedar_policy_id)
+            .ok_or_else(|| "The lowered set does not store the exported policy id.".to_owned())?;
         rules.push(Rule {
             rule_index: rule.rule_index,
             cedar_policy_id: rule.cedar_policy_id,
             source_text: Some(policy.expanded_source()),
+            cedar_body: Some(body.clone()),
         });
     }
     if policies.len() != 0 {
@@ -293,8 +320,24 @@ fn export_artifacts(
         cedar_schema_text: lowered
             .cedar_schema_str()
             .map_err(|error| error.to_string())?,
+        generated_context_fields: generated_context_fields(lowered),
     };
     Ok((artifacts, rules))
+}
+
+/// The trusted-pipeline-owned reserved context field names for this lowering:
+/// each hoisted temporal boolean is a top-level `context.<id>` attribute, and
+/// every provider value is bound under the single reserved `providers` record.
+/// Names come from the lowered artifact itself, never from a caller request.
+fn generated_context_fields(lowered: &LoweredPolicySet) -> Vec<String> {
+    let mut fields: Vec<String> = lowered
+        .temporal_fields()
+        .map(|field| field.id.clone())
+        .collect();
+    if lowered.provider_fields().next().is_some() {
+        fields.push("providers".to_owned());
+    }
+    fields
 }
 
 fn build_service(request: &Request) -> Result<ServiceSchema, Error> {

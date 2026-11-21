@@ -1,0 +1,1067 @@
+{
+  "comment": "DOGWOOD-SHARP-D3-PREP-01 contract-resolution fixtures. One fixture is one request, expressed once and executed through two engines: the D2 lowering plus CedarSharp (schema-carrying, request validation on) and the upstream Dogwood authorizer oracle (dogwood-language 929f49e). Expectations are hand-derived from the fixture and from the upstream three-tier entity-store semantics; they are not copied from either engine's output.",
+  "schemas": {
+    "userDoc": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { count: Long } }; }",
+    "owner": "namespace App { entity User in Group { name?: String }; entity Group; entity Doc { owner: User, secret?: Bool }; action read appliesTo { principal: [User], resource: [Doc] }; }",
+    "groupDoc": "namespace App { entity User; entity Group; entity Doc { owner: User }; action read appliesTo { principal: [User], resource: [Doc], context: { count: Long } }; }",
+    "session": "namespace App { entity Session { token: String }; entity Doc; action read appliesTo { principal: [Session], resource: [Doc] }; }",
+    "actionHierarchy": "namespace App { entity User; entity Doc; action ReadGroup; action read2 in ReadGroup appliesTo { principal: [User], resource: [Doc] }; }"
+  },
+  "cases": [
+    {
+      "id": "P1-01-count-true",
+      "question": "Baseline: a context condition that holds allows, with the determining rule attributed by identity.",
+      "source": "permit(principal, action == App::Action::\"read\", resource) when { context.count > 1 };",
+      "schema": "userDoc",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "count": 5
+        }
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": "allow",
+          "hasErrors": false,
+          "operationFailed": false,
+          "determiningIds": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "errorCategories": [],
+          "isCleanAllow": true
+        },
+        "agreement": "match",
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      }
+    },
+    {
+      "id": "P1-02-count-false",
+      "question": "Baseline: a context condition that does not hold denies cleanly, with no determining rule.",
+      "source": "permit(principal, action == App::Action::\"read\", resource) when { context.count > 1 };",
+      "schema": "userDoc",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "count": 1
+        }
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "deny",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": "deny",
+          "hasErrors": false,
+          "operationFailed": false,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [],
+          "isCleanAllow": false
+        },
+        "agreement": "match",
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      }
+    },
+    {
+      "id": "P1-03-owner-match",
+      "question": "An entity-reference attribute compares against the principal and allows.",
+      "source": "permit(principal, action == App::Action::\"read\", resource) when { resource.owner == principal };",
+      "schema": "owner",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "App::User",
+              "id": "alice"
+            },
+            "attrs": {
+              "name": "Alice"
+            },
+            "parents": []
+          },
+          {
+            "uid": {
+              "type": "App::Doc",
+              "id": "d1"
+            },
+            "attrs": {
+              "owner": {
+                "__entity": {
+                  "type": "App::User",
+                  "id": "alice"
+                }
+              }
+            },
+            "parents": []
+          }
+        ],
+        "context": {}
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": "allow",
+          "hasErrors": false,
+          "operationFailed": false,
+          "determiningIds": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "errorCategories": [],
+          "isCleanAllow": true
+        },
+        "agreement": "match",
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      }
+    },
+    {
+      "id": "P1-04-hierarchy",
+      "question": "An entity hierarchy edge supplied by the caller resolves membership.",
+      "source": "permit(principal, action == App::Action::\"read\", resource) when { principal in App::Group::\"admins\" };",
+      "schema": "owner",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "App::User",
+              "id": "alice"
+            },
+            "attrs": {
+              "name": "Alice"
+            },
+            "parents": [
+              {
+                "type": "App::Group",
+                "id": "admins"
+              }
+            ]
+          },
+          {
+            "uid": {
+              "type": "App::Group",
+              "id": "admins"
+            },
+            "attrs": {},
+            "parents": []
+          },
+          {
+            "uid": {
+              "type": "App::Doc",
+              "id": "d1"
+            },
+            "attrs": {
+              "owner": {
+                "__entity": {
+                  "type": "App::User",
+                  "id": "alice"
+                }
+              }
+            },
+            "parents": []
+          }
+        ],
+        "context": {}
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": "allow",
+          "hasErrors": false,
+          "operationFailed": false,
+          "determiningIds": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "errorCategories": [],
+          "isCleanAllow": true
+        },
+        "agreement": "match",
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      }
+    },
+    {
+      "id": "P1-05-action-group",
+      "question": "Action-hierarchy membership resolves from the schema on both sides (upstream merges the schema action entities; CedarSharp resolves schema-defined action hierarchy from the attached schema).",
+      "source": "permit(principal, action in App::Action::\"ReadGroup\", resource);",
+      "schema": "actionHierarchy",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read2",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "App::Doc",
+              "id": "d1"
+            },
+            "attrs": {},
+            "parents": []
+          }
+        ],
+        "context": {}
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": "allow",
+          "hasErrors": false,
+          "operationFailed": false,
+          "determiningIds": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "errorCategories": [],
+          "isCleanAllow": true
+        },
+        "agreement": "match",
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      }
+    },
+    {
+      "id": "P1-06-bare-scope-principal-has",
+      "question": "The scope principal is not supplied. Upstream adds it bare, so `has` is false; the schema-carrying path leaves it absent, which also makes `has` false.",
+      "source": "permit(principal, action == App::Action::\"read\", resource) when { !(principal has token) };",
+      "schema": "session",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::Session",
+          "id": "s1"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {}
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": "allow",
+          "hasErrors": false,
+          "operationFailed": false,
+          "determiningIds": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "errorCategories": [],
+          "isCleanAllow": true
+        },
+        "agreement": "match",
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      }
+    },
+    {
+      "id": "P1-07-incomplete-supplied-scope-entity",
+      "question": "The scope principal is supplied without its required attribute. Upstream validates the supplied entity and fails closed; the schema-carrying path rejects the entity conformance before a decision.",
+      "source": "permit(principal, action == App::Action::\"read\", resource) when { principal.token == \"t\" };",
+      "schema": "session",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::Session",
+          "id": "s1"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "App::Session",
+              "id": "s1"
+            },
+            "attrs": {},
+            "parents": []
+          }
+        ],
+        "context": {}
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "deny",
+          "hasErrors": true,
+          "failed": false,
+          "determiningRules": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "entity-conformance"
+          ]
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "entity-conformance"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "QD3-01/QD3-02: an explicitly supplied but incomplete scope entity is conformance-checked upstream and rejected by the schema-carrying path; upstream folds the failure into a fail-closed Deny while CedarSharp reports an operation failure.",
+        "differenceIds": [
+          "ED-02"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      }
+    },
+    {
+      "id": "P1-08-absent-scope-entity-required-attribute",
+      "question": "The scope principal is not supplied and the policy reads a required attribute. Both engines fail closed; the diagnostic wording differs (upstream: the bare entity has no such attribute; CedarSharp: the entity does not exist).",
+      "source": "permit(principal, action == App::Action::\"read\", resource) when { principal.token == \"t\" };",
+      "schema": "session",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::Session",
+          "id": "s1"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {}
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "deny",
+          "hasErrors": true,
+          "failed": false,
+          "determiningRules": [],
+          "policyErrorIds": [
+            "q1_0"
+          ],
+          "errorCategories": [
+            "missing-attribute"
+          ]
+        },
+        "cedarSharp": {
+          "decision": "deny",
+          "hasErrors": true,
+          "operationFailed": false,
+          "determiningIds": [],
+          "policyErrorIds": [
+            "q1_0"
+          ],
+          "errorCategories": [
+            "missing-entity"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "QD3-01: the fail-closed outcome agrees, but the diagnostic mode differs (upstream: the bare entity has no such attribute; CedarSharp: the entity does not exist).",
+        "differenceIds": [
+          "ED-01",
+          "ED-03"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      }
+    },
+    {
+      "id": "P1-09-entity-schema-violation",
+      "question": "A caller-supplied entity violates the schema. Upstream folds the conformance failure into a fail-closed Deny; CedarSharp rejects the operation.",
+      "source": "permit(principal, action == App::Action::\"read\", resource);",
+      "schema": "owner",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "App::Doc",
+              "id": "d1"
+            },
+            "attrs": {
+              "owner": {
+                "__entity": {
+                  "type": "App::User",
+                  "id": "alice"
+                }
+              },
+              "secret": "not-a-boolean"
+            },
+            "parents": []
+          }
+        ],
+        "context": {}
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "deny",
+          "hasErrors": true,
+          "failed": false,
+          "determiningRules": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "entity-conformance"
+          ]
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "entity-conformance"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "Both reject the request before any allow; upstream reports a fail-closed Deny with diagnostics, CedarSharp reports an operation failure with no decision.",
+        "differenceIds": [
+          "ED-02"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      }
+    },
+    {
+      "id": "P1-10-principal-outside-appliesto",
+      "question": "The principal type is outside the action's appliesTo. CedarSharp rejects the request when request validation is on; upstream's Cedar decision does not enforce appliesTo and allows the policy.",
+      "source": "permit(principal, action == App::Action::\"read\", resource) when { context.count > 1 };",
+      "schema": "userDoc",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::Ghost",
+          "id": "g"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "count": 5
+        }
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "operation-error"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "QD3-02: the schema-carrying path rejects a principal outside appliesTo, while the upstream authorizer reaches Cedar evaluation without an appliesTo scope check and can allow. This is an upstream compatibility difference, not a license to omit the D3 scope check.",
+        "differenceIds": [
+          "ED-04"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      }
+    },
+    {
+      "id": "P1-10b-principal-declared-but-outside-appliesto",
+      "question": "The principal type is declared in the schema but is outside the action's appliesTo. The upstream decision path can allow it; CedarSharp rejects it.",
+      "source": "permit(principal, action == App::Action::\"read\", resource) when { context.count > 1 };",
+      "schema": "groupDoc",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::Group",
+          "id": "admins"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "App::Group",
+              "id": "admins"
+            },
+            "attrs": {},
+            "parents": []
+          },
+          {
+            "uid": {
+              "type": "App::Doc",
+              "id": "d1"
+            },
+            "attrs": {
+              "owner": {
+                "__entity": {
+                  "type": "App::User",
+                  "id": "alice"
+                }
+              }
+            },
+            "parents": []
+          }
+        ],
+        "context": {
+          "count": 5
+        }
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "scope-mismatch"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "QD3-02: a declared but inapplicable principal type is accepted by the upstream decision path but rejected by the schema-carrying path.",
+        "differenceIds": [
+          "ED-04"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      }
+    },
+    {
+      "id": "P1-10c-resource-outside-appliesto",
+      "question": "The resource type is outside the action's appliesTo. The upstream decision path can allow it; CedarSharp rejects it.",
+      "source": "permit(principal, action == App::Action::\"read\", resource);",
+      "schema": "owner",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::User",
+          "id": "bob"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "App::User",
+              "id": "alice"
+            },
+            "attrs": {
+              "name": "Alice"
+            },
+            "parents": []
+          },
+          {
+            "uid": {
+              "type": "App::User",
+              "id": "bob"
+            },
+            "attrs": {
+              "name": "Bob"
+            },
+            "parents": []
+          }
+        ],
+        "context": {}
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "scope-mismatch"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "QD3-02: an inapplicable resource type is not rejected by the upstream decision path but is rejected by the schema-carrying path.",
+        "differenceIds": [
+          "ED-04"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      }
+    },
+    {
+      "id": "P1-10d-action-not-declared",
+      "question": "The action is not declared in the schema. Both engines reject it.",
+      "source": "permit(principal, action == App::Action::\"read\", resource);",
+      "schema": "userDoc",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "delete",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {}
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "deny",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "undeclared-action"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "The upstream decision denies because the action does not match the policy scope; CedarSharp rejects the undeclared action during request validation.",
+        "differenceIds": [
+          "ED-04"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      }
+    },
+    {
+      "id": "P1-11-raw-allow-with-policy-error",
+      "question": "One permit fails to evaluate while another allows. The raw Allow carries a policy error on the failing policy; a clean-Allow gate must reject it.",
+      "source": "permit(principal, action == App::Action::\"read\", resource) when { principal.token == \"t\" };\npermit(principal, action == App::Action::\"read\", resource);",
+      "schema": "session",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::Session",
+          "id": "s1"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {}
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": true,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 1,
+              "cedarPolicyId": "q1_1"
+            }
+          ],
+          "policyErrorIds": [
+            "q1_0"
+          ],
+          "errorCategories": [
+            "missing-attribute"
+          ]
+        },
+        "cedarSharp": {
+          "decision": "allow",
+          "hasErrors": true,
+          "operationFailed": false,
+          "determiningIds": [
+            "q1_1"
+          ],
+          "policyErrorIds": [
+            "q1_0"
+          ],
+          "errorCategories": [
+            "missing-entity"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "Both engines expose an Allow with a policy evaluation error; a clean-Allow gate must reject the raw Allow.",
+        "differenceIds": [
+          "ED-01",
+          "ED-03"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0",
+          "q1_1"
+        ]
+      }
+    },
+    {
+      "id": "P1-12-missing-context-attribute",
+      "question": "The policy reads a context attribute the request does not carry. Both engines fail closed with an evaluation error.",
+      "source": "permit(principal, action == App::Action::\"read\", resource) when { context.count > 1 };",
+      "schema": "userDoc",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {}
+      },
+      "expectation": {
+        "upstream": {
+          "decision": "deny",
+          "hasErrors": true,
+          "failed": false,
+          "determiningRules": [],
+          "policyErrorIds": [
+            "q1_0"
+          ],
+          "errorCategories": [
+            "missing-attribute"
+          ]
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "missing-attribute"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "Both fail closed, but CedarSharp rejects the context while parsing it and produces no authorization decision; upstream reaches the decision and reports a policy error.",
+        "differenceIds": [
+          "ED-05"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      }
+    },
+    {
+      "id": "P1-13-malformed-policy",
+      "question": "A policy that does not parse never reaches a decision on either side.",
+      "source": "permit(principal, action == App::Action::\"read\", resource) when { context.count > };",
+      "schema": "userDoc",
+      "distincter": "q1",
+      "event": {
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "count": 5
+        }
+      },
+      "expectation": {
+        "upstream": {
+          "decision": null,
+          "hasErrors": false,
+          "failed": true,
+          "determiningRules": [],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [],
+          "isCleanAllow": false
+        },
+        "agreement": "match",
+        "loweringArtifactsExported": false,
+        "loweringExportedRuleIds": []
+      }
+    }
+  ]
+}

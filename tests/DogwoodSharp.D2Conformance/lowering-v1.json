@@ -17,7 +17,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count > 3) };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count > 3) };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { !((context.count) <= 3) };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { !((context.count) <= 3) };",
@@ -78,6 +79,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": true,
         "validationErrors": [],
         "validationWarnings": [],
@@ -98,7 +100,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action, resource);"
+            "sourceText": "permit (principal, action, resource);",
+            "cedarBody": "permit(principal, action, resource) when { true };"
           }
         ],
         "cedarPolicyText": "permit(principal, action, resource) when { true };",
@@ -159,6 +162,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": true,
         "validationErrors": [],
         "validationWarnings": [],
@@ -179,7 +183,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal == App::User::\"alice\", action == App::Action::\"read\", resource);"
+            "sourceText": "permit (principal == App::User::\"alice\", action == App::Action::\"read\", resource);",
+            "cedarBody": "permit(principal == App::User::\"alice\", action == App::Action::\"read\", resource) when { true };"
           }
         ],
         "cedarPolicyText": "permit(principal == App::User::\"alice\", action == App::Action::\"read\", resource) when { true };",
@@ -240,6 +245,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": true,
         "validationErrors": [],
         "validationWarnings": [],
@@ -260,7 +266,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "forbid (principal, action == App::Action::\"write\", resource);"
+            "sourceText": "forbid (principal, action == App::Action::\"write\", resource);",
+            "cedarBody": "forbid(principal, action == App::Action::\"write\", resource) when { true };"
           }
         ],
         "cedarPolicyText": "forbid(principal, action == App::Action::\"write\", resource) when { true };",
@@ -321,6 +328,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": true,
         "validationErrors": [],
         "validationWarnings": [],
@@ -396,6 +404,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": true,
         "validationErrors": [],
         "validationWarnings": [],
@@ -471,6 +480,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": true,
         "validationErrors": [],
         "validationWarnings": [],
@@ -491,7 +501,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count > 1000) };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count > 1000) };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { !((context.count) <= 1000) };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { !((context.count) <= 1000) };",
@@ -552,6 +563,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": true,
         "validationErrors": [],
         "validationWarnings": [],
@@ -572,7 +584,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ context.count: context.count }) } };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ context.count: context.count }) } };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { context.policy_0__temporal_0 };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { context.policy_0__temporal_0 };",
@@ -636,6 +649,9 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long,\n      policy_0__temporal_0: __cedar::Bool\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [
+          "policy_0__temporal_0"
+        ],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -664,7 +680,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ context.count: 3 }) } };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ context.count: 3 }) } };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { context.policy_0__temporal_0 };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { context.policy_0__temporal_0 };",
@@ -728,6 +745,9 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long,\n      policy_0__temporal_0: __cedar::Bool\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [
+          "policy_0__temporal_0"
+        ],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -762,7 +782,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ context.count: 3 }) } };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ context.count: 3 }) } };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { context.policy_0__temporal_0 };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { context.policy_0__temporal_0 };",
@@ -801,6 +822,9 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long,\n      policy_0__temporal_0: __cedar::Bool\n    }\n  };\n}\n",
+        "generatedContextFields": [
+          "policy_0__temporal_0"
+        ],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -830,7 +854,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "batch_7_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ context.count: 3 }) } };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ context.count: 3 }) } };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { context.batch_7_0__temporal_0 };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { context.batch_7_0__temporal_0 };",
@@ -894,6 +919,9 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      batch_7_0__temporal_0: __cedar::Bool,\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [
+          "batch_7_0__temporal_0"
+        ],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -923,7 +951,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "batch_8_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ context.count: 4 }) } };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ context.count: 4 }) } };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { context.batch_8_0__temporal_0 };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { context.batch_8_0__temporal_0 };",
@@ -987,6 +1016,9 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      batch_8_0__temporal_0: __cedar::Bool,\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [
+          "batch_8_0__temporal_0"
+        ],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -1015,6 +1047,7 @@
         "cedarPolicyText": "",
         "cedarSchemaJson": null,
         "cedarSchemaText": "",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [],
         "validationWarnings": [],
@@ -1038,7 +1071,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ input.user: \"x\" }) } };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ input.user: \"x\" }) } };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { context.policy_0__temporal_0 };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { context.policy_0__temporal_0 };",
@@ -1102,6 +1136,9 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long,\n      policy_0__temporal_0: __cedar::Bool\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [
+          "policy_0__temporal_0"
+        ],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -1130,17 +1167,20 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count > 3) };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count > 3) };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { !((context.count) <= 3) };"
           },
           {
             "ruleIndex": 1,
             "cedarPolicyId": "policy_1",
-            "sourceText": "forbid (principal, action == App::Action::\"write\", resource);"
+            "sourceText": "forbid (principal, action == App::Action::\"write\", resource);",
+            "cedarBody": "forbid(principal, action == App::Action::\"write\", resource) when { true };"
           },
           {
             "ruleIndex": 2,
             "cedarPolicyId": "policy_2",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count < 0) };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count < 0) };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { (context.count) < 0 };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { !((context.count) <= 3) };\nforbid(principal, action == App::Action::\"write\", resource) when { true };\npermit(principal, action == App::Action::\"read\", resource) when { (context.count) < 0 };",
@@ -1201,6 +1241,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": true,
         "validationErrors": [],
         "validationWarnings": [],
@@ -1221,12 +1262,14 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "@id(\"same\")\npermit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count > 3) };"
+            "sourceText": "@id(\"same\")\npermit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count > 3) };",
+            "cedarBody": "@id(\"same\")\npermit(principal, action == App::Action::\"read\", resource) when { !((context.count) <= 3) };"
           },
           {
             "ruleIndex": 1,
             "cedarPolicyId": "policy_1",
-            "sourceText": "@id(\"same\")\npermit (principal, action == App::Action::\"write\", resource);"
+            "sourceText": "@id(\"same\")\npermit (principal, action == App::Action::\"write\", resource);",
+            "cedarBody": "@id(\"same\")\npermit(principal, action == App::Action::\"write\", resource) when { true };"
           }
         ],
         "cedarPolicyText": "@id(\"same\")\npermit(principal, action == App::Action::\"read\", resource) when { !((context.count) <= 3) };\n@id(\"same\")\npermit(principal, action == App::Action::\"write\", resource) when { true };",
@@ -1287,6 +1330,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": true,
         "validationErrors": [],
         "validationWarnings": [],
@@ -1309,7 +1353,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count > 1000) };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count > 1000) };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { !((context.count) <= 1000) };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { !((context.count) <= 1000) };",
@@ -1345,6 +1390,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": true,
         "validationErrors": [],
         "validationWarnings": [],
@@ -1366,7 +1412,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count > 1000) };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count > 1000) };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { !((context.count) <= 1000) };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { !((context.count) <= 1000) };",
@@ -1427,6 +1474,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": true,
         "validationErrors": [],
         "validationWarnings": [],
@@ -1448,7 +1496,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count > 3) };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count > 3) };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { !((context.count) <= 3) };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { !((context.count) <= 3) };",
@@ -1509,6 +1558,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": true,
         "validationErrors": [],
         "validationWarnings": [],
@@ -1530,6 +1580,7 @@
         "cedarPolicyText": "",
         "cedarSchemaJson": null,
         "cedarSchemaText": "",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [],
         "validationWarnings": [],
@@ -1554,6 +1605,7 @@
         "cedarPolicyText": "",
         "cedarSchemaJson": null,
         "cedarSchemaText": "",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [],
         "validationWarnings": [],
@@ -1577,7 +1629,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"missing\", resource);"
+            "sourceText": "permit (principal, action == App::Action::\"missing\", resource);",
+            "cedarBody": "permit(principal, action == App::Action::\"missing\", resource) when { true };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"missing\", resource) when { true };",
@@ -1638,6 +1691,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -1678,7 +1732,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal == Ghost::\"x\", action, resource);"
+            "sourceText": "permit (principal == Ghost::\"x\", action, resource);",
+            "cedarBody": "permit(principal == Ghost::\"x\", action, resource) when { true };"
           }
         ],
         "cedarPolicyText": "permit(principal == Ghost::\"x\", action, resource) when { true };",
@@ -1739,6 +1794,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -1774,7 +1830,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.nope > 3) };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.nope > 3) };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { !((context.nope) <= 3) };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { !((context.nope) <= 3) };",
@@ -1835,6 +1892,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -1863,7 +1921,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count == \"text\") };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.count == \"text\") };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { (context.count) == \"text\" };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { (context.count) == \"text\" };",
@@ -1924,6 +1983,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -1952,7 +2012,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { context.policy_0__temporal_0 };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { context.policy_0__temporal_0 };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { context.policy_0__temporal_0 };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { context.policy_0__temporal_0 };",
@@ -2013,6 +2074,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -2042,12 +2104,14 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action, resource);"
+            "sourceText": "permit (principal, action, resource);",
+            "cedarBody": "permit(principal, action, resource) when { true };"
           }
         ],
         "cedarPolicyText": "permit(principal, action, resource) when { true };",
         "cedarSchemaJson": {},
         "cedarSchemaText": "",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -2082,12 +2146,14 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action, resource);"
+            "sourceText": "permit (principal, action, resource);",
+            "cedarBody": "permit(principal, action, resource) when { true };"
           }
         ],
         "cedarPolicyText": "permit(principal, action, resource) when { true };",
         "cedarSchemaJson": {},
         "cedarSchemaText": "",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -2122,6 +2188,7 @@
         "cedarPolicyText": "",
         "cedarSchemaJson": null,
         "cedarSchemaText": "",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [],
         "validationWarnings": [],
@@ -2146,6 +2213,7 @@
         "cedarPolicyText": "",
         "cedarSchemaJson": null,
         "cedarSchemaText": "",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [],
         "validationWarnings": [],
@@ -2177,6 +2245,7 @@
         "cedarPolicyText": "",
         "cedarSchemaJson": null,
         "cedarSchemaText": "",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [],
         "validationWarnings": [],
@@ -2205,6 +2274,7 @@
         "cedarPolicyText": "",
         "cedarSchemaJson": null,
         "cedarSchemaText": "",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [],
         "validationWarnings": [],
@@ -2233,6 +2303,7 @@
         "cedarPolicyText": "",
         "cedarSchemaJson": null,
         "cedarSchemaText": "",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [],
         "validationWarnings": [],
@@ -2261,6 +2332,7 @@
         "cedarPolicyText": "",
         "cedarSchemaJson": null,
         "cedarSchemaText": "",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [],
         "validationWarnings": [],
@@ -2282,6 +2354,7 @@
         "cedarPolicyText": "",
         "cedarSchemaJson": null,
         "cedarSchemaText": "",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [],
         "validationWarnings": [],
@@ -2305,7 +2378,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.nope > 3) };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.nope > 3) };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { !((context.nope) <= 3) };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { !((context.nope) <= 3) };",
@@ -2366,6 +2440,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -2394,7 +2469,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.nope > 3) };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { (context.nope > 3) };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { !((context.nope) <= 3) };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { !((context.nope) <= 3) };",
@@ -2455,6 +2531,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": false,
         "validationErrors": [
           {
@@ -2485,7 +2562,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "verified_0",
-            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ input.count: 3 }) } };"
+            "sourceText": "permit (principal, action == App::Action::\"read\", resource)\nwhen { temporal { formerly within 1h (App::Action::\"read\"::request{ input.count: 3 }) } };",
+            "cedarBody": "permit(principal, action == App::Action::\"read\", resource) when { context.verified_0__temporal_0 };"
           }
         ],
         "cedarPolicyText": "permit(principal, action == App::Action::\"read\", resource) when { context.verified_0__temporal_0 };",
@@ -2527,6 +2605,9 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {\n      input: {\n        count: Long\n      },\n      verified_0__temporal_0: __cedar::Bool\n    }\n  };\n}\n",
+        "generatedContextFields": [
+          "verified_0__temporal_0"
+        ],
         "validationPassed": true,
         "validationErrors": [],
         "validationWarnings": [],
@@ -2547,7 +2628,8 @@
           {
             "ruleIndex": 0,
             "cedarPolicyId": "policy_0",
-            "sourceText": "permit (principal, action, resource)\nwhen { false };"
+            "sourceText": "permit (principal, action, resource)\nwhen { false };",
+            "cedarBody": "permit(principal, action, resource) when { false };"
           }
         ],
         "cedarPolicyText": "permit(principal, action, resource) when { false };",
@@ -2608,6 +2690,7 @@
           }
         },
         "cedarSchemaText": "namespace App {\n  entity Doc;\n\n  entity Team;\n\n  entity User;\n\n  action \"read\" appliesTo {\n    principal: [User, Team],\n    resource: [Doc],\n    context: {\n      count: Long\n    }\n  };\n\n  action \"share\" in [Action::\"read\"] appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n\n  action \"write\" appliesTo {\n    principal: [User],\n    resource: [Doc],\n    context: {}\n  };\n}\n",
+        "generatedContextFields": [],
         "validationPassed": true,
         "validationErrors": [],
         "validationWarnings": [

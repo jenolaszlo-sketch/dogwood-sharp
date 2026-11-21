@@ -271,7 +271,27 @@ public sealed record PolicyValidationFinding(
 /// <param name="RuleIndex">The zero-based index of the Dogwood rule in source order.</param>
 /// <param name="CedarPolicyId">The Cedar policy id the rule lowered to.</param>
 /// <param name="SourceText">The macro-expanded Dogwood source of the rule, when the operation reported it.</param>
-public sealed record PolicyRuleMapping(int RuleIndex, string CedarPolicyId, string? SourceText);
+/// <param name="CedarPolicyBody">
+/// The exact Cedar policy body stored under <paramref name="CedarPolicyId"/>, rendered from the
+/// compiled Cedar policy, when the operation exported artifacts. This is the identity-bearing
+/// body for building a per-rule policy set; it is never recovered by splitting concatenated text.
+/// </param>
+public sealed record PolicyRuleMapping(
+    int RuleIndex, string CedarPolicyId, string? SourceText = null, string? CedarPolicyBody = null)
+{
+    // Equality is over the (index, id, source) identity triple, matching the D1/D2 contract. The
+    // exact Cedar body is a transport value for the D3 per-rule export, not part of rule identity,
+    // so existing records-compared consumers stay stable as the export is extended.
+    /// <summary>Compares the (index, id, source) identity triple; the body is a transport value.</summary>
+    public bool Equals(PolicyRuleMapping? other) =>
+        other is not null &&
+        RuleIndex == other.RuleIndex &&
+        string.Equals(CedarPolicyId, other.CedarPolicyId, StringComparison.Ordinal) &&
+        string.Equals(SourceText, other.SourceText, StringComparison.Ordinal);
+
+    /// <inheritdoc/>
+    public override int GetHashCode() => HashCode.Combine(RuleIndex, CedarPolicyId, SourceText);
+}
 
 /// <summary>The result of checking and validating one lowered policy set.</summary>
 public sealed class DogwoodValidationResult
@@ -363,13 +383,15 @@ public sealed class DogwoodValidationResult
 public sealed class DogwoodLoweredPolicySet
 {
     internal DogwoodLoweredPolicySet(
-        DogwoodValidationResult validation, bool exported, string policyText, string schemaJson, string schemaText)
+        DogwoodValidationResult validation, bool exported, string policyText, string schemaJson,
+        string schemaText, ImmutableArray<string> generatedContextFields)
     {
         Validation = validation;
         ArtifactsExported = exported;
         CedarPolicyText = policyText;
         CedarSchemaJson = schemaJson;
         CedarSchemaText = schemaText;
+        GeneratedContextFields = generatedContextFields.IsDefault ? [] : generatedContextFields;
     }
 
     /// <summary>The stage outcomes and findings for this exact policy and schema.</summary>
@@ -401,6 +423,14 @@ public sealed class DogwoodLoweredPolicySet
 
     /// <summary>The validated augmented Cedar schema in Cedar schema syntax. Empty when export failed.</summary>
     public string CedarSchemaText { get; }
+
+    /// <summary>
+    /// The trusted-pipeline-owned generated context field names this lowering requires: each hoisted
+    /// temporal boolean's top-level field name, plus the reserved <c>providers</c> record when a provider
+    /// field is hoisted. Empty exactly when <see cref="SelfContainedCedar"/> is true. An authorization
+    /// request that carries any of these names in its context MUST be rejected before dispatch.
+    /// </summary>
+    public ImmutableArray<string> GeneratedContextFields { get; }
 
     /// <summary>The exported rule identities and expanded source, in source order.</summary>
     public ImmutableArray<PolicyRuleMapping> Rules => Validation.Rules;

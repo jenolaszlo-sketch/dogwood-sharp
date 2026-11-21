@@ -19,6 +19,7 @@ if (!$RuntimeIdentifier) {
 
 $smoke = 'samples/DogwoodSharp.FoundationSmoke'
 $tests = 'tests/DogwoodSharp.Tests'
+$d3tests = 'tests/DogwoodSharp.CedarSharp.Tests'
 $bridge = 'native/dogwoodsharp-bridge/Cargo.toml'
 $d2diff = 'native/dogwoodsharp-d2-diff/Cargo.toml'
 $d2fixture = 'tests/DogwoodSharp.D2Conformance/lowering-v1.json'
@@ -54,7 +55,7 @@ try {
     rustc --edition 2024 --crate-type cdylib "$tests/invalid_abi.rs" -o "artifacts/test-assets/$binary"
 
     foreach ($framework in @('net8.0', 'net10.0')) {
-        foreach ($project in @($tests, $smoke)) {
+        foreach ($project in @($tests, $d3tests, $smoke)) {
             $destination = "$project/bin/Release/$framework/$relative"
             New-Item -ItemType Directory -Force -Path $destination | Out-Null
             Copy-Item -LiteralPath (Get-ChildItem -LiteralPath $asset -File).FullName -Destination $destination
@@ -63,6 +64,7 @@ try {
         New-Item -ItemType Directory -Force -Path $destination | Out-Null
         Copy-Item -LiteralPath "artifacts/test-assets/$binary" -Destination $destination
         dotnet test $tests -c Release -f $framework --no-build --logger "trx;LogFileName=$framework.trx" --results-directory artifacts/test-results
+        dotnet test $d3tests -c Release -f $framework --no-build --logger "trx;LogFileName=d3-$framework.trx" --results-directory artifacts/test-results
         dotnet run --project $smoke -c Release -f $framework --no-build
 
         if (!$SkipAot) {

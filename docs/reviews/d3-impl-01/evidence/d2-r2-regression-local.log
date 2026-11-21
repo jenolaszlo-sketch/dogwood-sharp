@@ -1,0 +1,36 @@
+﻿DEPENDENCY GRAPH PASS packages=181
+pwsh.exe :     Checking dogwood-d2-qualification v0.0.0 
+(D:\projects\dogwood-sharp\artifacts\d2-r2\qualification\harness\oracle)
+At line:6 char:1
++ & "$env:LOCALAPPDATA\PowerShell\pwsh.exe" -NoProfile -ExecutionPolicy ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (    Checking do...harness\oracle):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    Finished `release` profile [optimized] target(s) in 0.64s
+   Compiling dogwood-d2-qualification v0.0.0 (D:\projects\dogwood-sharp\artifacts\d2-r2\qualification\harness\oracle)
+    Finished `release` profile [optimized] target(s) in 3.77s
+Traceback (most recent call last):
+  File "D:\projects\dogwood-sharp\artifacts\d2-r2\qualification/harness/qualify.py", line 231, in main
+    compare(actual[op], expected[case][op])
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\projects\dogwood-sharp\artifacts\d2-r2\qualification/harness/qualify.py", line 106, in compare
+    assert sorted(actual) == sorted(expected), "operation-specific shape"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: operation-specific shape
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\projects\dogwood-sharp\artifacts\d2-r2\qualification/harness/qualify.py", line 277, in <module>
+    main()
+    ~~~~^^
+  File "D:\projects\dogwood-sharp\artifacts\d2-r2\qualification/harness/qualify.py", line 233, in main
+    raise AssertionError(f"{case} operation {op}: {failure}") from failure
+AssertionError: cedar-policy operation 3: operation-specific shape
+[31;1mNativeCommandExitException: [0mD:\projects\dogwood-sharp\artifacts\d2-r2\qualification\run.ps1:103
+[36;1mLine |[0m
+[36;1m[36;1m 103 | [0m     [36;1m& $python -B "$PSScriptRoot/harness/qualify.py" $oracleImage $ima[0m .
+[36;1m     | [31;1m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[36;1m[31;1m[31;1m[36;1m     | [31;1mProgram "python.exe" ended with non-zero exit code: 1 (0x00000001).[0m
+[36;1m[31;1m[31;1m[36;1m[31;1m[0m

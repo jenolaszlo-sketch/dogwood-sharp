@@ -1,5 +1,5 @@
 <Solution>
-  <Folder Name="/src/"><Project Path="src/DogwoodSharp/DogwoodSharp.csproj" /></Folder>
-  <Folder Name="/tests/"><Project Path="tests/DogwoodSharp.Tests/DogwoodSharp.Tests.csproj" /></Folder>
+  <Folder Name="/src/"><Project Path="src/DogwoodSharp/DogwoodSharp.csproj" /><Project Path="src/DogwoodSharp.CedarSharp/DogwoodSharp.CedarSharp.csproj" /></Folder>
+  <Folder Name="/tests/"><Project Path="tests/DogwoodSharp.Tests/DogwoodSharp.Tests.csproj" /><Project Path="tests/DogwoodSharp.CedarSharp.Tests/DogwoodSharp.CedarSharp.Tests.csproj" /></Folder>
   <Folder Name="/samples/"><Project Path="samples/DogwoodSharp.FoundationSmoke/DogwoodSharp.FoundationSmoke.csproj" /></Folder>
 </Solution>

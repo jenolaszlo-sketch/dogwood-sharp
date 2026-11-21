@@ -131,13 +131,17 @@ public sealed class LoweringTests
             int index = expectedRule.GetProperty("ruleIndex").GetInt32();
             string policyId = expectedRule.GetProperty("cedarPolicyId").GetString()!;
             Assert.Equal(new PolicyRuleMapping(index, policyId, null), validated.Rules[index]);
-            Assert.Equal(new PolicyRuleMapping(index, policyId, expectedRule.GetProperty("sourceText").GetString()),
+            Assert.Equal(new PolicyRuleMapping(index, policyId, expectedRule.GetProperty("sourceText").GetString(),
+                    Optional(expectedRule, "cedarBody")),
                 lowered.Rules[index]);
         }
 
         Assert.Equal(expected.GetProperty("cedarPolicyText").GetString(), lowered.CedarPolicyText);
         AssertJson(expected.GetProperty("cedarSchemaJson"), lowered.CedarSchemaJson);
         Assert.Equal(expected.GetProperty("cedarSchemaText").GetString(), lowered.CedarSchemaText);
+        Assert.Equal(
+            expected.GetProperty("generatedContextFields").EnumerateArray().Select(field => field.GetString()!).ToList(),
+            lowered.GeneratedContextFields);
     }
 
     private static string? Optional(JsonElement fixture, string name) =>
