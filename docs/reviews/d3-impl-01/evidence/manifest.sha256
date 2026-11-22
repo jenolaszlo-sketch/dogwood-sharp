@@ -1,6 +1,6 @@
 2f68657cab60a18f7565e64977c5cebfb51cf27d1feb16fb01dc6081f8ac6af6  d2-r2-regression-local.log
-94350a386aadbb5d6b0b6360a6565b706c0b337cd92534b6e66e7452923d6479  differential/probe/d3-console-net10.0.log
-c6aaf4252233c0bce8eb9de1308756b277dbcd0de2e28e7b3e71497d14799871  differential/probe/d3-console-net8.0.log
+6362a42748c8b17993ff195bb10e60ce163930b73494d50740256bae527328a9  differential/probe/d3-console-net10.0.log
+34b7917c7e1a2bcbdbad8f95071e5c93aec89dec3133dc004b975927fd2fc104  differential/probe/d3-console-net8.0.log
 f5f29c5fae061217ad9f1a18fa133006ba88cf8fb64268157bd0c881322c6acf  differential/probe/d3-results-net10.0.json
 665cf2c41f14c09e38a06eb123dd53258530e5fe32a1605b1e9f7f81b3c88c84  differential/probe/d3-results-net8.0.json
 d272788f0c72b23ed132910b55d56fd030eedda79ea3cd393274f37ac38dd345  differential/probe/differences.json
