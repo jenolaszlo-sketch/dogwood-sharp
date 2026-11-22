@@ -1,0 +1,17 @@
+PASS P1-01-count-true Baseline: a context condition that holds allows, with the determining rule attributed by identity.
+PASS P1-02-count-false Baseline: a context condition that does not hold denies cleanly, with no determining rule.
+PASS P1-03-owner-match An entity-reference attribute compares against the principal and allows.
+PASS P1-04-hierarchy An entity hierarchy edge supplied by the caller resolves membership.
+PASS P1-05-action-group Action-hierarchy membership resolves from the schema on both sides (upstream merges the schema action entities; CedarSharp resolves schema-defined action hierarchy from the attached schema).
+PASS P1-06-bare-scope-principal-has The scope principal is not supplied. Upstream adds it bare, so `has` is false; the schema-carrying path leaves it absent, which also makes `has` false.
+PASS P1-07-incomplete-supplied-scope-entity The scope principal is supplied without its required attribute. Upstream validates the supplied entity and fails closed; the schema-carrying path rejects the entity conformance before a decision.
+PASS P1-08-absent-scope-entity-required-attribute The scope principal is not supplied and the policy reads a required attribute. Both engines fail closed; the diagnostic wording differs (upstream: the bare entity has no such attribute; CedarSharp: the entity does not exist).
+PASS P1-09-entity-schema-violation A caller-supplied entity violates the schema. Upstream folds the conformance failure into a fail-closed Deny; CedarSharp rejects the operation.
+PASS P1-10-principal-outside-appliesto The principal type is outside the action's appliesTo. CedarSharp rejects the request when request validation is on; upstream's Cedar decision does not enforce appliesTo and allows the policy.
+PASS P1-10b-principal-declared-but-outside-appliesto The principal type is declared in the schema but is outside the action's appliesTo. The upstream decision path can allow it; CedarSharp rejects it.
+PASS P1-10c-resource-outside-appliesto The resource type is outside the action's appliesTo. The upstream decision path can allow it; CedarSharp rejects it.
+PASS P1-10d-action-not-declared The action is not declared in the schema. Both engines reject it.
+PASS P1-11-raw-allow-with-policy-error One permit fails to evaluate while another allows. The raw Allow carries a policy error on the failing policy; a clean-Allow gate must reject it.
+PASS P1-12-missing-context-attribute The policy reads a context attribute the request does not carry. Both engines fail closed with an evaluation error.
+PASS P1-13-malformed-policy A policy that does not parse never reaches a decision on either side.
+results: 16 cases, 0 failures -> D:\projects\dogwood-sharp\docs\reviews\d3-impl-01\evidence\differential\probe\d3-results-net8.0.json

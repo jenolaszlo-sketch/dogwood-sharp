@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 4,
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01",
+  "source": {
+    "head": "33c471df26abc0f496e45760c0c0ffcb5f901028",
+    "tree": "e6125e2d4616343d297bbe9c8145f976772ed815",
+    "branch": "main",
+    "commitTime": "2026-11-22T12:29:22+08:00",
+    "worktreeCleanAtStart": true,
+    "dirtyFileCount": 0,
+    "sourceStatusAtStart": [],
+    "sourceStatusBeforeStaleOutputRemoval": [
+      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net10.0.log",
+      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net8.0.log",
+      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net10.0.json",
+      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net8.0.json",
+      "?? docs/reviews/d3-impl-01/evidence/differential/probe/probe-run.json"
+    ],
+    "unexpectedSourceChangesAtStart": [],
+    "staleOutputsRemoved": [
+      "docs/reviews/d3-impl-01/evidence/differential/probe/probe-run.json",
+      "docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net8.0.json",
+      "docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net10.0.json",
+      "docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net8.0.log",
+      "docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net10.0.log"
+    ],
+    "originMain": "c7c512ccb87479868373c623066c0cd44c5f7e6a",
+    "aheadBehind": {
+      "ahead": 2,
+      "behind": 0
+    },
+    "postRunStatus": [
+      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net10.0.log",
+      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net8.0.log",
+      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net10.0.json",
+      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net8.0.json",
+      "?? docs/reviews/d3-impl-01/evidence/differential/probe/probe-run.json"
+    ],
+    "unexpectedSourceChanges": []
+  },
+  "upstream": {
+    "repository": "https://github.com/dogwood-policy/dogwood",
+    "revision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+    "checkoutHead": "929f49e7305534ac61ef06cf8e47269c596dc851",
+    "checkoutTree": "e8fbf0b20de69d34b422aa82d8d46d626b9ed143",
+    "checkoutPath": "C:\\Users\\Laszlos\\.cargo\\git\\checkouts\\dogwood-96ea9d749adb391c\\929f49e",
+    "matchingCheckoutCount": 1,
+    "version": "dogwood-language 1.1.2",
+    "cedarVersion": "4.11.0",
+    "cargoTree": "> cargo tree --locked --offline --manifest-path D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\upstream-oracle\\Cargo.toml -p dogwood-language --depth 0\r\ndogwood-language v1.1.2 (https://github.com/dogwood-policy/dogwood?rev=929f49e7305534ac61ef06cf8e47269c596dc851#929f49e7)",
+    "cargoLock": "3B448AEADC587C2C211AE7DEE59476EF551C270E51A11298CF301C8315F090F0",
+    "oracleSha256": "1EA82CB980DDD22916A311879FE3FCC6B43A93B30AF14D7211E9DF41729E2D59"
+  },
+  "managed": {
+    "dotnet": "10.0.404",
+    "packageLock": "2D57741F811A9A22417AB414D9C58D54E4FF766397F4E98A72570B3F8DEBB374",
+    "bridgeSha256": "D79E935011789D1E6952CDDBC0E35A78150F08F8B0E452326B72DF7861FF8B2C",
+    "cedarSharpNativeSha256": "77DE6976A7AE5B961920BB6843D39B32F3FAF285F16B723581680E9C06C03895"
+  },
+  "harnessFiles": {
+    "probe/Program.cs": "CDD4B3E62008AFFD300B37B79EDD7A4212933BB523838112DEF8A8F3034B46D1",
+    "probe/fixtures.json": "8ECA647F53B31AA87D6B124147A1F138605866B0FADD4D0D7A438E6ACF18BB7C",
+    "probe/differences.json": "D272788F0C72B23ED132910B55D56FD030EEDDA79EA3CD393274F37AC38DD345",
+    "probe/PrepProbe.csproj": "06E84343D03B37A678C044FA481EC277D2CB6A9E676224314D3513C3CB9DFDA4",
+    "probe/packages.lock.json": "2D57741F811A9A22417AB414D9C58D54E4FF766397F4E98A72570B3F8DEBB374",
+    "probe/run.ps1": "B849FD61E05C026E6F229E41D3DEBF409210E16D7143B03EE84175FFA79BC653",
+    "upstream-oracle/Cargo.toml": "99937A98B727277F86330E1B05241F10695EAEE82CAD4850C203B39ED9CCEF4D",
+    "upstream-oracle/Cargo.lock": "3B448AEADC587C2C211AE7DEE59476EF551C270E51A11298CF301C8315F090F0",
+    "upstream-oracle/src/main.rs": "3288D8EA6B1BB7CBC23A6855EAC2A63762ABBEC2B68B162922702493E0B7C544"
+  },
+  "runtime": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "architecture": "X64",
+    "powershell": "7.7.0",
+    "git": "git version 2.55.0.windows.3",
+    "cargo": "cargo 1.99.1 (5f94df478 2026-08-27)",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)"
+  },
+  "commands": [
+    {
+      "command": "cargo",
+      "arguments": [
+        "tree",
+        "--locked",
+        "--offline",
+        "--manifest-path",
+        "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\upstream-oracle\\Cargo.toml",
+        "-p",
+        "dogwood-language",
+        "--depth",
+        "0"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "cargo",
+      "arguments": [
+        "build",
+        "--locked",
+        "--release",
+        "--offline",
+        "--manifest-path",
+        "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\upstream-oracle\\Cargo.toml"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "dotnet",
+      "arguments": [
+        "restore",
+        "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\probe\\PrepProbe.csproj",
+        "--locked-mode",
+        "--nologo"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "dotnet",
+      "arguments": [
+        "build",
+        "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\probe\\PrepProbe.csproj",
+        "-c",
+        "Release",
+        "--no-restore",
+        "--nologo"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "dotnet",
+      "arguments": [
+        "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\probe\\bin\\Release\\net8.0\\PrepProbe.dll",
+        "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\probe\\d3-results-net8.0.json",
+        "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\upstream-oracle\\target\\release\\dogwoodsharp-upstream-oracle.exe",
+        "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\probe\\fixtures.json",
+        "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\probe\\differences.json"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    },
+    {
+      "command": "dotnet",
+      "arguments": [
+        "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\probe\\bin\\Release\\net10.0\\PrepProbe.dll",
+        "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\probe\\d3-results-net10.0.json",
+        "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\upstream-oracle\\target\\release\\dogwoodsharp-upstream-oracle.exe",
+        "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\probe\\fixtures.json",
+        "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\probe\\differences.json"
+      ],
+      "workingDirectory": "D:\\projects\\dogwood-sharp"
+    }
+  ],
+  "summary": {
+    "net8.0": {
+      "total": 16,
+      "passed": 16,
+      "failed": 0,
+      "result": "docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net8.0.json",
+      "log": "docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net8.0.log"
+    },
+    "net10.0": {
+      "total": 16,
+      "passed": 16,
+      "failed": 0,
+      "result": "docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net10.0.json",
+      "log": "docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net10.0.log"
+    }
+  },
+  "cleanup": {
+    "attempted": true,
+    "removed": true,
+    "paths": [
+      "docs/reviews/d3-impl-01/evidence/differential/probe/bin",
+      "docs/reviews/d3-impl-01/evidence/differential/probe/obj",
+      "docs/reviews/d3-impl-01/evidence/differential/upstream-oracle/target"
+    ],
+    "residualPaths": []
+  }
+}

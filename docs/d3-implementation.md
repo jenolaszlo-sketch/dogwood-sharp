@@ -111,11 +111,19 @@ operation 4. The managed D2 surface is likewise unchanged — `PolicyRuleMapping
 and `DogwoodLoweredPolicySet` has no generated-context-field list — while `Dogwood.ExportCedar`
 reads operation 4 with a strict, all-or-nothing reader.
 
-The archived D2-R2 regen (`eng/Verify-D2R2.ps1`) and the hosted matrix are the remaining
-producer gates and run after this revision is committed and pushed.
+Also executed locally on `win-x64` after the remediation:
+
+- `eng/Verify-D2R2.ps1 -RuntimeIdentifier win-x64` — **PASS**. The archived D2 corpus (35 cases), the
+  independent ABI corpus and the decoder controls (`controls=3 rejected=18
+  partial-schema-text-accepted=False`) are green on a bridge that now answers operation 4, because
+  operation 3's reply shape is restored exactly.
+- The D3 upstream differential probe (pinned upstream authorizer oracle through the production
+  adapter on the operation 4 export) — **16 cases, 0 failures** on `net8.0` and `net10.0`. The
+  recorded differences are reproduced unchanged by the operation 4 path.
 
 Linux/macOS cells and NativeAOT for the D3 path were not executed locally; Windows-only evidence is
-local only.
+local only. The hosted RID/TFM matrix (including the archived D2-R2 regen job and NativeAOT for the
+D2/D1 paths) runs in hosted CI and is recorded separately.
 
 ## 7. Known limitations and remaining qualification gates
 

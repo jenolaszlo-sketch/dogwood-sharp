@@ -1,0 +1,1520 @@
+{
+  "meta": {
+    "generatedAtUtc": "2026-11-22T04:43:46.7427222Z",
+    "framework": ".NET 10.0.15",
+    "rid": "win-x64",
+    "oracle": "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\upstream-oracle\\target\\release\\dogwoodsharp-upstream-oracle.exe",
+    "fixtures": "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\probe\\fixtures.json",
+    "fixturesSha256": "8ECA647F53B31AA87D6B124147A1F138605866B0FADD4D0D7A438E6ACF18BB7C",
+    "differenceRegister": "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\probe\\differences.json",
+    "differenceRegisterSha256": "D272788F0C72B23ED132910B55D56FD030EEDDA79EA3CD393274F37AC38DD345",
+    "differenceRegisterSchemaVersion": 1,
+    "fixtureCount": 16
+  },
+  "summary": {
+    "total": 16,
+    "failed": 0,
+    "passed": 16
+  },
+  "cases": [
+    {
+      "id": "P1-01-count-true",
+      "question": "Baseline: a context condition that holds allows, with the determining rule attributed by identity.",
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": "allow",
+          "hasErrors": false,
+          "operationFailed": false,
+          "determiningIds": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "errorCategories": [],
+          "isCleanAllow": true
+        },
+        "agreement": "match",
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "match",
+      "declaredAgreement": "match",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "allow",
+        "determiningRules": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "q1_0"
+          }
+        ],
+        "errors": [],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [],
+      "upstreamErrorCategories": [],
+      "cedarSharp": {
+        "operationFailed": false,
+        "decision": "allow",
+        "hasErrors": false,
+        "determining": [
+          "q1_0"
+        ],
+        "policyErrors": [],
+        "errors": [],
+        "errorCategories": [],
+        "isCleanAllow": true,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [],
+      "cedarSharpErrorCategories": []
+    },
+    {
+      "id": "P1-02-count-false",
+      "question": "Baseline: a context condition that does not hold denies cleanly, with no determining rule.",
+      "expectation": {
+        "upstream": {
+          "decision": "deny",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": "deny",
+          "hasErrors": false,
+          "operationFailed": false,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [],
+          "isCleanAllow": false
+        },
+        "agreement": "match",
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "match",
+      "declaredAgreement": "match",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "deny",
+        "determiningRules": [],
+        "errors": [],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [],
+      "upstreamErrorCategories": [],
+      "cedarSharp": {
+        "operationFailed": false,
+        "decision": "deny",
+        "hasErrors": false,
+        "determining": [],
+        "policyErrors": [],
+        "errors": [],
+        "errorCategories": [],
+        "isCleanAllow": false,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [],
+      "cedarSharpErrorCategories": []
+    },
+    {
+      "id": "P1-03-owner-match",
+      "question": "An entity-reference attribute compares against the principal and allows.",
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": "allow",
+          "hasErrors": false,
+          "operationFailed": false,
+          "determiningIds": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "errorCategories": [],
+          "isCleanAllow": true
+        },
+        "agreement": "match",
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "match",
+      "declaredAgreement": "match",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "allow",
+        "determiningRules": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "q1_0"
+          }
+        ],
+        "errors": [],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [],
+      "upstreamErrorCategories": [],
+      "cedarSharp": {
+        "operationFailed": false,
+        "decision": "allow",
+        "hasErrors": false,
+        "determining": [
+          "q1_0"
+        ],
+        "policyErrors": [],
+        "errors": [],
+        "errorCategories": [],
+        "isCleanAllow": true,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [],
+      "cedarSharpErrorCategories": []
+    },
+    {
+      "id": "P1-04-hierarchy",
+      "question": "An entity hierarchy edge supplied by the caller resolves membership.",
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": "allow",
+          "hasErrors": false,
+          "operationFailed": false,
+          "determiningIds": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "errorCategories": [],
+          "isCleanAllow": true
+        },
+        "agreement": "match",
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "match",
+      "declaredAgreement": "match",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "allow",
+        "determiningRules": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "q1_0"
+          }
+        ],
+        "errors": [],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [],
+      "upstreamErrorCategories": [],
+      "cedarSharp": {
+        "operationFailed": false,
+        "decision": "allow",
+        "hasErrors": false,
+        "determining": [
+          "q1_0"
+        ],
+        "policyErrors": [],
+        "errors": [],
+        "errorCategories": [],
+        "isCleanAllow": true,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [],
+      "cedarSharpErrorCategories": []
+    },
+    {
+      "id": "P1-05-action-group",
+      "question": "Action-hierarchy membership resolves from the schema on both sides (upstream merges the schema action entities; CedarSharp resolves schema-defined action hierarchy from the attached schema).",
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": "allow",
+          "hasErrors": false,
+          "operationFailed": false,
+          "determiningIds": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "errorCategories": [],
+          "isCleanAllow": true
+        },
+        "agreement": "match",
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "match",
+      "declaredAgreement": "match",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "allow",
+        "determiningRules": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "q1_0"
+          }
+        ],
+        "errors": [],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [],
+      "upstreamErrorCategories": [],
+      "cedarSharp": {
+        "operationFailed": false,
+        "decision": "allow",
+        "hasErrors": false,
+        "determining": [
+          "q1_0"
+        ],
+        "policyErrors": [],
+        "errors": [],
+        "errorCategories": [],
+        "isCleanAllow": true,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [],
+      "cedarSharpErrorCategories": []
+    },
+    {
+      "id": "P1-06-bare-scope-principal-has",
+      "question": "The scope principal is not supplied. Upstream adds it bare, so \u0060has\u0060 is false; the schema-carrying path leaves it absent, which also makes \u0060has\u0060 false.",
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": "allow",
+          "hasErrors": false,
+          "operationFailed": false,
+          "determiningIds": [
+            "q1_0"
+          ],
+          "policyErrorIds": [],
+          "errorCategories": [],
+          "isCleanAllow": true
+        },
+        "agreement": "match",
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "match",
+      "declaredAgreement": "match",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "allow",
+        "determiningRules": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "q1_0"
+          }
+        ],
+        "errors": [],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [],
+      "upstreamErrorCategories": [],
+      "cedarSharp": {
+        "operationFailed": false,
+        "decision": "allow",
+        "hasErrors": false,
+        "determining": [
+          "q1_0"
+        ],
+        "policyErrors": [],
+        "errors": [],
+        "errorCategories": [],
+        "isCleanAllow": true,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [],
+      "cedarSharpErrorCategories": []
+    },
+    {
+      "id": "P1-07-incomplete-supplied-scope-entity",
+      "question": "The scope principal is supplied without its required attribute. Upstream validates the supplied entity and fails closed; the schema-carrying path rejects the entity conformance before a decision.",
+      "expectation": {
+        "upstream": {
+          "decision": "deny",
+          "hasErrors": true,
+          "failed": false,
+          "determiningRules": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "entity-conformance"
+          ]
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "entity-conformance"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "QD3-01/QD3-02: an explicitly supplied but incomplete scope entity is conformance-checked upstream and rejected by the schema-carrying path; upstream folds the failure into a fail-closed Deny while CedarSharp reports an operation failure.",
+        "differenceIds": [
+          "ED-02"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "expected-difference",
+      "declaredAgreement": "expected-difference",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "deny",
+        "determiningRules": [],
+        "errors": [
+          "entity conformance: entity does not conform to the schema"
+        ],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [],
+      "upstreamErrorCategories": [
+        "entity-conformance"
+      ],
+      "cedarSharp": {
+        "operationFailed": true,
+        "decision": null,
+        "hasErrors": true,
+        "determining": [],
+        "policyErrors": [],
+        "errors": [
+          {
+            "Message": "entity does not conform to the schema: expected entity \u0060App::Session::\u0022s1\u0022\u0060 to have attribute \u0060token\u0060, but it does not",
+            "Help": null,
+            "Code": null,
+            "Url": null,
+            "Severity": null,
+            "SourceLocations": [],
+            "Related": [],
+            "Raw": {
+              "message": "entity does not conform to the schema: expected entity \u0060App::Session::\u0022s1\u0022\u0060 to have attribute \u0060token\u0060, but it does not",
+              "help": null,
+              "code": null,
+              "url": null,
+              "severity": null,
+              "sourceLocations": [],
+              "related": []
+            }
+          }
+        ],
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "isCleanAllow": false,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [],
+      "cedarSharpErrorCategories": [
+        "entity-conformance"
+      ]
+    },
+    {
+      "id": "P1-08-absent-scope-entity-required-attribute",
+      "question": "The scope principal is not supplied and the policy reads a required attribute. Both engines fail closed; the diagnostic wording differs (upstream: the bare entity has no such attribute; CedarSharp: the entity does not exist).",
+      "expectation": {
+        "upstream": {
+          "decision": "deny",
+          "hasErrors": true,
+          "failed": false,
+          "determiningRules": [],
+          "policyErrorIds": [
+            "q1_0"
+          ],
+          "errorCategories": [
+            "missing-attribute"
+          ]
+        },
+        "cedarSharp": {
+          "decision": "deny",
+          "hasErrors": true,
+          "operationFailed": false,
+          "determiningIds": [],
+          "policyErrorIds": [
+            "q1_0"
+          ],
+          "errorCategories": [
+            "missing-entity"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "QD3-01: the fail-closed outcome agrees, but the diagnostic mode differs (upstream: the bare entity has no such attribute; CedarSharp: the entity does not exist).",
+        "differenceIds": [
+          "ED-01",
+          "ED-03"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "expected-difference",
+      "declaredAgreement": "expected-difference",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "deny",
+        "determiningRules": [],
+        "errors": [
+          "error while evaluating policy \u0060q1_0\u0060: \u0060App::Session::\u0022s1\u0022\u0060 does not have the attribute \u0060token\u0060"
+        ],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [
+        "q1_0"
+      ],
+      "upstreamErrorCategories": [
+        "missing-attribute"
+      ],
+      "cedarSharp": {
+        "operationFailed": false,
+        "decision": "deny",
+        "hasErrors": true,
+        "determining": [],
+        "policyErrors": [
+          "q1_0: entity \u0060App::Session::\u0022s1\u0022\u0060 does not exist"
+        ],
+        "errors": [],
+        "errorCategories": [
+          "missing-entity"
+        ],
+        "isCleanAllow": false,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [
+        "q1_0"
+      ],
+      "cedarSharpErrorCategories": [
+        "missing-entity"
+      ]
+    },
+    {
+      "id": "P1-09-entity-schema-violation",
+      "question": "A caller-supplied entity violates the schema. Upstream folds the conformance failure into a fail-closed Deny; CedarSharp rejects the operation.",
+      "expectation": {
+        "upstream": {
+          "decision": "deny",
+          "hasErrors": true,
+          "failed": false,
+          "determiningRules": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "entity-conformance"
+          ]
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "entity-conformance"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "Both reject the request before any allow; upstream reports a fail-closed Deny with diagnostics, CedarSharp reports an operation failure with no decision.",
+        "differenceIds": [
+          "ED-02"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "expected-difference",
+      "declaredAgreement": "expected-difference",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "deny",
+        "determiningRules": [],
+        "errors": [
+          "entity conformance: entity does not conform to the schema"
+        ],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [],
+      "upstreamErrorCategories": [
+        "entity-conformance"
+      ],
+      "cedarSharp": {
+        "operationFailed": true,
+        "decision": null,
+        "hasErrors": true,
+        "determining": [],
+        "policyErrors": [],
+        "errors": [
+          {
+            "Message": "entity does not conform to the schema: in attribute \u0060secret\u0060 on \u0060App::Doc::\u0022d1\u0022\u0060, type mismatch: value was expected to have type bool, but it actually has type string: \u0060\u0022not-a-boolean\u0022\u0060",
+            "Help": null,
+            "Code": null,
+            "Url": null,
+            "Severity": null,
+            "SourceLocations": [],
+            "Related": [],
+            "Raw": {
+              "message": "entity does not conform to the schema: in attribute \u0060secret\u0060 on \u0060App::Doc::\u0022d1\u0022\u0060, type mismatch: value was expected to have type bool, but it actually has type string: \u0060\u0022not-a-boolean\u0022\u0060",
+              "help": null,
+              "code": null,
+              "url": null,
+              "severity": null,
+              "sourceLocations": [],
+              "related": []
+            }
+          }
+        ],
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "isCleanAllow": false,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [],
+      "cedarSharpErrorCategories": [
+        "entity-conformance"
+      ]
+    },
+    {
+      "id": "P1-10-principal-outside-appliesto",
+      "question": "The principal type is outside the action\u0027s appliesTo. CedarSharp rejects the request when request validation is on; upstream\u0027s Cedar decision does not enforce appliesTo and allows the policy.",
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "operation-error"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "QD3-02: the schema-carrying path rejects a principal outside appliesTo, while the upstream authorizer reaches Cedar evaluation without an appliesTo scope check and can allow. This is an upstream compatibility difference, not a license to omit the D3 scope check.",
+        "differenceIds": [
+          "ED-04"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "expected-difference",
+      "declaredAgreement": "expected-difference",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "allow",
+        "determiningRules": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "q1_0"
+          }
+        ],
+        "errors": [],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [],
+      "upstreamErrorCategories": [],
+      "cedarSharp": {
+        "operationFailed": true,
+        "decision": null,
+        "hasErrors": true,
+        "determining": [],
+        "policyErrors": [],
+        "errors": [
+          {
+            "Message": "principal type \u0060App::Ghost\u0060 is not declared in the schema",
+            "Help": null,
+            "Code": null,
+            "Url": null,
+            "Severity": null,
+            "SourceLocations": [
+              {
+                "Label": null,
+                "Start": 0,
+                "End": 10
+              }
+            ],
+            "Related": [],
+            "Raw": {
+              "message": "principal type \u0060App::Ghost\u0060 is not declared in the schema",
+              "help": null,
+              "code": null,
+              "url": null,
+              "severity": null,
+              "sourceLocations": [
+                {
+                  "label": null,
+                  "start": 0,
+                  "end": 10
+                }
+              ],
+              "related": []
+            }
+          }
+        ],
+        "errorCategories": [
+          "operation-error"
+        ],
+        "isCleanAllow": false,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [],
+      "cedarSharpErrorCategories": [
+        "operation-error"
+      ]
+    },
+    {
+      "id": "P1-10b-principal-declared-but-outside-appliesto",
+      "question": "The principal type is declared in the schema but is outside the action\u0027s appliesTo. The upstream decision path can allow it; CedarSharp rejects it.",
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "scope-mismatch"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "QD3-02: a declared but inapplicable principal type is accepted by the upstream decision path but rejected by the schema-carrying path.",
+        "differenceIds": [
+          "ED-04"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "expected-difference",
+      "declaredAgreement": "expected-difference",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "allow",
+        "determiningRules": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "q1_0"
+          }
+        ],
+        "errors": [],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [],
+      "upstreamErrorCategories": [],
+      "cedarSharp": {
+        "operationFailed": true,
+        "decision": null,
+        "hasErrors": true,
+        "determining": [],
+        "policyErrors": [],
+        "errors": [
+          {
+            "Message": "principal type \u0060App::Group\u0060 is not valid for \u0060App::Action::\u0022read\u0022\u0060",
+            "Help": "valid principal types for \u0060App::Action::\u0022read\u0022\u0060: \u0060App::User\u0060",
+            "Code": null,
+            "Url": null,
+            "Severity": null,
+            "SourceLocations": [
+              {
+                "Label": null,
+                "Start": 0,
+                "End": 10
+              }
+            ],
+            "Related": [],
+            "Raw": {
+              "message": "principal type \u0060App::Group\u0060 is not valid for \u0060App::Action::\u0022read\u0022\u0060",
+              "help": "valid principal types for \u0060App::Action::\u0022read\u0022\u0060: \u0060App::User\u0060",
+              "code": null,
+              "url": null,
+              "severity": null,
+              "sourceLocations": [
+                {
+                  "label": null,
+                  "start": 0,
+                  "end": 10
+                }
+              ],
+              "related": []
+            }
+          }
+        ],
+        "errorCategories": [
+          "scope-mismatch"
+        ],
+        "isCleanAllow": false,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [],
+      "cedarSharpErrorCategories": [
+        "scope-mismatch"
+      ]
+    },
+    {
+      "id": "P1-10c-resource-outside-appliesto",
+      "question": "The resource type is outside the action\u0027s appliesTo. The upstream decision path can allow it; CedarSharp rejects it.",
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 0,
+              "cedarPolicyId": "q1_0"
+            }
+          ],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "scope-mismatch"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "QD3-02: an inapplicable resource type is not rejected by the upstream decision path but is rejected by the schema-carrying path.",
+        "differenceIds": [
+          "ED-04"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "expected-difference",
+      "declaredAgreement": "expected-difference",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "allow",
+        "determiningRules": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "q1_0"
+          }
+        ],
+        "errors": [],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [],
+      "upstreamErrorCategories": [],
+      "cedarSharp": {
+        "operationFailed": true,
+        "decision": null,
+        "hasErrors": true,
+        "determining": [],
+        "policyErrors": [],
+        "errors": [
+          {
+            "Message": "resource type \u0060App::User\u0060 is not valid for \u0060App::Action::\u0022read\u0022\u0060",
+            "Help": "valid resource types for \u0060App::Action::\u0022read\u0022\u0060: \u0060App::Doc\u0060",
+            "Code": null,
+            "Url": null,
+            "Severity": null,
+            "SourceLocations": [
+              {
+                "Label": null,
+                "Start": 0,
+                "End": 9
+              }
+            ],
+            "Related": [],
+            "Raw": {
+              "message": "resource type \u0060App::User\u0060 is not valid for \u0060App::Action::\u0022read\u0022\u0060",
+              "help": "valid resource types for \u0060App::Action::\u0022read\u0022\u0060: \u0060App::Doc\u0060",
+              "code": null,
+              "url": null,
+              "severity": null,
+              "sourceLocations": [
+                {
+                  "label": null,
+                  "start": 0,
+                  "end": 9
+                }
+              ],
+              "related": []
+            }
+          }
+        ],
+        "errorCategories": [
+          "scope-mismatch"
+        ],
+        "isCleanAllow": false,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [],
+      "cedarSharpErrorCategories": [
+        "scope-mismatch"
+      ]
+    },
+    {
+      "id": "P1-10d-action-not-declared",
+      "question": "The action is not declared in the schema. Both engines reject it.",
+      "expectation": {
+        "upstream": {
+          "decision": "deny",
+          "hasErrors": false,
+          "failed": false,
+          "determiningRules": [],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "undeclared-action"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "The upstream decision denies because the action does not match the policy scope; CedarSharp rejects the undeclared action during request validation.",
+        "differenceIds": [
+          "ED-04"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "expected-difference",
+      "declaredAgreement": "expected-difference",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "deny",
+        "determiningRules": [],
+        "errors": [],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [],
+      "upstreamErrorCategories": [],
+      "cedarSharp": {
+        "operationFailed": true,
+        "decision": null,
+        "hasErrors": true,
+        "determining": [],
+        "policyErrors": [],
+        "errors": [
+          {
+            "Message": "action \u0060App::Action::\u0022delete\u0022\u0060 does not exist in the supplied schema",
+            "Help": null,
+            "Code": null,
+            "Url": null,
+            "Severity": null,
+            "SourceLocations": [],
+            "Related": [],
+            "Raw": {
+              "message": "action \u0060App::Action::\u0022delete\u0022\u0060 does not exist in the supplied schema",
+              "help": null,
+              "code": null,
+              "url": null,
+              "severity": null,
+              "sourceLocations": [],
+              "related": []
+            }
+          }
+        ],
+        "errorCategories": [
+          "undeclared-action"
+        ],
+        "isCleanAllow": false,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [],
+      "cedarSharpErrorCategories": [
+        "undeclared-action"
+      ]
+    },
+    {
+      "id": "P1-11-raw-allow-with-policy-error",
+      "question": "One permit fails to evaluate while another allows. The raw Allow carries a policy error on the failing policy; a clean-Allow gate must reject it.",
+      "expectation": {
+        "upstream": {
+          "decision": "allow",
+          "hasErrors": true,
+          "failed": false,
+          "determiningRules": [
+            {
+              "ruleIndex": 1,
+              "cedarPolicyId": "q1_1"
+            }
+          ],
+          "policyErrorIds": [
+            "q1_0"
+          ],
+          "errorCategories": [
+            "missing-attribute"
+          ]
+        },
+        "cedarSharp": {
+          "decision": "allow",
+          "hasErrors": true,
+          "operationFailed": false,
+          "determiningIds": [
+            "q1_1"
+          ],
+          "policyErrorIds": [
+            "q1_0"
+          ],
+          "errorCategories": [
+            "missing-entity"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "Both engines expose an Allow with a policy evaluation error; a clean-Allow gate must reject the raw Allow.",
+        "differenceIds": [
+          "ED-01",
+          "ED-03"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0",
+          "q1_1"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "expected-difference",
+      "declaredAgreement": "expected-difference",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0",
+          "q1_1"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "allow",
+        "determiningRules": [
+          {
+            "ruleIndex": 1,
+            "cedarPolicyId": "q1_1"
+          }
+        ],
+        "errors": [
+          "error while evaluating policy \u0060q1_0\u0060: \u0060App::Session::\u0022s1\u0022\u0060 does not have the attribute \u0060token\u0060"
+        ],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [
+        "q1_0"
+      ],
+      "upstreamErrorCategories": [
+        "missing-attribute"
+      ],
+      "cedarSharp": {
+        "operationFailed": false,
+        "decision": "allow",
+        "hasErrors": true,
+        "determining": [
+          "q1_1"
+        ],
+        "policyErrors": [
+          "q1_0: entity \u0060App::Session::\u0022s1\u0022\u0060 does not exist"
+        ],
+        "errors": [],
+        "errorCategories": [
+          "missing-entity"
+        ],
+        "isCleanAllow": false,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [
+        "q1_0"
+      ],
+      "cedarSharpErrorCategories": [
+        "missing-entity"
+      ]
+    },
+    {
+      "id": "P1-12-missing-context-attribute",
+      "question": "The policy reads a context attribute the request does not carry. Both engines fail closed with an evaluation error.",
+      "expectation": {
+        "upstream": {
+          "decision": "deny",
+          "hasErrors": true,
+          "failed": false,
+          "determiningRules": [],
+          "policyErrorIds": [
+            "q1_0"
+          ],
+          "errorCategories": [
+            "missing-attribute"
+          ]
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [
+            "missing-attribute"
+          ],
+          "isCleanAllow": false
+        },
+        "agreement": "expected-difference",
+        "differenceReason": "Both fail closed, but CedarSharp rejects the context while parsing it and produces no authorization decision; upstream reaches the decision and reports a policy error.",
+        "differenceIds": [
+          "ED-05"
+        ],
+        "loweringArtifactsExported": true,
+        "loweringExportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "verdict": "pass",
+      "measuredAgreement": "expected-difference",
+      "declaredAgreement": "expected-difference",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": true,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": [
+          "q1_0"
+        ]
+      },
+      "upstream": {
+        "ok": true,
+        "decision": "deny",
+        "determiningRules": [],
+        "errors": [
+          "error while evaluating policy \u0060q1_0\u0060: record does not have the attribute \u0060count\u0060"
+        ],
+        "failed": false,
+        "error": null
+      },
+      "upstreamPolicyErrorIds": [
+        "q1_0"
+      ],
+      "upstreamErrorCategories": [
+        "missing-attribute"
+      ],
+      "cedarSharp": {
+        "operationFailed": true,
+        "decision": null,
+        "hasErrors": true,
+        "determining": [],
+        "policyErrors": [],
+        "errors": [
+          {
+            "Message": "while parsing context, expected the record to have an attribute \u0060count\u0060, but it does not",
+            "Help": null,
+            "Code": null,
+            "Url": null,
+            "Severity": null,
+            "SourceLocations": [],
+            "Related": [],
+            "Raw": {
+              "message": "while parsing context, expected the record to have an attribute \u0060count\u0060, but it does not",
+              "help": null,
+              "code": null,
+              "url": null,
+              "severity": null,
+              "sourceLocations": [],
+              "related": []
+            }
+          }
+        ],
+        "errorCategories": [
+          "missing-attribute"
+        ],
+        "isCleanAllow": false,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [],
+      "cedarSharpErrorCategories": [
+        "missing-attribute"
+      ]
+    },
+    {
+      "id": "P1-13-malformed-policy",
+      "question": "A policy that does not parse never reaches a decision on either side.",
+      "expectation": {
+        "upstream": {
+          "decision": null,
+          "hasErrors": false,
+          "failed": true,
+          "determiningRules": [],
+          "policyErrorIds": [],
+          "errorCategories": []
+        },
+        "cedarSharp": {
+          "decision": null,
+          "hasErrors": true,
+          "operationFailed": true,
+          "determiningIds": [],
+          "policyErrorIds": [],
+          "errorCategories": [],
+          "isCleanAllow": false
+        },
+        "agreement": "match",
+        "loweringArtifactsExported": false,
+        "loweringExportedRuleIds": []
+      },
+      "verdict": "pass",
+      "measuredAgreement": "match",
+      "declaredAgreement": "match",
+      "agreementMatches": true,
+      "differenceManifestMatches": true,
+      "upstreamMatchesExpectation": true,
+      "cedarSharpMatchesExpectation": true,
+      "loweringMatchesExpectation": true,
+      "lowering": {
+        "artifactsExported": false,
+        "stageError": null,
+        "exception": null,
+        "exportedRuleIds": []
+      },
+      "upstream": {
+        "ok": false,
+        "decision": null,
+        "determiningRules": [],
+        "errors": [],
+        "failed": true,
+        "error": "lower: unexpected token \u0060}\u0060, expected expression"
+      },
+      "upstreamPolicyErrorIds": [],
+      "upstreamErrorCategories": [],
+      "cedarSharp": {
+        "operationFailed": true,
+        "decision": null,
+        "hasErrors": true,
+        "determining": [],
+        "policyErrors": [],
+        "errors": [],
+        "errorCategories": [],
+        "isCleanAllow": false,
+        "exception": null
+      },
+      "cedarSharpPolicyErrorIds": [],
+      "cedarSharpErrorCategories": []
+    }
+  ]
+}
