@@ -26,9 +26,17 @@ managed, re-running the full matrix, and re-executing the upstream differential.
 
 ## Remediation execution (R1)
 
-Delivered in `33c471df26abc0f496e45760c0c0ffcb5f901028` ("D3-IMPL-01 R1: move the D3 per-rule export
-to operation 4"), which follows the defective `1bd380f` on the same `main` push. Both commits are
-part of this record's source identity.
+Delivered on `main` in five commits that follow the defective `1bd380f` on the same push:
+
+| Commit | Content |
+| --- | --- |
+| `33c471df26abc0f496e45760c0c0ffcb5f901028` | Operation 4 export across native and managed layers, D2 differential, tests, docs |
+| `84271a83170088228ec3cbed9aa71d94c3d2a148` | First evidence and record update |
+| `4310649` | Keeps the operation 4 export surface internal to `DogwoodSharp` (friend assemblies only) |
+| `65a2c58`, `f7a1c81`, `a4e2e03`, `faa5f03` | Re-recorded evidence, archived regen transcripts, hosted matrix and disposition |
+
+The defective `1bd380f` remains in this history as the record of what the review found; the hosted
+matrix below is observed on the final head, and no gate is claimed for the intermediate commits.
 
 ### What changed
 
