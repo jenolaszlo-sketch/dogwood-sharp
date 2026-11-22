@@ -58,11 +58,43 @@ all three RIDs with `Public type surface changed: ... DogwoodSharp.CedarPolicyRu
 DogwoodSharp.DogwoodCedarExport`. `3ab1905` keeps that surface internal (friend assemblies only),
 which is a stronger reading of "keep the D2 (op-3) managed surface unchanged": this package's public
 type and member set is a frozen qualification baseline, so the D3 export surface is not part of the
-stable package at all. The run identities are recorded in the hosted-CI section below.
+stable package at all.
 
-Hosted CI (`DogwoodSharp producer verification`: `win-x64`, `linux-x64`, `osx-arm64` × `net8.0`/`net10.0`,
-including the archived D2-R2 regen job, the D1 consumer regression job and NativeAOT) is observed to
-completion and recorded in `evidence/ci/` under the exact run and job identities.
+### Hosted CI (executed, to completion)
+
+Workflow **DogwoodSharp producer verification**, run **44993430717**, triggered by the push of
+`f7a1c8154e12d137ec9246639763456663eb237c` (head `main` after `84271a8`), conclusion **success**,
+started 2026-11-22T06:22:28Z, completed 2026-11-22T06:38:41Z,
+<https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/44993430717>.
+
+| Job | RID / TFMs | Result |
+| --- | --- | --- |
+| 137119270361 | `win-x64` / net8.0 + net10.0 | success — native integration (eng/Verify.ps1 with NativeAOT), D1 consumer regression, archived D2-R2 regen |
+| 137119270108 | `linux-x64` / net8.0 + net10.0 | success — native integration (eng/Verify.ps1 with NativeAOT), Valgrind buffer-ownership suite, D1 consumer regression, archived D2-R2 regen, resident-workload measurement |
+| 137119270291 | `osx-arm64` / net8.0 + net10.0 | success — native integration (eng/Verify.ps1 with NativeAOT), D1 consumer regression, archived D2-R2 regen |
+
+All nine RID/TFM cells are executed: each job runs `eng/Verify.ps1` (both TFMs), the archived D1
+consumer regression, and `eng/Verify-D2R2.ps1` for its RID. Valgrind and the resident-workload
+measurement run on `linux-x64` only, by the workflow's own conditions. No cell is inferred.
+
+The preceding run **44988850166** (head `84271a8`) failed on all three RIDs at "Run version-aware D1
+consumer regression" for the public-surface reason above; it is superseded by `44993430717` and is not
+claimed as a passing gate. The `d1-qualification`, `d2-qualification` and `publish` workflows are
+`workflow_dispatch`-only and were not triggered: this commission authorizes no publication, tag, or
+release.
+
+### Disposition
+
+**Producer implementation complete; independent qualification remains open.** Every producer gate that
+was red at the first review disposition is now green: operation 3 is back at its frozen shape, the
+per-rule Cedar export ships as operation 4 across native and managed layers, and the archived D2-R2
+regen, the archived D1 consumer regression, and the full hosted RID/TFM matrix pass. The staged upstream
+differential also passes on both TFMs.
+
+This record does **not** claim independent qualification or owner acceptance. The remaining gates are
+listed in [the implementation record](../d3-implementation.md) §7: the complete upstream-authorizer
+corpus, the bounded concurrency gate, temporal/provider execution (D3-5), NativeAOT/package-only
+consumption for the D3 path, and independent qualification with owner acceptance.
 
 **Contract-permitted remediation** (`d3-e1-implementation-plan.md` §5.1: "The D2 bridge MUST gain a
 complete operation, **or** extend its lowering result"): ship the per-rule `(id, body)` export and

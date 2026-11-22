@@ -125,8 +125,11 @@ Also executed locally on `win-x64` after the remediation:
   recorded differences are reproduced unchanged by the operation 4 path.
 
 Linux/macOS cells and NativeAOT for the D3 path were not executed locally; Windows-only evidence is
-local only. The hosted RID/TFM matrix (including the archived D2-R2 regen job and NativeAOT for the
-D2/D1 paths) runs in hosted CI and is recorded separately.
+local only. The hosted RID/TFM matrix (including the archived D2-R2 regen job, the archived D1 consumer
+regression and NativeAOT for the D2/D1 paths) ran to completion and passed: workflow run `44993430717`
+(head `f7a1c8154e12d137ec9246639763456663eb237c`), jobs `137119270361` (win-x64), `137119270108`
+(linux-x64, also Valgrind and the resident-workload measurement) and `137119270291` (osx-arm64), all
+`success`. See `docs/reviews/d3-impl-01/README.md`.
 
 ## 7. Known limitations and remaining qualification gates
 
