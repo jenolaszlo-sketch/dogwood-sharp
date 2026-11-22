@@ -48,12 +48,21 @@ part of this record's source identity.
 | --- | --- | --- |
 | `eng/Verify.ps1 -RuntimeIdentifier win-x64 -SkipAot` | Rust 16/16; d2-diff 39 cases across operations 2/3/4, 0 failures; locked restore; 0-warning Release build; `dotnet format` clean; D1/D2 69; D3 21; Foundation smoke — all on `net8.0` and `net10.0` | `evidence/r1-verify-local.log` |
 | `eng/Verify-D2R2.ps1 -RuntimeIdentifier win-x64` | **PASS** — archived D2 corpus 35 cases, independent ABI 35 cases, decoder `controls=3 rejected=18 partial-schema-text-accepted=False`, transport invalid-json/invalid-utf8/oversized | `evidence/r1-d2-r2-regression-local.log` |
+| `eng/Verify-D1OnD2.ps1 -RuntimeIdentifier win-x64` | **PASS** — managed scenarios 114/114, AOT smoke on both TFMs, `QUALIFICATION PASS win-x64`. This is the archived D1 consumer regression, which asserts `DogwoodSharp`'s exact public type and member surface; it is red whenever the D3 surface is published instead of kept internal. | `evidence/r1-d1-consumer-regression-local.log` |
 | D3 upstream differential (production adapter vs pinned upstream authorizer) | 16 cases, 0 failures on `net8.0` and `net10.0`; the recorded `differences.json` is reproduced unchanged by the operation 4 path | `evidence/r1-d3-differential-local.log`, `evidence/differential/probe/` |
-| Commit/tree identity for the probe run | head `33c471d…`, tree `e6125e2d…`, worktree clean at start | `evidence/differential/probe/probe-run.json` |
+| Commit/tree identity for the probe run | bound to the R1 head and a clean worktree | `evidence/differential/probe/probe-run.json` |
+
+A first hosted run of this remediation exposed one more surface violation: the D3 entry point and
+types were initially published on `DogwoodSharp`, and the archived D1 consumer regression failed on
+all three RIDs with `Public type surface changed: ... DogwoodSharp.CedarPolicyRule ...
+DogwoodSharp.DogwoodCedarExport`. `3ab1905` keeps that surface internal (friend assemblies only),
+which is a stronger reading of "keep the D2 (op-3) managed surface unchanged": this package's public
+type and member set is a frozen qualification baseline, so the D3 export surface is not part of the
+stable package at all. The run identities are recorded in the hosted-CI section below.
 
 Hosted CI (`DogwoodSharp producer verification`: `win-x64`, `linux-x64`, `osx-arm64` × `net8.0`/`net10.0`,
-including the archived D2-R2 regen job and NativeAOT) is observed to completion and recorded in
-`evidence/ci/` under the exact run and job identities.
+including the archived D2-R2 regen job, the D1 consumer regression job and NativeAOT) is observed to
+completion and recorded in `evidence/ci/` under the exact run and job identities.
 
 **Contract-permitted remediation** (`d3-e1-implementation-plan.md` §5.1: "The D2 bridge MUST gain a
 complete operation, **or** extend its lowering result"): ship the per-rule `(id, body)` export and

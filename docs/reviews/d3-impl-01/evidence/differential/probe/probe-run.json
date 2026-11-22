@@ -2,20 +2,20 @@
   "schemaVersion": 4,
   "commission": "DOGWOOD-SHARP-D3-IMPL-01",
   "source": {
-    "head": "33c471df26abc0f496e45760c0c0ffcb5f901028",
-    "tree": "e6125e2d4616343d297bbe9c8145f976772ed815",
+    "head": "43106496256ee1cc9a278547a2e414ceac3ca887",
+    "tree": "6ff55b4947e7654de237c0e2fc41a46bd0e49be8",
     "branch": "main",
-    "commitTime": "2026-11-22T12:29:22+08:00",
-    "worktreeCleanAtStart": true,
-    "dirtyFileCount": 0,
-    "sourceStatusAtStart": [],
-    "sourceStatusBeforeStaleOutputRemoval": [
-      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net10.0.log",
-      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net8.0.log",
-      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net10.0.json",
-      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net8.0.json",
-      "?? docs/reviews/d3-impl-01/evidence/differential/probe/probe-run.json"
+    "commitTime": "2026-11-22T14:11:44+08:00",
+    "worktreeCleanAtStart": false,
+    "dirtyFileCount": 5,
+    "sourceStatusAtStart": [
+      " D docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net10.0.log",
+      " D docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net8.0.log",
+      " D docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net10.0.json",
+      " D docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net8.0.json",
+      " D docs/reviews/d3-impl-01/evidence/differential/probe/probe-run.json"
     ],
+    "sourceStatusBeforeStaleOutputRemoval": [],
     "unexpectedSourceChangesAtStart": [],
     "staleOutputsRemoved": [
       "docs/reviews/d3-impl-01/evidence/differential/probe/probe-run.json",
@@ -24,17 +24,15 @@
       "docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net8.0.log",
       "docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net10.0.log"
     ],
-    "originMain": "c7c512ccb87479868373c623066c0cd44c5f7e6a",
+    "originMain": "84271a83170088228ec3cbed9aa71d94c3d2a148",
     "aheadBehind": {
-      "ahead": 2,
+      "ahead": 1,
       "behind": 0
     },
     "postRunStatus": [
-      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net10.0.log",
-      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-console-net8.0.log",
-      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net10.0.json",
-      "?? docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net8.0.json",
-      "?? docs/reviews/d3-impl-01/evidence/differential/probe/probe-run.json"
+      " M docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net10.0.json",
+      " M docs/reviews/d3-impl-01/evidence/differential/probe/d3-results-net8.0.json",
+      " M docs/reviews/d3-impl-01/evidence/differential/probe/probe-run.json"
     ],
     "unexpectedSourceChanges": []
   },
@@ -49,7 +47,7 @@
     "cedarVersion": "4.11.0",
     "cargoTree": "> cargo tree --locked --offline --manifest-path D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\upstream-oracle\\Cargo.toml -p dogwood-language --depth 0\r\ndogwood-language v1.1.2 (https://github.com/dogwood-policy/dogwood?rev=929f49e7305534ac61ef06cf8e47269c596dc851#929f49e7)",
     "cargoLock": "3B448AEADC587C2C211AE7DEE59476EF551C270E51A11298CF301C8315F090F0",
-    "oracleSha256": "1EA82CB980DDD22916A311879FE3FCC6B43A93B30AF14D7211E9DF41729E2D59"
+    "oracleSha256": "4B4BEFB54D631885F3CEC000323D272954E84532F1EF66BF381A5DEB1164B980"
   },
   "managed": {
     "dotnet": "10.0.404",
