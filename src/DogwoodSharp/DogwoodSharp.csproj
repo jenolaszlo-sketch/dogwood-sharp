@@ -24,6 +24,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
     <InternalsVisibleTo Include="DogwoodSharp.Tests" />
+    <!-- The D3 per-rule export surface stays internal: this package's public type and member
+         set is a frozen qualification baseline (archived D1 consumer regression). The experimental
+         CedarSharp adapter and its tests consume operation 4 through these friend assemblies,
+         and the D3-IMPL-01 upstream differential probe consumes it as its production path. -->
+    <InternalsVisibleTo Include="DogwoodSharp.CedarSharp" />
+    <InternalsVisibleTo Include="DogwoodSharp.CedarSharp.Tests" />
+    <InternalsVisibleTo Include="PrepProbe" />
     <None Include="../../README.md;../../LICENSE;../../NOTICE" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>

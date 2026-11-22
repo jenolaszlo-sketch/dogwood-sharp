@@ -17,6 +17,11 @@ namespace DogwoodSharp.Experimental.CedarSharp;
 /// substituted for it. This type is experimental, outside the stable package, and subject to change
 /// before independent qualification. See <c>docs/d3-integration-contract.md</c>.
 /// </summary>
+/// <remarks>
+/// The D3 export surface of <c>DogwoodSharp</c> is internal, because that package's public type and
+/// member set is a frozen qualification baseline. This adapter is the public D3 surface: it performs
+/// the operation 4 export itself and never exposes a body-less lowering result.
+/// </remarks>
 public sealed class DogwoodCedarAuthorizer : IDisposable
 {
     private readonly CedarEngine engine;
@@ -53,13 +58,32 @@ public sealed class DogwoodCedarAuthorizer : IDisposable
     }
 
     /// <summary>
+    /// Lowers and validates one Dogwood source through the operation 4 export and builds an
+    /// authorizer from the resulting per-rule Cedar bundle. This is the only public construction
+    /// path: the bundle must come from the operation 4 export, and an incomplete export fails
+    /// construction rather than being completed.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">The source or schema is null.</exception>
+    /// <exception cref="DogwoodBridgeException">The native bridge could not load or complete operation 4.</exception>
+    /// <exception cref="CedarBundleException">The export is incomplete, mispaired, or inconsistent.</exception>
+    public static DogwoodCedarAuthorizer ForLoweredBundle(string source, DogwoodSchema schema)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(schema);
+        return ForExport(Dogwood.ExportCedar(source, schema));
+    }
+
+    /// <summary>
     /// Builds an authorizer from one complete, validated D3 export bundle. The bundle is the
     /// native operation 4 export; a lowering result without a per-rule body is rejected rather than
     /// completed, and there is no fallback path to the operation 3 lowering reply.
     /// </summary>
     /// <exception cref="ArgumentNullException">The export is null.</exception>
     /// <exception cref="CedarBundleException">The export is incomplete, mispaired, or inconsistent.</exception>
-    public static DogwoodCedarAuthorizer ForLoweredBundle(DogwoodCedarExport export)
+    internal static DogwoodCedarAuthorizer ForLoweredBundle(DogwoodCedarExport export) =>
+        ForExport(export);
+
+    private static DogwoodCedarAuthorizer ForExport(DogwoodCedarExport export)
     {
         ArgumentNullException.ThrowIfNull(export);
         if (!export.ArtifactsExported)

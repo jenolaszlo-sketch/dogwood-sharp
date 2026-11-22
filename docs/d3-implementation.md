@@ -24,7 +24,7 @@ public surface; and no schema-less fallback.
 | Work package | Production location | Notes |
 | --- | --- | --- |
 | D3-1 per-rule export | `native/dogwoodsharp-bridge/src/d2.rs` (`Export::D3`, `Rule.cedar_body`, `Artifacts.generated_context_fields`), `src/lib.rs` (`OPERATION_EXPORT = 4`) | ABI v1 operation 4: the same pipeline as operations 2 and 3, plus the exact `(cedar_policy_id, cedar_body)` rendered from the compiled `cedar_policy::Policy` and the trusted generated context-field names. Operation 3 keeps its frozen reply shape (D3-IMPL-01 R1 remediation). |
-| D3-1 managed reader | `src/DogwoodSharp/Dogwood.cs` (`Dogwood.ExportCedar`, `DogwoodCedarExport`, `CedarPolicyRule`), `src/DogwoodSharp/NativeBridge.cs` (`OperationExport`, `ReadExportedResult`, `ReadCedarRules`, `ReadGeneratedContextFields`) | Strict wire-contract reader for operation 4. The D2 (operation 3) surface is unchanged: `PolicyRuleMapping` and `DogwoodLoweredPolicySet` carry no per-rule body. |
+| D3-1 managed reader | `src/DogwoodSharp/Dogwood.cs` (`Dogwood.ExportCedar`, `DogwoodCedarExport`, `CedarPolicyRule`), `src/DogwoodSharp/NativeBridge.cs` (`OperationExport`, `ReadExportedResult`, `ReadCedarRules`, `ReadGeneratedContextFields`) | Strict wire-contract reader for operation 4. The D2 (operation 3) surface is unchanged: `PolicyRuleMapping` and `DogwoodLoweredPolicySet` carry no per-rule body. The D3 types and entry point are `internal`: the archived D1/D2 consumer qualification asserts this package's exact public type and member surface, so the D3 surface is consumed only through the experimental adapter. |
 | D3-2/3/4/8 adapter | `src/DogwoodSharp.CedarSharp/` (namespace `DogwoodSharp.Experimental.CedarSharp`) | `DogwoodCedarAuthorizer`, `CedarAuthorizationInput`, `CedarAuthorizationResult`, diagnostics, `CedarBundleException`. `CedarPolicySet.FromPolicies` from operation 4 per-rule pairs; canonical schema JSON on every request; `validateRequest=true` fixed; clean-Allow-only authorization. No fallback to the operation 3 reply. |
 | D2 differential expansion | `native/dogwoodsharp-d2-diff/src/main.rs`, `native/dogwoodsharp-d2-diff/src/oracle.rs`, `tests/DogwoodSharp.D2Conformance/lowering-v1.json` | The pinned fixture and the crate-derived `Expect` carry `cedarBody` per rule and `generatedContextFields`; `verify` now compares operations 2, 3 and 4, projecting the D3 fields onto operation 4 only and asserting operation 3's exact frozen shape (D2 bridge operation-change requalification, contract §15). |
 | Native regression tests | `native/dogwoodsharp-bridge/src/tests.rs` (`d3_export_supplies_exact_per_rule_bodies`, `d3_export_reports_generated_context_fields`, `d3_export_does_not_change_the_frozen_operation_3_reply`) | Exact per-id body pairing derived from the crate; reserved-field/self-containment reporting; operation 3's exact key set and operation 3/4 equivalence on every shared field. |
@@ -35,9 +35,9 @@ public surface; and no schema-less fallback.
 
 `DogwoodSharp.Experimental.CedarSharp`:
 
-- `DogwoodCedarAuthorizer.ForLoweredBundle(DogwoodCedarExport)` — owns one immutable
-  bundle; throws `CedarBundleException` on incomplete, mispaired, duplicated, or
-  schema-inconsistent bundles; never builds an empty set that continues.
+- `DogwoodCedarAuthorizer.ForLoweredBundle(string source, DogwoodSchema schema)` — performs the
+  operation 4 export and owns one immutable bundle; throws `CedarBundleException` on incomplete,
+  mispaired, duplicated, or schema-inconsistent bundles; never builds an empty set that continues.
   - `PolicyIds`, `CanonicalSchemaJson`, `SelfContained`, `RuleIndexFor(id)`.
   - `Authorize(CedarAuthorizationInput)` -> `CedarAuthorizationResult`.
   - `Dispose()` — managed references only; never unloads a native image.
@@ -49,12 +49,15 @@ public surface; and no schema-less fallback.
   `Errors` (categorized).
 - Categories and stages are stable; diagnostic wording is informative only, per contract §6.
 
-`DogwoodSharp` gains the operation 4 entry point that produces the bundle:
-
-- `Dogwood.ExportCedar(source, schema)` -> `DogwoodCedarExport`. `Dogwood.Lower` and the
-  rest of the D2 surface are unchanged: `PolicyRuleMapping` has no per-rule body and
-  `DogwoodLoweredPolicySet` has no generated-context-field list. An unavailable operation 4
-  surfaces as a `DogwoodBridgeException`; nothing substitutes the operation 3 reply.
+`DogwoodSharp` gains the operation 4 entry point that produces the bundle, **internal** to that
+assembly: `Dogwood.ExportCedar(source, schema)` -> `DogwoodCedarExport` / `CedarPolicyRule`, read by
+`NativeBridge.ReadExportedResult`. The archived D1/D2 consumer qualification asserts the exact
+public type and member surface of `DogwoodSharp` (`GetExportedTypes()` and the `Dogwood` static
+member list), so the D3 surface is not part of the stable public package; the experimental adapter
+and its tests are its friend assemblies. `Dogwood.Lower` and the rest of the D2 surface are
+unchanged: `PolicyRuleMapping` has no per-rule body and `DogwoodLoweredPolicySet` has no
+generated-context-field list. An unavailable operation 4 surfaces as a `DogwoodBridgeException`;
+nothing substitutes the operation 3 reply.
 
 ## 4. Binding-requirement compliance
 

@@ -60,11 +60,15 @@ public static class Dogwood
     /// operation 3 reply when operation 4 is unavailable: an older native image answers this caller
     /// with a <see cref="DogwoodBridgeException"/> rather than a body-less bundle.
     /// </summary>
-    /// <remarks>Use <see cref="DogwoodCedarExport.ArtifactsExported"/> to check for a complete export.</remarks>
+    /// <remarks>
+    /// Internal on purpose: the archived D1/D2 consumer qualification asserts this package's exact
+    /// public type and member surface, so the D3 export surface stays inside the assembly and is
+    /// consumed through the experimental <c>DogwoodSharp.Experimental.CedarSharp</c> package.
+    /// </remarks>
     /// <exception cref="ArgumentNullException">The source or schema is null.</exception>
     /// <exception cref="ArgumentException">The source, schema text, or distincter violates its format or size limit.</exception>
     /// <exception cref="DogwoodBridgeException">The native bridge could not load or complete the operation.</exception>
-    public static DogwoodCedarExport ExportCedar(string source, DogwoodSchema schema)
+    internal static DogwoodCedarExport ExportCedar(string source, DogwoodSchema schema)
     {
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(schema);
@@ -449,7 +453,12 @@ public sealed class DogwoodLoweredPolicySet
 /// The exact Cedar policy body stored under <paramref name="CedarPolicyId"/>. This is the
 /// identity-bearing body for building a per-rule policy set.
 /// </param>
-public sealed record CedarPolicyRule(
+/// <remarks>
+/// Internal, like the operation 4 export that produces it: this package's public type and member
+/// surface is a frozen qualification baseline, so the D3 export surface is consumed only through
+/// the experimental <c>DogwoodSharp.Experimental.CedarSharp</c> package.
+/// </remarks>
+internal sealed record CedarPolicyRule(
     int RuleIndex, string CedarPolicyId, string SourceText, string CedarPolicyBody);
 
 /// <summary>
@@ -458,7 +467,8 @@ public sealed record CedarPolicyRule(
 /// trusted-pipeline-owned generated context field names. The operation 3 lowering result
 /// (<see cref="DogwoodLoweredPolicySet"/>) is unchanged and carries no per-rule body.
 /// </summary>
-public sealed class DogwoodCedarExport
+/// <remarks>Internal; see <see cref="CedarPolicyRule"/>.</remarks>
+internal sealed class DogwoodCedarExport
 {
     internal DogwoodCedarExport(
         DogwoodValidationResult validation, bool exported, string policyText, string schemaJson,

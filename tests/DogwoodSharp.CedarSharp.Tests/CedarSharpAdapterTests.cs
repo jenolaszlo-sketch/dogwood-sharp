@@ -31,9 +31,9 @@ public sealed class CedarSharpAdapterTests
 
     private static DogwoodCedarAuthorizer Plan(string source, string schemaText = Schema)
     {
-        var export = Dogwood.ExportCedar(source, new DogwoodSchema(schemaText));
-        Assert.True(export.ArtifactsExported, "the test lowering must export a complete bundle");
-        return DogwoodCedarAuthorizer.ForLoweredBundle(export);
+        // The public construction path performs the operation 4 export itself. An incomplete
+        // export fails construction, so a test lowering that does not export throws here.
+        return DogwoodCedarAuthorizer.ForLoweredBundle(source, new DogwoodSchema(schemaText));
     }
 
     private static CedarEntityRef User(string id) => new("App::User", id);
@@ -187,6 +187,7 @@ public sealed class CedarSharpAdapterTests
     [Fact]
     public void AnUnexportedLoweringThrowsRatherThanBuildingAnEmptySet()
     {
+        // The operation 4 export ran but did not commit, so no bundle exists and nothing is built.
         var export = Dogwood.ExportCedar(
             "permit(principal, action == App::Action::\"read\", resource) when { context.nope > 3 };",
             new DogwoodSchema(Schema));
@@ -194,6 +195,13 @@ public sealed class CedarSharpAdapterTests
         var exception = Assert.Throws<CedarBundleException>(
             () => DogwoodCedarAuthorizer.ForLoweredBundle(export));
         Assert.Equal(CedarBundleFailure.LoweringNotExported, exception.Failure);
+
+        // The public construction path fails the same way rather than building an empty set.
+        var publicFailure = Assert.Throws<CedarBundleException>(
+            () => DogwoodCedarAuthorizer.ForLoweredBundle(
+                "permit(principal, action == App::Action::\"read\", resource) when { context.nope > 3 };",
+                new DogwoodSchema(Schema)));
+        Assert.Equal(CedarBundleFailure.LoweringNotExported, publicFailure.Failure);
     }
 
     [Fact]
