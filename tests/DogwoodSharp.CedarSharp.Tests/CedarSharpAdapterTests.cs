@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Text.Json;
+using CedarPolicySet = CedarSharp.CedarPolicySet;
 using DogwoodSharp;
 using DogwoodSharp.Experimental.CedarSharp;
 using Xunit;
@@ -10,7 +11,8 @@ namespace DogwoodSharp.CedarSharp.Tests;
 /// Focused, fail-closed tests for the experimental schema-carrying CedarSharp adapter. Expected
 /// outcomes are derived from Cedar semantics and the D2-generated rule identities, independently of
 /// the adapter's own output. Covers the decision, scope, entity, identity, temporal-guard,
-/// malformed-input, clean-Allow, concurrency, and lifecycle families of the D3 contract.
+/// malformed-input, clean-Allow, concurrency, and lifecycle families of the D3 contract, plus the
+/// operation 3/operation 4 surface boundary that keeps the frozen D2 contract intact.
 /// </summary>
 public sealed class CedarSharpAdapterTests
 {
@@ -18,11 +20,20 @@ public sealed class CedarSharpAdapterTests
     private const string Schema =
         "namespace App { entity User; entity Doc { secret: Bool }; action \"read\" appliesTo { principal: [User], resource: [Doc], context: { count: Long } }; }";
 
+    // A validated temporal lowering: the distincter and the nested request record let the generated
+    // temporal field pass upstream validation, so the export stage runs and reports the reserved name.
+    private const string ValidatedTemporalSource =
+        "permit (principal, action == App::Action::\"read\", resource)\n" +
+        "when temporal { formerly within 1h App::Action::\"read\"::request { input.count: 3 } };";
+    private const string ValidatedTemporalSchema =
+        "namespace App { entity User; entity Doc; action \"read\" appliesTo { principal: [User], resource: [Doc], " +
+        "context: { input: { count: Long } } }; }";
+
     private static DogwoodCedarAuthorizer Plan(string source, string schemaText = Schema)
     {
-        var lowered = Dogwood.Lower(source, new DogwoodSchema(schemaText));
-        Assert.True(lowered.ArtifactsExported, "the test lowering must export a complete bundle");
-        return DogwoodCedarAuthorizer.ForLoweredBundle(lowered);
+        var export = Dogwood.ExportCedar(source, new DogwoodSchema(schemaText));
+        Assert.True(export.ArtifactsExported, "the test lowering must export a complete bundle");
+        return DogwoodCedarAuthorizer.ForLoweredBundle(export);
     }
 
     private static CedarEntityRef User(string id) => new("App::User", id);
@@ -176,13 +187,54 @@ public sealed class CedarSharpAdapterTests
     [Fact]
     public void AnUnexportedLoweringThrowsRatherThanBuildingAnEmptySet()
     {
-        var lowered = Dogwood.Lower(
+        var export = Dogwood.ExportCedar(
             "permit(principal, action == App::Action::\"read\", resource) when { context.nope > 3 };",
             new DogwoodSchema(Schema));
-        Assert.False(lowered.ArtifactsExported);
+        Assert.False(export.ArtifactsExported);
         var exception = Assert.Throws<CedarBundleException>(
-            () => DogwoodCedarAuthorizer.ForLoweredBundle(lowered));
+            () => DogwoodCedarAuthorizer.ForLoweredBundle(export));
         Assert.Equal(CedarBundleFailure.LoweringNotExported, exception.Failure);
+    }
+
+    [Fact]
+    public void OperationFourExportsWhatTheFrozenLoweringResultDoesNotCarry()
+    {
+        // Operations 3 and 4 run one pipeline, so their shared results agree exactly. Only operation
+        // 4 reports the per-rule (id, body) pairs and the trusted generated context-field names; the
+        // frozen operation 3 surface has no per-rule body property at all, which is what keeps the
+        // archived D2 corpus green.
+        const string Source =
+            "permit(principal, action == App::Action::\"read\", resource) when { context.count > 3 };";
+        var schema = new DogwoodSchema(Schema);
+        var lowered = Dogwood.Lower(Source, schema);
+        var export = Dogwood.ExportCedar(Source, schema);
+
+        Assert.True(lowered.ArtifactsExported);
+        Assert.True(export.ArtifactsExported);
+        Assert.Equal(lowered.CedarPolicyText, export.CedarPolicyText);
+        Assert.Equal(lowered.CedarSchemaJson, export.CedarSchemaJson);
+        Assert.Equal(lowered.CedarSchemaText, export.CedarSchemaText);
+        Assert.Equal(lowered.RuleCount, export.RuleCount);
+        Assert.Equal(lowered.SelfContainedCedar, export.SelfContainedCedar);
+        Assert.Equal(lowered.Validation.ValidationPassed, export.Validation.ValidationPassed);
+        Assert.Equal(lowered.StageError, export.StageError);
+        Assert.Equal(lowered.Rules.Length, export.Rules.Length);
+        for (int index = 0; index < lowered.Rules.Length; index++)
+        {
+            Assert.Equal(lowered.Rules[index].RuleIndex, export.Rules[index].RuleIndex);
+            Assert.Equal(lowered.Rules[index].CedarPolicyId, export.Rules[index].CedarPolicyId);
+            Assert.Equal(lowered.Rules[index].SourceText, export.Rules[index].SourceText);
+            Assert.False(string.IsNullOrEmpty(export.Rules[index].CedarPolicyBody));
+        }
+
+        Assert.Empty(export.GeneratedContextFields);
+        Assert.Null(typeof(PolicyRuleMapping).GetProperty("CedarPolicyBody"));
+        Assert.Null(typeof(DogwoodLoweredPolicySet).GetProperty("GeneratedContextFields"));
+
+        using var plan = DogwoodCedarAuthorizer.ForLoweredBundle(export);
+        Assert.Equal(
+            export.Rules.Select(rule => rule.CedarPolicyId).OrderBy(id => id, StringComparer.Ordinal),
+            plan.PolicyIds);
     }
 
     [Fact]
@@ -207,20 +259,21 @@ public sealed class CedarSharpAdapterTests
         // temporal lowering is never a clean authorization through this public path. It is fail-closed
         // at the lowering boundary when it cannot produce the trusted field, or refused by the adapter
         // when it can; both authorize nothing.
-        var lowered = Dogwood.Lower(
+        var unexported = Dogwood.ExportCedar(
             "def temporal was_read(?count) { formerly within 1h App::Action::\"read\"::request { context.count: ?count } };\n" +
             "permit (principal, action == App::Action::\"read\", resource) when temporal { was_read(context.count) };",
             new DogwoodSchema(D2Fixture.DefaultPolicySchema));
-        if (!lowered.ArtifactsExported)
+        if (!unexported.ArtifactsExported)
         {
-            Assert.Throws<CedarBundleException>(() => DogwoodCedarAuthorizer.ForLoweredBundle(lowered));
+            // The lowering failed upstream validation, so no bundle exists and nothing is built.
+            Assert.Throws<CedarBundleException>(() => DogwoodCedarAuthorizer.ForLoweredBundle(unexported));
             return;
         }
 
-        Assert.False(lowered.SelfContainedCedar);
-        var reserved = Assert.Single(lowered.GeneratedContextFields);
+        Assert.False(unexported.SelfContainedCedar);
+        var reserved = Assert.Single(unexported.GeneratedContextFields);
 
-        using var plan = DogwoodCedarAuthorizer.ForLoweredBundle(lowered);
+        using var plan = DogwoodCedarAuthorizer.ForLoweredBundle(unexported);
         var contextJson = injectReservedField
             ? "{\"count\": 5, \"" + reserved + "\": true}"
             : "{\"count\": 5}";
@@ -235,6 +288,73 @@ public sealed class CedarSharpAdapterTests
         else
         {
             Assert.Equal(CedarAuthorizationStage.TrustedBindingUnavailable, result.Stage);
+        }
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void AValidatedTemporalExportRejectsTheReservedFieldAndNeverAuthorizes(bool injectReservedField)
+    {
+        // This temporal lowering passes upstream validation, so the operation 4 export reports the
+        // reserved context field the trusted pipeline owns. The name is trusted pipeline output: a
+        // caller that injects it is rejected before dispatch, and without it the trusted binding is
+        // unavailable. Neither case authorizes, and neither substitutes a caller value.
+        var export = Dogwood.ExportCedar(
+            ValidatedTemporalSource, new DogwoodSchema(ValidatedTemporalSchema, Distincter: "verified"));
+        Assert.True(export.ArtifactsExported);
+        Assert.False(export.SelfContainedCedar);
+        var reserved = Assert.Single(export.GeneratedContextFields);
+
+        using var plan = DogwoodCedarAuthorizer.ForLoweredBundle(export);
+        Assert.False(plan.SelfContained);
+        var contextJson = injectReservedField
+            ? "{\"input\": {\"count\": 5}, \"" + reserved + "\": true}"
+            : "{\"input\": {\"count\": 5}}";
+        var result = plan.Authorize(Request(User("alice"), Action("read"), Doc("d1"), contextJson, "[]"));
+
+        Assert.True(result.OperationFailed);
+        Assert.Null(result.Decision);
+        Assert.False(result.Authorized);
+        if (injectReservedField)
+        {
+            Assert.Contains(CedarDiagnosticCategory.ReservedContextField, result.Errors.Select(e => e.Category));
+        }
+        else
+        {
+            Assert.Equal(CedarAuthorizationStage.TrustedBindingUnavailable, result.Stage);
+        }
+    }
+
+    [Fact]
+    public void TheExportedBodiesRebuildTheExportedPolicySetByIdentity()
+    {
+        // The per-rule bodies are the identity-bearing export: rebuilding a set from them reproduces
+        // exactly the exported ids, while the concatenated text route is never used for identity.
+        const string Source =
+            "permit(principal, action == App::Action::\"read\", resource) when { context.count > 3 };" +
+            "forbid(principal, action == App::Action::\"read\", resource) when { resource == App::Doc::\"d1\" };";
+        var export = Dogwood.ExportCedar(Source, new DogwoodSchema(Schema));
+        Assert.True(export.ArtifactsExported);
+
+        var rebuilt = CedarPolicySet.FromPolicies(
+            export.Rules.Select(rule => (rule.CedarPolicyId, rule.CedarPolicyBody)).ToArray());
+        Assert.Equal(
+            export.Rules.Select(rule => rule.CedarPolicyId).OrderBy(id => id, StringComparer.Ordinal),
+            rebuilt.PolicyIds.OrderBy(id => id, StringComparer.Ordinal));
+        foreach (var rule in export.Rules)
+        {
+            Assert.Contains(rule.CedarPolicyId, rebuilt.PolicyIds);
+        }
+
+        // Each exported body is one complete policy statement in its own right, which is what makes
+        // the (id, body) pair a complete identity-bearing export.
+        foreach (var rule in export.Rules)
+        {
+            Assert.True(
+                rule.CedarPolicyBody.TrimStart().StartsWith("permit(", StringComparison.Ordinal) ||
+                rule.CedarPolicyBody.TrimStart().StartsWith("forbid(", StringComparison.Ordinal),
+                $"the exported body for {rule.CedarPolicyId} is not a policy statement");
         }
     }
 

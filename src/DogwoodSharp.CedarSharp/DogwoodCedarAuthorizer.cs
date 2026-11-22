@@ -10,18 +10,19 @@ namespace DogwoodSharp.Experimental.CedarSharp;
 
 /// <summary>
 /// Experimental, fail-closed schema-carrying authorization adapter over CedarSharp 1.0.0
-/// (Cedar 4.13.0). One authorizer owns one immutable, complete D2 lowering bundle: the generated
+/// (Cedar 4.13.0). One authorizer owns one immutable, complete D3 export bundle: the generated
 /// Cedar policy ids, the exact body paired with each id, the canonical augmented schema, and the
-/// trusted-pipeline-owned reserved context-field names. This type is experimental, outside the
-/// stable package, and subject to change before independent qualification. See
-/// <c>docs/d3-integration-contract.md</c>.
+/// trusted-pipeline-owned reserved context-field names. The bundle comes only from the native
+/// operation 4 export; the operation 3 lowering result carries no per-rule body and is never
+/// substituted for it. This type is experimental, outside the stable package, and subject to change
+/// before independent qualification. See <c>docs/d3-integration-contract.md</c>.
 /// </summary>
 public sealed class DogwoodCedarAuthorizer : IDisposable
 {
     private readonly CedarEngine engine;
     private readonly CedarPolicySet policySet;
     private readonly CedarSchema schema;
-    private readonly ImmutableArray<PolicyRuleMapping> rules;
+    private readonly ImmutableArray<CedarPolicyRule> rules;
     private readonly ImmutableHashSet<string> policyIds;
     private readonly ImmutableDictionary<string, int> ruleIndexById;
     private readonly ImmutableArray<string> reservedContextFields;
@@ -32,7 +33,7 @@ public sealed class DogwoodCedarAuthorizer : IDisposable
         CedarPolicySet policySet,
         CedarSchema schema,
         string schemaJson,
-        ImmutableArray<PolicyRuleMapping> rules,
+        ImmutableArray<CedarPolicyRule> rules,
         ImmutableArray<string> reservedContextFields)
     {
         this.engine = engine;
@@ -51,19 +52,24 @@ public sealed class DogwoodCedarAuthorizer : IDisposable
         this.reservedContextFields = reservedContextFields.IsDefault ? [] : reservedContextFields;
     }
 
-    /// <summary>Builds an authorizer from one complete, validated D2 lowering bundle.</summary>
-    /// <exception cref="CedarBundleException">The lowering is incomplete, mispaired, or inconsistent.</exception>
-    public static DogwoodCedarAuthorizer ForLoweredBundle(DogwoodLoweredPolicySet lowered)
+    /// <summary>
+    /// Builds an authorizer from one complete, validated D3 export bundle. The bundle is the
+    /// native operation 4 export; a lowering result without a per-rule body is rejected rather than
+    /// completed, and there is no fallback path to the operation 3 lowering reply.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">The export is null.</exception>
+    /// <exception cref="CedarBundleException">The export is incomplete, mispaired, or inconsistent.</exception>
+    public static DogwoodCedarAuthorizer ForLoweredBundle(DogwoodCedarExport export)
     {
-        ArgumentNullException.ThrowIfNull(lowered);
-        if (!lowered.ArtifactsExported)
+        ArgumentNullException.ThrowIfNull(export);
+        if (!export.ArtifactsExported)
         {
             throw new CedarBundleException(
                 CedarBundleFailure.LoweringNotExported,
                 "The lowering did not export a complete validated bundle.");
         }
 
-        foreach (var rule in lowered.Rules)
+        foreach (var rule in export.Rules)
         {
             if (string.IsNullOrEmpty(rule.CedarPolicyId))
             {
@@ -80,7 +86,7 @@ public sealed class DogwoodCedarAuthorizer : IDisposable
         }
 
         var ids = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var rule in lowered.Rules)
+        foreach (var rule in export.Rules)
         {
             if (!ids.Add(rule.CedarPolicyId))
             {
@@ -90,7 +96,7 @@ public sealed class DogwoodCedarAuthorizer : IDisposable
             }
         }
 
-        if (lowered.CedarSchemaJson.Length == 0)
+        if (export.CedarSchemaJson.Length == 0)
         {
             throw new CedarBundleException(
                 CedarBundleFailure.MissingSchema, "The lowering exported no canonical augmented schema JSON.");
@@ -103,8 +109,8 @@ public sealed class DogwoodCedarAuthorizer : IDisposable
             // Build the identity-bearing policy set from exact (id, body) pairs. The source @id
             // annotation is never the stored id, and concatenated text is never reparsed here.
             policySet = CedarPolicySet.FromPolicies(
-                lowered.Rules.Select(rule => (rule.CedarPolicyId, rule.CedarPolicyBody!)).ToArray());
-            schema = CedarSchema.FromJson(lowered.CedarSchemaJson);
+                export.Rules.Select(rule => (rule.CedarPolicyId, rule.CedarPolicyBody)).ToArray());
+            schema = CedarSchema.FromJson(export.CedarSchemaJson);
         }
         catch (Exception exception)
         {
@@ -122,7 +128,7 @@ public sealed class DogwoodCedarAuthorizer : IDisposable
         }
 
         return new DogwoodCedarAuthorizer(
-            new CedarEngine(), policySet, schema, lowered.CedarSchemaJson, lowered.Rules, lowered.GeneratedContextFields);
+            new CedarEngine(), policySet, schema, export.CedarSchemaJson, export.Rules, export.GeneratedContextFields);
     }
 
     /// <summary>The generated Cedar policy ids this authorizer owns, in a stable ordinal order.</summary>

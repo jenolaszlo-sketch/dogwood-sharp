@@ -34,7 +34,7 @@ const SCHEMA_TEXT: &str = "namespace App { entity User; entity Doc; action \"rea
 #[test]
 fn d2_operation_gate_rejects_unknown_operations() {
     let mut buffer = Buffer::EMPTY;
-    for operation in [OPERATION_LOWER + 1, u32::MAX] {
+    for operation in [OPERATION_EXPORT + 1, u32::MAX] {
         assert_eq!(
             call(ABI, operation, b"{}", &mut buffer),
             Status::UnsupportedOperation as u32
@@ -222,8 +222,8 @@ fn d2_validate_and_export_use_the_same_distincter() {
 }
 
 #[test]
-fn d2_export_supplies_exact_per_rule_bodies() {
-    // The export pairs each generated Cedar id with the exact body of the compiled Cedar policy,
+fn d3_export_supplies_exact_per_rule_bodies() {
+    // Operation 4 pairs each generated Cedar id with the exact body of the compiled Cedar policy,
     // independent of source order and without splitting the concatenated text. Expected pairs are
     // derived directly from the pinned crate's `Policy` objects, not the ABI output.
     const BODY_SCHEMA: &str = "namespace App { entity User; entity Doc { owners: Set<User>, count: Long }; action \"read\" appliesTo { principal: [User], resource: [Doc] }; }";
@@ -255,7 +255,7 @@ fn d2_export_supplies_exact_per_rule_bodies() {
         ",\"distincter\":\"d3\"",
     );
     assert_eq!(
-        call(ABI, OPERATION_LOWER, request.as_bytes(), &mut buffer),
+        call(ABI, OPERATION_EXPORT, request.as_bytes(), &mut buffer),
         0
     );
     let reply = read(&buffer);
@@ -288,24 +288,37 @@ fn d2_export_supplies_exact_per_rule_bodies() {
 }
 
 #[test]
-fn d2_export_reports_generated_context_fields() {
-    // A self-contained export owns no trusted context field. The fixture's temporal family is a
-    // non-self-contained member; the export names each generated field it requires.
+fn d3_export_reports_generated_context_fields() {
+    // A self-contained export owns no trusted context field; the fixture's validated temporal
+    // family is a non-self-contained member whose export names the field the trusted pipeline owns.
     let manifest: Value = serde_json::from_str(include_str!(
         "../../../tests/DogwoodSharp.D2Conformance/lowering-v1.json"
     ))
     .unwrap();
     let schema = manifest["defaultPolicySchema"].as_str().unwrap();
+    const TEMPORAL_SOURCE: &str = concat!(
+        "permit (principal, action == App::Action::\"read\", resource)\n",
+        "when temporal { formerly within 1h App::Action::\"read\"::request { input.count: 3 } };",
+    );
+    // The distincter and action context that let this temporal lowering validate, so the
+    // export stage runs and the reserved field is reported on a validated export.
+    const TEMPORAL_SCHEMA: &str = concat!(
+        "namespace App { entity User; entity Doc; ",
+        "action \"read\" appliesTo { principal: [User], resource: [Doc], ",
+        "context: { input: { count: Long } } }; }",
+    );
 
     let mut buffer = Buffer::EMPTY;
 
+    // A self-contained lowering reports the field list as present and empty, which is
+    // what distinguishes "no trusted field" from "the operation did not report them".
     let request = d2_request(
         &d2_body("permit(principal, action == App::Action::\"read\", resource);"),
         &d2_body(schema),
         "",
     );
     assert_eq!(
-        call(ABI, OPERATION_LOWER, request.as_bytes(), &mut buffer),
+        call(ABI, OPERATION_EXPORT, request.as_bytes(), &mut buffer),
         0
     );
     let reply = read(&buffer);
@@ -313,7 +326,192 @@ fn d2_export_reports_generated_context_fields() {
     assert_eq!(reply["artifactsExported"], true);
     assert_eq!(reply["selfContainedCedar"], true);
     assert_eq!(reply["generatedContextFields"], json!([]));
+
+    // A temporal lowering is not self-contained and names the field the trusted pipeline owns.
+    let temporal = d2_request(
+        &d2_body(TEMPORAL_SOURCE),
+        &d2_body(TEMPORAL_SCHEMA),
+        ",\"distincter\":\"verified\"",
+    );
+    assert_eq!(
+        call(ABI, OPERATION_EXPORT, temporal.as_bytes(), &mut buffer),
+        0
+    );
+    let reply = read(&buffer);
+    release(&mut buffer);
+    assert_eq!(reply["artifactsExported"], true);
+    assert_eq!(reply["selfContainedCedar"], false);
+    let fields = reply["generatedContextFields"].as_array().unwrap();
+    assert_eq!(fields.len(), 1);
+    assert_eq!(fields[0], "verified_0__temporal_0");
+
+    // The reported names come from the lowered artifact itself: each is the id of a
+    // temporal field the crate reports, and no other trusted name is admitted.
+    let lowered = ParsedPolicySet::parse(TEMPORAL_SOURCE, &ServiceSchema::defaults())
+        .and_then(|parsed| {
+            parsed.lower_with_distincter(
+                &PolicySchema::from_cedarschema_str(TEMPORAL_SCHEMA).unwrap(),
+                "verified",
+            )
+        })
+        .unwrap();
+    let expected: Vec<String> = lowered
+        .temporal_fields()
+        .map(|field| field.id.clone())
+        .collect();
+    let reported: Vec<String> = fields
+        .iter()
+        .map(|field| field.as_str().unwrap().to_owned())
+        .collect();
+    assert_eq!(reported, expected);
+    assert!(lowered.provider_fields().next().is_none());
 }
+
+#[test]
+fn d3_export_does_not_change_the_frozen_operation_3_reply() {
+    // The frozen D2 contract: operation 3 still reports exactly its documented fields, and
+    // operation 4 adds the D3 fields on top of the same shared pipeline. Any operation-3 field
+    // the D3 export introduced is a regression, so both key sets are asserted exactly.
+    let request = d2_request(
+        &d2_body("permit(principal, action == App::Action::\"read\", resource);"),
+        &d2_body(SCHEMA_TEXT),
+        "",
+    );
+    let mut buffer = Buffer::EMPTY;
+
+    assert_eq!(
+        call(ABI, OPERATION_LOWER, request.as_bytes(), &mut buffer),
+        0
+    );
+    let lower = read(&buffer);
+    release(&mut buffer);
+    assert_eq!(
+        call(ABI, OPERATION_EXPORT, request.as_bytes(), &mut buffer),
+        0
+    );
+    let export = read(&buffer);
+    release(&mut buffer);
+
+    let mut frozen: Vec<&str> = lower
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect();
+    frozen.sort_unstable();
+    assert_eq!(
+        frozen,
+        [
+            "actionSchemaBuilt",
+            "artifactsExported",
+            "cedarPolicyText",
+            "cedarSchemaJson",
+            "cedarSchemaText",
+            "collision",
+            "collisionCheckPassed",
+            "lowered",
+            "parseDiagnostics",
+            "parsed",
+            "policyCount",
+            "ruleCount",
+            "rules",
+            "selfContainedCedar",
+            "serviceSchemaBuilt",
+            "stageError",
+            "validationErrors",
+            "validationPassed",
+            "validationWarnings",
+        ]
+    );
+
+    // Operation 4 is the same reply with the D3 export fields added.
+    let mut extended: Vec<&str> = export
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect();
+    extended.sort_unstable();
+    assert_eq!(
+        extended,
+        [
+            "actionSchemaBuilt",
+            "artifactsExported",
+            "cedarPolicyText",
+            "cedarSchemaJson",
+            "cedarSchemaText",
+            "collision",
+            "collisionCheckPassed",
+            "generatedContextFields",
+            "lowered",
+            "parseDiagnostics",
+            "parsed",
+            "policyCount",
+            "ruleCount",
+            "rules",
+            "selfContainedCedar",
+            "serviceSchemaBuilt",
+            "stageError",
+            "validationErrors",
+            "validationPassed",
+            "validationWarnings",
+        ]
+    );
+
+    // Every shared field agrees, because both operations run one pipeline. The rules array is
+    // compared field by field below, because operation 4 adds one field per rule.
+    for key in &frozen {
+        if *key != "rules" {
+            assert_eq!(lower[*key], export[*key], "operation 4 changed {key}");
+        }
+    }
+    let frozen_rules = lower["rules"].as_array().unwrap();
+    let exported_rules = export["rules"].as_array().unwrap();
+    assert_eq!(frozen_rules.len(), 1);
+    assert_eq!(frozen_rules[0].as_object().unwrap().len(), 3);
+    assert_eq!(exported_rules[0].as_object().unwrap().len(), 4);
+    for (frozen_rule, exported_rule) in frozen_rules.iter().zip(exported_rules) {
+        for key in ["ruleIndex", "cedarPolicyId", "sourceText"] {
+            assert_eq!(
+                frozen_rule[key], exported_rule[key],
+                "operation 4 changed {key}"
+            );
+        }
+        assert!(exported_rule["cedarBody"].is_string());
+    }
+
+    // A failed export keeps both shapes as well: the empty artifact strings and, for
+    // operation 4, the empty generated context-field list. Neither operation reports a
+    // partial artifact.
+    let failing = d2_request(
+        &d2_body(
+            "permit(principal, action == App::Action::\"read\", resource) when { context.nope > 3 };",
+        ),
+        &d2_body(SCHEMA_TEXT),
+        "",
+    );
+    assert_eq!(
+        call(ABI, OPERATION_LOWER, failing.as_bytes(), &mut buffer),
+        0
+    );
+    let lower = read(&buffer);
+    release(&mut buffer);
+    assert_eq!(
+        call(ABI, OPERATION_EXPORT, failing.as_bytes(), &mut buffer),
+        0
+    );
+    let export = read(&buffer);
+    release(&mut buffer);
+    assert_eq!(lower["artifactsExported"], false);
+    assert_eq!(lower["cedarPolicyText"], "");
+    assert_eq!(lower.as_object().unwrap().len(), 19);
+    assert_eq!(export["artifactsExported"], false);
+    assert_eq!(export["cedarPolicyText"], "");
+    assert_eq!(export["generatedContextFields"], json!([]));
+    assert_eq!(export.as_object().unwrap().len(), 20);
+    assert!(export["rules"].as_array().unwrap().is_empty());
+}
+
 #[test]
 fn d2_failed_stages_never_look_complete() {
     let mut buffer = Buffer::EMPTY;

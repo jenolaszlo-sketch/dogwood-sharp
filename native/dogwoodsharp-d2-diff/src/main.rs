@@ -10,6 +10,11 @@
 //! crate, checks the pinned fixture still matches upstream, and then compares
 //! the bridge's exported C ABI against the R1 contract. Any difference
 //! exits nonzero.
+//!
+//! The comparison is per operation: operations 2 and 3 are the frozen D2
+//! contract, and operation 4 is the D3 export operation, which projects the same
+//! upstream facts onto its own documented shape (per-rule Cedar bodies and the
+//! trusted generated context-field names) without loosening operation 3.
 
 mod abi;
 mod oracle;
@@ -25,6 +30,8 @@ const FIXTURE_VERSION: u32 = 1;
 const DOGWOOD_REVISION: &str = "929f49e7305534ac61ef06cf8e47269c596dc851";
 const OPERATION_VALIDATE: u32 = 2;
 const OPERATION_LOWER: u32 = 3;
+/// The D3 export operation. Same request, same pipeline, its own reply shape.
+const OPERATION_EXPORT: u32 = 4;
 /// Longest rendered value shown in a failure line.
 const PREVIEW: usize = 200;
 
@@ -230,18 +237,12 @@ fn problems(
     library: &abi::Library,
 ) -> Result<(), Vec<String>> {
     let mut problems = Vec::new();
-    for operation in [OPERATION_VALIDATE, OPERATION_LOWER] {
+    for operation in [OPERATION_VALIDATE, OPERATION_LOWER, OPERATION_EXPORT] {
         match call_case(library, operation, case, manifest) {
             Ok(reply) => problems.extend(
-                compare(
-                    &reply,
-                    derived,
-                    case,
-                    manifest,
-                    operation == OPERATION_LOWER,
-                )
-                .into_iter()
-                .map(|failure| format!("operation {operation}: {failure}")),
+                compare(&reply, derived, case, manifest, operation)
+                    .into_iter()
+                    .map(|failure| format!("operation {operation}: {failure}")),
             ),
             Err(status) => problems.push(format!(
                 "operation {operation} returned ABI status {status}"
@@ -257,13 +258,17 @@ fn problems(
 
 /// Keep the upstream expectation intact. Project it onto the R1 boundary only
 /// after checking the pinned upstream result, including any replaced field.
+/// Operations 3 and 4 export artifacts; only operation 4 carries the D3
+/// per-rule bodies and the trusted generated context-field names.
 fn compare(
     reply: &Value,
     derived: &Expect,
     case: &Case,
     manifest: &Manifest,
-    export: bool,
+    operation: u32,
 ) -> Vec<String> {
+    let export = operation >= OPERATION_LOWER;
+    let d3 = operation == OPERATION_EXPORT;
     let mut problems = Vec::new();
     let service_built = derived
         .stage_error
@@ -291,7 +296,7 @@ fn compare(
         }
     }
     let rules = if validated {
-        project_rules(&serde_json::to_value(&derived.rules).unwrap(), export)
+        project_rules(&serde_json::to_value(&derived.rules).unwrap(), export, d3)
     } else {
         serde_json::json!([])
     };
@@ -331,6 +336,11 @@ fn compare(
         } else {
             "".into()
         };
+    }
+    if d3 {
+        // The D3 export operation reports the trusted-pipeline-owned reserved context field
+        // names. The frozen operation 3 reply has no such field, and the caller cannot supply
+        // them, so they are part of the operation 4 shape only.
         expected["generatedContextFields"] = if exported {
             derived.generated_context_fields.as_slice()
         } else {
@@ -392,7 +402,9 @@ fn project_findings(value: &Value) -> Value {
 }
 
 /// Reduce a reply's rules array to the structural facts the pins record.
-fn project_rules(value: &Value, with_source: bool) -> Value {
+/// Operation 3 reports the identity and expanded source; operation 4 also reports the
+/// exact Cedar body stored under the generated id.
+fn project_rules(value: &Value, with_source: bool, with_body: bool) -> Value {
     let entries = match value.as_array() {
         Some(entries) => entries,
         None => return Value::Null,
@@ -415,6 +427,8 @@ fn project_rules(value: &Value, with_source: bool) -> Value {
                         "sourceText".to_string(),
                         entry.get("sourceText").cloned().unwrap_or(Value::Null),
                     );
+                }
+                if with_body {
                     object.insert(
                         "cedarBody".to_string(),
                         entry.get("cedarBody").cloned().unwrap_or(Value::Null),

@@ -28,6 +28,15 @@ internal sealed unsafe class NativeBridge
     private const uint OperationValidate = 2;
     private const uint OperationLower = 3;
 
+    /// <summary>
+    /// The D3 per-rule Cedar export operation. It runs the same pipeline and reports the same
+    /// validated artifacts as operation 3, plus each rule's exact Cedar body and the trusted
+    /// generated context-field names. An older native image answers this caller with status 3,
+    /// which surfaces as a <see cref="DogwoodBridgeException"/>; the D3 reader never substitutes
+    /// the operation 3 reply for an unavailable operation 4.
+    /// </summary>
+    private const uint OperationExport = 4;
+
     private static readonly Lazy<NativeBridge> Instance = new(() => Load(AppContext.BaseDirectory));
     private readonly delegate* unmanaged[Cdecl]<uint, uint, byte*, uint, Buffer*, uint> call;
     private readonly delegate* unmanaged[Cdecl]<Buffer*, void> free;
@@ -209,6 +218,14 @@ internal sealed unsafe class NativeBridge
         return ReadLoweredResult(reply.RootElement, sourceBytes);
     }
 
+    /// <summary>Runs the D3 per-rule Cedar export operation and reads its completed bundle.</summary>
+    internal DogwoodCedarExport Export(DogwoodSchema schema, string source, int sourceBytes)
+    {
+        var input = BuildD2Request(source, schema);
+        using var reply = Invoke(OperationExport, input.WrittenSpan, MaximumLoweringResponseBytes);
+        return ReadExportedResult(reply.RootElement, sourceBytes);
+    }
+
     private static ArrayBufferWriter<byte> BuildD2Request(string source, DogwoodSchema schema)
     {
         var input = new ArrayBufferWriter<byte>();
@@ -247,7 +264,7 @@ internal sealed unsafe class NativeBridge
     {
         try
         {
-            return ReadPipeline(json, sourceBytes, export: false).Validation;
+            return ReadPipeline(json, sourceBytes, export: false, d3: false).Validation;
         }
         catch (Exception exception) when (exception is JsonException or InvalidOperationException or FormatException)
         {
@@ -259,20 +276,12 @@ internal sealed unsafe class NativeBridge
     {
         try
         {
-            var (validation, exported) = ReadPipeline(json, sourceBytes, export: true);
+            var (validation, exported) = ReadPipeline(json, sourceBytes, export: true, d3: false);
             string policy = ReadText(json, "cedarPolicyText");
             string schemaJson = ReadText(json, "cedarSchemaJson");
             string schemaText = ReadText(json, "cedarSchemaText");
-            ImmutableArray<string> generatedFields = default;
             if (exported)
             {
-                // The reserved generated context fields are an additive, optional export (present on
-                // the D3 per-rule path); their absence preserves the D1/D2 wire contract.
-                if (json.TryGetProperty("generatedContextFields", out _))
-                {
-                    generatedFields = ReadGeneratedContextFields(json);
-                }
-
                 using var schema = JsonDocument.Parse(schemaJson);
                 bool schemaHasText = SchemaHasText(schema.RootElement);
                 if ((schemaHasText ? string.IsNullOrWhiteSpace(schemaText) : schemaText.Length != 0) ||
@@ -286,7 +295,50 @@ internal sealed unsafe class NativeBridge
                 throw new JsonException("Unexpected artifacts without a successful export.");
             }
 
-            return new DogwoodLoweredPolicySet(validation, exported, policy, schemaJson, schemaText, generatedFields);
+            return new DogwoodLoweredPolicySet(validation, exported, policy, schemaJson, schemaText);
+        }
+        catch (Exception exception) when (exception is JsonException or InvalidOperationException or FormatException)
+        {
+            throw Malformed(exception);
+        }
+    }
+
+    /// <summary>
+    /// Reads the D3 export operation's reply. The reply carries the frozen D2 fields, the three
+    /// artifact strings, the generated context-field names, and per rule the exact Cedar body under
+    /// its generated id. Every field is required: an incomplete export is rejected rather than
+    /// completed from the operation 3 reply.
+    /// </summary>
+    internal static DogwoodCedarExport ReadExportedResult(JsonElement json, int sourceBytes)
+    {
+        try
+        {
+            var (validation, exported) = ReadPipeline(json, sourceBytes, export: true, d3: true);
+            string policy = ReadText(json, "cedarPolicyText");
+            string schemaJson = ReadText(json, "cedarSchemaJson");
+            string schemaText = ReadText(json, "cedarSchemaText");
+            ImmutableArray<string> generatedFields = ReadGeneratedContextFields(json);
+            ImmutableArray<CedarPolicyRule> rules = ReadCedarRules(json.GetProperty("rules"), sourceBytes);
+            if (exported)
+            {
+                using var schema = JsonDocument.Parse(schemaJson);
+                bool schemaHasText = SchemaHasText(schema.RootElement);
+                if ((schemaHasText ? string.IsNullOrWhiteSpace(schemaText) : schemaText.Length != 0) ||
+                    string.IsNullOrWhiteSpace(policy) != (validation.RuleCount == 0) ||
+                    rules.Length != validation.RuleCount ||
+                    generatedFields.IsEmpty != validation.SelfContainedCedar)
+                {
+                    throw new JsonException("Invalid exported artifacts.");
+                }
+            }
+            else if (policy.Length != 0 || schemaJson.Length != 0 || schemaText.Length != 0 ||
+                rules.Length != 0 || !generatedFields.IsEmpty)
+            {
+                throw new JsonException("Unexpected artifacts without a successful export.");
+            }
+
+            return new DogwoodCedarExport(
+                validation, exported, policy, schemaJson, schemaText, rules, generatedFields);
         }
         catch (Exception exception) when (exception is JsonException or InvalidOperationException or FormatException)
         {
@@ -319,23 +371,19 @@ internal sealed unsafe class NativeBridge
     }
 
     private static (DogwoodValidationResult Validation, bool Exported) ReadPipeline(
-        JsonElement json, int sourceBytes, bool export)
+        JsonElement json, int sourceBytes, bool export, bool d3)
     {
         string[] properties = ["serviceSchemaBuilt", "parsed", "policyCount", "parseDiagnostics",
             "actionSchemaBuilt", "lowered", "ruleCount", "selfContainedCedar", "collisionCheckPassed",
             "collision", "validationPassed", "validationErrors", "validationWarnings",
             "artifactsExported", "stageError", "rules"];
-        if (export)
-        {
-            RequirePropertiesWithOptional(
-                json,
-                [.. properties, "cedarPolicyText", "cedarSchemaJson", "cedarSchemaText"],
-                ["generatedContextFields"]);
-        }
-        else
-        {
-            RequireProperties(json, properties);
-        }
+        RequireProperties(
+            json,
+            d3
+                ? [.. properties, "cedarPolicyText", "cedarSchemaJson", "cedarSchemaText", "generatedContextFields"]
+                : export
+                    ? [.. properties, "cedarPolicyText", "cedarSchemaJson", "cedarSchemaText"]
+                    : properties);
 
         bool service = json.GetProperty("serviceSchemaBuilt").GetBoolean();
         var (parsed, policyCount, parseDiagnostics) = ReadStage(json, sourceBytes);
@@ -357,7 +405,13 @@ internal sealed unsafe class NativeBridge
         var collision = ReadCollision(json.GetProperty("collision"));
         var errors = ReadFindings(json.GetProperty("validationErrors"), sourceBytes);
         var warnings = ReadFindings(json.GetProperty("validationWarnings"), sourceBytes);
-        var rules = ReadRules(json.GetProperty("rules"), withSource: export);
+        // The D3 export reports the exact body stored under each generated id; the frozen
+        // operation 2/3 rule mapping carries the identity and expanded source only.
+        var rules = d3
+            ? ReadCedarRules(json.GetProperty("rules"), sourceBytes)
+                .Select(rule => new PolicyRuleMapping(rule.RuleIndex, rule.CedarPolicyId, rule.SourceText))
+                .ToImmutableArray()
+            : ReadRules(json.GetProperty("rules"), withSource: export);
         DogwoodStage? expectedFailure = (service, parsed, action, lowered, checkedCollisions, validated, export, exported) switch
         {
             (false, _, _, _, _, _, _, _) => DogwoodStage.ServiceSchema,
@@ -525,7 +579,7 @@ internal sealed unsafe class NativeBridge
         {
             if (withSource)
             {
-                RequirePropertiesWithOptional(rule, ["ruleIndex", "cedarPolicyId", "sourceText"], ["cedarBody"]);
+                RequireProperties(rule, "ruleIndex", "cedarPolicyId", "sourceText");
             }
             else
             {
@@ -535,17 +589,41 @@ internal sealed unsafe class NativeBridge
             int index = rule.GetProperty("ruleIndex").GetInt32();
             string id = ReadText(rule, "cedarPolicyId");
             string? source = withSource ? ReadText(rule, "sourceText") : null;
-            string? body = withSource && rule.TryGetProperty("cedarBody", out var bodyValue)
-                ? (bodyValue.ValueKind == JsonValueKind.String
-                    ? bodyValue.GetString()
-                    : throw new JsonException("Invalid Cedar policy body."))
-                : null;
             if (index != builder.Count || id.Length == 0 || !ids.Add(id) || source is "")
             {
                 throw new JsonException("Invalid rule mapping.");
             }
 
-            builder.Add(new PolicyRuleMapping(index, id, source, body));
+            builder.Add(new PolicyRuleMapping(index, id, source));
+        }
+
+        return builder.MoveToImmutable();
+    }
+
+    /// <summary>
+    /// Reads the D3 export's per-rule records. Each record carries exactly its rule index, the
+    /// generated Cedar policy id, the expanded source, and the exact Cedar body the lowered set
+    /// stores under that id. A missing, empty, duplicated, or misordered record is rejected: the
+    /// export is all-or-nothing, and no rule may be completed from concatenated policy text.
+    /// </summary>
+    private static ImmutableArray<CedarPolicyRule> ReadCedarRules(JsonElement json, int sourceBytes)
+    {
+        var builder = ImmutableArray.CreateBuilder<CedarPolicyRule>(json.GetArrayLength());
+        var ids = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var rule in json.EnumerateArray())
+        {
+            RequireProperties(rule, "ruleIndex", "cedarPolicyId", "sourceText", "cedarBody");
+            int index = rule.GetProperty("ruleIndex").GetInt32();
+            string id = ReadText(rule, "cedarPolicyId");
+            string source = ReadText(rule, "sourceText");
+            string body = ReadText(rule, "cedarBody");
+            if (index != builder.Count || id.Length == 0 || !ids.Add(id) ||
+                source.Length == 0 || body.Length == 0)
+            {
+                throw new JsonException("Invalid exported rule mapping.");
+            }
+
+            builder.Add(new CedarPolicyRule(index, id, source, body));
         }
 
         return builder.MoveToImmutable();
@@ -648,25 +726,6 @@ internal sealed unsafe class NativeBridge
         }
 
         if (seen.Count != names.Length)
-        {
-            throw new JsonException("Missing required JSON property.");
-        }
-    }
-
-    private static void RequirePropertiesWithOptional(JsonElement json, string[] required, string[] optional)
-    {
-        var wanted = new HashSet<string>(required, StringComparer.Ordinal);
-        var allowed = new HashSet<string>(required.Concat(optional), StringComparer.Ordinal);
-        var seen = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var property in json.EnumerateObject())
-        {
-            if (!allowed.Contains(property.Name) || !seen.Add(property.Name))
-            {
-                throw new JsonException("Unexpected or duplicate JSON property.");
-            }
-        }
-
-        if (!wanted.IsSubsetOf(seen))
         {
             throw new JsonException("Missing required JSON property.");
         }

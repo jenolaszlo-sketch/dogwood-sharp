@@ -23,12 +23,13 @@ versions, operation IDs and statuses are unsigned 32-bit values.
 Changing a qualified v1 symbol, layout, status, or wire contract requires a new ABI.
 
 Operations 0 and 1 are the D1 contract and keep their exact behavior. D2 adds
-operations 2 and 3 over the same symbols, which is backward compatible: a
-D1-only library answers a D2 caller with status 3 (unknown operation), and a
-D2 library answers D1 callers exactly as before. No v1 symbol, buffer layout,
-status value, or qualified wire contract changed. R1 revises the provisional
-D2 records for operations 2 and 3 before D2 qualification. Pair D2 managed and
-native components from the same revision. The D1 identity response is unchanged.
+operations 2 and 3, and D3 adds operation 4, over the same symbols, which is
+backward compatible: a D1-only library answers a newer caller with status 3
+(unknown operation), and a D3 library answers D1 and D2 callers exactly as
+before. No v1 symbol, buffer layout, status value, or qualified wire contract
+changed. R1 revises the provisional D2 records for operations 2 and 3 before
+D2 qualification. Pair D2/D3 managed and native components from the same
+revision. The D1 identity response is unchanged.
 
 ## Call and ownership
 
@@ -70,12 +71,13 @@ of D1 operations through the D2-enabled distribution follows the D2 hosting
 contract for that image. See the [R2 producer investigation](../d2-r2-verification.md).
 
 The JSON request ceiling is 6,291,520 bytes. The decoded policy source ceiling
-is 1,048,576 UTF-8 bytes. Operations 2 and 3 additionally bound each schema text
-field (action schema, event schema, macro library) at 1,048,576 UTF-8 bytes and
-a lowering distincter at 256 bytes. The encoded response ceiling is 2,097,152
-bytes for operations 0 and 1, and 8,388,608 bytes for operations 2 and 3, which
-return several derived artifacts for one call. An oversized response fails as a
-whole. The encoded envelope and each decoded field have independent limits.
+is 1,048,576 UTF-8 bytes. Operations 2, 3 and 4 additionally bound each schema
+text field (action schema, event schema, macro library) at 1,048,576 UTF-8
+bytes and a lowering distincter at 256 bytes. The encoded response ceiling is
+2,097,152 bytes for operations 0 and 1, and 8,388,608 bytes for operations 2, 3
+and 4, which return several derived artifacts for one call. An oversized
+response fails as a whole. The encoded envelope and each decoded field have
+independent limits.
 JSON escaping, property names, and the other fields determine whether a
 maximum-size decoded source fits in the encoded envelope. Exceeding either
 limit returns status 6. The pinned parser uses its default
@@ -109,6 +111,7 @@ from the verified image, and there are no managed callbacks.
 | 1 | `{"source":"..."}` | `{"success":true,"policyCount":1,"diagnostics":[]}` or a failed-parse record |
 | 2 | D2 request below | Validation outcome |
 | 3 | Same D2 request | Validation outcome and, on export success, Cedar artifacts |
+| 4 | Same D2 request | Operation 3 response plus the D3 per-rule Cedar export |
 
 A failed parse has `success:false`, `policyCount:null` and one or more ordered
 diagnostics. Each has `category` (`syntax` or `macro`), `message` (upstream
@@ -125,7 +128,7 @@ is valid. D2 adds schema validation and lowering.
 
 ## D2 operations
 
-Operations 2 and 3 use the same request. `source` and `policySchema` are
+Operations 2, 3 and 4 use the same request. `source` and `policySchema` are
 required. `eventSchema`, `macros` and `distincter` may be omitted or null.
 
 ```json
@@ -148,15 +151,15 @@ successful completion in order. After a failure, later flags are false.
 | `lowered` | Dogwood produced a lowered policy set and augmented schema in memory. |
 | `collisionCheckPassed` | Generated temporal fields were checked against the original contexts of their target actions. |
 | `validationPassed` | Dogwood validated the same lowered set with zero errors. Warnings are preserved. |
-| `artifactsExported` | Operation 3 produced the complete validated bundle. Always false for operation 2. |
+| `artifactsExported` | Operation 3 or 4 produced the complete validated bundle. Always false for operation 2. |
 | `policyCount`, `parseDiagnostics` | Successful parse count or null, and ordered diagnostics for a failed parse. Diagnostic shape matches operation 1. |
 | `ruleCount`, `selfContainedCedar` | Intermediate lowering metadata. Zero and false before successful lowering. |
 | `collision` | Null, or `{"field":"...","actionNamespace":"...","actionId":"..."}`; a null namespace identifies a top-level action. One deterministic conflicting field and concrete action is reported. |
 | `validationErrors`, `validationWarnings` | Ordered findings with `category`, `message` and `location`. Both are empty when validation did not run. |
 | `stageError` | Null, or an error with `stage`, `category`, `message` and `location`. |
-| `rules` | Source-ordered `{"ruleIndex":n,"cedarPolicyId":"..."}` for validated operation 2, with `sourceText` added for exported operation 3. Empty on failure. |
+| `rules` | Source-ordered `{"ruleIndex":n,"cedarPolicyId":"..."}` for validated operation 2, with `sourceText` added for exported operations 3 and 4, and `cedarBody` added for operation 4. Empty on failure. |
 
-Operation 3 also requires `cedarPolicyText`, `cedarSchemaJson` and
+Operations 3 and 4 also require `cedarPolicyText`, `cedarSchemaJson` and
 `cedarSchemaText`. All are empty unless `artifactsExported` is true. A valid
 empty set can have empty policy text. The validated policy and schema always
 come from the same lowering call. Operation 2 returns findings and validated
@@ -164,6 +167,26 @@ rule identities. A failed parse reports parse diagnostics, a collision
 reports the structured `collision` plus a stage error, and failed validation
 reports validation errors. Collision and validation failures suppress all
 exported artifacts.
+
+## D3 export operation
+
+Operation 4 runs the identical pipeline as operations 2 and 3, so their stage
+flags, findings, rule identities, expanded source, policy text and schema
+artifacts always agree. Its reply is the operation 3 reply plus two additive
+export fields. They follow the artifact discipline: present on every operation 4
+reply, with empty values when the export did not commit.
+
+| Field | Meaning |
+| --- | --- |
+| `rules[].cedarBody` | The exact Cedar body the lowered Cedar set stores under that rule's `cedarPolicyId`, rendered from the compiled `cedar_policy::Policy`. Never split from `cedarPolicyText`, so `(cedarPolicyId, cedarBody)` is an identity-bearing pair. |
+| `generatedContextFields` | The trusted-pipeline-owned reserved context field names: each hoisted temporal boolean's top-level `context.<id>` attribute, plus the single reserved `providers` record when any provider field is hoisted. Names come from the lowered artifact, never from the request. Empty exactly when `selfContainedCedar` is true. |
+
+Operation 3 keeps its qualified reply shape exactly: no `cedarBody` and no
+`generatedContextFields`. The D3 per-rule export is a separate operation rather
+than an extension of operation 3, so the archived D2 corpus, the D2
+differential, and D2 consumers are unaffected. A D2-only library answers
+operation 4 with status 3; a D3 consumer must treat that as an unavailable
+operation and never substitute the operation 3 reply.
 
 The `stageError.stage` values are `service-schema`, `action-schema`, `lower`,
 `collision-check` and `artifact-export`. Stable categories are `schema`,

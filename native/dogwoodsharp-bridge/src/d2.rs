@@ -1,9 +1,13 @@
-//! D2 lowering and validation operations (ABI v1 operations 2 and 3).
+//! D2 lowering and validation operations and the D3 export operation
+//! (ABI v1 operations 2, 3 and 4).
 //!
-//! Both operations run the same pipeline against the pinned Dogwood crate:
+//! Every operation runs the same pipeline against the pinned Dogwood crate:
 //! build the service schema, parse the source, build the action schema, lower
 //! to Cedar, check the original schema for generated-field collisions, and
-//! validate the exact lowered set before operation 3 exports its artifacts.
+//! validate the exact lowered set before an exporting operation reports its
+//! artifacts. Operations 2 and 3 are the frozen D2 contract; operation 4 is the
+//! D3 export, which additionally reports the exact per-rule Cedar bodies and
+//! the trusted-pipeline-owned generated context-field names.
 //!
 //! See docs/architecture/native-interop.md and
 //! docs/architecture/d2-upstream-mapping.md.
@@ -17,8 +21,8 @@ use dogwood_language::{
 use serde::{Deserialize, Serialize};
 
 use super::{
-    D2_RESPONSE_LIMIT, DISTINCTER_LIMIT, Diagnostic, Location, OPERATION_LOWER, OPERATION_VALIDATE,
-    SCHEMA_LIMIT, SOURCE_LIMIT, Status, diagnostic, encode_within,
+    D2_RESPONSE_LIMIT, DISTINCTER_LIMIT, Diagnostic, Location, OPERATION_EXPORT, OPERATION_LOWER,
+    OPERATION_VALIDATE, SCHEMA_LIMIT, SOURCE_LIMIT, Status, diagnostic, encode_within,
 };
 
 /// The shared D2 request shape. Every D2 operation reads the same fields, so a
@@ -66,8 +70,9 @@ struct StageError {
     location: Option<Location>,
 }
 
-/// One validated rule, in source order. Export also supplies its expanded
-/// source and the exact Cedar body for its generated policy id.
+/// One validated rule, in source order. An exporting operation also supplies its
+/// expanded source, and the D3 export operation supplies the exact Cedar body
+/// for its generated policy id.
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 struct Rule {
@@ -76,9 +81,10 @@ struct Rule {
     #[serde(skip_serializing_if = "Option::is_none")]
     source_text: Option<String>,
     /// The exact Cedar body stored under <see cref="cedar_policy_id"/>, rendered
-    /// from the compiled `cedar_policy::Policy`. It is never split from the
-    /// concatenated `cedar_policy_text`, so a consumer can build an
-    /// identity-bearing policy set from `(id, body)` pairs.
+    /// from the compiled `cedar_policy::Policy`. Operation 4 only: it is never
+    /// split from the concatenated `cedar_policy_text`, so a consumer can build
+    /// an identity-bearing policy set from `(id, body)` pairs. The frozen
+    /// operation 3 reply never carries it.
     #[serde(skip_serializing_if = "Option::is_none")]
     cedar_body: Option<String>,
 }
@@ -124,7 +130,34 @@ struct Artifacts {
     /// temporal boolean's top-level field name, plus the single reserved
     /// `providers` record when any provider field is hoisted. A consumer must
     /// reject a caller request that carries any of these before dispatch.
-    generated_context_fields: Vec<String>,
+    /// Operation 4 only: the frozen operation 3 reply never carries it.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    generated_context_fields: Option<Vec<String>>,
+}
+
+impl Artifacts {
+    /// The empty artifact set an exporting operation starts from. The three artifact
+    /// strings are reported as empty until the export commits. The D3 export reports
+    /// its generated context-field list from the first field onward, so the list is
+    /// present even when a later stage fails; the frozen lowering export never has it.
+    fn empty(d3: bool) -> Self {
+        Self {
+            generated_context_fields: d3.then(Vec::new),
+            ..Self::default()
+        }
+    }
+}
+
+/// What an operation reports. Operations 2 and 3 are the frozen D2 contract;
+/// operation 4 is the D3 export operation, which additionally reports the exact
+/// per-rule Cedar bodies and the trusted-pipeline-owned generated context-field
+/// names. Every variant runs one pipeline, so no operation can disagree about
+/// the lowering itself, and the frozen variants never carry the D3 fields.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Export {
+    Validation,
+    Lowering,
+    D3,
 }
 
 pub(super) fn run(operation: u32, request: &Request) -> Result<Box<[u8]>, Status> {
@@ -132,16 +165,17 @@ pub(super) fn run(operation: u32, request: &Request) -> Result<Box<[u8]>, Status
         return Err(Status::Limit);
     }
     let export = match operation {
-        OPERATION_VALIDATE => false,
-        OPERATION_LOWER => true,
+        OPERATION_VALIDATE => Export::Validation,
+        OPERATION_LOWER => Export::Lowering,
+        OPERATION_EXPORT => Export::D3,
         _ => return Err(Status::UnsupportedOperation),
     };
     encode_within(&pipeline(request, export)?, D2_RESPONSE_LIMIT)
 }
 
-fn pipeline(request: &Request, export: bool) -> Result<Reply, Status> {
+fn pipeline(request: &Request, export: Export) -> Result<Reply, Status> {
     let mut reply = Reply {
-        artifacts: export.then(Artifacts::default),
+        artifacts: (export != Export::Validation).then(|| Artifacts::empty(export == Export::D3)),
         ..Reply::default()
     };
 
@@ -247,9 +281,22 @@ fn pipeline(request: &Request, export: bool) -> Result<Reply, Status> {
         return Ok(reply);
     }
 
-    if export {
-        // Commit all three strings and the source mapping together.
-        match export_artifacts(&lowered, &parsed) {
+    match export {
+        Export::Validation => {
+            reply.rules = lowered
+                .rules()
+                .map(|rule| Rule {
+                    rule_index: rule.rule_index,
+                    cedar_policy_id: rule.cedar_policy_id,
+                    source_text: None,
+                    cedar_body: None,
+                })
+                .collect();
+        }
+        // Commit the three artifact strings and the source mapping together. The
+        // D3 export additionally commits each rule's exact Cedar body and the
+        // trusted generated context-field names in the same all-or-nothing step.
+        Export::Lowering | Export::D3 => match export_artifacts(&lowered, &parsed, export) {
             Ok((artifacts, rules)) => {
                 reply.artifacts = Some(artifacts);
                 reply.rules = rules;
@@ -263,17 +310,7 @@ fn pipeline(request: &Request, export: bool) -> Result<Reply, Status> {
                     location: None,
                 });
             }
-        }
-    } else {
-        reply.rules = lowered
-            .rules()
-            .map(|rule| Rule {
-                rule_index: rule.rule_index,
-                cedar_policy_id: rule.cedar_policy_id,
-                source_text: None,
-                cedar_body: None,
-            })
-            .collect();
+        },
     }
     Ok(reply)
 }
@@ -281,16 +318,15 @@ fn pipeline(request: &Request, export: bool) -> Result<Reply, Status> {
 fn export_artifacts(
     lowered: &LoweredPolicySet,
     parsed: &ParsedPolicySet,
+    export: Export,
 ) -> Result<(Artifacts, Vec<Rule>), String> {
     // The exact per-rule Cedar bodies, keyed by the id the lowered Cedar set
     // stores each policy under. Each body is rendered from the compiled
     // `cedar_policy::Policy` (via its `Display`), never split from the
     // concatenated `cedar_policy_text`, so the pair `(id, body)` is a complete
-    // identity-bearing export independent of source order.
-    let mut bodies = std::collections::HashMap::new();
-    for policy in lowered.as_cedar().policies() {
-        bodies.insert(policy.id().to_string(), policy.to_string());
-    }
+    // identity-bearing export independent of source order. Only the D3 export
+    // renders them; the frozen lowering export keeps its documented shape.
+    let bodies = (export == Export::D3).then(|| per_rule_bodies(lowered));
 
     let mut policies = parsed.policies();
     let mut rules = Vec::with_capacity(policies.len());
@@ -299,14 +335,22 @@ fn export_artifacts(
             .next()
             .filter(|policy| policy.index() == rule.rule_index)
             .ok_or("The lowered rule mapping does not match the parsed set.")?;
-        let body = bodies
-            .get(&rule.cedar_policy_id)
-            .ok_or_else(|| "The lowered set does not store the exported policy id.".to_owned())?;
+        let body = match &bodies {
+            Some(bodies) => Some(
+                bodies
+                    .get(&rule.cedar_policy_id)
+                    .ok_or_else(|| {
+                        "The lowered set does not store the exported policy id.".to_owned()
+                    })?
+                    .clone(),
+            ),
+            None => None,
+        };
         rules.push(Rule {
             rule_index: rule.rule_index,
             cedar_policy_id: rule.cedar_policy_id,
             source_text: Some(policy.expanded_source()),
-            cedar_body: Some(body.clone()),
+            cedar_body: body,
         });
     }
     if policies.len() != 0 {
@@ -320,9 +364,20 @@ fn export_artifacts(
         cedar_schema_text: lowered
             .cedar_schema_str()
             .map_err(|error| error.to_string())?,
-        generated_context_fields: generated_context_fields(lowered),
+        generated_context_fields: (export == Export::D3).then(|| generated_context_fields(lowered)),
     };
     Ok((artifacts, rules))
+}
+
+/// The exact Cedar body for every policy id the lowered Cedar set stores, keyed
+/// by that id. Rendered from the compiled policies, never from the concatenated
+/// text.
+fn per_rule_bodies(lowered: &LoweredPolicySet) -> std::collections::HashMap<String, String> {
+    lowered
+        .as_cedar()
+        .policies()
+        .map(|policy| (policy.id().to_string(), policy.to_string()))
+        .collect()
 }
 
 /// The trusted-pipeline-owned reserved context field names for this lowering:

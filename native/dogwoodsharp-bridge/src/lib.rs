@@ -1,4 +1,5 @@
-//! DogwoodSharp ABI v1 with the D2 lowering and validation extension.
+//! DogwoodSharp ABI v1 with the D2 lowering and validation extension and the
+//! D3 per-rule export operation.
 //! See docs/architecture/native-interop.md.
 #![deny(unsafe_op_in_unsafe_fn)]
 
@@ -13,15 +14,21 @@ use std::{ptr, slice, str};
 const ABI: u32 = 1;
 
 /// Operation vocabulary. Operations 0 and 1 are the D1 contract and keep their
-/// exact behavior; 2 and 3 are the D2 extension. An unknown operation is
+/// exact behavior; 2, 3 and 4 are the D2/D3 extension. An unknown operation is
 /// rejected before any request validation, so an older library answers a newer
 /// caller with status 3 rather than misinterpreting the request.
 const OPERATION_IDENTITY: u32 = 0;
 const OPERATION_PARSE: u32 = 1;
 const OPERATION_VALIDATE: u32 = 2;
 const OPERATION_LOWER: u32 = 3;
+/// Operation 4 is the D3 export operation. It runs the identical pipeline as
+/// operations 2 and 3 and adds the per-rule Cedar bodies and the trusted
+/// generated context-field names, which the frozen operation 3 reply does not
+/// carry. Adding it here rather than extending operation 3 keeps operation 3,
+/// the D2 differential, and the archived D2 corpus at their qualified shape.
+const OPERATION_EXPORT: u32 = 4;
 
-/// The decoded policy source ceiling applied to operations 1, 2 and 3.
+/// The decoded policy source ceiling applied to operations 1, 2, 3 and 4.
 const SOURCE_LIMIT: usize = 1024 * 1024;
 /// The ceiling for each D2 schema text field (action schema, event schema and
 /// macro library). Explicit and separate from the source ceiling.
@@ -31,9 +38,9 @@ const DISTINCTER_LIMIT: usize = 256;
 const REQUEST_LIMIT: usize = 6 * SOURCE_LIMIT + 64;
 /// The encoded-response ceiling for operations 0 and 1. Unchanged from D1.
 const RESPONSE_LIMIT: usize = 2 * SOURCE_LIMIT;
-/// The encoded-response ceiling for the D2 operations, which return several
-/// derived artifacts for one call. Explicit and bounded; an oversized reply
-/// fails as a whole.
+/// The encoded-response ceiling for the D2 and D3 operations, which return
+/// several derived artifacts for one call. Explicit and bounded; an oversized
+/// reply fails as a whole.
 const D2_RESPONSE_LIMIT: usize = 8 * SOURCE_LIMIT;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -94,7 +101,7 @@ pub unsafe extern "C" fn dogwoodsharp_call_v1(
         if abi != ABI {
             return Err(Status::UnsupportedAbi);
         }
-        if operation > OPERATION_LOWER {
+        if operation > OPERATION_EXPORT {
             return Err(Status::UnsupportedOperation);
         }
         let len = input_len as usize;
@@ -190,7 +197,7 @@ fn dispatch(operation: u32, json: &str) -> Result<Box<[u8]>, Status> {
             }
             parse(&request.source)
         }
-        OPERATION_VALIDATE | OPERATION_LOWER => {
+        OPERATION_VALIDATE | OPERATION_LOWER | OPERATION_EXPORT => {
             let request: d2::Request =
                 serde_json::from_str(json).map_err(|_| Status::InvalidEnvelope)?;
             d2::run(operation, &request)

@@ -254,12 +254,14 @@ Dictionary<string, object?> Evaluate(CedarEngine engine, JsonElement caseElement
         // D3-1 production path: build the identity-bearing policy set directly
         // from the exact per-rule exported bodies. The calibration-only text
         // splitter is not used; the generated Cedar id is the transport
-        // identity and no positional recovery is involved.
-        var lowered = Dogwood.Lower(source, new DogwoodSchema(
+        // identity and no positional recovery is involved. The per-rule bodies
+        // come from the operation 4 export; the operation 3 lowering result
+        // carries no body and is never substituted for it.
+        var export = Dogwood.ExportCedar(source, new DogwoodSchema(
             schemasFor(caseElement), Distincter: distincter))!;
         var set = CedarPolicySet.FromPolicies(
-            lowered.Rules.Select(rule => (rule.CedarPolicyId, rule.CedarPolicyBody!)).ToArray());
-        var schema = CedarSchema.FromJson(lowered.CedarSchemaJson);
+            export.Rules.Select(rule => (rule.CedarPolicyId, rule.CedarPolicyBody)).ToArray());
+        var schema = CedarSchema.FromJson(export.CedarSchemaJson);
         var result = engine.Authorize(new CedarAuthorizationRequest(
             new CedarEntityUid(principal.GetProperty("type").GetString()!, principal.GetProperty("id").GetString()!),
             new CedarEntityUid(actionNamespace, actionId),
@@ -831,70 +833,10 @@ bool MatchesDifferenceObservation(
             expectedD3.GetProperty("errorCategories"));
 }
 
-// Split the formatter-rendered Cedar export at top-level semicolons. This is
-// calibration-only: the current D2 response exposes one concatenated text
-// export rather than the per-rule body export required by the future D3
-// contract. The probe pairs the split bodies with exported IDs only to drive
-// this bounded, hand-authored corpus. It does not qualify production identity
-// pairing, and D3-1 must replace this path with the exact per-rule export.
-List<string> SplitPolicyBodies(string text)
-{
-    var bodies = new List<string>();
-    var start = 0;
-    var depth = 0;
-    var inString = false;
-    var escaped = false;
-    for (var index = 0; index < text.Length; index++)
-    {
-        var current = text[index];
-        if (inString)
-        {
-            if (escaped)
-            {
-                escaped = false;
-            }
-            else if (current == '\\')
-            {
-                escaped = true;
-            }
-            else if (current == '"')
-            {
-                inString = false;
-            }
-            continue;
-        }
-
-        switch (current)
-        {
-            case '"':
-                inString = true;
-                break;
-            case '{':
-            case '[':
-            case '(':
-                depth++;
-                break;
-            case '}':
-            case ']':
-            case ')':
-                depth--;
-                break;
-            case ';' when depth == 0:
-                bodies.Add(text[start..(index + 1)]);
-                start = index + 1;
-                break;
-        }
-    }
-    if (inString || depth != 0)
-    {
-        throw new InvalidOperationException("The exported Cedar policy text is not balanced.");
-    }
-    if (start < text.Length && !string.IsNullOrWhiteSpace(text[start..]))
-    {
-        throw new InvalidOperationException("The exported Cedar policy text has content after its final semicolon.");
-    }
-    return bodies;
-}
+// The calibration-only concatenated-text splitter is not part of this harness:
+// the production path pairs each generated Cedar id with the exact per-rule body
+// from the operation 4 export, so splitting concatenated text is neither used
+// for identity nor recorded here (integration contract §5.2).
 
 (int ExitCode, string Output, string Error) RunOracle(string exe, string input)
 {

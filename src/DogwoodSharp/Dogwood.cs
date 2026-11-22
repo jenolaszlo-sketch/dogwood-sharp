@@ -52,6 +52,27 @@ public static class Dogwood
         return NativeBridge.Shared.Lower(schema, source, length);
     }
 
+    /// <summary>
+    /// Lowers and validates source and exports the D3 per-rule Cedar bundle: every rule's generated
+    /// policy id and exact Cedar body, the canonical augmented schema, and the trusted-pipeline-owned
+    /// generated context field names. This is the operation 4 export; <see cref="Lower"/> keeps the
+    /// operation 3 lowering result, which carries no per-rule body. There is no fallback to the
+    /// operation 3 reply when operation 4 is unavailable: an older native image answers this caller
+    /// with a <see cref="DogwoodBridgeException"/> rather than a body-less bundle.
+    /// </summary>
+    /// <remarks>Use <see cref="DogwoodCedarExport.ArtifactsExported"/> to check for a complete export.</remarks>
+    /// <exception cref="ArgumentNullException">The source or schema is null.</exception>
+    /// <exception cref="ArgumentException">The source, schema text, or distincter violates its format or size limit.</exception>
+    /// <exception cref="DogwoodBridgeException">The native bridge could not load or complete the operation.</exception>
+    public static DogwoodCedarExport ExportCedar(string source, DogwoodSchema schema)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(schema);
+        int length = CheckSource(source);
+        CheckSchema(schema);
+        return NativeBridge.Shared.Export(schema, source, length);
+    }
+
     private static int CheckSource(string source)
     {
         int length;
@@ -271,27 +292,7 @@ public sealed record PolicyValidationFinding(
 /// <param name="RuleIndex">The zero-based index of the Dogwood rule in source order.</param>
 /// <param name="CedarPolicyId">The Cedar policy id the rule lowered to.</param>
 /// <param name="SourceText">The macro-expanded Dogwood source of the rule, when the operation reported it.</param>
-/// <param name="CedarPolicyBody">
-/// The exact Cedar policy body stored under <paramref name="CedarPolicyId"/>, rendered from the
-/// compiled Cedar policy, when the operation exported artifacts. This is the identity-bearing
-/// body for building a per-rule policy set; it is never recovered by splitting concatenated text.
-/// </param>
-public sealed record PolicyRuleMapping(
-    int RuleIndex, string CedarPolicyId, string? SourceText = null, string? CedarPolicyBody = null)
-{
-    // Equality is over the (index, id, source) identity triple, matching the D1/D2 contract. The
-    // exact Cedar body is a transport value for the D3 per-rule export, not part of rule identity,
-    // so existing records-compared consumers stay stable as the export is extended.
-    /// <summary>Compares the (index, id, source) identity triple; the body is a transport value.</summary>
-    public bool Equals(PolicyRuleMapping? other) =>
-        other is not null &&
-        RuleIndex == other.RuleIndex &&
-        string.Equals(CedarPolicyId, other.CedarPolicyId, StringComparison.Ordinal) &&
-        string.Equals(SourceText, other.SourceText, StringComparison.Ordinal);
-
-    /// <inheritdoc/>
-    public override int GetHashCode() => HashCode.Combine(RuleIndex, CedarPolicyId, SourceText);
-}
+public sealed record PolicyRuleMapping(int RuleIndex, string CedarPolicyId, string? SourceText);
 
 /// <summary>The result of checking and validating one lowered policy set.</summary>
 public sealed class DogwoodValidationResult
@@ -384,13 +385,92 @@ public sealed class DogwoodLoweredPolicySet
 {
     internal DogwoodLoweredPolicySet(
         DogwoodValidationResult validation, bool exported, string policyText, string schemaJson,
-        string schemaText, ImmutableArray<string> generatedContextFields)
+        string schemaText)
     {
         Validation = validation;
         ArtifactsExported = exported;
         CedarPolicyText = policyText;
         CedarSchemaJson = schemaJson;
         CedarSchemaText = schemaText;
+    }
+
+    /// <summary>The stage outcomes and findings for this exact policy and schema.</summary>
+    public DogwoodValidationResult Validation { get; }
+
+    /// <inheritdoc cref="DogwoodValidationResult.Parsed"/>
+    public bool Parsed => Validation.Parsed;
+
+    /// <inheritdoc cref="DogwoodValidationResult.PolicyCount"/>
+    public int? PolicyCount => Validation.PolicyCount;
+
+    /// <inheritdoc cref="DogwoodValidationResult.ParseDiagnostics"/>
+    public ImmutableArray<PolicyDiagnostic> ParseDiagnostics => Validation.ParseDiagnostics;
+
+    /// <inheritdoc cref="DogwoodValidationResult.Lowered"/>
+    public bool Lowered => Validation.Lowered;
+
+    /// <inheritdoc cref="DogwoodValidationResult.RuleCount"/>
+    public int RuleCount => Validation.RuleCount;
+
+    /// <inheritdoc cref="DogwoodValidationResult.SelfContainedCedar"/>
+    public bool SelfContainedCedar => Validation.SelfContainedCedar;
+
+    /// <summary>The validated Cedar policy text. Empty when export failed.</summary>
+    public string CedarPolicyText { get; }
+
+    /// <summary>The validated augmented Cedar schema in JSON form. Empty when export failed.</summary>
+    public string CedarSchemaJson { get; }
+
+    /// <summary>The validated augmented Cedar schema in Cedar schema syntax. Empty when export failed.</summary>
+    public string CedarSchemaText { get; }
+
+    /// <summary>The exported rule identities and expanded source, in source order.</summary>
+    public ImmutableArray<PolicyRuleMapping> Rules => Validation.Rules;
+
+    /// <inheritdoc cref="DogwoodValidationResult.StageError"/>
+    public DogwoodStageError? StageError => Validation.StageError;
+
+    /// <summary>Whether the complete validated Cedar bundle was exported.</summary>
+    public bool ArtifactsExported { get; }
+
+    /// <summary>Whether the complete validated Cedar bundle is available.</summary>
+    public bool IsLowered => ArtifactsExported;
+}
+
+/// <summary>
+/// One lowered rule's exact Cedar identity: the generated policy id and the exact body the lowered
+/// Cedar set stores under it. The body is rendered by the native export from the compiled
+/// <c>cedar_policy::Policy</c>; it is never recovered by splitting concatenated policy text.
+/// </summary>
+/// <param name="RuleIndex">The zero-based index of the Dogwood rule in source order.</param>
+/// <param name="CedarPolicyId">The Cedar policy id the rule lowered to.</param>
+/// <param name="SourceText">The macro-expanded Dogwood source of the rule.</param>
+/// <param name="CedarPolicyBody">
+/// The exact Cedar policy body stored under <paramref name="CedarPolicyId"/>. This is the
+/// identity-bearing body for building a per-rule policy set.
+/// </param>
+public sealed record CedarPolicyRule(
+    int RuleIndex, string CedarPolicyId, string SourceText, string CedarPolicyBody);
+
+/// <summary>
+/// The D3 export of one lowering: the validation outcome and gated Cedar artifacts of the operation
+/// 3 lowering, plus the per-rule <c>(cedarPolicyId, cedarPolicyBody)</c> pairs and the
+/// trusted-pipeline-owned generated context field names. The operation 3 lowering result
+/// (<see cref="DogwoodLoweredPolicySet"/>) is unchanged and carries no per-rule body.
+/// </summary>
+public sealed class DogwoodCedarExport
+{
+    internal DogwoodCedarExport(
+        DogwoodValidationResult validation, bool exported, string policyText, string schemaJson,
+        string schemaText, ImmutableArray<CedarPolicyRule> rules,
+        ImmutableArray<string> generatedContextFields)
+    {
+        Validation = validation;
+        ArtifactsExported = exported;
+        CedarPolicyText = policyText;
+        CedarSchemaJson = schemaJson;
+        CedarSchemaText = schemaText;
+        Rules = rules;
         GeneratedContextFields = generatedContextFields.IsDefault ? [] : generatedContextFields;
     }
 
@@ -432,8 +512,8 @@ public sealed class DogwoodLoweredPolicySet
     /// </summary>
     public ImmutableArray<string> GeneratedContextFields { get; }
 
-    /// <summary>The exported rule identities and expanded source, in source order.</summary>
-    public ImmutableArray<PolicyRuleMapping> Rules => Validation.Rules;
+    /// <summary>The exported rules, each with its generated id and exact Cedar body, in source order.</summary>
+    public ImmutableArray<CedarPolicyRule> Rules { get; }
 
     /// <inheritdoc cref="DogwoodValidationResult.StageError"/>
     public DogwoodStageError? StageError => Validation.StageError;
@@ -442,7 +522,7 @@ public sealed class DogwoodLoweredPolicySet
     public bool ArtifactsExported { get; }
 
     /// <summary>Whether the complete validated Cedar bundle is available.</summary>
-    public bool IsLowered => ArtifactsExported;
+    public bool IsExported => ArtifactsExported;
 }
 
 /// <summary>Identifies a managed native-bridge failure.</summary>
