@@ -134,11 +134,12 @@ permitted by the approved contract (ED-01..ED-05) may be classified as qualified
 
 | Artifact | Purpose |
 | --- | --- |
-| `evidence/manifest.sha256` | SHA-256 of every evidence file |
+| `evidence/manifest.sha256` | SHA-256 of every evidence file, over the exact bytes stored in this repository |
 | `evidence/verify-local.log` | Pre-remediation D3-IMPL-01 `eng/Verify.ps1` transcript (historical) |
 | `evidence/d2-r2-regression-local.log` | Pre-remediation D3-IMPL-01 archived-R2 regen: the red gate that triggered this remediation |
 | `evidence/r1-verify-local.log` | R1 `eng/Verify.ps1` transcript and results |
 | `evidence/r1-d2-r2-regression-local.log` | R1 archived D2-R2 regen transcript (green) |
+| `evidence/r1-d1-consumer-regression-local.log` | R1 archived D1 consumer regression transcript (green): the exact public-surface gate |
 | `evidence/r1-d3-differential-local.log` | R1 upstream differential probe transcript |
 | `evidence/differential/probe/probe-run.json`, `d3-results-*.json`, `d3-console-*.log` | Upstream differential run identity, per-TFM results and console transcripts |
 | `evidence/ci/` | Hosted CI run/job identities |

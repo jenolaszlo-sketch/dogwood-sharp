@@ -1,24 +1,24 @@
 DEPENDENCY GRAPH PASS packages=181
-    Finished `release` profile [optimized] target(s) in 0.38s
-    Finished `release` profile [optimized] target(s) in 0.46s
+    Finished `release` profile [optimized] target(s) in 0.35s
+    Finished `release` profile [optimized] target(s) in 0.74s
 INDEPENDENT ABI cases=35 replies=70 CedarRoundTrips=13 concurrent=216 transport=26 sensitivity=5
   Determining projects to restore...
-  Restored D:\projects\dogwood-sharp\artifacts\d2-r2\qualification\harness\managed\Consumer.csproj (in 229 ms).
-  Consumer -> D:\projects\dogwood-sharp\artifacts\d2-r2\qualification\harness\managed\bin\Release\net10.0\Consumer.dll
+  Restored D:\projects\dogwood-sharp\artifacts\d2-r2\qualification\harness\managed\Consumer.csproj (in 651 ms).
   Consumer -> D:\projects\dogwood-sharp\artifacts\d2-r2\qualification\harness\managed\bin\Release\net8.0\Consumer.dll
+  Consumer -> D:\projects\dogwood-sharp\artifacts\d2-r2\qualification\harness\managed\bin\Release\net10.0\Consumer.dll
 
 Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:01.58
+Time Elapsed 00:00:01.92
 MANAGED CORPUS PASS cases=35 immutable=1 target=x86_64-pc-windows-msvc
 DECODER controls=3 rejected=18 partial-schema-text-accepted=False
 TRANSPORT PASS invalid-json
 TRANSPORT PASS invalid-utf8
 TRANSPORT PASS oversized
   Determining projects to restore...
-  Restored D:\projects\dogwood-sharp\artifacts\d2-r2\qualification\harness\managed\Consumer.csproj (in 274 ms).
+  Restored D:\projects\dogwood-sharp\artifacts\d2-r2\qualification\harness\managed\Consumer.csproj (in 316 ms).
   Consumer -> D:\projects\dogwood-sharp\artifacts\d2-r2\qualification\harness\managed\bin\Release\net8.0\win-x64\Consumer.dll
   Generating native code
   Consumer -> D:\projects\dogwood-sharp\artifacts\d2-r2\corpus\win-x64\aot\net8.0\
