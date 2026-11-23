@@ -73,7 +73,7 @@ try {
     if ($null -eq $packageShell) {
         throw 'PowerShell 7 (pwsh) is required to run the package candidate gate.'
     }
-    $packageShellPath = $packageShell.Source
+    $packageShellPath = @($packageShell)[0].Source
 
     & (Join-Path $PSScriptRoot 'Test-NativePackageAssets.ps1') -AssetsRoot $nativeAssetsRootPath -RepositoryRoot $repositoryRootPath
 
