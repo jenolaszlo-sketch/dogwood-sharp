@@ -1,0 +1,18 @@
+﻿[
+    {
+        "File":  "r2-differential-net10.0-results.json",
+        "SHA256":  "3eeb1a57ed05b5af77c91fca0a7b8d93ea1a9d456a65a78c197966005fa23548"
+    },
+    {
+        "File":  "r2-differential-net8.0-results.json",
+        "SHA256":  "852833d1904ac5014904c2f26f3d734a8523e28b7b7f6d92efb06dd95136554e"
+    },
+    {
+        "File":  "r2-differential-fixtures.json",
+        "SHA256":  "76b48c758cbdea25d577537c29349d2d48d4b36a783fe5e177a15ad7715729a2"
+    },
+    {
+        "File":  "r2-differential-differences.json",
+        "SHA256":  "6ec76988adbf5ba01cec265570a80b5b0a3709da4f66b09668040d676900bb42"
+    }
+]

@@ -151,6 +151,62 @@ public sealed class ParsingTests
     }
 
     [Fact]
+    public void FlattenedNuGetNativeLayoutResolvesTheAdjacentAsset()
+    {
+        var root = Directory.CreateTempSubdirectory("dogwoodsharp-flat-");
+        try
+        {
+            var (rid, _, file) = NativeBridge.Platform();
+            var source = Path.Combine(AppContext.BaseDirectory, "runtimes", rid, "native");
+            File.Copy(Path.Combine(source, file), Path.Combine(root.FullName, file));
+            File.Copy(
+                Path.Combine(source, "dogwoodsharp-native.json"),
+                Path.Combine(root.FullName, "dogwoodsharp-native.json"));
+
+            var resolved = NativeBridge.ResolveNativePath(root.FullName, rid, file);
+            Assert.Equal(Path.Combine(root.FullName, file), resolved, StringComparer.OrdinalIgnoreCase);
+        }
+        finally
+        {
+            root.Delete(recursive: true);
+        }
+    }
+
+    [Fact]
+    public void InvalidNestedNativeAssetDoesNotFallBackToAnAdjacentCopy()
+    {
+        var root = Directory.CreateTempSubdirectory("dogwoodsharp-no-fallback-");
+        try
+        {
+            var (rid, _, file) = NativeBridge.Platform();
+            var source = Path.Combine(AppContext.BaseDirectory, "runtimes", rid, "native");
+            var nested = Directory.CreateDirectory(Path.Combine(root.FullName, "runtimes", rid, "native"));
+            File.Copy(Path.Combine(source, file), Path.Combine(nested.FullName, file));
+            using (var tampered = File.OpenWrite(Path.Combine(nested.FullName, file)))
+            {
+                tampered.WriteByte(0);
+            }
+
+            File.Copy(Path.Combine(source, file), Path.Combine(root.FullName, file));
+            File.Copy(
+                Path.Combine(source, "dogwoodsharp-native.json"),
+                Path.Combine(root.FullName, "dogwoodsharp-native.json"));
+            File.Copy(
+                Path.Combine(source, "dogwoodsharp-native.json"),
+                Path.Combine(nested.FullName, "dogwoodsharp-native.json"));
+
+            var load = typeof(NativeBridge).GetMethod("Load", BindingFlags.NonPublic | BindingFlags.Static)!;
+            var invocation = Assert.Throws<TargetInvocationException>(() => load.Invoke(null, [root.FullName]));
+            var error = Assert.IsType<DogwoodBridgeException>(invocation.InnerException);
+            Assert.Equal(DogwoodBridgeFailure.LoadOrIdentity, error.Failure);
+        }
+        finally
+        {
+            root.Delete(recursive: true);
+        }
+    }
+
+    [Fact]
     public void RepeatedConcurrentAccessReusesTheProcessBridge()
     {
         var native = NativeBridge.Shared;

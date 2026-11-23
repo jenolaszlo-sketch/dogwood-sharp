@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12.0</LangVersion>
+    <Deterministic>true</Deterministic>
+    <PublishAot>true</PublishAot>
+    <TrimMode>full</TrimMode>
+    <IsAotCompatible>true</IsAotCompatible>
+    <IsTrimmable>true</IsTrimmable>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- This is the consumer's only package reference. The exact range prevents a newer
+         experimental candidate from satisfying the qualification run. DogwoodSharp and
+         CedarSharp are resolved transitively from the candidate's dependency graph. -->
+    <PackageReference Include="DogwoodSharp.CedarSharp" Version="[0.0.0-experimental.1]" />
+  </ItemGroup>
+</Project>

@@ -32,7 +32,7 @@ required and appear once.
 | rid | RID from the table |
 | file | Fixed image name for the RID |
 | sha256 | 64 hexadecimal characters encoding the image SHA-256 |
-| cargoLockSha256 | 64 hexadecimal characters encoding the build's Cargo.lock SHA-256 |
+| cargoLockSha256 | 64 hexadecimal characters encoding the build's Cargo.lock SHA-256 after canonical LF line endings |
 
 The loader uses the process architecture and operating system to select one
 fixed location. It checks the manifest identity and image SHA-256 before
@@ -51,3 +51,59 @@ The loader cannot establish trust in a directory that permits asset replacement
 between hashing and loading. The lockfile digest is provenance for CI and
 artifact reviewers. Runtime validation checks its field format; reviewers can
 compare it against the exact source revision used by CI.
+
+## Package layout and qualification gate
+
+The stable `DogwoodSharp` `0.0.0-discovery.1` candidate stores each native pair
+at `runtimes/<rid>/native/` in the package:
+
+| Package path | Payload |
+| --- | --- |
+| `runtimes/win-x64/native/dogwoodsharp_bridge.dll` | Windows x64 image |
+| `runtimes/win-x64/native/dogwoodsharp-native.json` | Windows x64 manifest |
+| `runtimes/linux-x64/native/libdogwoodsharp_bridge.so` | Linux x64 image |
+| `runtimes/linux-x64/native/dogwoodsharp-native.json` | Linux x64 manifest |
+| `runtimes/osx-arm64/native/libdogwoodsharp_bridge.dylib` | macOS arm64 image |
+| `runtimes/osx-arm64/native/dogwoodsharp-native.json` | macOS arm64 manifest |
+
+NuGet selects the matching runtime-native item and flattens the selected image
+and manifest into a consuming application's publish root. The experimental
+`DogwoodSharp.CedarSharp` candidate does not carry or repackage these files;
+it declares the stable package and `CedarSharp` `1.0.0` as dependencies.
+
+An asset is **stale** when its manifest does not match the exact supported
+RID, target triple, pinned Dogwood/Cedar/Rust identities, expected feature
+sets, canonical LF-normalized `native/dogwoodsharp-bridge/Cargo.lock` digest,
+or the SHA-256 of the adjacent image. Missing files, duplicate/unknown manifest fields, an
+unexpected runtime, an extra file in a native directory, or any stale field
+fails closed.
+
+From the repository root, with .NET SDK `10.0.404` selected by `global.json`,
+validate staged assets without packing:
+
+```powershell
+./eng/Test-NativePackageAssets.ps1 -AssetsRoot artifacts/native
+```
+
+After the three platform jobs have supplied all three native pairs, create and
+strictly inspect local qualification candidates. Use an approved temporary
+directory for this local ad hoc output rather than treating it as a repository
+artifact:
+
+```powershell
+$candidateRoot = Join-Path $env:TEMP 'dogwoodsharp-d3-candidates'
+./eng/Pack-PackageCandidates.ps1 `
+  -OutputPath (Join-Path $candidateRoot 'candidates') `
+  -DependencyOutputPath (Join-Path $candidateRoot 'dependencies') `
+  -ReportPath (Join-Path $candidateRoot 'pack-report.json')
+./eng/Test-PackageCandidates.ps1 `
+  -PackageDirectory (Join-Path $candidateRoot 'candidates') `
+  -CedarSharpPackagePath (Join-Path $candidateRoot 'dependencies/cedarsharp.1.0.0.nupkg') `
+  -RequireCedarSharpPackage `
+  -ReportPath (Join-Path $candidateRoot 'verification-report.json')
+```
+
+The pack command never publishes. The original `CedarSharp` `1.0.0` package is
+copied only as an unmodified dependency and is verified against its pinned
+package and per-entry hashes; it is never repacked. The hosted equivalents
+are documented in [CI, packaging and NuGet publication strategy](../ci-publishing.md).

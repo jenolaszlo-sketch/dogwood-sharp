@@ -54,12 +54,23 @@ try {
     New-Item -ItemType Directory -Force -Path $output | Out-Null
     $image = Join-Path $output $file
     Copy-Item -LiteralPath (Join-Path $graph.target_directory "release/$file") -Destination $image
+    $lockText = [System.IO.File]::ReadAllText("$bridge/Cargo.lock", (New-Object System.Text.UTF8Encoding($false, $true)))
+    $canonicalLockText = $lockText.Replace("`r`n", "`n").Replace("`r", "`n")
+    $lockHasher = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $canonicalLockHash = ([BitConverter]::ToString($lockHasher.ComputeHash(
+            (New-Object System.Text.UTF8Encoding($false)).GetBytes($canonicalLockText)))).Replace('-', '').ToLowerInvariant()
+    }
+    finally {
+        $lockHasher.Dispose()
+    }
+
     $manifest = [ordered]@{
         manifestVersion = 1
         rid = $RuntimeIdentifier
         file = $file
         sha256 = (Get-FileHash -LiteralPath $image -Algorithm SHA256).Hash.ToLowerInvariant()
-        cargoLockSha256 = (Get-FileHash -LiteralPath "$bridge/Cargo.lock" -Algorithm SHA256).Hash.ToLowerInvariant()
+        cargoLockSha256 = $canonicalLockHash
         abiVersion = 1
         bridgeVersion = '0.1.0'
         dogwoodRevision = $revision

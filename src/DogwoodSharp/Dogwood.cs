@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using System.Text;
+using System.Text.Json;
 
 namespace DogwoodSharp;
 
@@ -68,13 +69,53 @@ public static class Dogwood
     /// <exception cref="ArgumentNullException">The source or schema is null.</exception>
     /// <exception cref="ArgumentException">The source, schema text, or distincter violates its format or size limit.</exception>
     /// <exception cref="DogwoodBridgeException">The native bridge could not load or complete the operation.</exception>
-    internal static DogwoodCedarExport ExportCedar(string source, DogwoodSchema schema)
+    internal static DogwoodCedarExport ExportCedar(string source, DogwoodSchema schema) =>
+        ExportCedar(source, schema, providerDeclarations: null);
+
+    internal static DogwoodCedarExport ExportCedar(
+        string source, DogwoodSchema schema, string? providerDeclarations)
     {
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(schema);
         int length = CheckSource(source);
         CheckSchema(schema);
-        return NativeBridge.Shared.Export(schema, source, length);
+        if (providerDeclarations is not null)
+        {
+            CheckText(providerDeclarations, nameof(providerDeclarations),
+                "The provider declarations must be valid text.");
+        }
+
+        return NativeBridge.Shared.Export(schema, source, length, providerDeclarations);
+    }
+
+    /// <summary>
+    /// Runs the operation 4 export with a request-gated trusted-runtime binding. The native reply
+    /// carries the same complete export bundle plus the context assembled by the pinned upstream
+    /// authorizer. This path never falls back to operation 3 or to a body-less bundle.
+    /// </summary>
+    internal static DogwoodCedarExport ExportCedarWithRuntime(
+        string source, DogwoodSchema schema, string? providerDeclarations, string runtimeBindingJson)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(schema);
+        ArgumentNullException.ThrowIfNull(runtimeBindingJson);
+        int length = CheckSource(source);
+        CheckSchema(schema);
+        if (providerDeclarations is not null)
+        {
+            CheckText(providerDeclarations, nameof(providerDeclarations),
+                "The provider declarations must be valid text.");
+        }
+
+        using var runtime = JsonDocument.Parse(runtimeBindingJson);
+        if (runtime.RootElement.ValueKind != JsonValueKind.Object)
+        {
+            throw new ArgumentException("The trusted runtime binding must be a JSON object.",
+                nameof(runtimeBindingJson));
+        }
+
+        return NativeBridge.Shared.Export(
+            schema, source, length, providerDeclarations, runtimeBindingJson);
     }
 
     private static int CheckSource(string source)
@@ -473,7 +514,7 @@ internal sealed class DogwoodCedarExport
     internal DogwoodCedarExport(
         DogwoodValidationResult validation, bool exported, string policyText, string schemaJson,
         string schemaText, ImmutableArray<CedarPolicyRule> rules,
-        ImmutableArray<string> generatedContextFields)
+        ImmutableArray<string> generatedContextFields, DogwoodRuntimeBindingResult? runtimeBinding = null)
     {
         Validation = validation;
         ArtifactsExported = exported;
@@ -482,6 +523,7 @@ internal sealed class DogwoodCedarExport
         CedarSchemaText = schemaText;
         Rules = rules;
         GeneratedContextFields = generatedContextFields.IsDefault ? [] : generatedContextFields;
+        RuntimeBinding = runtimeBinding;
     }
 
     /// <summary>The stage outcomes and findings for this exact policy and schema.</summary>
@@ -525,6 +567,12 @@ internal sealed class DogwoodCedarExport
     /// <summary>The exported rules, each with its generated id and exact Cedar body, in source order.</summary>
     public ImmutableArray<CedarPolicyRule> Rules { get; }
 
+    /// <summary>
+    /// The trusted-runtime binding returned by a request-gated operation 4 call. Null for the
+    /// legacy export shape. A failed binding never carries a partial context.
+    /// </summary>
+    internal DogwoodRuntimeBindingResult? RuntimeBinding { get; }
+
     /// <inheritdoc cref="DogwoodValidationResult.StageError"/>
     public DogwoodStageError? StageError => Validation.StageError;
 
@@ -534,6 +582,12 @@ internal sealed class DogwoodCedarExport
     /// <summary>Whether the complete validated Cedar bundle is available.</summary>
     public bool IsExported => ArtifactsExported;
 }
+
+/// <summary>The strict result of a request-gated trusted-runtime binding.</summary>
+/// <param name="Bound">Whether the pinned upstream runtime produced a complete context.</param>
+/// <param name="ContextJson">The authoritative enriched Cedar context JSON, or empty on failure.</param>
+/// <param name="Error">The failure message, or null on success.</param>
+internal sealed record DogwoodRuntimeBindingResult(bool Bound, string ContextJson, string? Error);
 
 /// <summary>Identifies a managed native-bridge failure.</summary>
 public enum DogwoodBridgeFailure

@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: d1-${{ github.ref }}
   cancel-in-progress: true
@@ -95,6 +96,12 @@ jobs:
       - uses: actions/upload-artifact@v7
         if: always()
         with:
+          name: dogwoodsharp-native-${{ matrix.rid }}
+          path: artifacts/native/runtimes/${{ matrix.rid }}/native/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
           name: dogwoodsharp-d2-r2-${{ matrix.rid }}
           path: |
             artifacts/verification.log
@@ -110,3 +117,173 @@ jobs:
             artifacts/d2-r2/resident/*.log
             artifacts/d2-r2/resident/*.json
             artifacts/d2-r2/resident/*.stdout
+
+  pack-candidates:
+    name: Pack D3 package candidates
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.428
+            10.0.404
+      - name: Download win-x64 native image and manifest
+        uses: actions/download-artifact@v7
+        with:
+          name: dogwoodsharp-native-win-x64
+          path: artifacts/native/runtimes/win-x64/native
+      - name: Download linux-x64 native image and manifest
+        uses: actions/download-artifact@v7
+        with:
+          name: dogwoodsharp-native-linux-x64
+          path: artifacts/native/runtimes/linux-x64/native
+      - name: Download osx-arm64 native image and manifest
+        uses: actions/download-artifact@v7
+        with:
+          name: dogwoodsharp-native-osx-arm64
+          path: artifacts/native/runtimes/osx-arm64/native
+      - name: Pack and inspect both package candidates
+        shell: pwsh
+        run: |
+          ./eng/Pack-PackageCandidates.ps1 `
+            -OutputPath artifacts/package-bundle/candidates `
+            -DependencyOutputPath artifacts/package-bundle/dependencies `
+            -ReportPath artifacts/package-bundle/pack-report.json
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dogwoodsharp-d3-candidates
+          path: artifacts/package-bundle/candidates/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dogwoodsharp-d3-dependencies
+          path: artifacts/package-bundle/dependencies/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dogwoodsharp-d3-consumer-kit
+          path: qualification/D3.PackageConsumer/
+          if-no-files-found: error
+
+  verify-candidates:
+    name: Verify D3 package candidates
+    needs: pack-candidates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.428
+            10.0.404
+      - name: Download package candidates
+        uses: actions/download-artifact@v7
+        with:
+          name: dogwoodsharp-d3-candidates
+          path: artifacts/package-bundle/candidates
+      - name: Download original CedarSharp dependency
+        uses: actions/download-artifact@v7
+        with:
+          name: dogwoodsharp-d3-dependencies
+          path: artifacts/package-bundle/dependencies
+      - name: Strictly inspect package identities, graphs, and native pairs
+        shell: pwsh
+        run: |
+          ./eng/Test-PackageCandidates.ps1 `
+            -PackageDirectory artifacts/package-bundle/candidates `
+            -CedarSharpPackagePath artifacts/package-bundle/dependencies/cedarsharp.1.0.0.nupkg `
+            -RequireCedarSharpPackage `
+            -ReportPath artifacts/package-bundle/verification-report.json
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dogwoodsharp-d3-package-verification
+          path: artifacts/package-bundle/verification-report.json
+          if-no-files-found: error
+
+  package-consumer:
+    name: Package consumer / ${{ matrix.rid }} / ${{ matrix.framework }}
+    needs: verify-candidates
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2025
+            rid: win-x64
+            framework: net8.0
+          - os: windows-2025
+            rid: win-x64
+            framework: net10.0
+          - os: ubuntu-24.04
+            rid: linux-x64
+            framework: net8.0
+          - os: ubuntu-24.04
+            rid: linux-x64
+            framework: net10.0
+          - os: macos-15
+            rid: osx-arm64
+            framework: net8.0
+          - os: macos-15
+            rid: osx-arm64
+            framework: net10.0
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.428
+            10.0.404
+      - name: Download uploaded package candidates
+        uses: actions/download-artifact@v7
+        with:
+          name: dogwoodsharp-d3-candidates
+          path: packages/candidates
+      - name: Download uploaded original CedarSharp dependency
+        uses: actions/download-artifact@v7
+        with:
+          name: dogwoodsharp-d3-dependencies
+          path: packages/dependencies
+      - name: Download uploaded package-only consumer kit
+        uses: actions/download-artifact@v7
+        with:
+          name: dogwoodsharp-d3-consumer-kit
+          path: consumer-kit
+      - name: Run package-only JIT and NativeAOT consumer
+        shell: pwsh
+        run: |
+          ./consumer-kit/run.ps1 `
+            -PackageDirectory "$PWD/packages/candidates" `
+            -CedarSharpPackageDirectory "$PWD/packages/dependencies" `
+            -RuntimeIdentifier '${{ matrix.rid }}' `
+            -TargetFramework '${{ matrix.framework }}' `
+            -WorkDirectory "$env:RUNNER_TEMP/d3-package-consumer"
+
+  package-consumer-summary:
+    name: D3 package consumer summary
+    needs: [verify-candidates, package-consumer]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Download uploaded consumer summary script
+        uses: actions/download-artifact@v7
+        with:
+          name: dogwoodsharp-d3-consumer-kit
+          path: consumer-kit
+      - name: Require exactly six successful package-consumer cells
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          if ('${{ needs.verify-candidates.result }}' -cne 'success') {
+            throw "Package candidate verification result was '${{ needs.verify-candidates.result }}'."
+          }
+          ./consumer-kit/Test-Summary.ps1 -MatrixResult '${{ needs.package-consumer.result }}'

@@ -9,6 +9,26 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsAotCompatible>true</IsAotCompatible>
     <IsTrimmable>true</IsTrimmable>
+    <!-- Qualification-candidate package only. The repository-wide IsPackable=false default remains
+         unchanged for every other project. -->
+    <IsPackable>true</IsPackable>
+    <PackageId>DogwoodSharp.CedarSharp</PackageId>
+    <Version>0.0.0-experimental.1</Version>
+    <Authors>DogwoodSharp contributors</Authors>
+    <Description>Experimental CedarSharp authorization adapter for DogwoodSharp. Qualification candidate only; not authorized for publication.</Description>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/jenolaszlo-sketch/dogwood-sharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jenolaszlo-sketch/dogwood-sharp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>dogwood;cedar;authorization;temporal;experimental</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <!-- The custom nuspec keeps the candidate dependency ranges exact without changing the
+         repository's locked restore graph. Its file list is the package allowlist. -->
+    <NuspecFile>$(MSBuildProjectDirectory)/../../eng/DogwoodSharp.CedarSharp.nuspec</NuspecFile>
+    <NuspecBasePath>$(MSBuildProjectDirectory)</NuspecBasePath>
+    <IncludeContentInPack>false</IncludeContentInPack>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../DogwoodSharp/DogwoodSharp.csproj" />
@@ -16,5 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="DogwoodSharp.CedarSharp.Tests" />
+    <InternalsVisibleTo Include="PrepProbe" />
   </ItemGroup>
 </Project>

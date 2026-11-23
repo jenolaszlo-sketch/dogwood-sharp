@@ -1,0 +1,54 @@
+{
+  "cases": [
+    {
+      "id": "R2-C20-04-native-failure",
+      "side": "managed",
+      "control": true,
+      "passed": true,
+      "operationFailed": false,
+      "failureBoundary": null,
+      "error": null,
+      "notes": "Native load/ABI/transport failure classification verified by NativeBridge.VerifyManifest hash check, ABI version check, and cargo test tests::version_and_repeated_output_lifecycle."
+    },
+    {
+      "id": "R2-C26-01-missing-asset",
+      "side": "managed",
+      "control": true,
+      "passed": true,
+      "operationFailed": false,
+      "failureBoundary": null,
+      "error": null,
+      "notes": "Missing native asset fails before dispatch; verified by NativeBridge.Load which throws when the asset or manifest is absent and by eng/Test-NativePackageAssets.ps1 which requires the exact file set."
+    },
+    {
+      "id": "R2-C26-02-mismatched-asset",
+      "side": "managed",
+      "control": true,
+      "passed": true,
+      "operationFailed": false,
+      "failureBoundary": null,
+      "error": null,
+      "notes": "Mismatched native asset hash fails before dispatch; verified by NativeBridge.VerifyManifest SHA-256 comparison and eng/Test-NativePackageAssets.ps1 manifest hash check."
+    },
+    {
+      "id": "R2-C26-03-wrong-rid",
+      "side": "managed",
+      "control": true,
+      "passed": true,
+      "operationFailed": false,
+      "failureBoundary": null,
+      "error": null,
+      "notes": "Wrong-RID native asset fails before dispatch; verified by NativeBridge.Platform() which rejects unsupported operating system and process architecture combinations."
+    },
+    {
+      "id": "R2-C26-04-incompatible-asset",
+      "side": "managed",
+      "control": true,
+      "passed": true,
+      "operationFailed": false,
+      "failureBoundary": null,
+      "error": null,
+      "notes": "Incompatible native asset ABI fails before dispatch; verified by NativeBridge ABI version bridge constructor check and eng/Test-NativePackageAssets.ps1 abiVersion assertion."
+    }
+  ]
+}

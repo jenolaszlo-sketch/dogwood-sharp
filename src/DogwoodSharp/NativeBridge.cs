@@ -81,7 +81,7 @@ internal sealed unsafe class NativeBridge
         }
 
         var (rid, target, file) = Platform();
-        var path = Path.GetFullPath(Path.Combine(root, "runtimes", rid, "native", file));
+        var path = ResolveNativePath(root, rid, file);
         nint handle = 0;
         try
         {
@@ -106,6 +106,16 @@ internal sealed unsafe class NativeBridge
                 NativeLibrary.Free(handle);
             }
         }
+    }
+
+    internal static string ResolveNativePath(string root, string rid, string file)
+    {
+        var nestedPath = Path.GetFullPath(Path.Combine(root, "runtimes", rid, "native", file));
+        var adjacentPath = Path.GetFullPath(Path.Combine(root, file));
+        // NuGet flattens a selected runtimes/<rid>/native asset into the publish root. Prefer the
+        // repository/nested deployment when it exists; if it exists but is invalid, do not hide that
+        // failure by falling back to an adjacent copy.
+        return File.Exists(nestedPath) || !File.Exists(adjacentPath) ? nestedPath : adjacentPath;
     }
 
     internal static (string Rid, string Target, string File) Platform()
@@ -219,11 +229,13 @@ internal sealed unsafe class NativeBridge
     }
 
     /// <summary>Runs the D3 per-rule Cedar export operation and reads its completed bundle.</summary>
-    internal DogwoodCedarExport Export(DogwoodSchema schema, string source, int sourceBytes)
+    internal DogwoodCedarExport Export(
+        DogwoodSchema schema, string source, int sourceBytes,
+        string? providerDeclarations = null, string? runtimeBindingJson = null)
     {
-        var input = BuildD2Request(source, schema);
+        var input = BuildExportRequest(source, schema, providerDeclarations, runtimeBindingJson);
         using var reply = Invoke(OperationExport, input.WrittenSpan, MaximumLoweringResponseBytes);
-        return ReadExportedResult(reply.RootElement, sourceBytes);
+        return ReadExportedResult(reply.RootElement, sourceBytes, runtimeBindingJson is not null);
     }
 
     private static ArrayBufferWriter<byte> BuildD2Request(string source, DogwoodSchema schema)
@@ -255,6 +267,49 @@ internal sealed unsafe class NativeBridge
         return input;
     }
 
+    private static ArrayBufferWriter<byte> BuildExportRequest(
+        string source, DogwoodSchema schema, string? providerDeclarations, string? runtimeBindingJson)
+    {
+        var input = new ArrayBufferWriter<byte>();
+        using (var writer = new Utf8JsonWriter(input))
+        {
+            writer.WriteStartObject();
+            writer.WriteString("source", source);
+            writer.WriteString("policySchema", schema.PolicySchema);
+            if (schema.EventSchema is not null)
+            {
+                writer.WriteString("eventSchema", schema.EventSchema);
+            }
+
+            if (schema.Macros is not null)
+            {
+                writer.WriteString("macros", schema.Macros);
+            }
+
+            if (schema.Distincter is not null)
+            {
+                writer.WriteString("distincter", schema.Distincter);
+            }
+
+            if (providerDeclarations is not null)
+            {
+                writer.WriteString("providerDeclarations", providerDeclarations);
+            }
+
+            if (runtimeBindingJson is not null)
+            {
+                writer.WriteNumber("runtimeBindingVersion", 1);
+                writer.WritePropertyName("runtimeBinding");
+                using var runtime = JsonDocument.Parse(runtimeBindingJson);
+                runtime.RootElement.WriteTo(writer);
+            }
+
+            writer.WriteEndObject();
+        }
+
+        return input;
+    }
+
     private static DogwoodNativeVersion ReadVersion(JsonElement json, string target)
     {
         return ReadIdentity(json, target, manifest: false);
@@ -264,7 +319,7 @@ internal sealed unsafe class NativeBridge
     {
         try
         {
-            return ReadPipeline(json, sourceBytes, export: false, d3: false).Validation;
+            return ReadPipeline(json, sourceBytes, export: false, d3: false, runtimeBinding: false).Validation;
         }
         catch (Exception exception) when (exception is JsonException or InvalidOperationException or FormatException)
         {
@@ -276,7 +331,8 @@ internal sealed unsafe class NativeBridge
     {
         try
         {
-            var (validation, exported) = ReadPipeline(json, sourceBytes, export: true, d3: false);
+            var (validation, exported) = ReadPipeline(
+                json, sourceBytes, export: true, d3: false, runtimeBinding: false);
             string policy = ReadText(json, "cedarPolicyText");
             string schemaJson = ReadText(json, "cedarSchemaJson");
             string schemaText = ReadText(json, "cedarSchemaText");
@@ -309,16 +365,21 @@ internal sealed unsafe class NativeBridge
     /// its generated id. Every field is required: an incomplete export is rejected rather than
     /// completed from the operation 3 reply.
     /// </summary>
-    internal static DogwoodCedarExport ReadExportedResult(JsonElement json, int sourceBytes)
+    internal static DogwoodCedarExport ReadExportedResult(
+        JsonElement json, int sourceBytes, bool runtimeBindingRequested = false)
     {
         try
         {
-            var (validation, exported) = ReadPipeline(json, sourceBytes, export: true, d3: true);
+            var (validation, exported) = ReadPipeline(
+                json, sourceBytes, export: true, d3: true, runtimeBinding: runtimeBindingRequested);
             string policy = ReadText(json, "cedarPolicyText");
             string schemaJson = ReadText(json, "cedarSchemaJson");
             string schemaText = ReadText(json, "cedarSchemaText");
             ImmutableArray<string> generatedFields = ReadGeneratedContextFields(json);
             ImmutableArray<CedarPolicyRule> rules = ReadCedarRules(json.GetProperty("rules"), sourceBytes);
+            DogwoodRuntimeBindingResult? runtimeBinding = runtimeBindingRequested
+                ? ReadRuntimeBinding(json.GetProperty("runtimeBinding"), exported)
+                : null;
             if (exported)
             {
                 using var schema = JsonDocument.Parse(schemaJson);
@@ -332,18 +393,63 @@ internal sealed unsafe class NativeBridge
                 }
             }
             else if (policy.Length != 0 || schemaJson.Length != 0 || schemaText.Length != 0 ||
-                rules.Length != 0 || !generatedFields.IsEmpty)
+                rules.Length != 0 || !generatedFields.IsEmpty ||
+                runtimeBinding is { Bound: true })
             {
                 throw new JsonException("Unexpected artifacts without a successful export.");
             }
 
             return new DogwoodCedarExport(
-                validation, exported, policy, schemaJson, schemaText, rules, generatedFields);
+                validation, exported, policy, schemaJson, schemaText, rules, generatedFields, runtimeBinding);
         }
         catch (Exception exception) when (exception is JsonException or InvalidOperationException or FormatException)
         {
             throw Malformed(exception);
         }
+    }
+
+    private static DogwoodRuntimeBindingResult ReadRuntimeBinding(JsonElement json, bool exported)
+    {
+        RequireProperties(json, "version", "status", "contextJson", "error");
+        if (json.GetProperty("version").GetInt32() != 1)
+        {
+            throw new JsonException("Unsupported runtime binding version.");
+        }
+
+        string contextJson = ReadText(json, "contextJson");
+        var errorElement = json.GetProperty("error");
+        string? error = errorElement.ValueKind == JsonValueKind.Null
+            ? null
+            : errorElement.GetString() ?? throw new JsonException("Missing runtime binding error.");
+        bool bound = json.GetProperty("status").GetString() switch
+        {
+            "bound" => true,
+            "failed" => false,
+            _ => throw new JsonException("Invalid runtime binding status.")
+        };
+
+        if (bound)
+        {
+            if (!exported || error is not null || contextJson.Length == 0)
+            {
+                throw new JsonException("Invalid successful runtime binding.");
+            }
+
+            using var context = JsonDocument.Parse(contextJson);
+            if (context.RootElement.ValueKind != JsonValueKind.Object)
+            {
+                throw new JsonException("The runtime binding context is not a JSON object.");
+            }
+
+            return new(true, contextJson, null);
+        }
+
+        if (error is null || error.Length == 0 || contextJson.Length != 0)
+        {
+            throw new JsonException("Invalid failed runtime binding.");
+        }
+
+        return new(false, string.Empty, error);
     }
 
     private static bool SchemaHasText(JsonElement schema)
@@ -371,19 +477,23 @@ internal sealed unsafe class NativeBridge
     }
 
     private static (DogwoodValidationResult Validation, bool Exported) ReadPipeline(
-        JsonElement json, int sourceBytes, bool export, bool d3)
+        JsonElement json, int sourceBytes, bool export, bool d3, bool runtimeBinding)
     {
         string[] properties = ["serviceSchemaBuilt", "parsed", "policyCount", "parseDiagnostics",
             "actionSchemaBuilt", "lowered", "ruleCount", "selfContainedCedar", "collisionCheckPassed",
             "collision", "validationPassed", "validationErrors", "validationWarnings",
             "artifactsExported", "stageError", "rules"];
-        RequireProperties(
-            json,
-            d3
-                ? [.. properties, "cedarPolicyText", "cedarSchemaJson", "cedarSchemaText", "generatedContextFields"]
-                : export
-                    ? [.. properties, "cedarPolicyText", "cedarSchemaJson", "cedarSchemaText"]
-                    : properties);
+        string[] required = d3
+            ? [.. properties, "cedarPolicyText", "cedarSchemaJson", "cedarSchemaText", "generatedContextFields"]
+            : export
+                ? [.. properties, "cedarPolicyText", "cedarSchemaJson", "cedarSchemaText"]
+                : properties;
+        if (d3 && runtimeBinding)
+        {
+            required = [.. required, "runtimeBinding"];
+        }
+
+        RequireProperties(json, required);
 
         bool service = json.GetProperty("serviceSchemaBuilt").GetBoolean();
         var (parsed, policyCount, parseDiagnostics) = ReadStage(json, sourceBytes);

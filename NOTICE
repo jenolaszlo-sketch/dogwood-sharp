@@ -3,8 +3,28 @@ Copyright 2026 DogwoodSharp contributors
 
 Independent project; not affiliated with or endorsed by Dogwood, Cedar, AWS,
 or their contributors. Dogwood and Cedar are Apache-2.0 projects.
-The discovery spike depends on dogwood-policy/dogwood and CedarSharp.
-No upstream implementation source or native binaries are redistributed in the
-D0 managed package. Before native distribution, collect the complete resolved
-dependency license inventory and preserve all applicable notices.
-See docs/research/sources.md for exact investigated revisions.
+
+Qualification package candidates
+--------------------------------
+
+The DogwoodSharp 0.0.0-discovery.1 qualification candidate contains native
+Dogwood bridge images and their manifests for win-x64, linux-x64, and
+osx-arm64. The experimental DogwoodSharp.CedarSharp 0.0.0-experimental.1
+candidate depends on that stable candidate and CedarSharp 1.0.0; it does not
+repackage CedarSharp.
+
+The native bridge is built from dogwood-policy/dogwood 1.1.2 at revision
+929f49e7305534ac61ef06cf8e47269c596dc851 with Cedar 4.11.0. The applicable
+Apache-2.0 license and upstream attribution remain in force. This NOTICE is
+not represented as the complete resolved native dependency license/notice
+inventory; a complete inventory must be collected and reviewed before any
+distribution decision.
+
+These packages are qualification candidates only. Their presence in a local
+candidate directory or CI artifact is **not authorization to publish, sign,
+tag, release, or distribute** them. Publication requires a separate owner
+authorization after independent qualification and completion of the release
+gates.
+
+See docs/architecture/native-artifacts.md for the exact native identities and
+docs/ci-publishing.md for the producer package gate.

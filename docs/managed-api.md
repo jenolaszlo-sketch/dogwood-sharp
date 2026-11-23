@@ -7,11 +7,12 @@ DogwoodNativeVersion version = Dogwood.GetNativeVersion();
 PolicyParseResult result = Dogwood.Parse("permit(principal, action, resource);");
 ```
 
-Use .NET 8 or .NET 10 and stage the native artifact beside the application using
-the [manifest layout](architecture/native-artifacts.md). The API is synchronous
-and supports independent concurrent calls. Both results are immutable
-snapshots. The version reports ABI, bridge, Dogwood revision and version, Cedar,
-Rust and native target.
+Use .NET 8 or .NET 10. A package consumer receives the matching native image and
+manifest from the stable package; a source-tree build may instead stage the
+native artifact using the [manifest layout](architecture/native-artifacts.md).
+The API is synchronous and supports independent concurrent calls. Both results
+are immutable snapshots. The version reports ABI, bridge, Dogwood revision and
+version, Cedar, Rust and native target.
 
 `Dogwood.Parse(string source)` accepts Unicode source up to
 `Dogwood.MaximumSourceBytes` (1 MiB when encoded as UTF-8). A successful result
@@ -117,3 +118,60 @@ Plugin unload and managed hot reload leave the native image resident. A
 future process-isolated host could support native-memory reclamation or
 image replacement by restarting its worker. D2 supports in-process hosting
 and process shutdown. See the [native caller contract](architecture/native-interop.md#d2-image-lifetime).
+
+# D3 experimental package API
+
+The stable `DogwoodSharp` `0.0.0-discovery.1` public API is unchanged. The D3
+per-rule export types and entry point remain internal to that assembly. The
+experimental `DogwoodSharp.CedarSharp` `0.0.0-experimental.1` package is the
+public D3 qualification surface:
+
+```csharp
+using DogwoodSharp;
+using DogwoodSharp.Experimental.CedarSharp;
+
+var schema = new DogwoodSchema(
+    "namespace App { entity User; entity Doc; action \"read\" appliesTo { principal: [User], resource: [Doc], context: { count: Long } }; }");
+
+using var authorizer = DogwoodCedarAuthorizer.ForLoweredBundle(
+    "permit (principal, action == App::Action::\"read\", resource) when { context.count > 3 };",
+    schema);
+
+var result = authorizer.Authorize(new CedarAuthorizationInput(
+    new CedarEntityRef("App::User", "alice"),
+    new CedarEntityRef("App::Action", "read"),
+    new CedarEntityRef("App::Doc", "doc-1"),
+    "{ \"count\": 5 }",
+    "[]"));
+```
+
+Only an error-free `Allow` sets `Authorized` and `IsCleanAllow`. A lowering,
+request, validation, identity, native, or transport failure never authorizes.
+The generated Cedar policy identity in `DeterminingPolicyIds` must be a member
+of `authorizer.PolicyIds`, and `RuleIndexFor` maps that identity back to the
+source rule.
+
+The experimental package declares exact dependency ranges for `DogwoodSharp`
+`0.0.0-discovery.1` and `CedarSharp` `1.0.0`; it does not repack CedarSharp.
+It is not a publication or release authorization.
+
+## Package-only consumer command
+
+The disposable consumer under `qualification/D3.PackageConsumer/` is not in
+`DogwoodSharp.slnx`. After the candidate and original dependency packages have
+been produced, run one local cell entirely from those packages:
+
+```powershell
+./qualification/D3.PackageConsumer/run.ps1 `
+  -PackageDirectory "$env:TEMP/dogwoodsharp-d3-candidates/candidates" `
+  -CedarSharpPackageDirectory "$env:TEMP/dogwoodsharp-d3-candidates/dependencies" `
+  -RuntimeIdentifier win-x64 `
+  -TargetFramework net8.0 `
+  -WorkDirectory "$env:TEMP/dogwoodsharp-d3-consumer"
+```
+
+The script uses .NET SDK `10.0.404`, an isolated NuGet cache, disposable
+lockfiles, reflection-free JSON, JIT execution, and NativeAOT publication. It
+has no project reference, direct assembly reference, `HintPath`, native
+environment override, manual native staging, or source-tree package fallback.
+The hosted command runs the same script for all six RID/TFM cells.

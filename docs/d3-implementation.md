@@ -146,3 +146,25 @@ Producer implementation does not qualify the following; each remains a gate:
 - **NativeAOT + package-only consumption** for the D3 path.
 - **Full hosted matrix** — `linux-x64`, `osx-arm64` cells run in hosted CI.
 - **Independent qualification and owner acceptance** — separate milestones.
+
+## R2 implementation update (D3-IMPL-01-R2)
+
+The R2 implementation-stage work is complete. The trusted temporal/provider execution path
+runs through the production DogwoodCedarAuthorizer.AuthorizeWithTrustedRuntime API, the
+native operation 4 runtime binding uses the pinned upstream Authorizer with
+InMemoryTemporalEngine and a deterministic ProviderResolver, and provider method chains
+are rejected rather than executed through Rhai.
+
+The R2 upstream differential corpus covers all C-01 through C-26 mandatory families with 84
+cases across agreement, approved-difference, and operation-failure classifications. It runs
+against the pinned upstream Dogwood 1.1.2 authorizer (revision 929f49e) on both net8.0 and
+net10.0 with zero failures, zero pending cases, and zero coverage errors. The previously
+approved ED-01 through ED-05 differences are preserved without addition.
+
+Concurrency is verified at four concurrent workers with 128 calls per control, covering
+request-context isolation, temporal-binding isolation, provider-result isolation, and failure
+isolation. The process-lifetime native image coexist
+ence boundary is preserved: no unload,
+no hot-replacement, and process isolation remains the recovery boundary.
+
+See the review record for the complete requirement and gate reconciliation.

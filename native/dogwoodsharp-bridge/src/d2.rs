@@ -13,10 +13,14 @@
 //! docs/architecture/d2-upstream-mapping.md.
 
 mod collision;
+mod runtime;
+
+#[cfg(test)]
+mod runtime_tests;
 
 use dogwood_language::{
-    Error, LoweredPolicySet, ParsedPolicySet, PolicySchema, ServiceSchema, ValidationError,
-    ValidationWarning, Validator,
+    Error, LoweredPolicySet, ParsedPolicySet, PolicySchema, ProviderDeclarations, ServiceSchema,
+    ValidationError, ValidationWarning, Validator,
 };
 use serde::{Deserialize, Serialize};
 
@@ -25,9 +29,39 @@ use super::{
     OPERATION_VALIDATE, SCHEMA_LIMIT, SOURCE_LIMIT, Status, diagnostic, encode_within,
 };
 
-/// The shared D2 request shape. Every D2 operation reads the same fields, so a
-/// caller cannot construct a request that is meaningful for one operation and
-/// meaningless for another.
+/// The frozen operation-2/3 request shape. Operation 4's additive fields are
+/// deliberately absent, so using one on operation 2 or 3 is an invalid
+/// envelope rather than a silently ignored extension.
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub(super) struct LegacyRequest {
+    source: String,
+    policy_schema: String,
+    #[serde(default)]
+    event_schema: Option<String>,
+    #[serde(default)]
+    macros: Option<String>,
+    #[serde(default)]
+    distincter: Option<String>,
+}
+
+impl LegacyRequest {
+    fn into_request(self) -> Request {
+        Request {
+            source: self.source,
+            policy_schema: self.policy_schema,
+            event_schema: self.event_schema,
+            macros: self.macros,
+            distincter: self.distincter,
+            provider_declarations: None,
+            runtime_binding_version: None,
+            runtime_binding: None,
+        }
+    }
+}
+
+/// The operation-4 request shape. The original D2 fields keep their exact
+/// meaning; the three optional extensions are accepted only by this operation.
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub(super) struct Request {
@@ -39,6 +73,26 @@ pub(super) struct Request {
     pub(super) macros: Option<String>,
     #[serde(default)]
     pub(super) distincter: Option<String>,
+    /// Upstream `providers.json` text. `null` and omission both mean no
+    /// provider declarations.
+    #[serde(default)]
+    pub(super) provider_declarations: Option<String>,
+    /// A present-but-null version is distinct from omission and is invalid.
+    #[serde(default, deserialize_with = "deserialize_present")]
+    pub(super) runtime_binding_version: Option<Option<u32>>,
+    /// A present-but-null binding is distinct from omission and is invalid.
+    #[serde(default, deserialize_with = "deserialize_present")]
+    runtime_binding: Option<Option<runtime::BindingInput>>,
+}
+
+/// Deserialize a field while retaining the distinction between an omitted
+/// field and an explicit JSON `null`.
+fn deserialize_present<'de, D, T>(deserializer: D) -> Result<Option<Option<T>>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+    T: Deserialize<'de>,
+{
+    Option::<T>::deserialize(deserializer).map(Some)
 }
 
 impl Request {
@@ -57,6 +111,26 @@ impl Request {
                 .distincter
                 .as_ref()
                 .is_none_or(|name| name.len() <= DISTINCTER_LIMIT)
+            && self
+                .provider_declarations
+                .as_ref()
+                .is_none_or(|text| text.len() <= SCHEMA_LIMIT)
+    }
+
+    /// Validate the runtime-binding version/binding pairing. Version 1 is the
+    /// only supported version, and its binding is mandatory.
+    fn runtime_binding_input(&self) -> Result<Option<&runtime::BindingInput>, Status> {
+        match (
+            self.runtime_binding_version.as_ref(),
+            self.runtime_binding.as_ref(),
+        ) {
+            (None, None) => Ok(None),
+            (Some(Some(1)), Some(Some(binding))) => Ok(Some(binding)),
+            (Some(Some(_version)), _) => Err(Status::InvalidEnvelope),
+            (Some(None), _) => Err(Status::InvalidEnvelope),
+            (_, Some(Some(_))) => Err(Status::InvalidEnvelope),
+            (_, Some(None)) => Err(Status::InvalidEnvelope),
+        }
     }
 }
 
@@ -115,6 +189,10 @@ struct Reply {
     validation_warnings: Vec<Finding>,
     artifacts_exported: bool,
     stage_error: Option<StageError>,
+    /// Present only for a version-1 runtime binding. Legacy operation-4
+    /// replies retain their exact key set.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    runtime_binding: Option<runtime::BindingReply>,
     rules: Vec<Rule>,
     #[serde(flatten)]
     artifacts: Option<Artifacts>,
@@ -160,7 +238,15 @@ enum Export {
     D3,
 }
 
+pub(super) fn run_legacy(operation: u32, request: LegacyRequest) -> Result<Box<[u8]>, Status> {
+    let request = request.into_request();
+    run(operation, &request)
+}
+
 pub(super) fn run(operation: u32, request: &Request) -> Result<Box<[u8]>, Status> {
+    // Pairing is part of the envelope contract, so reject it before any
+    // pipeline work or limit handling.
+    let runtime_input = request.runtime_binding_input()?;
     if !request.within_limits() {
         return Err(Status::Limit);
     }
@@ -170,18 +256,34 @@ pub(super) fn run(operation: u32, request: &Request) -> Result<Box<[u8]>, Status
         OPERATION_EXPORT => Export::D3,
         _ => return Err(Status::UnsupportedOperation),
     };
-    encode_within(&pipeline(request, export)?, D2_RESPONSE_LIMIT)
+    encode_within(
+        &pipeline(request, export, runtime_input)?,
+        D2_RESPONSE_LIMIT,
+    )
 }
 
-fn pipeline(request: &Request, export: Export) -> Result<Reply, Status> {
+fn pipeline(
+    request: &Request,
+    export: Export,
+    runtime_input: Option<&runtime::BindingInput>,
+) -> Result<Reply, Status> {
     let mut reply = Reply {
         artifacts: (export != Export::Validation).then(|| Artifacts::empty(export == Export::D3)),
+        runtime_binding: runtime_input.map(|_| {
+            runtime::BindingReply::failed(
+                "runtime binding did not run because the policy pipeline failed".to_owned(),
+            )
+        }),
         ..Reply::default()
     };
 
     let service = match build_service(request) {
         Ok(service) => service,
         Err(error) => {
+            fail_runtime(
+                &mut reply,
+                format!("service schema construction failed: {error}"),
+            );
             reply.stage_error = Some(stage_error("service-schema", &error, &request.source));
             return Ok(reply);
         }
@@ -191,6 +293,7 @@ fn pipeline(request: &Request, export: Export) -> Result<Reply, Status> {
     let parsed = match ParsedPolicySet::parse(&request.source, &service) {
         Ok(parsed) => parsed,
         Err(Error::Parse(errors)) => {
+            fail_runtime(&mut reply, "policy parsing failed");
             reply.parse_diagnostics = errors
                 .iter()
                 .map(|error| {
@@ -205,6 +308,7 @@ fn pipeline(request: &Request, export: Export) -> Result<Reply, Status> {
             return Ok(reply);
         }
         Err(Error::Macro(error)) => {
+            fail_runtime(&mut reply, "policy macro expansion failed");
             reply.parse_diagnostics = vec![diagnostic(
                 "macro",
                 error.to_string(),
@@ -223,6 +327,10 @@ fn pipeline(request: &Request, export: Export) -> Result<Reply, Status> {
     let schema = match PolicySchema::from_cedarschema_str(&request.policy_schema) {
         Ok(schema) => schema,
         Err(error) => {
+            fail_runtime(
+                &mut reply,
+                format!("action schema construction failed: {error}"),
+            );
             reply.stage_error = Some(stage_error("action-schema", &error, &request.source));
             return Ok(reply);
         }
@@ -236,6 +344,7 @@ fn pipeline(request: &Request, export: Export) -> Result<Reply, Status> {
     let lowered = match lowered {
         Ok(lowered) => lowered,
         Err(error) => {
+            fail_runtime(&mut reply, format!("policy lowering failed: {error}"));
             reply.stage_error = Some(stage_error("lower", &error, &request.source));
             return Ok(reply);
         }
@@ -257,6 +366,7 @@ fn pipeline(request: &Request, export: Export) -> Result<Reply, Status> {
         Err(message) => Some(("internal", message)),
     };
     if let Some((category, message)) = collision_error {
+        fail_runtime(&mut reply, message.clone());
         reply.stage_error = Some(StageError {
             stage: "collision-check",
             category,
@@ -278,6 +388,7 @@ fn pipeline(request: &Request, export: Export) -> Result<Reply, Status> {
         .map(finding_warning)
         .collect();
     if !reply.validation_passed {
+        fail_runtime(&mut reply, "policy validation failed");
         return Ok(reply);
     }
 
@@ -296,7 +407,7 @@ fn pipeline(request: &Request, export: Export) -> Result<Reply, Status> {
         // Commit the three artifact strings and the source mapping together. The
         // D3 export additionally commits each rule's exact Cedar body and the
         // trusted generated context-field names in the same all-or-nothing step.
-        Export::Lowering | Export::D3 => match export_artifacts(&lowered, &parsed, export) {
+        Export::Lowering => match export_artifacts(&lowered, &parsed, export) {
             Ok((artifacts, rules)) => {
                 reply.artifacts = Some(artifacts);
                 reply.rules = rules;
@@ -311,8 +422,46 @@ fn pipeline(request: &Request, export: Export) -> Result<Reply, Status> {
                 });
             }
         },
+        Export::D3 => {
+            match export_artifacts(&lowered, &parsed, export) {
+                Ok((artifacts, rules)) => {
+                    reply.artifacts = Some(artifacts);
+                    reply.rules = rules;
+                    reply.artifacts_exported = true;
+                }
+                Err(message) => {
+                    fail_runtime(&mut reply, format!("artifact export failed: {message}"));
+                    reply.stage_error = Some(StageError {
+                        stage: "artifact-export",
+                        category: "internal",
+                        message,
+                        location: None,
+                    });
+                    return Ok(reply);
+                }
+            }
+
+            // The export is now committed. Consume this exact validated lowered
+            // set into the upstream runtime; no policy set is rebuilt or cloned.
+            if let Some(input) = runtime_input {
+                match runtime::bind(lowered, input.clone()) {
+                    Ok(binding) => reply.runtime_binding = Some(binding),
+                    Err(error) => {
+                        reply.runtime_binding = Some(runtime::BindingReply::failed(error));
+                    }
+                }
+            }
+        }
     }
     Ok(reply)
+}
+
+/// Mark a requested runtime binding as failed without changing any export
+/// artifact that was already committed.
+fn fail_runtime(reply: &mut Reply, message: impl Into<String>) {
+    if let Some(binding) = &mut reply.runtime_binding {
+        *binding = runtime::BindingReply::failed(message.into());
+    }
 }
 
 fn export_artifacts(
@@ -403,6 +552,10 @@ fn build_service(request: &Request) -> Result<ServiceSchema, Error> {
     if let Some(text) = &request.macros {
         builder = builder.macros_str(text);
     }
+    if let Some(text) = &request.provider_declarations {
+        let declarations = ProviderDeclarations::from_json(text).map_err(Error::Providers)?;
+        builder = builder.providers(declarations);
+    }
     builder.build()
 }
 
@@ -422,7 +575,8 @@ fn stage_error(stage: &'static str, error: &Error, source: &str) -> StageError {
         | Error::CedarSchema(_)
         | Error::PolicySet(_)
         | Error::SchemaSerialize(_)
-        | Error::EventSchema(_) => ("schema", None),
+        | Error::EventSchema(_)
+        | Error::Providers(_) => ("schema", None),
         Error::InvalidDistincter(_) | Error::DuplicateDistincter(_) => ("distincter", None),
         _ => ("internal", None),
     };

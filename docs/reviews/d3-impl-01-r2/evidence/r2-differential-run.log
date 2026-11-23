@@ -1,0 +1,18 @@
+﻿DOGWOOD-SHARP-D3-IMPL-01-R2 Upstream Differential Corpus
+=========================================================
+Date: 2026-11-23T08:27:45.4735349+08:00
+
+Oracle: docs/reviews/d3-impl-01/evidence/differential/r2/upstream-oracle/target/release/dogwoodsharp-upstream-oracle.exe
+Probe: docs/reviews/d3-impl-01/evidence/differential/r2/probe/bin/Release
+
+net10.0: 84 cases, 0 failed, 0 pending
+net8.0:  84 cases, 0 failed, 0 pending
+
+Family coverage: 26 families (C-01 through C-26)
+Classifications: agreement=46, approved-difference=21, operation-failure=17
+Coverage errors: none
+
+Expected differences encoded: ED-01, ED-02, ED-03, ED-04, ED-05
+Pinned upstream revision: 929f49e7305534ac61ef06cf8e47269c596dc851
+Pinned Dogwood version: 1.1.2
+Pinned Cedar version: 4.11.0

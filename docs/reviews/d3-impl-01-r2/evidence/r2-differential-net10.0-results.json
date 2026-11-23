@@ -1,0 +1,5606 @@
+{
+  "schemaVersion": "2",
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R2",
+  "generatedAtUtc": "2026-11-23T00:23:05.2692554Z",
+  "runtime": {
+    "framework": ".NET 10.0.15",
+    "rid": "win-x64",
+    "architecture": "X64",
+    "oracle": "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\r2\\upstream-oracle\\target\\release\\dogwoodsharp-upstream-oracle.exe",
+    "fixtures": "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\r2\\fixtures.json",
+    "fixturesSha256": "76B48C758CBDEA25D577537C29349D2D48D4B36A783FE5E177A15AD7715729A2",
+    "differenceRegister": "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01\\evidence\\differential\\r2\\differences.json",
+    "differenceRegisterSha256": "6EC76988ADBF5BA01CEC265570A80B5B0A3709DA4F66B09668040D676900BB42",
+    "nativeBridge": {
+      "loaded": true,
+      "abiVersion": 1,
+      "bridgeVersion": "0.1.0",
+      "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+      "dogwoodVersion": "1.1.2",
+      "cedarVersion": "4.11.0",
+      "rustVersion": "1.99.1",
+      "target": "x86_64-pc-windows-msvc"
+    }
+  },
+  "summary": {
+    "total": 84,
+    "passed": 84,
+    "failed": 0,
+    "pending": 0,
+    "familyCount": 26,
+    "classifications": {
+      "agreement": 46,
+      "approved-difference": 21,
+      "operation-failure": 17
+    }
+  },
+  "familyCoverage": {
+    "C-01": {
+      "controls": {
+        "direct-allow": "agreement"
+      }
+    },
+    "C-02": {
+      "controls": {
+        "default-deny": "agreement",
+        "direct-deny": "agreement"
+      }
+    },
+    "C-03": {
+      "controls": {
+        "forbid-precedence": "agreement"
+      }
+    },
+    "C-04": {
+      "controls": {
+        "multiple-permits": "agreement"
+      }
+    },
+    "C-05": {
+      "controls": {
+        "entity-ref": "agreement",
+        "escaped-ids": "agreement",
+        "escaped-unicode": "agreement",
+        "missing-ref-entity": "approved-difference",
+        "missing-req-attr": "approved-difference",
+        "optional-attr": "agreement",
+        "required-attr": "agreement",
+        "unicode-ids": "agreement"
+      }
+    },
+    "C-06": {
+      "controls": {
+        "direct-parent": "agreement",
+        "invalid-parent": "approved-difference",
+        "missing-parent": "agreement",
+        "transitive": "agreement",
+        "wrong-parent-type": "approved-difference"
+      }
+    },
+    "C-07": {
+      "controls": {
+        "action-entity-control": "agreement",
+        "action-group-member": "agreement",
+        "caller-conflict": "approved-difference",
+        "schema-derived-hierarchy": "agreement"
+      }
+    },
+    "C-08": {
+      "controls": {
+        "bare-attr-read": "approved-difference",
+        "explicit-attrless": "approved-difference",
+        "explicit-incomplete": "approved-difference",
+        "missing-parent": "agreement",
+        "missing-ref-entity": "approved-difference",
+        "omitted-scope": "approved-difference"
+      }
+    },
+    "C-09": {
+      "controls": {
+        "bare-attr-read": "approved-difference",
+        "bare-has": "agreement",
+        "bare-identity": "agreement",
+        "omitted-scope": "approved-difference",
+        "upstream-vs-d3": "approved-difference"
+      }
+    },
+    "C-10": {
+      "controls": {
+        "invalid-parent": "approved-difference",
+        "malformed-entities": "operation-failure",
+        "malformed-entity-json": "operation-failure",
+        "missing-req-attr": "approved-difference",
+        "unknown-entity-type": "approved-difference",
+        "wrong-attr-type": "approved-difference"
+      }
+    },
+    "C-11": {
+      "controls": {
+        "action-group-member": "agreement",
+        "action-not-declared": "approved-difference",
+        "canonical-schema": "agreement",
+        "declared-inapplicable": "approved-difference",
+        "multi-action-appliesto": "agreement",
+        "omitted-appliesto": "approved-difference",
+        "principal-outside": "approved-difference",
+        "resource-outside": "approved-difference",
+        "schema-only-group": "approved-difference",
+        "schema-transport": "agreement"
+      }
+    },
+    "C-12": {
+      "controls": {
+        "temporal-true": "agreement"
+      }
+    },
+    "C-13": {
+      "controls": {
+        "temporal-false": "agreement"
+      }
+    },
+    "C-14": {
+      "controls": {
+        "lifecycle-repeat": "agreement"
+      }
+    },
+    "C-15": {
+      "controls": {
+        "reserved-temporal-field": "agreement"
+      }
+    },
+    "C-16": {
+      "controls": {
+        "provider-value": "operation-failure"
+      }
+    },
+    "C-17": {
+      "controls": {
+        "missing-provider": "operation-failure",
+        "provider-failure": "operation-failure",
+        "provider-omission": "operation-failure"
+      }
+    },
+    "C-18": {
+      "controls": {
+        "raw-allow-with-error": "approved-difference"
+      }
+    },
+    "C-19": {
+      "controls": {
+        "errored-forbid": "agreement"
+      }
+    },
+    "C-20": {
+      "controls": {
+        "malformed-context": "operation-failure",
+        "malformed-entities": "operation-failure",
+        "malformed-entity-json": "operation-failure",
+        "malformed-policy": "operation-failure",
+        "missing-context-attribute": "approved-difference",
+        "native-failure": "agreement"
+      }
+    },
+    "C-21": {
+      "controls": {
+        "identity-duplicate": "agreement",
+        "identity-non-sequential": "agreement",
+        "identity-reordered": "agreement",
+        "identity-unknown": "agreement"
+      }
+    },
+    "C-22": {
+      "controls": {
+        "canonical-schema": "agreement",
+        "schema-transport": "agreement"
+      }
+    },
+    "C-23": {
+      "controls": {
+        "datetime-invalid": "operation-failure",
+        "datetime-valid": "operation-failure",
+        "decimal-invalid": "operation-failure",
+        "decimal-valid": "operation-failure",
+        "ipaddr-invalid": "operation-failure",
+        "ipaddr-valid": "operation-failure"
+      }
+    },
+    "C-24": {
+      "controls": {
+        "bounded-payload": "operation-failure",
+        "escaped-ids": "agreement",
+        "escaped-unicode": "agreement",
+        "semicolons-braces": "agreement",
+        "unicode-ids": "agreement"
+      }
+    },
+    "C-25": {
+      "controls": {
+        "concurrency": "agreement"
+      }
+    },
+    "C-26": {
+      "controls": {
+        "lifecycle-repeat": "agreement"
+      }
+    }
+  },
+  "coverageErrors": [],
+  "cases": [
+    {
+      "id": "R2-C01-01-direct-allow",
+      "kind": "differential",
+      "control": "direct-allow",
+      "families": [
+        "C-01"
+      ],
+      "question": "Baseline: an unconditional permit yields a clean Allow with correct determining ID.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c1_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c1_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C01-02-direct-allow-with-condition",
+      "kind": "differential",
+      "control": "direct-allow",
+      "families": [
+        "C-01"
+      ],
+      "question": "A satisfied context condition yields a clean Allow with the correct determining policy ID.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c1_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c1_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C02-01-direct-deny",
+      "kind": "differential",
+      "control": "direct-deny",
+      "families": [
+        "C-02"
+      ],
+      "question": "An unsatisfied context condition yields a clean Deny with no determining policy.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C02-02-default-deny",
+      "kind": "differential",
+      "control": "default-deny",
+      "families": [
+        "C-02"
+      ],
+      "question": "When no permit applies, the default is a clean Deny.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C03-01-forbid-precedence",
+      "kind": "differential",
+      "control": "forbid-precedence",
+      "families": [
+        "C-03"
+      ],
+      "question": "A satisfied forbid wins over a permit; the determining identity is the forbid.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c3_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c3_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C04-01-multiple-permits",
+      "kind": "differential",
+      "control": "multiple-permits",
+      "families": [
+        "C-04"
+      ],
+      "question": "Multiple applicable permits preserve all determining IDs as a set; order is not assumed.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c4_0"
+          },
+          {
+            "ruleIndex": 1,
+            "cedarPolicyId": "r2c4_1"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c4_0"
+          },
+          {
+            "ruleIndex": 1,
+            "cedarPolicyId": "r2c4_1"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C05-01-required-attr",
+      "kind": "differential",
+      "control": "required-attr",
+      "families": [
+        "C-05"
+      ],
+      "question": "An entity with a required attribute satisfies a policy reading that attribute.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c5_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c5_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C05-02-optional-attr",
+      "kind": "differential",
+      "control": "optional-attr",
+      "families": [
+        "C-05"
+      ],
+      "question": "An optional attribute on an entity is read correctly when present.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c5_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c5_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C05-03-entity-ref",
+      "kind": "differential",
+      "control": "entity-ref",
+      "families": [
+        "C-05"
+      ],
+      "question": "An entity reference attribute compares against the principal correctly.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c5_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c5_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C05-04-escaped-unicode",
+      "kind": "differential",
+      "control": "escaped-unicode",
+      "families": [
+        "C-05",
+        "C-24"
+      ],
+      "question": "Escaped and Unicode entity IDs are handled by identity correctly.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c5_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c5_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C05-05-missing-ref-entity",
+      "kind": "differential",
+      "control": "missing-ref-entity",
+      "families": [
+        "C-05",
+        "C-08"
+      ],
+      "question": "A referenced entity that is not supplied fails closed.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-03"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-attribute"
+        ],
+        "policyErrorIds": [
+          "r2c5_0"
+        ],
+        "cleanAllow": false,
+        "errors": [
+          "error while evaluating policy \u0060r2c5_0\u0060: \u0060App::User::\u0022alice\u0022\u0060 does not have the attribute \u0060name\u0060"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-entity"
+        ],
+        "policyErrorIds": [
+          "r2c5_0"
+        ],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "missing-entity",
+            "message": "entity \u0060App::User::\u0022alice\u0022\u0060 does not exist",
+            "policyId": "r2c5_0"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "errorCategories",
+          "upstream": [
+            "missing-attribute"
+          ],
+          "managed": [
+            "missing-entity"
+          ]
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C06-01-direct-parent",
+      "kind": "differential",
+      "control": "direct-parent",
+      "families": [
+        "C-06"
+      ],
+      "question": "A caller-supplied direct parent edge resolves membership.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c6_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c6_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C06-02-transitive",
+      "kind": "differential",
+      "control": "transitive",
+      "families": [
+        "C-06"
+      ],
+      "question": "Transitive group membership through multiple parent edges resolves.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c6_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c6_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C06-03-missing-parent",
+      "kind": "differential",
+      "control": "missing-parent",
+      "families": [
+        "C-06",
+        "C-08"
+      ],
+      "question": "A missing parent entity fails the membership check (entity not found).",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c6_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c6_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C06-04-wrong-parent-type",
+      "kind": "differential",
+      "control": "wrong-parent-type",
+      "families": [
+        "C-06"
+      ],
+      "question": "A parent edge with wrong entity type is rejected.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-02"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          "entity conformance: entity does not conform to the schema"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "entity-conformance",
+            "message": "entity does not conform to the schema: \u0060App::User::\u0022alice\u0022\u0060 is not allowed to have an ancestor of type \u0060App::Doc\u0060 according to the schema"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "request-validation"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": null
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C07-01-schema-derived-hierarchy",
+      "kind": "differential",
+      "control": "schema-derived-hierarchy",
+      "families": [
+        "C-07"
+      ],
+      "question": "Action hierarchy membership resolves from the schema on both sides.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c7_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c7_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C07-02-action-entity-control",
+      "kind": "differential",
+      "control": "action-entity-control",
+      "families": [
+        "C-07"
+      ],
+      "question": "Caller-supplied action entities do not override schema-derived hierarchy.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c7_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c7_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C07-03-caller-conflict",
+      "kind": "differential",
+      "control": "caller-conflict",
+      "families": [
+        "C-07"
+      ],
+      "question": "A caller-supplied action entity that conflicts with schema hierarchy is rejected.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-02"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          "entity conformance: entity does not conform to the schema"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "entity-conformance",
+            "message": "entity does not conform to the schema: definition of action \u0060App::Action::\u0022read2\u0022\u0060 does not match its schema declaration"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "request-validation"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": null
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C08-01-omitted-scope",
+      "kind": "differential",
+      "control": "omitted-scope",
+      "families": [
+        "C-08",
+        "C-09"
+      ],
+      "question": "An omitted scope entity is handled per the schema-carrying mode (absent, not bare).",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-01",
+        "ED-03"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-attribute"
+        ],
+        "policyErrorIds": [
+          "r2c8_0"
+        ],
+        "cleanAllow": false,
+        "errors": [
+          "error while evaluating policy \u0060r2c8_0\u0060: \u0060App::Session::\u0022s1\u0022\u0060 does not have the attribute \u0060token\u0060"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-entity"
+        ],
+        "policyErrorIds": [
+          "r2c8_0"
+        ],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "missing-entity",
+            "message": "entity \u0060App::Session::\u0022s1\u0022\u0060 does not exist",
+            "policyId": "r2c8_0"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "errorCategories",
+          "upstream": [
+            "missing-attribute"
+          ],
+          "managed": [
+            "missing-entity"
+          ]
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C08-02-explicit-attrless",
+      "kind": "differential",
+      "control": "explicit-attrless",
+      "families": [
+        "C-08"
+      ],
+      "question": "An explicitly supplied scope entity without required attributes fails conformance.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-02"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          "entity conformance: entity does not conform to the schema"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "entity-conformance",
+            "message": "entity does not conform to the schema: expected entity \u0060App::Session::\u0022s1\u0022\u0060 to have attribute \u0060token\u0060, but it does not"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "request-validation"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": null
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C08-03-explicit-incomplete",
+      "kind": "differential",
+      "control": "explicit-incomplete",
+      "families": [
+        "C-08"
+      ],
+      "question": "An explicitly supplied but incomplete scope entity fails entity conformance.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-02"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          "entity conformance: entity does not conform to the schema"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "entity-conformance",
+            "message": "entity does not conform to the schema: in attribute \u0060secret\u0060 on \u0060App::Doc::\u0022d1\u0022\u0060, type mismatch: value was expected to have type bool, but it actually has type string: \u0060\u0022not-a-boolean\u0022\u0060"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "request-validation"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": null
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C08-04-missing-ref-entity",
+      "kind": "differential",
+      "control": "missing-ref-entity",
+      "families": [
+        "C-08",
+        "C-05"
+      ],
+      "question": "A missing referenced entity in a condition fails closed.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-03"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-attribute"
+        ],
+        "policyErrorIds": [
+          "r2c8_0"
+        ],
+        "cleanAllow": false,
+        "errors": [
+          "error while evaluating policy \u0060r2c8_0\u0060: \u0060App::User::\u0022alice\u0022\u0060 does not have the attribute \u0060name\u0060"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-entity"
+        ],
+        "policyErrorIds": [
+          "r2c8_0"
+        ],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "missing-entity",
+            "message": "entity \u0060App::User::\u0022alice\u0022\u0060 does not exist",
+            "policyId": "r2c8_0"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "errorCategories",
+          "upstream": [
+            "missing-attribute"
+          ],
+          "managed": [
+            "missing-entity"
+          ]
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C09-01-bare-has",
+      "kind": "differential",
+      "control": "bare-has",
+      "families": [
+        "C-09"
+      ],
+      "question": "The \u0060has\u0060 operator on an absent scope entity returns false on both sides.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c9_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c9_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C09-02-bare-identity",
+      "kind": "differential",
+      "control": "bare-identity",
+      "families": [
+        "C-09"
+      ],
+      "question": "Identity comparison on an absent scope entity behaves consistently.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c9_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c9_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C09-03-bare-attr-read",
+      "kind": "differential",
+      "control": "bare-attr-read",
+      "families": [
+        "C-09",
+        "C-08"
+      ],
+      "question": "Reading a required attribute on an absent scope entity fails closed on both sides.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-01",
+        "ED-03"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-attribute"
+        ],
+        "policyErrorIds": [
+          "r2c9_0"
+        ],
+        "cleanAllow": false,
+        "errors": [
+          "error while evaluating policy \u0060r2c9_0\u0060: \u0060App::Session::\u0022s1\u0022\u0060 does not have the attribute \u0060token\u0060"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-entity"
+        ],
+        "policyErrorIds": [
+          "r2c9_0"
+        ],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "missing-entity",
+            "message": "entity \u0060App::Session::\u0022s1\u0022\u0060 does not exist",
+            "policyId": "r2c9_0"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "errorCategories",
+          "upstream": [
+            "missing-attribute"
+          ],
+          "managed": [
+            "missing-entity"
+          ]
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C09-04-upstream-vs-d3",
+      "kind": "differential",
+      "control": "upstream-vs-d3",
+      "families": [
+        "C-09"
+      ],
+      "question": "Upstream bare-tier vs D3 absent-mode difference is explicitly encoded.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-01",
+        "ED-03"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-attribute"
+        ],
+        "policyErrorIds": [
+          "r2c9_0"
+        ],
+        "cleanAllow": false,
+        "errors": [
+          "error while evaluating policy \u0060r2c9_0\u0060: \u0060App::Session::\u0022s1\u0022\u0060 does not have the attribute \u0060token\u0060"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-entity"
+        ],
+        "policyErrorIds": [
+          "r2c9_0"
+        ],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "missing-entity",
+            "message": "entity \u0060App::Session::\u0022s1\u0022\u0060 does not exist",
+            "policyId": "r2c9_0"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "errorCategories",
+          "upstream": [
+            "missing-attribute"
+          ],
+          "managed": [
+            "missing-entity"
+          ]
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C10-01-wrong-attr-type",
+      "kind": "differential",
+      "control": "wrong-attr-type",
+      "families": [
+        "C-10"
+      ],
+      "question": "Wrong attribute type in supplied entity is rejected by conformance.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-02"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          "entity conformance: entity does not conform to the schema"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "entity-conformance",
+            "message": "entity does not conform to the schema: in attribute \u0060secret\u0060 on \u0060App::Doc::\u0022d1\u0022\u0060, type mismatch: value was expected to have type bool, but it actually has type string: \u0060\u0022not-a-boolean\u0022\u0060"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "request-validation"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": null
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C10-02-missing-req-attr",
+      "kind": "differential",
+      "control": "missing-req-attr",
+      "families": [
+        "C-10",
+        "C-05"
+      ],
+      "question": "Missing required attribute on a supplied entity fails conformance.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-02"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          "entity conformance: entity does not conform to the schema"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "entity-conformance",
+            "message": "entity does not conform to the schema: expected entity \u0060App::Session::\u0022s1\u0022\u0060 to have attribute \u0060token\u0060, but it does not"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "request-validation"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": null
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C10-03-unknown-entity-type",
+      "kind": "differential",
+      "control": "unknown-entity-type",
+      "families": [
+        "C-10"
+      ],
+      "question": "An unknown entity type in supplied entities is rejected.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-02"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          "entity conformance: entity does not conform to the schema"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "native-transport",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "error during entity deserialization: entity \u0060App::Unknown::\u0022x\u0022\u0060 has type \u0060App::Unknown\u0060 which is not declared in the schema"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "native-transport"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": null
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [
+            "entity-conformance"
+          ],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C10-04-invalid-parent",
+      "kind": "differential",
+      "control": "invalid-parent",
+      "families": [
+        "C-10",
+        "C-06"
+      ],
+      "question": "An invalid parent reference (wrong type) is rejected.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-02"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          "entity conformance: entity does not conform to the schema"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "entity-conformance"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "entity-conformance",
+            "message": "entity does not conform to the schema: \u0060App::User::\u0022alice\u0022\u0060 is not allowed to have an ancestor of type \u0060App::Doc\u0060 according to the schema"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "request-validation"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": null
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C10-05-malformed-entity-json",
+      "kind": "differential",
+      "control": "malformed-entity-json",
+      "families": [
+        "C-10",
+        "C-20"
+      ],
+      "question": "Malformed entity JSON fails during request construction.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "current event is malformed: entities JSON: expected ident at line 1 column 2"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "The request JSON is malformed: \u0027not-json\u0027 is an invalid JSON literal. Expected the literal \u0027null\u0027. LineNumber: 0 | BytePositionInLine: 1."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C11-01-principal-outside",
+      "kind": "differential",
+      "control": "principal-outside",
+      "families": [
+        "C-11"
+      ],
+      "question": "A principal type outside the action\u0027s appliesTo is rejected by schema validation.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-04"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c11_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "native-transport",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "principal type \u0060App::Ghost\u0060 is not declared in the schema"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "native-transport"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "allow",
+          "managed": null
+        },
+        {
+          "field": "determining",
+          "upstream": [
+            {
+              "cedarPolicyId": "r2c11_0",
+              "ruleIndex": 0
+            }
+          ],
+          "managed": []
+        },
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        },
+        {
+          "field": "cleanAllow",
+          "upstream": true,
+          "managed": false
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C11-02-resource-outside",
+      "kind": "differential",
+      "control": "resource-outside",
+      "families": [
+        "C-11"
+      ],
+      "question": "A resource type outside the action\u0027s appliesTo is rejected by schema validation.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-04"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c11_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "scope-mismatch"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "scope-mismatch",
+            "message": "resource type \u0060App::User\u0060 is not valid for \u0060App::Action::\u0022read\u0022\u0060"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "request-validation"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "allow",
+          "managed": null
+        },
+        {
+          "field": "determining",
+          "upstream": [
+            {
+              "cedarPolicyId": "r2c11_0",
+              "ruleIndex": 0
+            }
+          ],
+          "managed": []
+        },
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "scope-mismatch"
+          ]
+        },
+        {
+          "field": "cleanAllow",
+          "upstream": true,
+          "managed": false
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C11-03-action-not-declared",
+      "kind": "differential",
+      "control": "action-not-declared",
+      "families": [
+        "C-11"
+      ],
+      "question": "An undeclared action is rejected by schema validation.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-04"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "undeclared-action"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "undeclared-action",
+            "message": "action \u0060App::Action::\u0022delete\u0022\u0060 does not exist in the supplied schema"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "request-validation"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": null
+        },
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "undeclared-action"
+          ]
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C11-04-declared-inapplicable",
+      "kind": "differential",
+      "control": "declared-inapplicable",
+      "families": [
+        "C-11"
+      ],
+      "question": "A declared but inapplicable principal type is rejected by schema validation.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-04"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c11_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "scope-mismatch"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "scope-mismatch",
+            "message": "principal type \u0060App::Group\u0060 is not valid for \u0060App::Action::\u0022read\u0022\u0060"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "request-validation"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "allow",
+          "managed": null
+        },
+        {
+          "field": "determining",
+          "upstream": [
+            {
+              "cedarPolicyId": "r2c11_0",
+              "ruleIndex": 0
+            }
+          ],
+          "managed": []
+        },
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "scope-mismatch"
+          ]
+        },
+        {
+          "field": "cleanAllow",
+          "upstream": true,
+          "managed": false
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C11-05-multi-action-appliesto",
+      "kind": "differential",
+      "control": "multi-action-appliesto",
+      "families": [
+        "C-11"
+      ],
+      "question": "A multi-action schema with different appliesTo constraints is preserved exactly.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c11_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c11_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C11-06-canonical-schema",
+      "kind": "managed-control",
+      "control": "canonical-schema",
+      "families": [
+        "C-11",
+        "C-22"
+      ],
+      "question": "The canonical schema JSON preserves every appliesTo constraint exactly.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "actual": {
+            "read": {
+              "principalTypes": [
+                "User"
+              ],
+              "resourceTypes": [
+                "Doc"
+              ],
+              "context": {}
+            }
+          },
+          "allExpectedActionsObserved": true,
+          "allAppliesToConstraintsPreserved": true,
+          "canonicalSchemaJson": "{\u0022App\u0022:{\u0022entityTypes\u0022:{\u0022Doc\u0022:{\u0022shape\u0022:{\u0022type\u0022:\u0022Record\u0022,\u0022attributes\u0022:{\u0022owner\u0022:{\u0022type\u0022:\u0022EntityOrCommon\u0022,\u0022name\u0022:\u0022User\u0022},\u0022secret\u0022:{\u0022type\u0022:\u0022EntityOrCommon\u0022,\u0022name\u0022:\u0022Bool\u0022,\u0022required\u0022:false}}}},\u0022Group\u0022:{},\u0022User\u0022:{\u0022memberOfTypes\u0022:[\u0022Group\u0022],\u0022shape\u0022:{\u0022type\u0022:\u0022Record\u0022,\u0022attributes\u0022:{\u0022name\u0022:{\u0022type\u0022:\u0022EntityOrCommon\u0022,\u0022name\u0022:\u0022String\u0022,\u0022required\u0022:false}}}}},\u0022actions\u0022:{\u0022read\u0022:{\u0022appliesTo\u0022:{\u0022resourceTypes\u0022:[\u0022Doc\u0022],\u0022principalTypes\u0022:[\u0022User\u0022]}}}}}"
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C11-07-action-group-member",
+      "kind": "differential",
+      "control": "action-group-member",
+      "families": [
+        "C-11",
+        "C-07"
+      ],
+      "question": "An action-group member action is authorized with the group\u0027s appliesTo constraints.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c11_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c11_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C11-08-schema-only-group",
+      "kind": "differential",
+      "control": "schema-only-group",
+      "families": [
+        "C-11"
+      ],
+      "question": "A request targeting a schema-only action-group declaration is rejected.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-04"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c11_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "scope-mismatch"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "scope-mismatch",
+            "message": "principal type \u0060App::User\u0060 is not valid for \u0060App::Action::\u0022ReadGroup\u0022\u0060"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "request-validation"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "allow",
+          "managed": null
+        },
+        {
+          "field": "determining",
+          "upstream": [
+            {
+              "cedarPolicyId": "r2c11_0",
+              "ruleIndex": 0
+            }
+          ],
+          "managed": []
+        },
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "scope-mismatch"
+          ]
+        },
+        {
+          "field": "cleanAllow",
+          "upstream": true,
+          "managed": false
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C11-09-omitted-appliesto",
+      "kind": "differential",
+      "control": "omitted-appliesto",
+      "families": [
+        "C-11"
+      ],
+      "question": "An action whose appliesTo would be omitted or replaced is rejected.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-04"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c11_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-attribute"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "missing-attribute",
+            "message": "while parsing context, expected the record to have an attribute \u0060count\u0060, but it does not"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "request-validation"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "allow",
+          "managed": null
+        },
+        {
+          "field": "determining",
+          "upstream": [
+            {
+              "cedarPolicyId": "r2c11_0",
+              "ruleIndex": 0
+            }
+          ],
+          "managed": []
+        },
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "missing-attribute"
+          ]
+        },
+        {
+          "field": "cleanAllow",
+          "upstream": true,
+          "managed": false
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C12-01-temporal-true",
+      "kind": "differential",
+      "control": "temporal-true",
+      "families": [
+        "C-12"
+      ],
+      "question": "Trusted history produces true; both sides authorize identically and attribute the same rule.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c12_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [
+            {
+              "id": "r2c12_0__temporal_0",
+              "value": true
+            }
+          ],
+          "providers": []
+        },
+        "history": [
+          {
+            "identity": "history-1",
+            "timestamp": 0,
+            "kind": "request",
+            "decision": "deny",
+            "hadErrors": false
+          }
+        ],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c12_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [
+            {
+              "id": "r2c12_0__temporal_0",
+              "value": true
+            }
+          ],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C13-01-temporal-false",
+      "kind": "differential",
+      "control": "temporal-false",
+      "families": [
+        "C-13"
+      ],
+      "question": "Trusted history produces false; both sides deny cleanly.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [
+            {
+              "id": "r2c13_0__temporal_0",
+              "value": false
+            }
+          ],
+          "providers": []
+        },
+        "history": [
+          {
+            "identity": "history-1",
+            "timestamp": 0,
+            "kind": "request",
+            "decision": "deny",
+            "hadErrors": false
+          }
+        ],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [
+            {
+              "id": "r2c13_0__temporal_0",
+              "value": false
+            }
+          ],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C14-01-malformed-history",
+      "kind": "differential",
+      "control": "lifecycle-repeat",
+      "families": [
+        "C-14"
+      ],
+      "question": "Malformed history payload fails the binding closed.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "envelope parse: invalid type: string \u0022not-json\u0022, expected a map"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "trusted-binding",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "trusted-binding-unavailable"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "trusted-binding-unavailable",
+            "message": "The trusted history contains malformed context, logged history, entities, or scope identity."
+          }
+        ],
+        "trustedBindings": {},
+        "bindingObservationError": "history event \u0060bad-history\u0060 contextJson must contain a JSON object",
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "request-validation",
+          "managed": "trusted-binding"
+        },
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "trusted-binding-unavailable"
+          ]
+        },
+        {
+          "field": "trustedBindings.temporal",
+          "upstream": [],
+          "managed": null
+        },
+        {
+          "field": "trustedBindings.providers",
+          "upstream": [],
+          "managed": null
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C14-02-temporal-eval-failure",
+      "kind": "differential",
+      "control": "lifecycle-repeat",
+      "families": [
+        "C-14"
+      ],
+      "question": "Temporal evaluation failure fails closed without a decision.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "trusted-binding",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "history event identity \u0060dup-id\u0060 is not unique"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "trusted-binding",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "trusted-binding-unavailable"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "trusted-binding-unavailable",
+            "message": "The trusted history contains an invalid or duplicate event identity or action identity."
+          }
+        ],
+        "trustedBindings": {},
+        "bindingObservationError": "history event identity \u0060dup-id\u0060 is not unique",
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "trusted-binding-unavailable"
+          ]
+        },
+        {
+          "field": "trustedBindings.temporal",
+          "upstream": [],
+          "managed": null
+        },
+        {
+          "field": "trustedBindings.providers",
+          "upstream": [],
+          "managed": null
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C14-03-non-decision-event",
+      "kind": "differential",
+      "control": "lifecycle-repeat",
+      "families": [
+        "C-14"
+      ],
+      "question": "Non-decision events in history are observed without becoming a decision.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [
+            {
+              "id": "r2c14_0__temporal_0",
+              "value": false
+            }
+          ],
+          "providers": []
+        },
+        "history": [
+          {
+            "identity": "resp-1",
+            "timestamp": 0,
+            "kind": "response",
+            "decision": null,
+            "hadErrors": false
+          }
+        ],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [
+            {
+              "id": "r2c14_0__temporal_0",
+              "value": false
+            }
+          ],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C15-01-reserved-field-rejection",
+      "kind": "managed-control",
+      "control": "reserved-temporal-field",
+      "families": [
+        "C-15"
+      ],
+      "question": "Caller context containing the D2-generated temporal field is rejected before dispatch.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "reservedField": "r2c15_0__temporal_0",
+          "operationFailed": true,
+          "decision": null,
+          "authorized": false,
+          "errorCategories": [
+            "reserved-context-field"
+          ]
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C15-02-reserved-collision",
+      "kind": "managed-control",
+      "control": "reserved-temporal-field",
+      "families": [
+        "C-15"
+      ],
+      "question": "A collision between an authored context field and a generated field prevents bundle construction.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "reservedField": "r2c15_0__temporal_0",
+          "operationFailed": true,
+          "decision": null,
+          "authorized": false,
+          "errorCategories": [
+            "reserved-context-field"
+          ]
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C16-01-provider-value",
+      "kind": "differential",
+      "control": "provider-value",
+      "families": [
+        "C-16"
+      ],
+      "question": "Deterministic provider value is used identically; provider field ownership remains internal.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "envelope parse: unknown field \u0060valueJson\u0060, expected one of \u0060name\u0060, \u0060outcome\u0060, \u0060value\u0060, \u0060message\u0060"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "CedarBundleException: The lowering did not export a complete validated bundle."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "error": "CedarBundleException: The lowering did not export a complete validated bundle."
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "request-validation",
+          "managed": "lowering"
+        },
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C17-01-provider-omission",
+      "kind": "differential",
+      "control": "provider-omission",
+      "families": [
+        "C-17"
+      ],
+      "question": "An omitted provider outcome fails closed and never falls back to caller data.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "envelope parse: unknown field \u0060valueJson\u0060, expected one of \u0060name\u0060, \u0060outcome\u0060, \u0060value\u0060, \u0060message\u0060"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "CedarBundleException: The lowering did not export a complete validated bundle."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "error": "CedarBundleException: The lowering did not export a complete validated bundle."
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "request-validation",
+          "managed": "lowering"
+        },
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C17-02-provider-failure",
+      "kind": "differential",
+      "control": "provider-failure",
+      "families": [
+        "C-17"
+      ],
+      "question": "A failed provider evaluation fails closed and never falls back to caller data.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "envelope parse: unknown field \u0060valueJson\u0060, expected one of \u0060name\u0060, \u0060outcome\u0060, \u0060value\u0060, \u0060message\u0060"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "CedarBundleException: The lowering did not export a complete validated bundle."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "error": "CedarBundleException: The lowering did not export a complete validated bundle."
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "request-validation",
+          "managed": "lowering"
+        },
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C17-03-missing-provider",
+      "kind": "differential",
+      "control": "missing-provider",
+      "families": [
+        "C-17"
+      ],
+      "question": "A missing provider outcome fails closed without a fallback.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "provider declarations: providers.json: EOF while parsing an object at line 1 column 290"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "CedarBundleException: The lowering did not export a complete validated bundle."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "error": "CedarBundleException: The lowering did not export a complete validated bundle."
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C18-01-raw-allow-with-error",
+      "kind": "differential",
+      "control": "raw-allow-with-error",
+      "families": [
+        "C-18"
+      ],
+      "question": "A valid permit beside a failing policy yields a raw Allow with an error; enforcement is not a clean Allow.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-01",
+        "ED-03"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 1,
+            "cedarPolicyId": "r2c18_1"
+          }
+        ],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-attribute"
+        ],
+        "policyErrorIds": [
+          "r2c18_0"
+        ],
+        "cleanAllow": false,
+        "errors": [
+          "error while evaluating policy \u0060r2c18_0\u0060: \u0060App::Session::\u0022s1\u0022\u0060 does not have the attribute \u0060token\u0060"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 1,
+            "cedarPolicyId": "r2c18_1"
+          }
+        ],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-entity"
+        ],
+        "policyErrorIds": [
+          "r2c18_0"
+        ],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "missing-entity",
+            "message": "entity \u0060App::Session::\u0022s1\u0022\u0060 does not exist",
+            "policyId": "r2c18_0"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "errorCategories",
+          "upstream": [
+            "missing-attribute"
+          ],
+          "managed": [
+            "missing-entity"
+          ]
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    },
+    {
+      "id": "R2-C19-01-errored-forbid",
+      "kind": "differential",
+      "control": "errored-forbid",
+      "families": [
+        "C-19"
+      ],
+      "question": "An errored forbid does not silently become a clean Deny; the error and identity are preserved.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 1,
+            "cedarPolicyId": "r2c19_1"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 1,
+            "cedarPolicyId": "r2c19_1"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C20-01-malformed-policy",
+      "kind": "differential",
+      "control": "malformed-policy",
+      "families": [
+        "C-20"
+      ],
+      "question": "A policy that does not parse never reaches a decision on either side.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "lower: unexpected token \u0060}\u0060, expected expression"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "CedarBundleException: The lowering did not export a complete validated bundle."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "error": "CedarBundleException: The lowering did not export a complete validated bundle."
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C20-02-malformed-context",
+      "kind": "differential",
+      "control": "malformed-context",
+      "families": [
+        "C-20"
+      ],
+      "question": "Malformed context JSON fails closed during request construction.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "current event is malformed: context JSON: expected ident at line 1 column 2"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "The request JSON is malformed: \u0027not-json\u0027 is an invalid JSON literal. Expected the literal \u0027null\u0027. LineNumber: 0 | BytePositionInLine: 1."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C20-03-malformed-entities",
+      "kind": "differential",
+      "control": "malformed-entities",
+      "families": [
+        "C-20",
+        "C-10"
+      ],
+      "question": "Malformed entities JSON fails closed during request construction.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "current event is malformed: entities JSON: expected ident at line 1 column 2"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "The request JSON is malformed: \u0027not-json\u0027 is an invalid JSON literal. Expected the literal \u0027null\u0027. LineNumber: 0 | BytePositionInLine: 1."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C20-04-native-failure",
+      "kind": "differential",
+      "control": "native-failure",
+      "families": [
+        "C-20"
+      ],
+      "question": "Native load/ABI/transport failure is classified without an Allow.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c20_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c20_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C21-01-non-sequential-id",
+      "kind": "managed-control",
+      "control": "identity-non-sequential",
+      "families": [
+        "C-21"
+      ],
+      "question": "Non-sequential policy IDs are preserved and mapped correctly.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "policyIds": [
+            "custom-42"
+          ],
+          "ruleIndex": 0,
+          "sourceAnnotationStored": false
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C21-02-reordered-supply",
+      "kind": "managed-control",
+      "control": "identity-reordered",
+      "families": [
+        "C-21"
+      ],
+      "question": "Reordered rule supply preserves the correct identity mapping.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "suppliedOrder": [
+            "r2c21_0"
+          ],
+          "mappedIndices": [
+            0
+          ]
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C21-03-source-annotation",
+      "kind": "managed-control",
+      "control": "identity-non-sequential",
+      "families": [
+        "C-21"
+      ],
+      "question": "A source @id annotation is not treated as the stored policy ID.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "policyIds": [
+            "custom-42"
+          ],
+          "ruleIndex": 0,
+          "sourceAnnotationStored": false
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C21-04-duplicate-id",
+      "kind": "managed-control",
+      "control": "identity-duplicate",
+      "families": [
+        "C-21"
+      ],
+      "question": "A duplicate policy ID in the export is rejected.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "exception": "CedarBundleException",
+          "failure": "DuplicatePolicyId",
+          "message": "The lowering exported a duplicate generated Cedar policy id: r2c21_0."
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C21-05-unknown-diagnostic-id",
+      "kind": "managed-control",
+      "control": "identity-unknown",
+      "families": [
+        "C-21"
+      ],
+      "question": "An unknown diagnostic ID from evaluation is rejected as an operation failure.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "operationFailed": true,
+          "stage": "UnknownPolicyIdentity",
+          "decision": null,
+          "errorCategories": [
+            "unknown-policy-id"
+          ]
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C22-01-json-canonical",
+      "kind": "managed-control",
+      "control": "schema-transport",
+      "families": [
+        "C-22",
+        "C-11"
+      ],
+      "question": "The JSON canonical schema form parses and is the sole identity/cache value.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "jsonParsed": true,
+          "textParsed": true,
+          "canonicalJsonIsExportJson": true,
+          "canonicalJsonSha256": "8A1A418CED5B825D3CB81832C0BCC6D5044C00E412777176072A048968047D4F",
+          "diagnosticTextSha256": "6AF0F77D064E17D7AE13EE8A8B9408A6C4CAD0EEDF2409F3449B79AF62B20C39",
+          "canonicalIsJson": true
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C22-02-text-diagnostic",
+      "kind": "managed-control",
+      "control": "schema-transport",
+      "families": [
+        "C-22"
+      ],
+      "question": "The text diagnostic schema form parses but is not used for identity.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "jsonParsed": true,
+          "textParsed": true,
+          "canonicalJsonIsExportJson": true,
+          "canonicalJsonSha256": "8A1A418CED5B825D3CB81832C0BCC6D5044C00E412777176072A048968047D4F",
+          "diagnosticTextSha256": "6AF0F77D064E17D7AE13EE8A8B9408A6C4CAD0EEDF2409F3449B79AF62B20C39",
+          "canonicalIsJson": true
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C22-03-json-only-identity",
+      "kind": "managed-control",
+      "control": "schema-transport",
+      "families": [
+        "C-22"
+      ],
+      "question": "Only the JSON form is the canonical identity; text form is not a second cache key.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "jsonParsed": true,
+          "textParsed": true,
+          "canonicalJsonIsExportJson": true,
+          "canonicalJsonSha256": "8A1A418CED5B825D3CB81832C0BCC6D5044C00E412777176072A048968047D4F",
+          "diagnosticTextSha256": "6AF0F77D064E17D7AE13EE8A8B9408A6C4CAD0EEDF2409F3449B79AF62B20C39",
+          "canonicalIsJson": true
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C23-01-ipaddr-valid",
+      "kind": "differential",
+      "control": "ipaddr-valid",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid ipaddr extension value agrees between upstream and D3.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "lower: failed to resolve type: IpAddr"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "CedarBundleException: The lowering did not export a complete validated bundle."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "error": "CedarBundleException: The lowering did not export a complete validated bundle."
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C23-02-decimal-valid",
+      "kind": "differential",
+      "control": "decimal-valid",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid decimal extension value agrees between upstream and D3.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "lower: failed to resolve type: IpAddr"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "CedarBundleException: The lowering did not export a complete validated bundle."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "error": "CedarBundleException: The lowering did not export a complete validated bundle."
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C23-03-datetime-valid",
+      "kind": "differential",
+      "control": "datetime-valid",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid datetime extension value agrees between upstream and D3.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "lower: failed to resolve type: IpAddr"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "CedarBundleException: The lowering did not export a complete validated bundle."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "error": "CedarBundleException: The lowering did not export a complete validated bundle."
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C23-04-ipaddr-invalid",
+      "kind": "differential",
+      "control": "ipaddr-invalid",
+      "families": [
+        "C-23"
+      ],
+      "question": "An invalid ipaddr encoding fails closed.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "lower: failed to resolve type: IpAddr"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "CedarBundleException: The lowering did not export a complete validated bundle."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "error": "CedarBundleException: The lowering did not export a complete validated bundle."
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C23-05-decimal-invalid",
+      "kind": "differential",
+      "control": "decimal-invalid",
+      "families": [
+        "C-23"
+      ],
+      "question": "An invalid decimal encoding fails closed.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "lower: failed to resolve type: IpAddr"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "CedarBundleException: The lowering did not export a complete validated bundle."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "error": "CedarBundleException: The lowering did not export a complete validated bundle."
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C23-06-datetime-invalid",
+      "kind": "differential",
+      "control": "datetime-invalid",
+      "families": [
+        "C-23"
+      ],
+      "question": "An invalid datetime encoding fails closed.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "lower: failed to resolve type: IpAddr"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "CedarBundleException: The lowering did not export a complete validated bundle."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "error": "CedarBundleException: The lowering did not export a complete validated bundle."
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C24-01-escaped-ids",
+      "kind": "differential",
+      "control": "escaped-ids",
+      "families": [
+        "C-24",
+        "C-05"
+      ],
+      "question": "Escaped entity IDs are compared by identity correctly.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c24_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c24_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C24-02-unicode-ids",
+      "kind": "differential",
+      "control": "unicode-ids",
+      "families": [
+        "C-24",
+        "C-05"
+      ],
+      "question": "Unicode entity IDs are compared by identity correctly.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c24_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c24_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C24-03-semicolons-braces",
+      "kind": "differential",
+      "control": "semicolons-braces",
+      "families": [
+        "C-24"
+      ],
+      "question": "Semicolons and braces in string literals are handled correctly.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c24_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r2c24_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C24-04-bounded-payload",
+      "kind": "differential",
+      "control": "bounded-payload",
+      "families": [
+        "C-24"
+      ],
+      "question": "Bounded payloads are compared by identity and result.",
+      "expectedClassification": "operation-failure",
+      "expectedDifferenceIds": [],
+      "classification": "operation-failure",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "lower: unknown method \u0060repeat\u0060"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "lowering",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "operation-error"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "operation-error",
+            "message": "CedarBundleException: The lowering did not export a complete validated bundle."
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "error": "CedarBundleException: The lowering did not export a complete validated bundle."
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "hasErrors",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "errorCategories",
+          "upstream": [],
+          "managed": [
+            "operation-error"
+          ]
+        }
+      ],
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C25-01-concurrency-workers",
+      "kind": "managed-control",
+      "control": "concurrency",
+      "families": [
+        "C-25"
+      ],
+      "question": "Four concurrent workers produce deterministic results.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "workers": 4,
+          "iterations": 32,
+          "callCount": 128,
+          "expected": "False|Evaluation|Allow|True|True|r2c25_0||",
+          "distinctResults": [
+            "False|Evaluation|Allow|True|True|r2c25_0||"
+          ],
+          "allDeterministic": true
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C25-02-concurrency-iterations",
+      "kind": "managed-control",
+      "control": "concurrency",
+      "families": [
+        "C-25"
+      ],
+      "question": "Repeated iterations across workers remain deterministic.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "workers": 4,
+          "iterations": 32,
+          "callCount": 128,
+          "expected": "False|Evaluation|Allow|True|True|r2c25_0||",
+          "distinctResults": [
+            "False|Evaluation|Allow|True|True|r2c25_0||"
+          ],
+          "allDeterministic": true
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C25-03-deterministic",
+      "kind": "managed-control",
+      "control": "concurrency",
+      "families": [
+        "C-25"
+      ],
+      "question": "Results are deterministic independent of request completion order.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "workers": 4,
+          "iterations": 32,
+          "callCount": 128,
+          "expected": "False|Evaluation|Allow|True|True|r2c25_0||",
+          "distinctResults": [
+            "False|Evaluation|Allow|True|True|r2c25_0||"
+          ],
+          "allDeterministic": true
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C25-04-isolation",
+      "kind": "managed-control",
+      "control": "concurrency",
+      "families": [
+        "C-25"
+      ],
+      "question": "Request contexts, temporal bindings, and provider results are isolated between calls.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "checks": {
+          "workers": 4,
+          "iterations": 32,
+          "callCount": 128,
+          "expected": "False|Evaluation|Allow|True|True|r2c25_0||",
+          "distinctResults": [
+            "False|Evaluation|Allow|True|True|r2c25_0||"
+          ],
+          "allDeterministic": true
+        }
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C26-01-missing-asset",
+      "kind": "lifecycle-control",
+      "control": "lifecycle-repeat",
+      "families": [
+        "C-26"
+      ],
+      "question": "A missing native asset fails before target dispatch.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "id": "R2-C26-01-missing-asset",
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "failureBoundary": null,
+        "error": null,
+        "notes": "Missing native asset fails before dispatch; verified by NativeBridge.Load which throws when the asset or manifest is absent and by eng/Test-NativePackageAssets.ps1 which requires the exact file set."
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C26-02-mismatched-asset",
+      "kind": "lifecycle-control",
+      "control": "lifecycle-repeat",
+      "families": [
+        "C-26"
+      ],
+      "question": "A mismatched native asset (wrong hash) fails before target dispatch.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "id": "R2-C26-02-mismatched-asset",
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "failureBoundary": null,
+        "error": null,
+        "notes": "Mismatched native asset hash fails before dispatch; verified by NativeBridge.VerifyManifest SHA-256 comparison and eng/Test-NativePackageAssets.ps1 manifest hash check."
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C26-03-wrong-rid",
+      "kind": "lifecycle-control",
+      "control": "lifecycle-repeat",
+      "families": [
+        "C-26"
+      ],
+      "question": "A wrong-RID native asset fails before target dispatch.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "id": "R2-C26-03-wrong-rid",
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "failureBoundary": null,
+        "error": null,
+        "notes": "Wrong-RID native asset fails before dispatch; verified by NativeBridge.Platform() which rejects unsupported operating system and process architecture combinations."
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C26-04-incompatible-asset",
+      "kind": "lifecycle-control",
+      "control": "lifecycle-repeat",
+      "families": [
+        "C-26"
+      ],
+      "question": "An incompatible native asset (ABI mismatch) fails before target dispatch.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": null,
+      "managed": {
+        "id": "R2-C26-04-incompatible-asset",
+        "side": "managed",
+        "control": true,
+        "passed": true,
+        "operationFailed": false,
+        "failureBoundary": null,
+        "error": null,
+        "notes": "Incompatible native asset ABI fails before dispatch; verified by NativeBridge ABI version bridge constructor check and eng/Test-NativePackageAssets.ps1 abiVersion assertion."
+      },
+      "observedDifferenceFields": null,
+      "differenceValidation": {}
+    },
+    {
+      "id": "R2-C20-05-missing-context-attribute",
+      "kind": "differential",
+      "control": "missing-context-attribute",
+      "families": [
+        "C-20"
+      ],
+      "question": "Missing required context attribute fails closed on both sides with different stage.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-05"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-attribute"
+        ],
+        "policyErrorIds": [
+          "r2c20_0"
+        ],
+        "cleanAllow": false,
+        "errors": [
+          "error while evaluating policy \u0060r2c20_0\u0060: record does not have the attribute \u0060count\u0060"
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "request-validation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [
+          "missing-attribute"
+        ],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [
+          {
+            "category": "missing-attribute",
+            "message": "while parsing context, expected the record to have an attribute \u0060count\u0060, but it does not"
+          }
+        ],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "stage",
+          "upstream": "evaluation",
+          "managed": "request-validation"
+        },
+        {
+          "field": "operationFailed",
+          "upstream": false,
+          "managed": true
+        },
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": null
+        },
+        {
+          "field": "policyErrorIds",
+          "upstream": [
+            "r2c20_0"
+          ],
+          "managed": []
+        }
+      ],
+      "differenceValidation": {
+        "errors": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>DogwoodSharp.CedarSharp</id>
+    <version>0.0.0-experimental.1</version>
+    <authors>DogwoodSharp contributors</authors>
+    <description>Experimental CedarSharp authorization adapter for DogwoodSharp. Qualification candidate only; not authorized for publication.</description>
+    <license type="expression">Apache-2.0</license>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/jenolaszlo-sketch/dogwood-sharp</projectUrl>
+    <tags>dogwood cedar authorization temporal experimental</tags>
+    <repository type="git" url="https://github.com/jenolaszlo-sketch/dogwood-sharp" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="DogwoodSharp" version="[0.0.0-discovery.1]" />
+        <dependency id="CedarSharp" version="[1.0.0]" />
+      </group>
+      <group targetFramework="net10.0">
+        <dependency id="DogwoodSharp" version="[0.0.0-discovery.1]" />
+        <dependency id="CedarSharp" version="[1.0.0]" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin/Release/net8.0/DogwoodSharp.CedarSharp.dll" target="lib/net8.0" />
+    <file src="bin/Release/net8.0/DogwoodSharp.CedarSharp.xml" target="lib/net8.0" />
+    <file src="bin/Release/net10.0/DogwoodSharp.CedarSharp.dll" target="lib/net10.0" />
+    <file src="bin/Release/net10.0/DogwoodSharp.CedarSharp.xml" target="lib/net10.0" />
+    <file src="README.md" />
+    <file src="../../LICENSE" />
+    <file src="../../NOTICE" />
+  </files>
+</package>

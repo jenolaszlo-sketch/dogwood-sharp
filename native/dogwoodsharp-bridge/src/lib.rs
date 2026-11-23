@@ -197,7 +197,12 @@ fn dispatch(operation: u32, json: &str) -> Result<Box<[u8]>, Status> {
             }
             parse(&request.source)
         }
-        OPERATION_VALIDATE | OPERATION_LOWER | OPERATION_EXPORT => {
+        OPERATION_VALIDATE | OPERATION_LOWER => {
+            let request: d2::LegacyRequest =
+                serde_json::from_str(json).map_err(|_| Status::InvalidEnvelope)?;
+            d2::run_legacy(operation, request)
+        }
+        OPERATION_EXPORT => {
             let request: d2::Request =
                 serde_json::from_str(json).map_err(|_| Status::InvalidEnvelope)?;
             d2::run(operation, &request)
