@@ -300,8 +300,8 @@ try {
         $jitLock = Join-Path $cellWork 'jit-package-lock.json'
         $aotLock = Join-Path $cellWork 'aot-package-lock.json'
 
-        Invoke-Dotnet @('restore', $project, '--configfile', $nugetConfigPath, '--force-evaluate', "-p:NuGetLockFilePath=$jitLock")
-        Invoke-Dotnet @('restore', $project, '--configfile', $nuGetConfigPath, '--locked-mode', "-p:NuGetLockFilePath=$jitLock")
+        Invoke-Dotnet @('restore', $project, '--configfile', $nugetConfigPath, '--force-evaluate', '-p:PublishAot=false', "-p:NuGetLockFilePath=$jitLock")
+        Invoke-Dotnet @('restore', $project, '--configfile', $nuGetConfigPath, '--locked-mode', '-p:PublishAot=false', "-p:NuGetLockFilePath=$jitLock")
         Assert-PackageGraph (Join-Path $consumerRoot 'obj/project.assets.json') $jitLock
 
         Invoke-Dotnet @('build', $project, '--configuration', 'Release', '--framework', $TargetFramework, '--no-restore', '-p:PublishAot=false', "-p:NuGetLockFilePath=$jitLock")
