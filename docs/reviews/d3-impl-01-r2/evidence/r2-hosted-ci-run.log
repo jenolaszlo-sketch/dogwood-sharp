@@ -1,0 +1,28 @@
+﻿DOGWOOD-SHARP-D3-IMPL-01-R2 Hosted CI Execution
+=================================================
+Run ID: 45121260293
+Head SHA: aa9731fe1ba6b29eab8f81700694c45f82256c33
+Workflow: DogwoodSharp producer verification
+Conclusion: success
+Started: 2026-11-23
+Jobs: 12/12 success
+
+Implementation matrix (3 RIDs x 2 TFMs):
+  Verify win-x64 / net8.0 and net10.0      (job 137515325110) success
+  Verify linux-x64 / net8.0 and net10.0    (job 137515325439) success
+  Verify osx-arm64 / net8.0 and net10.0    (job 137515325459) success
+
+Package pipeline:
+  Pack D3 package candidates               (job 137521581872) success
+  Verify D3 package candidates            (job 137521973542) success
+
+Package-only consumer matrix (3 RIDs x 2 TFMs):
+  Package consumer / win-x64 / net8.0     (job 137522230883) success
+  Package consumer / win-x64 / net10.0    (job 137522230787) success
+  Package consumer / linux-x64 / net8.0   (job 137522230821) success
+  Package consumer / linux-x64 / net10.0  (job 137522230728) success
+  Package consumer / osx-arm64 / net8.0   (job 137522231139) success
+  Package consumer / osx-arm64 / net10.0  (job 137522230760) success
+  D3 package consumer summary             (job 137522558697) success
+
+Package consumer summary: all six cells succeeded (D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6).

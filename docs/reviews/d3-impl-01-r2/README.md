@@ -147,5 +147,31 @@ The following gates are explicitly deferred to later milestones with binding cit
 
 ## Repository identity
 
-This record documents implementation-stage producer verification. Final commit and tree
-identities are recorded after the R2 evidence commit.
+## Hosted CI execution
+
+Run ID: 45121260293 at commit aa9731fe1ba6b29eab8f81700694c45f82256c33 (12/12 jobs success).
+
+| Job | Name | Conclusion |
+| --- | --- | --- |
+| 137515325110 | Verify win-x64 / net8.0 and net10.0 | success |
+| 137515325439 | Verify linux-x64 / net8.0 and net10.0 | success |
+| 137515325459 | Verify osx-arm64 / net8.0 and net10.0 | success |
+| 137521581872 | Pack D3 package candidates | success |
+| 137521973542 | Verify D3 package candidates | success |
+| 137522230883 | Package consumer / win-x64 / net8.0 | success |
+| 137522230787 | Package consumer / win-x64 / net10.0 | success |
+| 137522230821 | Package consumer / linux-x64 / net8.0 | success |
+| 137522230728 | Package consumer / linux-x64 / net10.0 | success |
+| 137522231139 | Package consumer / osx-arm64 / net8.0 | success |
+| 137522230760 | Package consumer / osx-arm64 / net10.0 | success |
+| 137522558697 | D3 package consumer summary | success |
+
+The package-only consumer summary verified all six RID/TFM cells succeeded. See
+evidence/r2-hosted-ci-run.log for the full record.
+
+## Repository identity
+
+This record documents implementation-stage producer verification at the hosted CI
+execution revision. The implementation revision, tested revision, and evidence
+revision are distinct: the implementation and tests were validated locally on
+win-x64 and then hosted CI executed the complete matrix on commit aa9731f.
