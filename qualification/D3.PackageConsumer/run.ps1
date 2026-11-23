@@ -160,8 +160,21 @@ function Assert-ManifestAndImage(
     [string] $ImageName,
     [string] $ExpectedImageHash,
     [string] $ExpectedManifestHash) {
-    $manifestPath = Join-Path $Directory $ManifestName
-    $imagePath = Join-Path $Directory $ImageName
+    # NuGet native assets can be consumed in either a flat root layout (NativeAOT publish)
+    # or a nested runtimes/<rid>/native layout (JIT build). Resolve whichever is present.
+    $nestedDirectory = Join-Path $Directory "runtimes/$RuntimeIdentifier/native"
+    $resolvedDirectory = if (Test-Path -LiteralPath (Join-Path $Directory $ManifestName) -PathType Leaf) {
+        $Directory
+    }
+    elseif (Test-Path -LiteralPath (Join-Path $nestedDirectory $ManifestName) -PathType Leaf) {
+        $nestedDirectory
+    }
+    else {
+        $Directory
+    }
+
+    $manifestPath = Join-Path $resolvedDirectory $ManifestName
+    $imagePath = Join-Path $resolvedDirectory $ImageName
     Require (Test-Path -LiteralPath $manifestPath -PathType Leaf) "The published native manifest is missing: $manifestPath"
     Require (Test-Path -LiteralPath $imagePath -PathType Leaf) "The published native image is missing: $imagePath"
 
