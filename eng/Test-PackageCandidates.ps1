@@ -188,7 +188,10 @@ function Get-NuspecMetadata([string] $NuspecText) {
     $xml = New-Object System.Xml.XmlDocument
     $xml.PreserveWhitespace = $true
     try {
-        $xml.LoadXml($NuspecText)
+        # Strip a leading UTF-8 BOM if present: XmlDocument rejects a BOM
+        # character in a string that also carries an XML encoding declaration.
+        $xmlText = $NuspecText -replace '^\uFEFF', ''
+        $xml.LoadXml($xmlText)
     }
     catch {
         throw 'The package nuspec is not valid XML.'
