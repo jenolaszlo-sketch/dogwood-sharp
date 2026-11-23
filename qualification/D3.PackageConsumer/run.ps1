@@ -139,19 +139,19 @@ function Assert-PackageGraph([string] $AssetsPath, [string] $LockPath) {
     }
 
     $lock = Get-Content -Raw -LiteralPath $LockPath | ConvertFrom-Json
-    $lockFrameworks = @($lock.dependencies.PSObject.Properties | Where-Object { $_.Name -eq $TargetFramework -or $_.Name.StartsWith("$TargetFramework/", [StringComparison]::Ordinal) })
-    Require ($lockFrameworks.Count -ge 1) "The disposable lockfile has no $TargetFramework graph."
-    foreach ($framework in $lockFrameworks) {
-        $dependencies = $framework.Value.PSObject.Properties
-        $candidate = @($dependencies | Where-Object Name -CEQ $candidateId)
-        $stable = @($dependencies | Where-Object Name -CEQ $stableId)
-        $cedar = @($dependencies | Where-Object Name -CEQ 'CedarSharp')
-        Require ($candidate.Count -eq 1) 'The candidate lockfile dependency is missing or duplicated.'
-        Require ($stable.Count -eq 1) 'The stable package lockfile dependency is missing or duplicated.'
-        Require ($cedar.Count -eq 1) 'The CedarSharp package lockfile dependency is missing or duplicated.'
-        Require ([string] $stable[0].Value.resolved -ceq $stableVersion) 'The resolved stable package version is not exact.'
-        Require ([string] $cedar[0].Value.resolved -ceq $cedarVersion) 'The resolved CedarSharp package version is not exact.'
-    }
+    # A runtime-specific restore writes both the base framework graph and a RID-qualified
+    # graph. The candidate package only appears in the base graph; verify the base graph.
+    $lockFrameworks = @($lock.dependencies.PSObject.Properties | Where-Object { $_.Name -eq $TargetFramework })
+    Require ($lockFrameworks.Count -eq 1) "The disposable lockfile has no exact $TargetFramework graph."
+    $dependencies = $lockFrameworks[0].Value.PSObject.Properties
+    $candidate = @($dependencies | Where-Object Name -CEQ $candidateId)
+    $stable = @($dependencies | Where-Object Name -CEQ $stableId)
+    $cedar = @($dependencies | Where-Object Name -CEQ 'CedarSharp')
+    Require ($candidate.Count -eq 1) 'The candidate lockfile dependency is missing or duplicated.'
+    Require ($stable.Count -eq 1) 'The stable package lockfile dependency is missing or duplicated.'
+    Require ($cedar.Count -eq 1) 'The CedarSharp package lockfile dependency is missing or duplicated.'
+    Require ([string] $stable[0].Value.resolved -ceq $stableVersion) 'The resolved stable package version is not exact.'
+    Require ([string] $cedar[0].Value.resolved -ceq $cedarVersion) 'The resolved CedarSharp package version is not exact.'
 }
 
 function Assert-ManifestAndImage(
