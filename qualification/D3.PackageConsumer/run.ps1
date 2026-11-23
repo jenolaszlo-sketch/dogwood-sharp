@@ -123,7 +123,7 @@ function Assert-PackageGraph([string] $AssetsPath, [string] $LockPath) {
             $automaticProperty = $_.Value.PSObject.Properties['autoReferenced']
             $null -ne $automaticProperty -and $automaticProperty.Value -eq $true
         })) {
-            Require ($automatic.Name -ceq 'Microsoft.NET.ILLink.Tasks') "The consumer has an unexpected automatic package dependency: $($automatic.Name)."
+            Require ($automatic.Name -ceq 'Microsoft.NET.ILLink.Tasks' -or $automatic.Name -ceq 'Microsoft.DotNet.ILCompiler') "The consumer has an unexpected automatic package dependency: $($automatic.Name)."
         }
     }
 
