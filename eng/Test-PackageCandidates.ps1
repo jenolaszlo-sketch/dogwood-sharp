@@ -488,7 +488,7 @@ if (Test-Path -LiteralPath $CedarSharpPackagePath -PathType Leaf) {
         throw 'The CedarSharp 1.0.0 package contents differ from the pinned entry hashes.'
     }
 
-    $cedarNuspec = @($cedarEntries | Where-Object FullName -CEQ 'cedarsharp.nuspec')
+    $cedarNuspec = @($cedarEntries | Where-Object FullName -EQ 'CedarSharp.nuspec')
     if ($cedarNuspec.Count -ne 1) { throw 'The CedarSharp package has no unique nuspec.' }
     $cedarMetadata = Get-NuspecMetadata (Get-EntryText $cedarNuspec[0])
     if ([string] $cedarMetadata.id -cne 'CedarSharp' -or [string] $cedarMetadata.version -cne '1.0.0') {
