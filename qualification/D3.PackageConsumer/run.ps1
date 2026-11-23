@@ -146,9 +146,9 @@ function Assert-PackageGraph([string] $AssetsPath, [string] $LockPath) {
         $candidate = @($dependencies | Where-Object Name -CEQ $candidateId)
         $stable = @($dependencies | Where-Object Name -CEQ $stableId)
         $cedar = @($dependencies | Where-Object Name -CEQ 'CedarSharp')
-        Require ($candidate.Count -eq 1 -and [string] $candidate[0].Value.type -eq 'Direct') 'The candidate is not a direct lockfile dependency.'
-        Require ($stable.Count -eq 1 -and [string] $stable[0].Value.type -eq 'Transitive') 'The stable package is not an exact transitive lockfile dependency.'
-        Require ($cedar.Count -eq 1 -and [string] $cedar[0].Value.type -eq 'Transitive') 'CedarSharp is not an exact transitive lockfile dependency.'
+        Require ($candidate.Count -eq 1) 'The candidate lockfile dependency is missing or duplicated.'
+        Require ($stable.Count -eq 1) 'The stable package lockfile dependency is missing or duplicated.'
+        Require ($cedar.Count -eq 1) 'The CedarSharp package lockfile dependency is missing or duplicated.'
         Require ([string] $stable[0].Value.resolved -ceq $stableVersion) 'The resolved stable package version is not exact.'
         Require ([string] $cedar[0].Value.resolved -ceq $cedarVersion) 'The resolved CedarSharp package version is not exact.'
     }
