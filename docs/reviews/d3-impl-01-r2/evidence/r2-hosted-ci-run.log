@@ -26,3 +26,10 @@ Package-only consumer matrix (3 RIDs x 2 TFMs):
   D3 package consumer summary             (job 137522558697) success
 
 Package consumer summary: all six cells succeeded (D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6).
+
+
+Final evidence-revision run:
+Run ID: 45124288319
+Head SHA: c2fb5ba5ea37b472d422a6fcd0750db974e70669
+Conclusion: success (12/12 jobs)
+All implementation, package pipeline, and six package-only consumer cells succeeded.
