@@ -1,0 +1,75 @@
+DOGWOOD-SHARP-D3-IMPL-01-R3 Hosted CI Execution
+=================================================
+Workflow: DogwoodSharp producer verification (.github/workflows/ci.yml)
+Event: push to main
+
+R3 implementation revision:
+  Run ID: 45345013721
+  Head SHA: 17b327adf0c5c1ee24ea85e3cd6417df3c41a701
+  Tree SHA: 58d67505df28b16a245e67af176754da5dfe5fe3
+  URL: https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45345013721
+  Conclusion: success
+  Started: 2026-11-24T07:03:13Z
+  Finished: 2026-11-24T07:28:15Z
+  Jobs: 12/12 success
+
+Implementation matrix (3 RIDs x 2 TFMs):
+  Verify osx-arm64 / net8.0 and net10.0      (job 138277350519) success
+  Verify linux-x64 / net8.0 and net10.0      (job 138277350895) success
+  Verify win-x64 / net8.0 and net10.0        (job 138277351016) success
+
+Package pipeline:
+  Pack D3 package candidates                 (job 138286552245) success
+  Verify D3 package candidates               (job 138287071877) success
+
+Package-only consumer matrix (3 RIDs x 2 TFMs):
+  Package consumer / linux-x64 / net10.0     (job 138287351048) success
+  Package consumer / osx-arm64 / net8.0      (job 138287351117) success
+  Package consumer / osx-arm64 / net10.0     (job 138287351124) success
+  Package consumer / win-x64 / net8.0        (job 138287351133) success
+  Package consumer / linux-x64 / net8.0      (job 138287351142) success
+  Package consumer / win-x64 / net10.0       (job 138287351162) success
+  D3 package consumer summary                (job 138287811175) success
+
+Package consumer summary: all six cells succeeded (D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6).
+
+
+Frozen Q1 subject revision:
+  Run ID: 45127492373
+  Head SHA: ee870e9fc32b1f20cb20863002bd18f9d4122de1
+  URL: https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45127492373
+  Conclusion: success
+  Started: 2026-11-23T06:55:57Z
+  Finished: 2026-11-23T07:22:51Z
+  Jobs: 12/12 success
+
+Implementation matrix (3 RIDs x 2 TFMs):
+  Verify osx-arm64 / net8.0 and net10.0      (job 137535096987) success
+  Verify win-x64 / net8.0 and net10.0        (job 137535097253) success
+  Verify linux-x64 / net8.0 and net10.0      (job 137535097265) success
+
+Package pipeline:
+  Pack D3 package candidates                 (job 137543897347) success
+  Verify D3 package candidates               (job 137544437612) success
+
+Package-only consumer matrix (3 RIDs x 2 TFMs):
+  Package consumer / linux-x64 / net10.0     (job 137544742479) success
+  Package consumer / win-x64 / net8.0        (job 137544742504) success
+  Package consumer / win-x64 / net10.0       (job 137544742509) success
+  Package consumer / linux-x64 / net8.0      (job 137544742516) success
+  Package consumer / osx-arm64 / net10.0     (job 137544742588) success
+  Package consumer / osx-arm64 / net8.0      (job 137544742618) success
+  D3 package consumer summary                (job 137545087467) success
+
+
+Superseded R2 runs (recorded here for completeness; the R2 record itself is
+left byte-for-byte unchanged as the historical artifact):
+  Run ID: 45116965132  Head SHA: 6bedf858fcdb2a95140ac484d8a7b8dfdc6a9d28  failure
+  Run ID: 45121260293  Head SHA: aa9731fe1ba6b29eab8f81700694c45f82256c33  success
+  Run ID: 45124288319  Head SHA: c2fb5ba5ea37b472d422a6fcd0750db974e70669  success
+
+Note on binding: a committed CI record can only ever bind a run to a prior
+revision, because the commit that carries the record is itself pushed after
+the run it describes. This log therefore binds the runs to the revisions whose
+content they verify, and the run of the final evidence-recording commit is
+observed and reported to the owner by the producer.

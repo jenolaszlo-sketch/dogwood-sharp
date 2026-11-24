@@ -23,8 +23,12 @@ $manifestPath = Join-Path $PSScriptRoot 'manifest.sha256'
 $evidenceRoot = 'docs/reviews/d3-impl-01-r3/evidence'
 # The manifest covers the published evidence files. The manifest itself cannot
 # contain its own hash, and the verification script is the tool that produces
-# it, so neither is in scope.
-$excluded = @($manifestPath, (Join-Path $PSScriptRoot 'verify-manifest.ps1'))
+# it, so neither is in scope. The paths are repository-relative because that is
+# how `git ls-tree` reports them.
+$excluded = @(
+    "$evidenceRoot/manifest.sha256",
+    "$evidenceRoot/verify-manifest.ps1"
+)
 
 function Get-BlobHash([string] $Path) {
     $temporary = Join-Path ([IO.Path]::GetTempPath()) ("dogwood-blob-" + [guid]::NewGuid().ToString('N'))

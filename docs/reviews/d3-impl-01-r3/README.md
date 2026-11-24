@@ -27,8 +27,8 @@ publication, tag, or release authorization.
 Every Q1 *critical* and *high* finding that was about the producer's evidence is
 repaired and re-verified by execution: the provider differential now runs
 against a valid declaration with the upstream envelope's own `value` transport;
-the lifecycle controls actually execute their four native-failure scenarios in
-isolated processes; the C-19, C-14, C-23 and C-24 fixtures now exercise the
+the lifecycle controls actually execute their native-failure scenarios in
+isolated processes (plus the process-lifetime residency control); the C-19, C-14, C-23 and C-24 fixtures now exercise the
 behavior they claim; and the runner can no longer report a false green.
 
 Two findings remain open and are **blocking**:
@@ -162,6 +162,16 @@ the R2 exemptions:
   agreement class, upstream/D3 observation, basis or fail-closed effect changed,
   and no new approved difference was added.
 
+Approved-difference usage in the R3 corpus (both TFMs, identical):
+
+| ED | Cases |
+| --- | --- |
+| ED-01 | 5 |
+| ED-02 | 8 |
+| ED-03 | 7 |
+| ED-04 | 6 |
+| ED-05 | 1 |
+
 ### 4.1 The one registered fail-closed normalization
 
 `FCN-01` in `differences.json` reconciles the provider omission/failure cases.
@@ -281,6 +291,7 @@ documented rather than silently closed:
 | `evidence/r3-differential-differences.json` | Published copy of the register |
 | `evidence/r3-differential-net8.0.log`, `…-net10.0.log` | Console output of each run |
 | `evidence/r3-differential-run.log` | Command list, upstream pin and per-TFM summary |
+| `evidence/r3-hosted-ci-run.log` | Hosted CI run and job identifiers for the R3 revision and for the frozen Q1 subject |
 
 ### 7.2 Hashing procedure
 
@@ -352,7 +363,82 @@ See §9 for the run and job identifiers of the R3 revision.
 
 ## 9. Hosted CI record
 
-_(filled in by the evidence-recording commit)_
+### 9.1 R3 revision
+
+| Item | Value |
+| --- | --- |
+| Workflow | `DogwoodSharp producer verification` (`.github/workflows/ci.yml`) |
+| Event | `push` to `main` |
+| Run | **45345013721** — <https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45345013721> |
+| Revision | `17b327adf0c5c1ee24ea85e3cd6417df3c41a701` (tree `58d67505df28b16a245e67af176754da5dfe5fe3`) |
+| Started / finished | 2026-11-24T07:03:13Z / 2026-11-24T07:28:15Z |
+| Result | **success** (12/12 jobs) |
+
+| Job | ID | Result |
+| --- | --- | --- |
+| Verify osx-arm64 / net8.0 and net10.0 | 138277350519 | success |
+| Verify linux-x64 / net8.0 and net10.0 | 138277350895 | success |
+| Verify win-x64 / net8.0 and net10.0 | 138277351016 | success |
+| Pack D3 package candidates | 138286552245 | success |
+| Verify D3 package candidates | 138287071877 | success |
+| Package consumer / linux-x64 / net10.0 | 138287351048 | success |
+| Package consumer / osx-arm64 / net8.0 | 138287351117 | success |
+| Package consumer / osx-arm64 / net10.0 | 138287351124 | success |
+| Package consumer / win-x64 / net8.0 | 138287351133 | success |
+| Package consumer / linux-x64 / net8.0 | 138287351142 | success |
+| Package consumer / win-x64 / net10.0 | 138287351162 | success |
+| D3 package consumer summary | 138287811175 | success |
+
+The R3 revision under verification is the evidence-recording commit
+`17b327a`; its content is the implementation commit `4c4dcc9` plus the
+evidence manifest commit. The upstream differential corpus is not part of the
+hosted matrix — it is producer evidence executed by `run.ps1` on win-x64 (see
+§8.1 and §10, item 4).
+
+The same record is published as a machine-readable evidence file:
+`evidence/r3-hosted-ci-run.log`.
+
+### 9.2 Frozen Q1 subject
+
+| Item | Value |
+| --- | --- |
+| Run | **45127492373** — <https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45127492373> |
+| Revision | `ee870e9fc32b1f20cb20863002bd18f9d4122de1` (the frozen Q1 subject) |
+| Started / finished | 2026-11-23T06:55:57Z / 2026-11-23T07:22:51Z |
+| Result | **success** (12/12 jobs) |
+
+| Job | ID | Result |
+| --- | --- | --- |
+| Verify osx-arm64 / net8.0 and net10.0 | 137535096987 | success |
+| Verify win-x64 / net8.0 and net10.0 | 137535097253 | success |
+| Verify linux-x64 / net8.0 and net10.0 | 137535097265 | success |
+| Pack D3 package candidates | 137543897347 | success |
+| Verify D3 package candidates | 137544437612 | success |
+| Package consumer / linux-x64 / net10.0 | 137544742479 | success |
+| Package consumer / win-x64 / net8.0 | 137544742504 | success |
+| Package consumer / win-x64 / net10.0 | 137544742509 | success |
+| Package consumer / linux-x64 / net8.0 | 137544742516 | success |
+| Package consumer / osx-arm64 / net10.0 | 137544742588 | success |
+| Package consumer / osx-arm64 / net8.0 | 137544742618 | success |
+| D3 package consumer summary | 137545087467 | success |
+
+This run is the hosted-CI binding for the frozen Q1 subject that QD3Q-09
+reported as recorded nowhere; the two earlier runs cited by the R2 record
+(`45121260293` at `aa9731f`, `45124288319` at `c2fb5ba`) are superseded by it.
+
+### 9.3 R2 historical record
+
+The R2 README cites run `45121260293` at revision `aa9731f` while the R2
+evidence log's final entry cites `45124288319` at `c2fb5ba`; the run at the
+frozen revision was `45127492373`. The R2 record is left byte-for-byte
+unchanged as a historical artifact; the complete R2 CI history is:
+
+| Run | Revision | Result |
+| --- | --- | --- |
+| 45116965132 | `6bedf858fcdb2a95140ac484d8a7b8dfdc6a9d28` | failure (pre-R2 development push) |
+| 45121260293 | `aa9731fe1ba6b29eab8f81700694c45f82256c33` | success |
+| 45124288319 | `c2fb5ba5ea37b472d422a6fcd0750db974e70669` | success |
+| 45127492373 | `ee870e9fc32b1f20cb20863002bd18f9d4122de1` | success (frozen Q1 subject) |
 
 ---
 
