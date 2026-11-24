@@ -30,6 +30,26 @@ $excluded = @(
     "$evidenceRoot/verify-manifest.ps1"
 )
 
+function Remove-TemporaryBlob([string] $Path) {
+    # The temporary blob is scratch space. It is removed with the framework
+    # delete primitive rather than the PowerShell provider, because the
+    # provider's Remove-Item can fail with "Access is denied" on a file that a
+    # real-time scanner has just touched, even though the delete itself is
+    # permitted. The removal is retried briefly and then abandoned; a blob that
+    # is no longer visible to the filesystem is already gone.
+    for ($attempt = 1; $attempt -le 5; $attempt++) {
+        try {
+            [IO.File]::Delete($Path)
+            if (-not [IO.File]::Exists($Path)) { return }
+        }
+        catch {
+            if (-not [IO.File]::Exists($Path)) { return }
+        }
+        Start-Sleep -Milliseconds 200
+    }
+    Write-Warning "the temporary blob could not be removed and is left behind: $Path"
+}
+
 function Get-BlobHash([string] $Path) {
     $temporary = Join-Path ([IO.Path]::GetTempPath()) ("dogwood-blob-" + [guid]::NewGuid().ToString('N'))
     try {
@@ -41,7 +61,7 @@ function Get-BlobHash([string] $Path) {
         return (Get-FileHash -LiteralPath $temporary -Algorithm SHA256).Hash.ToLowerInvariant()
     }
     finally {
-        Remove-Item -LiteralPath $temporary -Force -ErrorAction SilentlyContinue
+        Remove-TemporaryBlob $temporary
     }
 }
 
