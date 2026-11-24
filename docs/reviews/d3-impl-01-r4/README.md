@@ -564,7 +564,7 @@ directory with exactly one injected fault:
 | `evidence/r4-differential-differences.json` | Published copy of the register |
 | `evidence/r4-differential-net8.0.log`, `…-net10.0.log` | Console output of each run |
 | `evidence/r4-differential-run.log` | Command list, upstream pin and per-TFM summary |
-| `evidence/r4-hosted-ci-run.log` | Hosted CI run and job identifiers for the R4 revision |
+| `evidence/r4-hosted-ci-run.log` | Hosted CI run and job identifiers for every revision in the R4 hosted CI chain, plus the R3 baseline and the frozen Q1 subject |
 | `evidence/verify-manifest.ps1` | The manifest verifier / generator |
 
 ### 8.2 Hashing procedure
@@ -613,9 +613,14 @@ The exact number of covered files is reported by the verifier itself and is the
 number of lines in `evidence/manifest.sha256`; the final count is recorded in
 §10.6 with the hosted CI record.
 
-`-Write` regenerates the manifest from `HEAD`; because the manifest is excluded
-from itself, the regenerated manifest and the evidence files can be committed
-together.
+`-Write` regenerates the manifest from the **committed** blobs at `HEAD`. A
+changed evidence file must therefore be committed *before* the manifest is
+regenerated, and the regenerated manifest is committed on top of it: the
+manifest hashes `HEAD`, not the working copy, so a manifest written in the same
+commit as a changed evidence file would still carry the previous hash. The
+manifest is excluded from itself, so the manifest commit never invalidates its
+own coverage. The verification command above is what proves the result, and it
+is re-run against the final `HEAD` after every manifest commit.
 
 ---
 
@@ -926,10 +931,10 @@ passed all six cells (`D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6`).
 | `45483027001` | `103081f` | success, 12/12, first attempt |
 
 The terminal commit of this record changes no implementation, no test, no
-harness input and no published evidence file except this record and the
-manifest entry for it, so its own hosted CI run is observed by the producer and
-reported to the owner rather than committed here — the same termination rule
-the R3 record used (§10.5).
+harness input and no published evidence file except this record, the hosted CI
+log, and the manifest entry for the latter, so its own hosted CI run is
+observed by the producer and reported to the owner rather than committed here —
+the same termination rule the R3 record used (§10.5).
 
 ---
 
