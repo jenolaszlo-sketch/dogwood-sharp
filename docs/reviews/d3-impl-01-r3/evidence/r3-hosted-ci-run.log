@@ -73,3 +73,33 @@ revision, because the commit that carries the record is itself pushed after
 the run it describes. This log therefore binds the runs to the revisions whose
 content they verify, and the run of the final evidence-recording commit is
 observed and reported to the owner by the producer.
+
+
+Final evidence-revision run:
+  Run ID: 45351280878
+  Head SHA: 0881cbb8f8914fe136aa3a3bdd865e94553ac61d
+  Tree SHA: 3c226b0ccd28ae0568d951e6a8f41257ad6516a1
+  URL: https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45351280878
+  Conclusion: success
+  Started: 2026-11-24T07:51:49Z
+  Finished: 2026-11-24T08:27:48Z
+  Jobs: 12/12 success
+
+Implementation matrix (3 RIDs x 2 TFMs):
+  Verify win-x64 / net8.0 and net10.0        (job 138298058390) success
+  Verify linux-x64 / net8.0 and net10.0      (job 138298058725) success
+  Verify osx-arm64 / net8.0 and net10.0      (job 138298058880) success
+
+Package pipeline:
+  Pack D3 package candidates                 (job 138308673192) success
+  Verify D3 package candidates               (job 138309242530) success
+
+Package-only consumer matrix (3 RIDs x 2 TFMs):
+  Package consumer / osx-arm64 / net8.0      (job 138309568923) success
+  Package consumer / linux-x64 / net8.0      (job 138309568985) success
+  Package consumer / osx-arm64 / net10.0     (job 138309569019) success
+  Package consumer / linux-x64 / net10.0     (job 138309569022) success
+  Package consumer / win-x64 / net10.0       (job 138309569049) success
+  Package consumer / win-x64 / net8.0        (job 138309569205) success
+  D3 package consumer summary                (job 138314742708) success
+

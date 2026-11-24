@@ -19,6 +19,7 @@ publication, tag, or release authorization.
 | R3 harness | `docs/reviews/d3-impl-01/evidence/differential/r3/` (evidence tooling only; never a production execution path) |
 | R3 evidence | `docs/reviews/d3-impl-01-r3/evidence/` |
 | R3 implementation commit | `4c4dcc92c91068f8c754884f1d28312b988b92c8`, tree `e329fabcf112de86ea9d0db2156e36a8eb2da98f` |
+| R3 evidence and CI-record commits | `17b327adf0c5c1ee24ea85e3cd6417df3c41a701` (evidence manifest), `0881cbb8f8914fe136aa3a3bdd865e94553ac61d` (hosted CI record) |
 
 ---
 
@@ -31,7 +32,7 @@ the lifecycle controls actually execute their native-failure scenarios in
 isolated processes (plus the process-lifetime residency control); the C-19, C-14, C-23 and C-24 fixtures now exercise the
 behavior they claim; and the runner can no longer report a false green.
 
-Two findings remain open and are **blocking**:
+One finding remains open and is **blocking**:
 
 1. **QD3Q-03 (C-23 typed context values).** The pinned upstream value model has
    no `ipaddr` or `datetime` variant, so an `ipaddr`/`datetime` value carried in
@@ -40,10 +41,13 @@ Two findings remain open and are **blocking**:
    qualification plan requires the two to agree and no owner-approved
    difference covers it, so the two cases fail and family C-23 coverage is
    incomplete.
-2. **QD3Q-12 (in-tree coverage of the mandated negatives) is partially
-   repaired.** The errored-forbid and extension-value controls are now pinned in
-   the production test suite; four other recommended in-tree controls remain
-   unimplemented (see §6).
+
+One further finding is **partially remediated and documented**:
+
+2. **QD3Q-12 (in-tree coverage of the mandated negatives).** The errored-forbid
+   and extension-value controls are now pinned in the production test suite;
+   five other recommended in-tree controls remain unimplemented, each with its
+   residual risk and qualification impact recorded (§5.2).
 
 Because the differential corpus still contains two failing cases, the
 qualification gate "full D3 differential, both TFMs" is **not** green, and the
@@ -61,7 +65,7 @@ disposition is **B**.
 | R3-04 — fix C-19 (real erroring forbid), C-14 (duplicate identity + envelope mismatch + meaningful temporal boundaries), C-24 (`repeat` → contract-authorized literal) | **Done** | `R3-C19-01-errored-forbid` (forbid reads a declared-but-absent attribute and errors), `R3-C14-01-empty-history` / `R3-C14-02-history-identity-duplicate` / `R3-C14-03-non-decision-event`, `R3-C12-02` / `R3-C13-02` window boundaries at 3600 s and 3601 s, `R3-C24-04-bounded-payload` (1000-character literal) |
 | R3-05 — harden the runner: compare stage/categories on dual failure, preserve ED-01–ED-05, reject vacuous agreement and unexpected differences, semantic family coverage, enforce the intended execution stage; add a harness regression for each false-green mechanism | **Done** | `r3/probe/Program.cs`; `r3-harness-self-test.json` (9/9); §4 of this record |
 | R3-06 — regenerate the evidence manifest against the exact committed Git blobs and record the hashing procedure | **Done** | `evidence/manifest.sha256`, §7 of this record |
-| R3-07 — record hosted CI, correct the R2 production delta, link each finding to its remediation and verification evidence | **Done** | §6, §8 of this record |
+| R3-07 — record hosted CI, correct the R2 production delta, link each finding to its remediation and verification evidence | **Done** | §6, §9 of this record; `evidence/r3-hosted-ci-run.log` |
 | R3-08 — assess QD3Q-11…16 individually, implement the low-risk fixes, document the uncorrected findings, residual risk and qualification impact | **Done** | §6 of this record |
 
 ---
@@ -71,7 +75,7 @@ disposition is **B**.
 ### 3.1 Production code
 
 **No production code changed in R3.** The production tree at the frozen subject
-is byte-identical to the R3 tree except for the two test files listed below.
+is byte-identical to the R3 tree except for the single test file listed below.
 This is deliberate: the commission forbids a redesign of the implementation,
 and every Q1 finding was about the producer's evidence, not about the shipped
 behavior.
@@ -210,12 +214,21 @@ those schemas the corpus now exercises real values:
 - the **typed context** form cannot agree (`R3-C23-08`, `R3-C23-09`).
 
 The upstream reason is a product limit of the pinned reference, not a fixture
-defect: the upstream `Value` model has no `ipaddr` or `datetime` variant, so an
-extension value supplied in the request context cannot reach the upstream
-authorizer and the comparison is a clean Deny. Three different encodings of the
-same value (`fn: "ip"`, `fn: "ipaddr"`, plain string) were executed against
-the oracle and all produced the same clean Deny, so the divergence is not an
-encoding typo. D3 evaluates the Cedar extension and allows.
+defect. The upstream runtime value model
+(`dogwood-language/src/interpreter/value.rs:21-35`) is
+`Null | Bool | Int | Decimal(String) | String | Entity | Array | Object` — there
+is no `ipaddr` and no `datetime` variant, while `decimal` has one. The
+documented consequence is stated by the upstream itself
+(`dogwood-language/src/api.rs:1983-2016`): *"`ip` / `datetime` / `duration`
+extension values are NOT yet modeled by `Value` (no variant), so they fall
+through to `None` and are carried as the raw `__extn` record for now — a
+documented gap until a `Value` extension variant lands."* The upstream
+expression conversion (`api.rs:2018` onward) therefore has no extension mapping
+for such a value, so the typed attribute is not comparable to the Cedar
+extension and the request evaluates to a clean Deny. Three different encodings
+of the same value (`fn: "ip"`, `fn: "ipaddr"`, plain string) were executed
+against the oracle and all produced the same clean Deny, so the divergence is
+not an encoding typo. D3 evaluates the Cedar extension and allows.
 
 **Why it is not remediated here.** Closing the gap needs either an
 owner-approved difference (the register may not gain one under this
@@ -237,7 +250,7 @@ representable subset, or extend the upstream value model).
 ### 5.2 QD3Q-12 — in-tree controls for the mandated negatives (partial)
 
 The errored-forbid and extension-value controls are now pinned in the
-production suite. Four recommended controls remain unimplemented and are
+production suite. Five recommended controls remain unimplemented and are
 documented rather than silently closed:
 
 | Recommended control | State | Residual risk |
@@ -267,7 +280,7 @@ documented rather than silently closed:
 | QD3Q-09 | Medium | **Remediated** | This record binds the R3 revision to its own hosted CI run (§8). The Q1 run `45127492373` at the frozen revision `ee870e9` is recorded here as the frozen-subject CI result. |
 | QD3Q-10 | Medium | **Remediated** | The complete R2 production delta is enumerated in §3.4. |
 | QD3Q-11 | Medium | **Not corrected — documented** | The adapter still derives some diagnostic categories from engine message wording, which the contract declares non-normative. Changing the category derivation would alter the observable diagnostic surface of the shipped package — a contract-visible change beyond the evidence scope of this commission, with a real risk of misclassifying an existing diagnostic. **Residual risk:** a CedarSharp wording change could move a diagnostic between categories. The compared surface is unaffected: the differential corpus compares normalized categories, and a category change would surface as an unexpected difference rather than a silent pass. **Qualification impact:** the categories are evidence, not the authorization outcome; no decision in the corpus depends on a category change alone. |
-| QD3Q-12 | Medium | **Partially corrected — documented** | The errored-forbid and extension-value controls are now in the production suite. Four further recommended controls remain unimplemented and are listed with their residual risk in §5.2. |
+| QD3Q-12 | Medium | **Partially corrected — documented** | The errored-forbid and extension-value controls are now in the production suite. Five further recommended controls remain unimplemented and are listed with their residual risk in §5.2. |
 | QD3Q-13 | Low/Medium | **Not corrected — documented** | `InternalsVisibleTo("PrepProbe")` is still a name-based grant on the stable package. The R3 probe needs the internal D3 export surface, so the grant cannot be withdrawn while the evidence tool is in the repository. **Residual risk:** any assembly named `PrepProbe.exe`/`.dll` can reach the internal surface of the stable package. **Qualification impact:** the grant exposes no production execution path; the internal surface is the read-only export/lower API that the evidence tool consumes. Removing it requires shipping the evidence tool under a package-private identity and is left to the owner as a follow-up. |
 | QD3Q-14 | Low | **Not corrected — documented** | The current-event logged-record mirroring (the empty `CurrentLoggedJson` sentinel mirrors the request input) still differs from the upstream and stays outside the difference register. **Residual risk:** a temporal expression that reads the current event's logged record observes the mirrored input rather than an upstream-shaped logged record. The corpus observes the mirroring behavior identically on both sides for the temporal families, so no current case is affected. **Qualification impact:** documentation-level; it should be registered before the owner extends the corpus to current-event logged-record semantics. |
 | QD3Q-15 | Low | **Not corrected — documented** | The trusted binding's capture engine cannot surface upstream-side Cedar policy errors; the split is deliberate and stays undocumented in the contract. **Residual risk:** a policy error raised inside the trusted binding path is reported through the capture engine's own error channel rather than as a Cedar policy error. **Qualification impact:** the corpus compares the resulting decision and error presence, and both sides are affected identically in the observed cases; the contract should record the split. |
@@ -298,41 +311,38 @@ documented rather than silently closed:
 The manifest hashes the **committed blob bytes** of each evidence file, not the
 working-copy bytes. The repository forces LF (`.gitattributes`: `* text=auto
 eol=lf`), so hashing the working copy on Windows would hash CRLF bytes and
-would not match any checkout. The procedure is:
+would not match any checkout. The procedure is exactly what
+`evidence/verify-manifest.ps1` does:
 
 ```powershell
 # for each path listed in evidence/manifest.sha256
-$blob = git cat-file blob "HEAD:<path>"      # exact committed bytes
-$hash = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData(
-    [Text.Encoding]::UTF8.GetBytes(($blob -join "`n")))).ToLowerInvariant()
+# 1. read the committed blob, byte for byte (a text pipeline would rewrite
+#    the line endings and the final newline, so the blob is redirected to a
+#    temporary file through cmd.exe)
+& cmd.exe /d /c "git -C `"$repository`" cat-file blob `"HEAD:$Path`" > `"$temporary`""
+# 2. hash those bytes
+$hash = (Get-FileHash -LiteralPath $temporary -Algorithm SHA256).Hash.ToLowerInvariant()
 ```
 
-`git cat-file blob` emits the blob content; the manifest is regenerated from
-the committed tree after the evidence commit, and the manifest itself is
-committed in the following evidence commit. Verification from a clean checkout:
-
-```powershell
-Get-Content evidence/manifest.sha256 | ForEach-Object {
-    $expected, $path = $_ -split '\s+', 2
-    $actual = (git cat-file blob "HEAD:$path" | Out-String)
-    # hash the bytes exactly as git reports them and compare with $expected
-}
-```
-
-The manifest covers every published evidence file except itself and the
+`git cat-file blob` emits the blob content unchanged, so the hash is the hash
+of the bytes a clean checkout receives. The manifest covers every published
+evidence file except itself (it cannot contain its own hash) and the
 verification script that produces it.
 
 ### 7.3 Verification
 
 `docs/reviews/d3-impl-01-r3/evidence/verify-manifest.ps1` recomputes every hash
-from the committed blob and compares it with the manifest:
+from the committed blob, compares it with the manifest, and also reports any
+committed evidence file that the manifest does not cover:
 
 ```powershell
 pwsh -File docs/reviews/d3-impl-01-r3/evidence/verify-manifest.ps1
-# manifest verified against the committed blobs: 10 files
+# manifest verified against the committed blobs: 11 files
 ```
 
-`-Write` regenerates the manifest from `HEAD` after the evidence commit.
+`-Write` regenerates the manifest from `HEAD`; because the manifest is excluded
+from itself, the regenerated manifest and the evidence files can be committed
+together.
 
 ---
 
@@ -439,6 +449,41 @@ unchanged as a historical artifact; the complete R2 CI history is:
 | 45121260293 | `aa9731fe1ba6b29eab8f81700694c45f82256c33` | success |
 | 45124288319 | `c2fb5ba5ea37b472d422a6fcd0750db974e70669` | success |
 | 45127492373 | `ee870e9fc32b1f20cb20863002bd18f9d4122de1` | success (frozen Q1 subject) |
+
+### 9.4 Final evidence-revision run
+
+| Item | Value |
+| --- | --- |
+| Run | **45351280878** — <https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45351280878> |
+| Revision | `0881cbb8f8914fe136aa3a3bdd865e94553ac61d` (tree `3c226b0ccd28ae0568d951e6a8f41257ad6516a1`) — the commit that carries §9.1–§9.3 and `evidence/r3-hosted-ci-run.log` |
+| Started / finished | 2026-11-24T07:51:49Z / 2026-11-24T08:27:48Z |
+| Result | **success** (12/12 jobs) |
+
+| Job | ID | Result |
+| --- | --- | --- |
+| Verify win-x64 / net8.0 and net10.0 | 138298058390 | success |
+| Verify linux-x64 / net8.0 and net10.0 | 138298058725 | success |
+| Verify osx-arm64 / net8.0 and net10.0 | 138298058880 | success |
+| Pack D3 package candidates | 138308673192 | success |
+| Verify D3 package candidates | 138309242530 | success |
+| Package consumer / osx-arm64 / net8.0 | 138309568923 | success |
+| Package consumer / linux-x64 / net8.0 | 138309568985 | success |
+| Package consumer / osx-arm64 / net10.0 | 138309569019 | success |
+| Package consumer / linux-x64 / net10.0 | 138309569022 | success |
+| Package consumer / win-x64 / net10.0 | 138309569049 | success |
+| Package consumer / win-x64 / net8.0 | 138309569205 | success |
+| D3 package consumer summary | 138314742708 | success |
+
+**Binding rule.** A committed CI record can only ever bind a run to a *prior*
+revision, because the commit that carries the record is pushed after the run it
+describes. This record therefore binds each run to the revision whose content
+it verifies — run 45345013721 to the R3 implementation/evidence revision
+`17b327a`, run 45351280878 to the CI-record revision `0881cbb`, and run
+45127492373 to the frozen Q1 subject `ee870e9`. The run triggered by the
+final evidence-recording commit that carries this section is observed by the
+producer and reported to the owner; it is an evidence-only commit, so it
+changes no implementation and no published evidence file except this record
+and its manifest entry.
 
 ---
 
