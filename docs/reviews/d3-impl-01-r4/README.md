@@ -73,12 +73,13 @@ entry** and re-verifies everything:
    errors, no fixture removed or weakened, ED-01…ED-05 unchanged, ED-06 confined
    to its two authorized cases.
 4. **Every mandatory gate passes**, locally and on hosted CI (see §9 and §10).
-   Two hosted CI attempts in the R4 record did not succeed, and neither is a
-   conformance result: the first attempt of `45472926028` failed because two
-   macOS arm64 jobs never acquired a hosted runner (§10.8), and run
-   `45487554638` was cancelled by the producer's own superseding push (§10.10).
-   Both are recorded in full. The hosted CI chain itself is green in four
-   complete runs, each 12/12 (§10.10).
+   Three hosted CI attempts in the R4 record did not succeed, and none of them
+   is a conformance result: the first attempts of `45472926028` and
+   `45498269100` failed because two macOS arm64 jobs each never acquired a
+   hosted runner (§10.8, §10.11), and run `45487554638` was cancelled by the
+   producer's own superseding push (§10.10). All three are recorded in full.
+   The hosted CI chain itself is green in five complete runs, each 12/12
+   (§10.11).
 
 **No production code was modified.** The only change to the shipped package
 surface is additive test coverage; `src/` is byte-for-byte unchanged from the R3
@@ -653,9 +654,9 @@ adds the gates that cannot be executed on a single local host: the `linux-x64`
 and `osx-arm64` verification legs, the package candidate pack and inspection,
 and the **six-cell package-only consumer matrix** (3 RIDs × 2 TFMs, JIT and
 NativeAOT against the packed candidate packages only). The package-only consumer
-matrix is green in four independent runs — `45467056283` (§10.1),
-`45472926028` attempt 2 (§10.7), `45483027001` (§10.9) and `45490253791`
-(§10.10).
+matrix is green in five independent runs — `45467056283` (§10.1),
+`45472926028` attempt 2 (§10.7), `45483027001` (§10.9), `45490253791` (§10.10)
+and `45498269100` attempt 2 (§10.11).
 
 ### 9.3 Exact revision identities
 
@@ -760,7 +761,9 @@ The same record is published as a machine-readable evidence file:
 | `d55c9d18912cd0a01686afc930cf3bfb816c7461` | The §10.9 hosted-CI record for the final-evidence revision, plus the §2, §9.4, §10.3, §10.4 and §10.5 cross-reference corrections. Tree `19a8bef50b0438ab4dbd7ca39f28fed828a8c8f7`. |
 | `554edc1103192e68933ca71d1e03f2af72cb0920` | The evidence manifest refresh for it. Tree `1aa73fd2a08e527b5d04c8a5fba487e22160e906` — the revision the hosted CI run in §10.10 records. |
 | `a244d65e3c1e803626e796bdee3af08a9ca5e89a` | The documentation-only correction that followed it: the §8.1 file-table description, the §8.3 manifest-order correction, and the §10.9 terminal-commit wording. Tree `90e4262b0fb4d9169b94ae6eae11980f54a964d4` — the revision the hosted CI run in §10.10 verifies green. |
-| *(this commit)* | The terminal record commit: the §10.10 hosted-CI chain record (both the cancelled run and its green successor), the §10.2 commit-table completion, the §10.5 binding-rule update, and the refreshed hosted CI log and evidence manifest. It changes no implementation, no test, no harness input and no published evidence file except this record, the hosted CI log, and the manifest entry for the latter. Its own hosted CI run is observed by the producer and reported to the owner per §10.5. |
+| `6691dff6f75885230e51555cf744773f80c28a4c` | The §10.10 hosted-CI chain record (the cancelled run and its green successor), the §10.2 commit-table completion, the §10.5 binding-rule update, and the refreshed hosted CI log. Tree `180fb19e7ba18e4407e4c5472606fe8482a74223`. |
+| `9e3417148df085847d6a0638a7a74691d469f507` | The evidence manifest refresh for it. Tree `1cc36ecf3d2b21fc1cc2365792142112bfc3d2d7` — the revision the hosted CI run in §10.11 verifies green. |
+| *(this commit)* | The terminal record commit: the §10.11 hosted-CI record for the terminal run (both its failed first attempt and its green re-run), the §8.1/§8.3/§10.9/§10.10 wording corrections, the §10.2 commit-table completion, the §10.5 binding-rule update, and the refreshed hosted CI log and evidence manifest. It changes no implementation, no test, no harness input and no published evidence file except this record, the hosted CI log, and the manifest entry for the latter. Its own hosted CI run is observed by the producer and reported to the owner per §10.5. |
 
 ### 10.3 R3 baseline revision
 
@@ -798,11 +801,12 @@ record therefore binds each run to the revision whose content it verifies — ru
 45467056283 to the R4 evidence revision `bb9e1c9`, run 45472926028 to the R4
 evidence-record revision `c115707`, run 45483027001 to the R4 final-evidence
 revision `103081f`, run 45490253791 to the R4 terminal-evidence revision
-`a244d65`, run 45357936457 to the R3 baseline `898c991`, and run 45127492373 to
-the frozen Q1 subject `ee870e9`. Run 45487554638 at `554edc1` was cancelled by
-the producer's own superseding push and is recorded in §10.10 rather than
-bound. The run triggered by the final evidence-recording commit that carries
-this section is observed by the producer and reported to the owner; it is an
+`a244d65`, run 45498269100 to the R4 manifest revision `9e34171`, run
+45357936457 to the R3 baseline `898c991`, and run 45127492373 to the frozen Q1
+subject `ee870e9`. Run 45487554638 at `554edc1` was cancelled by the
+producer's own superseding push and is recorded in §10.10 rather than bound.
+The run triggered by the final evidence-recording commit that carries this
+section is observed by the producer and reported to the owner; it is an
 evidence-only commit, so it changes no implementation and no published
 evidence file except this record, the hosted CI log, and the manifest entry for
 the latter.
@@ -899,6 +903,10 @@ it as a conformance result. The package-only consumer gate is green for the R4
 content by two independent runs: `45467056283` (all six cells in attempt 1)
 and `45472926028` attempt 2 (all six cells).
 
+The same failure recurred once more, for the same reason and in the same
+shape, in the first attempt of the terminal run `45498269100`; it is recorded
+in full in §10.11.
+
 ### 10.9 R4 final-evidence revision
 
 | Item | Value |
@@ -930,7 +938,8 @@ difference from `bb9e1c9` and `c115707` is README text, the hosted-CI-log
 evidence file and the evidence manifest. The package-only consumer matrix
 passed all six cells (`D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6`).
 
-**The hosted CI chain for R4 is therefore fully green and needs no re-run:**
+**The hosted CI chain for R4 up to this point is fully green and needs no
+re-run:**
 
 | Run | Revision | Result |
 | --- | --- | --- |
@@ -939,6 +948,7 @@ passed all six cells (`D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6`).
 | `45483027001` | `103081f` | success, 12/12, first attempt |
 | `45487554638` | `554edc1` | cancelled by the producer's own next push (§10.10) |
 | `45490253791` | `a244d65` | success, 12/12, first attempt (§10.10) |
+| `45498269100` | `9e34171` | success, 12/12, attempt 2 (attempt 1: two macOS arm64 jobs never acquired a runner — §10.11) |
 
 The terminal commit of this record changes no implementation, no test, no
 harness input and no published evidence file except this record, the hosted CI
@@ -990,6 +1000,7 @@ documentation-only correction, and the README is not a build, test, harness or
 packaging input. The content that `554edc1` would have verified was verified by
 the successor run, and the same content had already been verified twice before
 (`45467056283`, `45483027001`).
+
 #### Run 45490253791 — the successor, green
 
 | Item | Value |
@@ -1022,6 +1033,78 @@ The package-only consumer matrix passed all six cells
 each 12/12, with one additional run (`45487554638`) cancelled by the producer's
 own superseding push and recorded above for completeness.
 
+### 10.11 The terminal run, and its first attempt
+
+The terminal hosted run of the R4 chain is recorded here with both of its
+attempts, because its first attempt failed for the same macOS arm64 capacity
+reason as §10.8.
+
+#### Attempt 1 — failed, no runner acquired
+
+| Job | Attempt 1 job ID | Result |
+| --- | --- | --- |
+| Verify linux-x64 / net8.0 and net10.0 | 138814440502 | success |
+| Verify osx-arm64 / net8.0 and net10.0 | 138814439975 | success |
+| Verify win-x64 / net8.0 and net10.0 | 138814441771 | success |
+| Pack D3 package candidates | 138825277936 | success |
+| Verify D3 package candidates | 138825877564 | success |
+| Package consumer / win-x64 / net10.0 | 138826250992 | success |
+| Package consumer / win-x64 / net8.0 | 138826250902 | success |
+| Package consumer / linux-x64 / net8.0 | 138826251214 | success |
+| Package consumer / linux-x64 / net10.0 | 138826250899 | success |
+| Package consumer / osx-arm64 / net8.0 | 138826251092 | **cancelled — no runner acquired** |
+| Package consumer / osx-arm64 / net10.0 | 138826250995 | **cancelled — no runner acquired** |
+| D3 package consumer summary | 138834269657 | failure (the matrix result was not `success`) |
+
+The root cause is identical to §10.8 and is not a content failure: GitHub's
+annotation on both cancelled jobs reads *"The job was not acquired by Runner of
+type hosted even after multiple attempts"*, next to *"Due to capacity
+constraints, jobs targeting macOS arm64 runners may experience longer queue
+times."* Both cancelled jobs ran **zero steps** and carry an empty `runner_id`,
+so no build, test, pack or consumer code ever executed in them. Every job that
+did run succeeded.
+
+#### Attempt 2 — green
+
+| Item | Value |
+| --- | --- |
+| Run | **45498269100** — <https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45498269100> |
+| Revision | `9e3417148df085847d6a0638a7a74691d469f507` (tree `1cc36ecf3d2b21fc1cc2365792142112bfc3d2d7`) |
+| Started / finished | 2026-11-24T22:09:52Z / 2026-11-24T22:49:03Z |
+| Result | **success** (12/12 jobs) on attempt 2; attempt 1 failed for an infrastructure reason only |
+
+| Job | Attempt 2 job ID | Result |
+| --- | --- | --- |
+| Verify linux-x64 / net8.0 and net10.0 | 138835205296 | success |
+| Verify osx-arm64 / net8.0 and net10.0 | 138835204573 | success |
+| Verify win-x64 / net8.0 and net10.0 | 138835270331 | success |
+| Pack D3 package candidates | 138835257666 | success |
+| Verify D3 package candidates | 138835207394 | success |
+| Package consumer / osx-arm64 / net8.0 | 138835205286 | success |
+| Package consumer / osx-arm64 / net10.0 | 138835205421 | success |
+| Package consumer / win-x64 / net8.0 | 138835208290 | success |
+| Package consumer / win-x64 / net10.0 | 138835207048 | success |
+| Package consumer / linux-x64 / net8.0 | 138835208384 | success |
+| Package consumer / linux-x64 / net10.0 | 138835208769 | success |
+| D3 package consumer summary | 138835690491 | success |
+
+The package-only consumer matrix passed all six cells
+(`D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6`).
+
+**The hosted CI chain for R4 is therefore green in five complete runs** —
+`45467056283`, `45472926028` (attempt 2), `45483027001`, `45490253791` and
+`45498269100` (attempt 2), each 12/12 — with two further non-green outcomes
+recorded above: run `45487554638` cancelled by the producer's own superseding
+push (§10.10), and the first attempt of `45472926028` and of `45498269100`
+failing on macOS arm64 runner capacity (§10.8, §10.11).
+
+The commit that carries this section is the terminal revision of the R4 chain.
+It changes no implementation, no test, no harness input and no published
+evidence file except this record, the hosted CI log, and the manifest entry for
+the latter, so its own hosted CI run is observed by the producer and reported to
+the owner rather than committed here — the same termination rule the R3 record
+used (§10.5).
+
 ---
 
 ## 11. Exclusions and limits
@@ -1044,14 +1127,14 @@ own superseding push and recorded above for completeness.
    case in the corpus agrees.
 6. **No production code was changed**, and no production defect was discovered
    during this commission.
-7. **Two hosted CI attempts did not succeed, for two different non-content
-   reasons.** The first attempt of run `45472926028` never acquired macOS arm64
-   runners for two package-consumer jobs (§10.8); no code ran in those jobs,
-   every job that did run passed, the same content had already passed all 12
-   jobs in run `45467056283`, and the failed jobs passed when re-run. Run
-   `45487554638` was cancelled by the workflow's `cancel-in-progress` setting
-   when the producer pushed the next record commit (§10.10); its successor run
-   `45490253791` passed all 12 jobs.
-8. **The hosted CI chain is green in four independent runs** — `45467056283`,
-   `45472926028` (attempt 2), `45483027001` and `45490253791`, each 12/12
-   (§10.10).
+7. **Three hosted CI attempts did not succeed, for two non-content reasons.**
+   The first attempts of runs `45472926028` and `45498269100` never acquired
+   macOS arm64 runners for two package-consumer jobs each (§10.8, §10.11); no
+   code ran in those jobs, every job that did run passed, the same content had
+   already passed all 12 jobs in an earlier run, and the failed jobs passed when
+   re-run. Run `45487554638` was cancelled by the workflow's
+   `cancel-in-progress` setting when the producer pushed the next record commit
+   (§10.10); its successor run `45490253791` passed all 12 jobs.
+8. **The hosted CI chain is green in five independent runs** — `45467056283`,
+   `45472926028` (attempt 2), `45483027001`, `45490253791` and `45498269100`
+   (attempt 2), each 12/12 (§10.11).
