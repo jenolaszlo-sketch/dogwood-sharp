@@ -577,6 +577,14 @@ the bytes a clean checkout receives. The manifest covers every published evidenc
 file except itself (it cannot contain its own hash) and the verification script
 that produces it.
 
+The R4 verifier's temporary blob is removed with the framework delete
+primitive (`[IO.File]::Delete`) rather than the PowerShell provider, because
+`Remove-Item` can fail with "Access is denied" on a file that a real-time
+scanner has just touched even though the delete itself is permitted. The
+**hashing routine is unchanged**: the R3 manifest was re-verified with the R4
+routine and reports 11 files and 0 mismatches, so the two records are directly
+comparable.
+
 ### 8.3 Verification
 
 `docs/reviews/d3-impl-01-r4/evidence/verify-manifest.ps1` recomputes every hash
