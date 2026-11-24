@@ -53,7 +53,7 @@ entry** and re-verifies everything:
    `["decision", "determining", "cleanAllow"]`. The harness rejects any case
    whose observed difference reaches outside that scope, rejects a case whose
    authorized field no longer differs, rejects a case whose difference vanished,
-   rejects an approved row that tries to absorb an unrelated divergence, and
+   rejects a scoped row that tries to absorb an unrelated divergence, and
    rejects an authorized scope that names a field that is not a real comparison
    field. An intended-stage mismatch can no longer be masked by an approved
    difference.
@@ -215,14 +215,20 @@ R4 adds one new rule, and it makes the approval **narrower**, not broader:
 
 > An approved difference may only absorb a difference whose observed fields are
 > exactly the fields its row authorizes, every authorized field must actually
-> differ, the row must be the only approved difference claimed by its case, an
-> unknown field name is rejected at catalog validation, and an intended-stage
-> mismatch is always an `unexpected-difference`.
+> differ, a **scoped** row must be the only approved difference claimed by its
+> cases, an unknown field name is rejected at catalog validation, and an
+> intended-stage mismatch is always an `unexpected-difference`.
 
 Without this rule an "approved difference" is a blank cheque: a register row that
 names a case absorbs *any* divergence on that case, including a new one that has
 nothing to do with the approved ceiling. The R4 scope turns each approval into a
 narrow, machine-checked envelope.
+
+The "one ceiling per row" rule applies to a row that carries an
+`authorizedDifferenceFields` scope. ED-06 is such a row, so each of its two
+cases must claim no other approved difference. The five unscoped R3 rows keep
+their R3 behaviour, in which a case may name several of them — the corpus does
+exactly that for the five cases that carry both ED-01 and ED-03 (§7.2).
 
 The seven new self-tests that pin this rule are listed in §7.3.
 
@@ -248,8 +254,8 @@ typed-context representability limitation**, and no more. The approved scope is:
 authorization outcomes. It does not cover any other case, any other observation,
 or any difference in the stage, the operation-failed state, the error categories
 or the policy-error ids. The harness enforces this mechanically: a difference
-outside the three authorized fields fails the case, and an approved row that
-tries to absorb an unrelated divergence fails the case.
+outside the three authorized fields fails the case, and a scoped row that tries
+to absorb an unrelated divergence fails the case.
 
 ### 5.2 The basis (why the upstream cannot represent the value)
 
@@ -598,7 +604,7 @@ pwsh -File docs/reviews/d3-impl-01-r4/evidence/verify-manifest.ps1
 
 The exact number of covered files is reported by the verifier itself and is the
 number of lines in `evidence/manifest.sha256`; the final count is recorded in
-§10 with the hosted CI record.
+§10.6 with the hosted CI record.
 
 `-Write` regenerates the manifest from `HEAD`; because the manifest is excluded
 from itself, the regenerated manifest and the evidence files can be committed
@@ -625,7 +631,7 @@ together.
 | R4 upstream differential (`net8.0` / `net10.0`) | **97 cases: 97 pass, 0 fail** (both TFMs) |
 | R4 differential coverage | 26/26 families, 0 coverage errors (both TFMs) |
 | R4 lifecycle execution (`net8.0` / `net10.0`) | 6/6 scenarios executed and verified per TFM |
-| R4 evidence manifest | Verified against the committed blobs (§8.3) |
+| R4 evidence manifest | Verified against the committed blobs — 11 files (§10.6) |
 
 ### 9.2 Hosted CI
 
@@ -688,11 +694,96 @@ The R4 implementation and evidence commits are listed in §10.2.
 
 ### 10.1 R4 implementation revision
 
-*(Recorded in the R4 CI-record commit; see `evidence/r4-hosted-ci-run.log`.)*
+| Item | Value |
+| --- | --- |
+| Workflow | `DogwoodSharp producer verification` (`.github/workflows/ci.yml`) |
+| Event | `push` to `main` |
+| Run | **45467056283** — <https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45467056283> |
+| Revision | `bb9e1c990935724a3a1e8498bd19bb12d5dd3479` (tree `0bd5acd2cbfa8f7de353e5489689d0e36cabf298`) |
+| Started / finished | 2026-11-24T19:08:35Z / 2026-11-24T19:29:29Z |
+| Result | **success** (12/12 jobs) |
+
+| Job | ID | Result |
+| --- | --- | --- |
+| Verify linux-x64 / net8.0 and net10.0 | 138704646492 | success |
+| Verify osx-arm64 / net8.0 and net10.0 | 138704647045 | success |
+| Verify win-x64 / net8.0 and net10.0 | 138704647256 | success |
+| Pack D3 package candidates | 138715761568 | success |
+| Verify D3 package candidates | 138716392555 | success |
+| Package consumer / win-x64 / net10.0 | 138716901417 | success |
+| Package consumer / win-x64 / net8.0 | 138716901439 | success |
+| Package consumer / linux-x64 / net10.0 | 138716901467 | success |
+| Package consumer / osx-arm64 / net10.0 | 138716901484 | success |
+| Package consumer / osx-arm64 / net8.0 | 138716901493 | success |
+| Package consumer / linux-x64 / net8.0 | 138716901518 | success |
+| D3 package consumer summary | 138717601834 | success |
+
+The R4 revision under verification is the evidence-recording revision `bb9e1c9`:
+the implementation and evidence commit `a7d9a64`, the evidence-manifest commit
+`5502a77`, and the verifier-documentation commit `bb9e1c9`. The upstream
+differential corpus is not part of the hosted matrix — it is producer evidence
+executed by `run.ps1` on win-x64 (§9.1). The package-only consumer matrix is
+the six-cell (3 RIDs × 2 TFMs) JIT-and-NativeAOT run against the packed
+candidate packages only, and it passed all six cells
+(`D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6`).
+
+The same record is published as a machine-readable evidence file:
+`evidence/r4-hosted-ci-run.log`.
 
 ### 10.2 R4 commits
 
-*(Recorded in the R4 CI-record commit.)*
+| Commit | Content |
+| --- | --- |
+| `a7d9a6495ebe67df115a9fe5aa99ba0cebfcca55` | The R4 implementation and evidence: the ED-06 register row, the forked R4 harness with its scoped-approval enforcement and seven new self-tests, the 97-case corpus, the five C-23 managed-control cases, the 28 in-tree C-23 regression controls, and the R4 evidence record and evidence files. Tree `4020e3bfaed4f9da6d5b4df660cb7e29d6d217c4`. |
+| `5502a776e29314f7dd922a6f0ea049fb1b5b2803` | The evidence manifest and its verification procedure. Tree `cd28b7c65c94169f440abe82918904b8436d2cbb`. |
+| `bb9e1c990935724a3a1e8498bd19bb12d5dd3479` | The verifier-documentation correction. Tree `0bd5acd2cbfa8f7de353e5489689d0e36cabf298` — the revision the hosted CI run above verifies. |
+| *(this commit)* | The hosted CI record, the published `evidence/r4-hosted-ci-run.log`, the final evidence manifest, and the §5.1/§5.5/§7.2/§8.2 wording corrections. |
+
+### 10.3 R3 baseline revision
+
+| Item | Value |
+| --- | --- |
+| Run | **45357936457** — <https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45357936457> |
+| Revision | `898c9916f4038b4f751f38995e114d2a76ab03e1` (tree `0d173caedb179b114752b4ca986930a9dff7be51`) — the R3 baseline |
+| Started / finished | 2026-11-24T08:38:47Z / 2026-11-24T09:05:57Z |
+| Result | **success** (12/12 jobs) |
+
+The R3 baseline is recorded here so that the R4 record binds its own baseline and
+its own revision in one place. The full job list is in
+`evidence/r4-hosted-ci-run.log` and in the R3 record (§9 there).
+
+### 10.4 Frozen Q1 subject
+
+| Item | Value |
+| --- | --- |
+| Run | **45127492373** — <https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45127492373> |
+| Revision | `ee870e9fc32b1f20cb20863002bd18f9d4122de1` (tree `6a5a0d3966e9f9100ebc34cad3dae04b6264cc88`) — the frozen Q1 subject |
+| Started / finished | 2026-11-23T06:55:57Z / 2026-11-23T07:22:51Z |
+| Result | **success** (12/12 jobs) |
+
+This run is the hosted-CI binding for the frozen Q1 subject that QD3Q-09
+reported as recorded nowhere. It is unchanged by R4.
+
+### 10.5 Binding rule
+
+A committed CI record can only ever bind a run to a *prior* revision, because
+the commit that carries the record is pushed after the run it describes. This
+record therefore binds each run to the revision whose content it verifies — run
+45467056283 to the R4 evidence revision `bb9e1c9`, run 45357936457 to the R3
+baseline `898c991`, and run 45127492373 to the frozen Q1 subject `ee870e9`. The
+run triggered by the final evidence-recording commit that carries this section is
+observed by the producer and reported to the owner; it is an evidence-only
+commit, so it changes no implementation and no published evidence file except
+this record, the hosted CI log, and the manifest entry for the latter.
+
+### 10.6 Evidence manifest coverage
+
+The final manifest covers **11 published R4 evidence files** (the manifest
+itself and the verification script are excluded, as in R3):
+
+```
+manifest verified against the committed blobs: 11 files
+```
 
 ---
 

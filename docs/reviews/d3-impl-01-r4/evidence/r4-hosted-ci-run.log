@@ -1,0 +1,107 @@
+DOGWOOD-SHARP-D3-IMPL-01-R4 Hosted CI Execution
+=================================================
+Workflow: DogwoodSharp producer verification (.github/workflows/ci.yml)
+Event: push to main
+
+R4 implementation revision :
+  Run ID: 45467056283
+  Head SHA: bb9e1c990935724a3a1e8498bd19bb12d5dd3479
+  Tree SHA: 0bd5acd2cbfa8f7de353e5489689d0e36cabf298
+  URL: https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45467056283
+  Conclusion: success
+  Started: 2026-11-24T19:08:35Z
+  Finished: 2026-11-24T19:29:29Z
+  Jobs: 12/12 success
+
+Implementation matrix (3 RIDs x 2 TFMs):
+  Verify linux-x64 / net8.0 and net10.0          (job 138704646492) success
+  Verify osx-arm64 / net8.0 and net10.0          (job 138704647045) success
+  Verify win-x64 / net8.0 and net10.0            (job 138704647256) success
+
+Package pipeline:
+  Pack D3 package candidates                     (job 138715761568) success
+  Verify D3 package candidates                   (job 138716392555) success
+
+Package-only consumer matrix (3 RIDs x 2 TFMs):
+  Package consumer / win-x64 / net10.0           (job 138716901417) success
+  Package consumer / win-x64 / net8.0            (job 138716901439) success
+  Package consumer / linux-x64 / net10.0         (job 138716901467) success
+  Package consumer / osx-arm64 / net10.0         (job 138716901484) success
+  Package consumer / osx-arm64 / net8.0          (job 138716901493) success
+  Package consumer / linux-x64 / net8.0          (job 138716901518) success
+  D3 package consumer summary                    (job 138717601834) success
+
+Package consumer summary: 6 of 6 cells succeeded (D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6).
+
+The R4 revision under verification is the evidence-recording revision bb9e1c9: the
+implementation and evidence commit a7d9a64 plus the evidence-manifest commit
+5502a77 and the verifier-documentation commit bb9e1c9. The upstream differential
+corpus is not part of the hosted matrix; it is producer evidence executed by
+run.ps1 on win-x64 (see section 9.1 of the R4 record).
+
+R3 baseline revision :
+  Run ID: 45357936457
+  Head SHA: 898c9916f4038b4f751f38995e114d2a76ab03e1
+  Tree SHA: 0d173caedb179b114752b4ca986930a9dff7be51
+  URL: https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45357936457
+  Conclusion: success
+  Started: 2026-11-24T08:38:47Z
+  Finished: 2026-11-24T09:05:57Z
+  Jobs: 12/12 success
+
+Implementation matrix (3 RIDs x 2 TFMs):
+  Verify linux-x64 / net8.0 and net10.0          (job 138320348635) success
+  Verify osx-arm64 / net8.0 and net10.0          (job 138320348896) success
+  Verify win-x64 / net8.0 and net10.0            (job 138320348858) success
+
+Package pipeline:
+  Pack D3 package candidates                     (job 138331935882) success
+  Verify D3 package candidates                   (job 138332726224) success
+
+Package-only consumer matrix (3 RIDs x 2 TFMs):
+  Package consumer / win-x64 / net8.0            (job 138333198809) success
+  Package consumer / osx-arm64 / net10.0         (job 138333198838) success
+  Package consumer / linux-x64 / net8.0          (job 138333198850) success
+  Package consumer / win-x64 / net10.0           (job 138333198879) success
+  Package consumer / osx-arm64 / net8.0          (job 138333198934) success
+  Package consumer / linux-x64 / net10.0         (job 138333198941) success
+  D3 package consumer summary                    (job 138333781650) success
+
+Package consumer summary: 6 of 6 cells succeeded (D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6).
+
+The R3 baseline that this commission starts from. It is recorded here so the
+R4 record binds its own baseline and its own revision in one place.
+
+Frozen Q1 subject revision :
+  Run ID: 45127492373
+  Head SHA: ee870e9fc32b1f20cb20863002bd18f9d4122de1
+  Tree SHA: 6a5a0d3966e9f9100ebc34cad3dae04b6264cc88
+  URL: https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45127492373
+  Conclusion: success
+  Started: 2026-11-23T06:55:57Z
+  Finished: 2026-11-23T07:22:51Z
+  Jobs: 12/12 success
+
+Implementation matrix (3 RIDs x 2 TFMs):
+  Verify linux-x64 / net8.0 and net10.0          (job 137535097265) success
+  Verify osx-arm64 / net8.0 and net10.0          (job 137535096987) success
+  Verify win-x64 / net8.0 and net10.0            (job 137535097253) success
+
+Package pipeline:
+  Pack D3 package candidates                     (job 137543897347) success
+  Verify D3 package candidates                   (job 137544437612) success
+
+Package-only consumer matrix (3 RIDs x 2 TFMs):
+  Package consumer / linux-x64 / net10.0         (job 137544742479) success
+  Package consumer / win-x64 / net8.0            (job 137544742504) success
+  Package consumer / win-x64 / net10.0           (job 137544742509) success
+  Package consumer / linux-x64 / net8.0          (job 137544742516) success
+  Package consumer / osx-arm64 / net10.0         (job 137544742588) success
+  Package consumer / osx-arm64 / net8.0          (job 137544742618) success
+  D3 package consumer summary                    (job 137545087467) success
+
+Package consumer summary: 6 of 6 cells succeeded (D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6).
+
+The hosted-CI binding for the frozen Q1 subject that QD3Q-09 reported as
+recorded nowhere. It is unchanged by R4.
+
