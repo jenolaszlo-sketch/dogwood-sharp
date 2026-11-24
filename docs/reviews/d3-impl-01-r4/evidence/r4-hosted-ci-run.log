@@ -82,6 +82,41 @@ the second attempt is the one recorded above. The R4 content itself was already
 verified green by run 45467056283 at bb9e1c9, which ran all 12 jobs
 successfully including both osx-arm64 consumer cells.
 
+R4 final-evidence revision :
+  Run ID: 45483027001
+  Head SHA: 103081f9a86b98f03409cd5610b4c3eccae165fc
+  Tree SHA: 445ad5e034f0b7e9e73f64f513187e71a046a84a
+  URL: https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45483027001
+  Conclusion: success
+  Started: 2026-11-24T20:39:09Z
+  Finished: 2026-11-24T20:58:22Z
+  Jobs: 12/12 success
+
+Implementation matrix (3 RIDs x 2 TFMs):
+  Verify linux-x64 / net8.0 and net10.0          (job 138760923047) success
+  Verify osx-arm64 / net8.0 and net10.0          (job 138760923497) success
+  Verify win-x64 / net8.0 and net10.0            (job 138760923489) success
+
+Package pipeline:
+  Pack D3 package candidates                     (job 138770668068) success
+  Verify D3 package candidates                   (job 138771257239) success
+
+Package-only consumer matrix (3 RIDs x 2 TFMs):
+  Package consumer / win-x64 / net10.0           (job 138771540026) success
+  Package consumer / osx-arm64 / net8.0          (job 138771540033) success
+  Package consumer / linux-x64 / net8.0          (job 138771540092) success
+  Package consumer / linux-x64 / net10.0         (job 138771540184) success
+  Package consumer / win-x64 / net8.0            (job 138771540285) success
+  Package consumer / osx-arm64 / net10.0         (job 138771540315) success
+  D3 package consumer summary                    (job 138772273133) success
+
+Package consumer summary: 6 of 6 cells succeeded (D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6).
+
+This run verifies the R4 final-evidence revision 103081f. It carries no
+implementation, test, harness or packaging change: the only difference from
+bb9e1c9 and c115707 is README text, the hosted-CI-log evidence file and the
+evidence manifest.
+
 R3 baseline revision :
   Run ID: 45357936457
   Head SHA: 898c9916f4038b4f751f38995e114d2a76ab03e1

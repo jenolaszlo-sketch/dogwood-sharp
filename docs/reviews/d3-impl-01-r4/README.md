@@ -74,9 +74,10 @@ entry** and re-verifies everything:
    to its two authorized cases.
 4. **Every mandatory gate passes**, locally and on hosted CI (see §9 and §10).
    The only red result anywhere in the R4 record is the first attempt of the
-   final hosted CI run, which failed because two macOS arm64 jobs never acquired
-   a hosted runner; it is recorded in full in §10.8 and is not a conformance
-   result.
+   second hosted CI run, which failed because two macOS arm64 jobs never
+   acquired a hosted runner; it is recorded in full in §10.8 and is not a
+   conformance result. The hosted CI chain itself is green in all three runs
+   (§10.9).
 
 **No production code was modified.** The only change to the shipped package
 surface is additive test coverage; `src/` is byte-for-byte unchanged from the R3
@@ -94,7 +95,7 @@ baseline. No genuine production defect was discovered during this commission.
 | R4-04 — publish a new R4 evidence record with the owner decision and ED-06 scope, C-23 semantic verification results, differential observations/classifications, complete regression results, local and hosted CI evidence, exact revision identities, remaining Q1 findings and residual risks; keep R2, R3 and Q1 historical evidence intact | **Done** | This record; `docs/reviews/d3-impl-01-r4/evidence/`; §8; R2/R3/Q1 evidence unchanged |
 | R4-05 — run all native, managed, differential, NativeAOT, evidence-integrity and package-only gates; push the authorized changes to `main`; observe hosted CI; declare readiness for independent Q2 requalification only if every mandatory gate passes | **Done** | §9 (local) and §10 (hosted CI) |
 | R4-06 — do not modify production code unless a genuine defect is discovered; report any such defect separately before expanding the commission | **Honored** | `src/` unchanged from the R3 baseline; no production defect was found |
-| R4-07 — do not conduct independent qualification, do not grant owner acceptance, do not publish packages or create release tags | **Honored** | §12 |
+| R4-07 — do not conduct independent qualification, do not grant owner acceptance, do not publish packages or create release tags | **Honored** | §11 |
 
 ---
 
@@ -646,8 +647,8 @@ adds the gates that cannot be executed on a single local host: the `linux-x64`
 and `osx-arm64` verification legs, the package candidate pack and inspection,
 and the **six-cell package-only consumer matrix** (3 RIDs × 2 TFMs, JIT and
 NativeAOT against the packed candidate packages only). The package-only consumer
-matrix is green in two independent runs — `45467056283` (§10.1) and
-`45472926028` attempt 2 (§10.7).
+matrix is green in three independent runs — `45467056283` (§10.1),
+`45472926028` attempt 2 (§10.7) and `45483027001` (§10.9).
 
 ### 9.3 Exact revision identities
 
@@ -677,7 +678,7 @@ The R4 implementation and evidence commits are listed in §10.2.
 | QD3Q-06 | High | **Remediated (unchanged)** | `R3-C24-04-bounded-payload` compares a 1000-character literal payload by value on both sides. |
 | QD3Q-07 | High | **Remediated, strengthened** | Dual-failure comparison is strict, vacuous agreement is rejected, unexpected differences always fail, family coverage is semantic, and the intended execution stage is enforced. **Seven further** harness regression controls recreate the R4 false-green mechanism — an approved difference absorbing an out-of-scope divergence, a vanished divergence, or a stage fault — and assert that the runner now fails each one. Sixteen controls in total. |
 | QD3Q-08 | High | **Remediated (unchanged)** | The R4 manifest is computed from the committed Git blobs (`git cat-file blob`), so it matches a clean checkout byte-for-byte; the procedure and the verification command are in §8. |
-| QD3Q-09 | Medium | **Remediated (unchanged)** | This record binds the R4 revision to its own hosted CI run (§10). The R3 run `45357936457` at `898c991` and the frozen-subject run `45127492373` at `ee870e9` are recorded in the R3 record. |
+| QD3Q-09 | Medium | **Remediated (unchanged)** | This record binds the R4 revision to its own hosted CI runs (§10). The R3 baseline run `45357936457` at `898c991` is recorded in §10.3 of this record, and the frozen-subject run `45127492373` at `ee870e9` is recorded in the R3 record (§9.2 there) and repeated in §10.4 here. |
 | QD3Q-10 | Medium | **Remediated (unchanged)** | The complete R2 production delta is enumerated in the R3 record (§3.4 there). |
 | QD3Q-11 | Medium | **Not corrected — documented** | The adapter still derives some diagnostic categories from engine message wording, which the contract declares non-normative. Changing the category derivation would alter the observable diagnostic surface of the shipped package — a contract-visible change beyond the evidence scope of this commission, with a real risk of misclassifying an existing diagnostic. **Residual risk:** a CedarSharp wording change could move a diagnostic between categories. The compared surface is unaffected: the differential corpus compares normalized categories, and a category change would surface as an unexpected difference rather than a silent pass. **Qualification impact:** the categories are evidence, not the authorization outcome; no decision in the corpus depends on a category change alone. |
 | QD3Q-12 | Medium | **Partially corrected — documented** | The errored-forbid and extension-value controls are in the production suite, and R4 adds the 28 typed-context controls of §6.3. The five further recommended controls listed in the R3 record (§5.2 there) remain unimplemented, each with its residual risk unchanged: unknown diagnostic id (Low), duplicate/mismatched exported ids (Low), caller action-entity conflict (Medium), multi-action `appliesTo` canonicalization (Low), and non-empty `CurrentLoggedJson` suppression (Low). **Residual risk:** unchanged from the R3 record for those five. |
@@ -747,7 +748,9 @@ The same record is published as a machine-readable evidence file:
 | `bb9e1c990935724a3a1e8498bd19bb12d5dd3479` | The verifier-documentation correction. Tree `0bd5acd2cbfa8f7de353e5489689d0e36cabf298` — the revision the hosted CI run in §10.1 verifies. |
 | `c666e4be5dc6237051e9118017a313d108d85f62` | The hosted CI record, the published `evidence/r4-hosted-ci-run.log`, and the §5.1/§5.5/§7.2/§8.2 wording corrections. Tree `fae9e7d6bbc9996a1f3c1e05c0dbd0135e058579`. |
 | `c115707601bfe4b00f0419c8b5ce4e45b3d1baa4` | The manifest refresh that covers the hosted CI log. Tree `9472e905b009d9d8208991ae45838d0771047c36` — the revision the hosted CI run in §10.7 verifies. |
-| *(this commit)* | The final hosted CI record for §10.7–§10.8, including the first attempt's infrastructure failure and its re-run, and the refreshed evidence manifest. |
+| `536e1ae6c8ddf4ae9af5733c3997b88821545e55` | The final hosted CI record for §10.7–§10.8, including the first attempt's infrastructure failure and its re-run, and the refreshed hosted CI log. Tree `7b8a4e02dd9ecc0f48bfa64c34a10284d598e92c`. |
+| `103081f9a86b98f03409cd5610b4c3eccae165fc` | The evidence manifest refresh that covers the §10.7–§10.8 hosted CI log. Tree `445ad5e034f0b7e9e73f64f513187e71a046a84a` — the revision the hosted CI run in §10.9 verifies. |
+| *(this commit)* | The terminal record commit: the §10.9 hosted CI observation for the final evidence revision, the §10.2 commit-table correction, and the cross-reference corrections in §2, §9.2, §9.4, §10.3, §10.4 and §10.5. It changes no implementation, no test, no harness input and no published evidence file except this record, the hosted CI log, and the manifest entry for the latter. |
 
 ### 10.3 R3 baseline revision
 
@@ -760,7 +763,8 @@ The same record is published as a machine-readable evidence file:
 
 The R3 baseline is recorded here so that the R4 record binds its own baseline and
 its own revision in one place. The full job list is in
-`evidence/r4-hosted-ci-run.log` and in the R3 record (§9 there).
+`evidence/r4-hosted-ci-run.log`. The R3 record (§9.4 there) binds the earlier
+R3 evidence revision `0881cbb` to run `45351280878`.
 
 ### 10.4 Frozen Q1 subject
 
@@ -772,7 +776,9 @@ its own revision in one place. The full job list is in
 | Result | **success** (12/12 jobs) |
 
 This run is the hosted-CI binding for the frozen Q1 subject that QD3Q-09
-reported as recorded nowhere. It is unchanged by R4.
+reported as recorded nowhere at the time of qualification. It is recorded in
+the R3 record (§9.2 there) and repeated here so that this record is
+self-contained. It is unchanged by R4.
 
 ### 10.5 Binding rule
 
@@ -780,12 +786,13 @@ A committed CI record can only ever bind a run to a *prior* revision, because
 the commit that carries the record is pushed after the run it describes. This
 record therefore binds each run to the revision whose content it verifies — run
 45467056283 to the R4 evidence revision `bb9e1c9`, run 45472926028 to the R4
-evidence-record revision `c115707`, run 45357936457 to the R3 baseline
-`898c991`, and run 45127492373 to the frozen Q1 subject `ee870e9`. The run
-triggered by the final evidence-recording commit that carries this section is
-observed by the producer and reported to the owner; it is an evidence-only
-commit, so it changes no implementation and no published evidence file except
-this record, the hosted CI log, and the manifest entry for the latter.
+evidence-record revision `c115707`, run 45483027001 to the R4 final-evidence
+revision `103081f`, run 45357936457 to the R3 baseline `898c991`, and run
+45127492373 to the frozen Q1 subject `ee870e9`. The run triggered by the final
+evidence-recording commit that carries this section is observed by the producer
+and reported to the owner; it is an evidence-only commit, so it changes no
+implementation and no published evidence file except this record, the hosted CI
+log, and the manifest entry for the latter.
 
 ### 10.6 Evidence manifest coverage
 
@@ -879,6 +886,51 @@ it as a conformance result. The package-only consumer gate is green for the R4
 content by two independent runs: `45467056283` (all six cells in attempt 1)
 and `45472926028` attempt 2 (all six cells).
 
+### 10.9 R4 final-evidence revision
+
+| Item | Value |
+| --- | --- |
+| Workflow | `DogwoodSharp producer verification` (`.github/workflows/ci.yml`) |
+| Event | `push` to `main` |
+| Run | **45483027001** — <https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45483027001> |
+| Revision | `103081f9a86b98f03409cd5610b4c3eccae165fc` (tree `445ad5e034f0b7e9e73f64f513187e71a046a84a`) — the commit that carries §10.1–§10.8 and the refreshed `evidence/r4-hosted-ci-run.log` |
+| Started / finished | 2026-11-24T20:39:09Z / 2026-11-24T20:58:22Z |
+| Result | **success** (12/12 jobs), first attempt, no re-run needed |
+
+| Job | Job ID | Result |
+| --- | --- | --- |
+| Verify linux-x64 / net8.0 and net10.0 | 138760923047 | success |
+| Verify osx-arm64 / net8.0 and net10.0 | 138760923497 | success |
+| Verify win-x64 / net8.0 and net10.0 | 138760923489 | success |
+| Pack D3 package candidates | 138770668068 | success |
+| Verify D3 package candidates | 138771257239 | success |
+| Package consumer / osx-arm64 / net8.0 | 138771540033 | success |
+| Package consumer / win-x64 / net10.0 | 138771540026 | success |
+| Package consumer / win-x64 / net8.0 | 138771540285 | success |
+| Package consumer / linux-x64 / net8.0 | 138771540092 | success |
+| Package consumer / linux-x64 / net10.0 | 138771540184 | success |
+| Package consumer / osx-arm64 / net10.0 | 138771540315 | success |
+| D3 package consumer summary | 138772273133 | success |
+
+This run carries no implementation, test, harness or packaging change. The only
+difference from `bb9e1c9` and `c115707` is README text, the hosted-CI-log
+evidence file and the evidence manifest. The package-only consumer matrix
+passed all six cells (`D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6`).
+
+**The hosted CI chain for R4 is therefore fully green and needs no re-run:**
+
+| Run | Revision | Result |
+| --- | --- | --- |
+| `45467056283` | `bb9e1c9` | success, 12/12, first attempt |
+| `45472926028` | `c115707` | success, 12/12, attempt 2 (attempt 1: two macOS arm64 jobs never acquired a runner — §10.8) |
+| `45483027001` | `103081f` | success, 12/12, first attempt |
+
+The terminal commit of this record changes no implementation, no test, no
+harness input and no published evidence file except this record and the
+manifest entry for it, so its own hosted CI run is observed by the producer and
+reported to the owner rather than committed here — the same termination rule
+the R3 record used (§10.5).
+
 ---
 
 ## 11. Exclusions and limits
@@ -906,3 +958,5 @@ and `45472926028` attempt 2 (all six cells).
    package-consumer jobs (§10.8). No code ran in those jobs, every job that did
    run passed, the same content had already passed all 12 jobs in run
    `45467056283`, and the failed jobs passed when re-run.
+8. **The hosted CI chain is green in three independent runs** — `45467056283`,
+   `45472926028` (attempt 2) and `45483027001`, each 12/12 (§10.9).
