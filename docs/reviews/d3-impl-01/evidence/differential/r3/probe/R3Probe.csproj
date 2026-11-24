@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>R3Probe</RootNamespace>
+    <!-- The stable DogwoodSharp assembly grants internals access to the historical
+         PrepProbe friend name for the D3 export surface. Reusing that friend name
+         keeps this evidence-only project read-only with respect to production. -->
+    <AssemblyName>PrepProbe</AssemblyName>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <PublishAot>false</PublishAot>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CedarSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../../../../../src/DogwoodSharp.CedarSharp/DogwoodSharp.CedarSharp.csproj" />
+  </ItemGroup>
+
+</Project>

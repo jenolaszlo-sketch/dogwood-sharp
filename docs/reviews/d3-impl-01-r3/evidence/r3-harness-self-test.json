@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "2",
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R3",
+  "generatedAtUtc": "2026-11-24T06:46:24.9918821Z",
+  "summary": {
+    "total": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "name": "malformed-shared-input-cannot-pass",
+      "passed": true,
+      "detail": "an upstream envelope fault is a harness defect, never an agreement",
+      "error": null
+    },
+    {
+      "name": "unregistered-difference-fails",
+      "passed": true,
+      "detail": "an Allow-versus-Deny divergence with no register row fails",
+      "error": null
+    },
+    {
+      "name": "registered-difference-with-wrong-observation-fails",
+      "passed": true,
+      "detail": "a register row that does not match the observed sides fails",
+      "error": null
+    },
+    {
+      "name": "intended-stage-mismatch-fails",
+      "passed": true,
+      "detail": "a case that never reaches its declared stage fails",
+      "error": null
+    },
+    {
+      "name": "dual-failure-stage-difference-detected",
+      "passed": true,
+      "detail": "a stage difference on dual failure is not normalized away",
+      "error": null
+    },
+    {
+      "name": "dual-failure-category-difference-detected",
+      "passed": true,
+      "detail": "an error-category difference on dual failure is not normalized away",
+      "error": null
+    },
+    {
+      "name": "vacuous-agreement-rejected",
+      "passed": true,
+      "detail": "two null decisions with no failure are not an agreement",
+      "error": null
+    },
+    {
+      "name": "operation-failure-only-family-coverage-rejected",
+      "passed": true,
+      "detail": "an operation-failure case cannot satisfy a decision-bearing family",
+      "error": null
+    },
+    {
+      "name": "decision-bearing-family-coverage-accepted",
+      "passed": true,
+      "detail": "a decision-bearing agreement satisfies decision coverage",
+      "error": null
+    }
+  ]
+}

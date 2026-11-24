@@ -408,6 +408,65 @@ public sealed class CedarSharpAdapterTests
         plan.Dispose(); // idempotent, managed references only
         Assert.True(plan.Authorize(request).Authorized);
     }
+
+    /// <summary>
+    /// C-19: an errored forbid must not silently become a clean Deny. The rule identity and the
+    /// error are preserved, and the raw Allow beside it is not enforcement.
+    /// </summary>
+    [Fact]
+    public void ErroredForbidPreservesItsErrorAndIdentity()
+    {
+        const string sessionSchema =
+            "namespace App { entity User; entity Session { token: String }; entity Doc; " +
+            "action \"read\" appliesTo { principal: [Session], resource: [Doc], context: { count: Long } }; }";
+        using var plan = Plan(
+            "forbid(principal, action == App::Action::\"read\", resource) when { principal.token == \"t\" };" +
+            "permit(principal, action == App::Action::\"read\", resource);",
+            sessionSchema);
+        var forbidId = plan.PolicyIds[0];
+        var result = plan.Authorize(Request(
+            new CedarEntityRef("App::Session", "s1"), Action("read"), Doc("d1"), "{ \"count\": 5 }"));
+
+        Assert.False(result.OperationFailed);
+        Assert.Equal(CedarDecision.Allow, result.Decision);
+        Assert.False(result.IsCleanAllow, "an errored forbid must not produce a clean Allow");
+        Assert.False(result.Authorized, "a raw Allow beside an errored forbid must not authorize");
+        Assert.Contains(forbidId, result.PolicyErrors.Select(error => error.PolicyId));
+        Assert.Contains(
+            CedarDiagnosticCategory.MissingEntity,
+            result.PolicyErrors.Select(error => error.Category));
+    }
+
+    /// <summary>
+    /// C-23: valid ipaddr, decimal and datetime extension values evaluate, and an invalid
+    /// extension literal fails the validated lowering closed instead of authorizing.
+    /// </summary>
+    [Theory]
+    [InlineData("ip(\"192.168.1.1\") == ip(\"192.168.1.1\")")]
+    [InlineData("decimal(\"19.99\") == decimal(\"19.99\")")]
+    [InlineData("datetime(\"2024-01-01T00:00:00Z\") == datetime(\"2024-01-01T00:00:00Z\")")]
+    public void ValidExtensionValuesEvaluateIdentically(string comparison)
+    {
+        using var plan = Plan(
+            $"permit(principal, action == App::Action::\"read\", resource) when {{ {comparison} }};");
+        var result = plan.Authorize(Request(User("alice"), Action("read"), Doc("d1"), "{ \"count\": 5 }"));
+
+        Assert.False(result.OperationFailed);
+        Assert.Equal(CedarDecision.Allow, result.Decision);
+        Assert.True(result.IsCleanAllow);
+        Assert.True(result.Authorized);
+        Assert.Empty(result.PolicyErrors);
+    }
+
+    [Theory]
+    [InlineData("ip(\"not-an-ip\") == ip(\"192.168.1.1\")")]
+    [InlineData("decimal(\"not-a-decimal\") == decimal(\"1.00\")")]
+    [InlineData("datetime(\"not-a-datetime\") == datetime(\"2024-01-01T00:00:00Z\")")]
+    public void InvalidExtensionValuesFailClosedAtBundleConstruction(string comparison)
+    {
+        Assert.Throws<CedarBundleException>(() => Plan(
+            $"permit(principal, action == App::Action::\"read\", resource) when {{ {comparison} }};"));
+    }
 }
 
 /// <summary>Reads the pinned D2 lowering fixture's shared default action schema.</summary>

@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 2,
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R3",
+  "generatedAtUtc": "2026-11-24T06:46:34.3433124Z",
+  "upstream": {
+    "repository": "https://github.com/dogwood-policy/dogwood",
+    "revision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+    "version": "dogwood-language 1.1.2",
+    "cedarVersion": "4.11.0"
+  },
+  "commands": [
+    {
+      "label": "cargo-tree",
+      "exitCode": 0
+    },
+    {
+      "label": "cargo-build-oracle",
+      "exitCode": 0
+    },
+    {
+      "label": "dotnet-restore",
+      "exitCode": 0
+    },
+    {
+      "label": "dotnet-build",
+      "exitCode": 0
+    },
+    {
+      "label": "harness-self-test",
+      "exitCode": 0
+    },
+    {
+      "label": "differential-net8.0",
+      "exitCode": 1
+    },
+    {
+      "label": "differential-net10.0",
+      "exitCode": 1
+    }
+  ],
+  "summary": {
+    "net8.0": {
+      "total": 92,
+      "passed": 90,
+      "failed": 2,
+      "blockingCases": [
+        "R3-C23-08-ipaddr-typed-context",
+        "R3-C23-09-datetime-typed-context"
+      ],
+      "coverageErrors": [
+        "family C-23 control `ipaddr-typed-context` is unexpected-difference",
+        "family C-23 control `datetime-typed-context` is unexpected-difference"
+      ],
+      "result": "docs/reviews/d3-impl-01-r3/evidence/r3-differential-net8.0-results.json",
+      "lifecycle": "docs/reviews/d3-impl-01-r3/evidence/r3-lifecycle-net8.0.json",
+      "log": "docs/reviews/d3-impl-01-r3/evidence/r3-differential-net8.0.log"
+    },
+    "net10.0": {
+      "total": 92,
+      "passed": 90,
+      "failed": 2,
+      "blockingCases": [
+        "R3-C23-08-ipaddr-typed-context",
+        "R3-C23-09-datetime-typed-context"
+      ],
+      "coverageErrors": [
+        "family C-23 control `ipaddr-typed-context` is unexpected-difference",
+        "family C-23 control `datetime-typed-context` is unexpected-difference"
+      ],
+      "result": "docs/reviews/d3-impl-01-r3/evidence/r3-differential-net10.0-results.json",
+      "lifecycle": "docs/reviews/d3-impl-01-r3/evidence/r3-lifecycle-net10.0.json",
+      "log": "docs/reviews/d3-impl-01-r3/evidence/r3-differential-net10.0.log"
+    }
+  }
+}

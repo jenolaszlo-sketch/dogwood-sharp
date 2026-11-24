@@ -1,0 +1,4201 @@
+{
+ "schemaVersion": "2",
+ "comment": "DOGWOOD-SHARP-D3-IMPL-01-R3 mandatory upstream differential corpus. Corrected revision of the R2 corpus: the shared provider declaration is valid JSON, provider outcomes use the upstream envelope's `value` field, C-19 exercises a genuinely errored forbid, C-14 uses an empty history (a real temporal-engine evaluation path) and a renamed duplicate-identity control with window-boundary cases added to C-12/C-13, C-23 exercises real extension-value evaluation with corrected lowercase Dogwood schema type names, C-24 compares a real bounded payload, and the native/lifecycle controls execute isolated-process scenarios. Every differential case declares the exact upstream stage its observation must reach.",
+ "schemas": {
+  "userDoc": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { count: Long } }; }",
+  "owner": "namespace App { entity User in Group { name?: String }; entity Group; entity Doc { owner: User, secret?: Bool }; action read appliesTo { principal: [User], resource: [Doc] }; }",
+  "groupDoc": "namespace App { entity User; entity Group; entity Doc { owner: User }; action read appliesTo { principal: [User], resource: [Doc], context: { count: Long } }; }",
+  "session": "namespace App { entity Session { token: String }; entity Doc; action read appliesTo { principal: [Session], resource: [Doc] }; }",
+  "actionHierarchy": "namespace App { entity User; entity Doc; action ReadGroup; action read2 in ReadGroup appliesTo { principal: [User], resource: [Doc] }; }",
+  "temporal": "namespace Test { entity User; entity Item; action Approve appliesTo { principal: [User], resource: [Item], context: { input: { stock: String } } }; action Sell appliesTo { principal: [User], resource: [Item], context: { input: { stock: String } } }; action Audit appliesTo { principal: [User], resource: [Item], context: { input: { stock: String } } }; }",
+  "provider": "namespace Test { entity User; entity Item; action Read appliesTo { principal: [User], resource: [Item], context: { input: { key: String } } }; }",
+  "unicode": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc] }; }",
+  "ownerReq": "namespace App { entity User { name: String }; entity Group; entity Doc { owner: User, secret?: Bool }; action read appliesTo { principal: [User], resource: [Doc] }; }",
+  "ownerHier": "namespace App { entity User in Group { name?: String }; entity Group in Group; entity Doc { owner: User, secret?: Bool }; action read appliesTo { principal: [User], resource: [Doc] }; }",
+  "extensionDecimal": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+  "payloadDoc": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { data: String } }; }",
+  "extensionIpaddr": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+  "extensionDatetime": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }"
+ },
+ "providerDeclarations": {
+  "httpFetch": "{\"availableProviders\":{\"Http::Fetch\":{\"argumentTypes\":[{\"paramType\":\"string\"},{\"paramType\":\"string\"}],\"outputType\":{\"paramType\":\"record\",\"fields\":{\"body\":{\"paramType\":\"string\"}},\"required\":[\"body\"]},\"implementation\":{\"kind\":\"rhai\",\"script\":\"fn evaluate(_url, _key) { #{ body: \\\"ok\\\" } }\"}}}}"
+ },
+ "familyRequirements": {
+  "C-01": {
+   "requiredControls": [
+    "direct-allow"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-02": {
+   "requiredControls": [
+    "direct-deny",
+    "default-deny"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-03": {
+   "requiredControls": [
+    "forbid-precedence"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-04": {
+   "requiredControls": [
+    "multiple-permits"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-05": {
+   "requiredControls": [
+    "required-attr",
+    "optional-attr",
+    "entity-ref",
+    "escaped-unicode",
+    "missing-ref-entity"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-06": {
+   "requiredControls": [
+    "direct-parent",
+    "transitive",
+    "missing-parent",
+    "wrong-parent-type"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-07": {
+   "requiredControls": [
+    "schema-derived-hierarchy",
+    "action-entity-control",
+    "caller-conflict"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-08": {
+   "requiredControls": [
+    "omitted-scope",
+    "explicit-attrless",
+    "explicit-incomplete",
+    "missing-ref-entity"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-09": {
+   "requiredControls": [
+    "bare-has",
+    "bare-identity",
+    "bare-attr-read",
+    "upstream-vs-d3"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-10": {
+   "requiredControls": [
+    "wrong-attr-type",
+    "missing-req-attr",
+    "unknown-entity-type",
+    "invalid-parent",
+    "malformed-entity-json"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-11": {
+   "requiredControls": [
+    "principal-outside",
+    "resource-outside",
+    "action-not-declared",
+    "declared-inapplicable",
+    "multi-action-appliesto",
+    "canonical-schema",
+    "action-group-member",
+    "schema-only-group",
+    "omitted-appliesto"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-12": {
+   "requiredControls": [
+    "temporal-true",
+    "temporal-window-boundary"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-13": {
+   "requiredControls": [
+    "temporal-false",
+    "temporal-window-boundary"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-14": {
+   "requiredControls": [
+    "empty-history",
+    "history-identity-duplicate",
+    "non-decision-event"
+   ],
+   "decisionCoverage": "exempt",
+   "exemptionReason": "temporal-failure semantics are inherently negative; positive temporal coverage is mandatory in C-12 and C-13"
+  },
+  "C-15": {
+   "requiredControls": [
+    "reserved-temporal-field"
+   ],
+   "decisionCoverage": "managed-control-only",
+   "exemptionReason": "the reserved generated field is a D3 trusted-pipeline concept with no upstream counterpart"
+  },
+  "C-16": {
+   "requiredControls": [
+    "provider-value",
+    "provider-value-variant",
+    "provider-field-ownership"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-17": {
+   "requiredControls": [
+    "provider-omission",
+    "provider-failure",
+    "missing-provider"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-18": {
+   "requiredControls": [
+    "raw-allow-with-error"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-19": {
+   "requiredControls": [
+    "errored-forbid"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-20": {
+   "requiredControls": [
+    "malformed-policy",
+    "malformed-context",
+    "malformed-entities",
+    "native-failure",
+    "missing-context-attribute"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-21": {
+   "requiredControls": [
+    "identity-non-sequential",
+    "identity-reordered",
+    "identity-duplicate",
+    "identity-unknown"
+   ],
+   "decisionCoverage": "managed-control-only",
+   "exemptionReason": "identity mapping is a D3 export concept; upstream determining identity is differentially observed in every evaluation-stage case"
+  },
+  "C-22": {
+   "requiredControls": [
+    "schema-transport"
+   ],
+   "decisionCoverage": "managed-control-only",
+   "exemptionReason": "schema transport forms are a D3 export concept; the canonical schema is differentially observed by the C-11 canonical-schema case"
+  },
+  "C-23": {
+   "requiredControls": [
+    "decimal-typed-value",
+    "decimal-typed-mismatch",
+    "decimal-invalid",
+    "ipaddr-valid",
+    "ipaddr-invalid",
+    "datetime-valid",
+    "datetime-invalid",
+    "ipaddr-typed-context",
+    "datetime-typed-context"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-24": {
+   "requiredControls": [
+    "escaped-ids",
+    "unicode-ids",
+    "semicolons-braces",
+    "bounded-payload"
+   ],
+   "decisionCoverage": "required"
+  },
+  "C-25": {
+   "requiredControls": [
+    "concurrency"
+   ],
+   "decisionCoverage": "managed-control-only",
+   "exemptionReason": "concurrency isolation is a D3 runtime property; single-threaded equivalence is differentially observed in every evaluation-stage case"
+  },
+  "C-26": {
+   "requiredControls": [
+    "missing-asset",
+    "mismatched-asset",
+    "wrong-rid",
+    "incompatible-abi",
+    "resident"
+   ],
+   "decisionCoverage": "exempt",
+   "exemptionReason": "native/lifecycle semantics are inherently negative; process-lifetime residency is verified by the executed resident lifecycle scenario"
+  }
+ },
+ "cases": [
+  {
+   "id": "R3-C01-01-direct-allow",
+   "kind": "differential",
+   "control": "direct-allow",
+   "families": [
+    "C-01"
+   ],
+   "question": "Baseline: an unconditional permit yields a clean Allow with correct determining ID.",
+   "schema": "userDoc",
+   "distincter": "r2c1",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C01-02-direct-allow-with-condition",
+   "kind": "differential",
+   "control": "direct-allow",
+   "families": [
+    "C-01"
+   ],
+   "question": "A satisfied context condition yields a clean Allow with the correct determining policy ID.",
+   "schema": "userDoc",
+   "distincter": "r2c1",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { context.count > 3 };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C02-01-direct-deny",
+   "kind": "differential",
+   "control": "direct-deny",
+   "families": [
+    "C-02"
+   ],
+   "question": "An unsatisfied context condition yields a clean Deny with no determining policy.",
+   "schema": "userDoc",
+   "distincter": "r2c2",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { context.count > 100 };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C02-02-default-deny",
+   "kind": "differential",
+   "control": "default-deny",
+   "families": [
+    "C-02"
+   ],
+   "question": "When no permit applies, the default is a clean Deny.",
+   "schema": "userDoc",
+   "distincter": "r2c2",
+   "source": "forbid(principal, action == App::Action::\"read\", resource) when { context.count > 100 };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C03-01-forbid-precedence",
+   "kind": "differential",
+   "control": "forbid-precedence",
+   "families": [
+    "C-03"
+   ],
+   "question": "A satisfied forbid wins over a permit; the determining identity is the forbid.",
+   "schema": "userDoc",
+   "distincter": "r2c3",
+   "source": "forbid(principal, action == App::Action::\"read\", resource) when { context.count > 3 };\npermit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C04-01-multiple-permits",
+   "kind": "differential",
+   "control": "multiple-permits",
+   "families": [
+    "C-04"
+   ],
+   "question": "Multiple applicable permits preserve all determining IDs as a set; order is not assumed.",
+   "schema": "userDoc",
+   "distincter": "r2c4",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { context.count > 3 };\npermit(principal, action == App::Action::\"read\", resource) when { resource == App::Doc::\"d1\" };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C05-01-required-attr",
+   "kind": "differential",
+   "control": "required-attr",
+   "families": [
+    "C-05"
+   ],
+   "question": "An entity with a required attribute satisfies a policy reading that attribute.",
+   "schema": "ownerReq",
+   "distincter": "r2c5",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { principal.name == \"Alice\" };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::User",
+       "id": "alice"
+      },
+      "attrs": {
+       "name": "Alice"
+      },
+      "parents": []
+     },
+     {
+      "uid": {
+       "type": "App::Doc",
+       "id": "d1"
+      },
+      "attrs": {
+       "owner": {
+        "__entity": {
+         "type": "App::User",
+         "id": "alice"
+        }
+       }
+      },
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C05-02-optional-attr",
+   "kind": "differential",
+   "control": "optional-attr",
+   "families": [
+    "C-05"
+   ],
+   "question": "An optional attribute on an entity is read correctly when present.",
+   "schema": "ownerReq",
+   "distincter": "r2c5",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { resource == App::Doc::\"d1\" };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::User",
+       "id": "alice"
+      },
+      "attrs": {
+       "name": "Alice"
+      },
+      "parents": []
+     },
+     {
+      "uid": {
+       "type": "App::Doc",
+       "id": "d1"
+      },
+      "attrs": {
+       "owner": {
+        "__entity": {
+         "type": "App::User",
+         "id": "alice"
+        }
+       },
+       "secret": true
+      },
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C05-03-entity-ref",
+   "kind": "differential",
+   "control": "entity-ref",
+   "families": [
+    "C-05"
+   ],
+   "question": "An entity reference attribute compares against the principal correctly.",
+   "schema": "owner",
+   "distincter": "r2c5",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { resource.owner == principal };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::User",
+       "id": "alice"
+      },
+      "attrs": {
+       "name": "Alice"
+      },
+      "parents": []
+     },
+     {
+      "uid": {
+       "type": "App::Doc",
+       "id": "d1"
+      },
+      "attrs": {
+       "owner": {
+        "__entity": {
+         "type": "App::User",
+         "id": "alice"
+        }
+       }
+      },
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C05-04-escaped-unicode",
+   "kind": "differential",
+   "control": "escaped-unicode",
+   "families": [
+    "C-05",
+    "C-24"
+   ],
+   "question": "Escaped and Unicode entity IDs are handled by identity correctly.",
+   "schema": "unicode",
+   "distincter": "r2c5",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice;id"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "doc-\"1\""
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C05-05-missing-ref-entity",
+   "kind": "differential",
+   "control": "missing-ref-entity",
+   "families": [
+    "C-05",
+    "C-08"
+   ],
+   "question": "A referenced entity that is not supplied fails closed.",
+   "schema": "ownerReq",
+   "distincter": "r2c5",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { resource.owner.name == \"Alice\" };",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-03"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::Doc",
+       "id": "d1"
+      },
+      "attrs": {
+       "owner": {
+        "__entity": {
+         "type": "App::User",
+         "id": "alice"
+        }
+       }
+      },
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C06-01-direct-parent",
+   "kind": "differential",
+   "control": "direct-parent",
+   "families": [
+    "C-06"
+   ],
+   "question": "A caller-supplied direct parent edge resolves membership.",
+   "schema": "owner",
+   "distincter": "r2c6",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { principal in App::Group::\"admins\" };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::User",
+       "id": "alice"
+      },
+      "attrs": {
+       "name": "Alice"
+      },
+      "parents": [
+       {
+        "type": "App::Group",
+        "id": "admins"
+       }
+      ]
+     },
+     {
+      "uid": {
+       "type": "App::Group",
+       "id": "admins"
+      },
+      "attrs": {},
+      "parents": []
+     },
+     {
+      "uid": {
+       "type": "App::Doc",
+       "id": "d1"
+      },
+      "attrs": {
+       "owner": {
+        "__entity": {
+         "type": "App::User",
+         "id": "alice"
+        }
+       }
+      },
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C06-02-transitive",
+   "kind": "differential",
+   "control": "transitive",
+   "families": [
+    "C-06"
+   ],
+   "question": "Transitive group membership through multiple parent edges resolves.",
+   "schema": "ownerHier",
+   "distincter": "r2c6",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { principal in App::Group::\"org\" };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::User",
+       "id": "alice"
+      },
+      "attrs": {
+       "name": "Alice"
+      },
+      "parents": [
+       {
+        "type": "App::Group",
+        "id": "team"
+       }
+      ]
+     },
+     {
+      "uid": {
+       "type": "App::Group",
+       "id": "team"
+      },
+      "attrs": {},
+      "parents": [
+       {
+        "type": "App::Group",
+        "id": "org"
+       }
+      ]
+     },
+     {
+      "uid": {
+       "type": "App::Group",
+       "id": "org"
+      },
+      "attrs": {},
+      "parents": []
+     },
+     {
+      "uid": {
+       "type": "App::Doc",
+       "id": "d1"
+      },
+      "attrs": {
+       "owner": {
+        "__entity": {
+         "type": "App::User",
+         "id": "alice"
+        }
+       }
+      },
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C06-03-missing-parent",
+   "kind": "differential",
+   "control": "missing-parent",
+   "families": [
+    "C-06",
+    "C-08"
+   ],
+   "question": "A missing parent entity fails the membership check (entity not found).",
+   "schema": "owner",
+   "distincter": "r2c6",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { principal in App::Group::\"missing\" };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::User",
+       "id": "alice"
+      },
+      "attrs": {
+       "name": "Alice"
+      },
+      "parents": [
+       {
+        "type": "App::Group",
+        "id": "missing"
+       }
+      ]
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C06-04-wrong-parent-type",
+   "kind": "differential",
+   "control": "wrong-parent-type",
+   "families": [
+    "C-06"
+   ],
+   "question": "A parent edge with wrong entity type is rejected.",
+   "schema": "ownerReq",
+   "distincter": "r2c6",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { principal in App::Group::\"admins\" };",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-02"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::User",
+       "id": "alice"
+      },
+      "attrs": {
+       "name": "Alice"
+      },
+      "parents": [
+       {
+        "type": "App::Doc",
+        "id": "not-a-group"
+       }
+      ]
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C07-01-schema-derived-hierarchy",
+   "kind": "differential",
+   "control": "schema-derived-hierarchy",
+   "families": [
+    "C-07"
+   ],
+   "question": "Action hierarchy membership resolves from the schema on both sides.",
+   "schema": "actionHierarchy",
+   "distincter": "r2c7",
+   "source": "permit(principal, action in App::Action::\"ReadGroup\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read2",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::Doc",
+       "id": "d1"
+      },
+      "attrs": {},
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C07-02-action-entity-control",
+   "kind": "differential",
+   "control": "action-entity-control",
+   "families": [
+    "C-07"
+   ],
+   "question": "Caller-supplied action entities do not override schema-derived hierarchy.",
+   "schema": "actionHierarchy",
+   "distincter": "r2c7",
+   "source": "permit(principal, action in App::Action::\"ReadGroup\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read2",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::Doc",
+       "id": "d1"
+      },
+      "attrs": {},
+      "parents": []
+     },
+     {
+      "uid": {
+       "type": "App::Action",
+       "id": "read2"
+      },
+      "attrs": {},
+      "parents": [
+       {
+        "type": "App::Action",
+        "id": "ReadGroup"
+       }
+      ]
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C07-03-caller-conflict",
+   "kind": "differential",
+   "control": "caller-conflict",
+   "families": [
+    "C-07"
+   ],
+   "question": "A caller-supplied action entity that conflicts with schema hierarchy is rejected.",
+   "schema": "actionHierarchy",
+   "distincter": "r2c7",
+   "source": "permit(principal, action in App::Action::\"ReadGroup\", resource);",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-02"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read2",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::Doc",
+       "id": "d1"
+      },
+      "attrs": {},
+      "parents": []
+     },
+     {
+      "uid": {
+       "type": "App::Action",
+       "id": "read2"
+      },
+      "attrs": {},
+      "parents": [
+       {
+        "type": "App::Action",
+        "id": "OtherGroup"
+       }
+      ]
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C08-01-omitted-scope",
+   "kind": "differential",
+   "control": "omitted-scope",
+   "families": [
+    "C-08",
+    "C-09"
+   ],
+   "question": "An omitted scope entity is handled per the schema-carrying mode (absent, not bare).",
+   "schema": "session",
+   "distincter": "r2c8",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { principal.token == \"t\" };",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-01",
+    "ED-03"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::Session",
+     "id": "s1"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C08-02-explicit-attrless",
+   "kind": "differential",
+   "control": "explicit-attrless",
+   "families": [
+    "C-08"
+   ],
+   "question": "An explicitly supplied scope entity without required attributes fails conformance.",
+   "schema": "session",
+   "distincter": "r2c8",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { principal.token == \"t\" };",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-02"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::Session",
+     "id": "s1"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::Session",
+       "id": "s1"
+      },
+      "attrs": {},
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C08-03-explicit-incomplete",
+   "kind": "differential",
+   "control": "explicit-incomplete",
+   "families": [
+    "C-08"
+   ],
+   "question": "An explicitly supplied but incomplete scope entity fails entity conformance.",
+   "schema": "owner",
+   "distincter": "r2c8",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-02"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::Doc",
+       "id": "d1"
+      },
+      "attrs": {
+       "owner": {
+        "__entity": {
+         "type": "App::User",
+         "id": "alice"
+        }
+       },
+       "secret": "not-a-boolean"
+      },
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C08-04-missing-ref-entity",
+   "kind": "differential",
+   "control": "missing-ref-entity",
+   "families": [
+    "C-08",
+    "C-05"
+   ],
+   "question": "A missing referenced entity in a condition fails closed.",
+   "schema": "ownerReq",
+   "distincter": "r2c8",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { resource.owner.name == \"Alice\" };",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-03"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::Doc",
+       "id": "d1"
+      },
+      "attrs": {
+       "owner": {
+        "__entity": {
+         "type": "App::User",
+         "id": "alice"
+        }
+       }
+      },
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C09-01-bare-has",
+   "kind": "differential",
+   "control": "bare-has",
+   "families": [
+    "C-09"
+   ],
+   "question": "The `has` operator on an absent scope entity returns false on both sides.",
+   "schema": "session",
+   "distincter": "r2c9",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { !(principal has token) };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::Session",
+     "id": "s1"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C09-02-bare-identity",
+   "kind": "differential",
+   "control": "bare-identity",
+   "families": [
+    "C-09"
+   ],
+   "question": "Identity comparison on an absent scope entity behaves consistently.",
+   "schema": "session",
+   "distincter": "r2c9",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { principal == App::Session::\"s1\" };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::Session",
+     "id": "s1"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C09-03-bare-attr-read",
+   "kind": "differential",
+   "control": "bare-attr-read",
+   "families": [
+    "C-09",
+    "C-08"
+   ],
+   "question": "Reading a required attribute on an absent scope entity fails closed on both sides.",
+   "schema": "session",
+   "distincter": "r2c9",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { principal.token == \"t\" };",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-01",
+    "ED-03"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::Session",
+     "id": "s1"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C09-04-upstream-vs-d3",
+   "kind": "differential",
+   "control": "upstream-vs-d3",
+   "families": [
+    "C-09"
+   ],
+   "question": "Upstream bare-tier vs D3 absent-mode difference is explicitly encoded.",
+   "schema": "session",
+   "distincter": "r2c9",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { principal.token == \"t\" };",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-01",
+    "ED-03"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::Session",
+     "id": "s1"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C10-01-wrong-attr-type",
+   "kind": "differential",
+   "control": "wrong-attr-type",
+   "families": [
+    "C-10"
+   ],
+   "question": "Wrong attribute type in supplied entity is rejected by conformance.",
+   "schema": "owner",
+   "distincter": "r2c10",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-02"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::Doc",
+       "id": "d1"
+      },
+      "attrs": {
+       "owner": {
+        "__entity": {
+         "type": "App::User",
+         "id": "alice"
+        }
+       },
+       "secret": "not-a-boolean"
+      },
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C10-02-missing-req-attr",
+   "kind": "differential",
+   "control": "missing-req-attr",
+   "families": [
+    "C-10",
+    "C-05"
+   ],
+   "question": "Missing required attribute on a supplied entity fails conformance.",
+   "schema": "session",
+   "distincter": "r2c10",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { principal.token == \"t\" };",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-02"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::Session",
+     "id": "s1"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::Session",
+       "id": "s1"
+      },
+      "attrs": {},
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C10-03-unknown-entity-type",
+   "kind": "differential",
+   "control": "unknown-entity-type",
+   "families": [
+    "C-10"
+   ],
+   "question": "An unknown entity type in supplied entities is rejected.",
+   "schema": "owner",
+   "distincter": "r2c10",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-02"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::Unknown",
+       "id": "x"
+      },
+      "attrs": {},
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C10-04-invalid-parent",
+   "kind": "differential",
+   "control": "invalid-parent",
+   "families": [
+    "C-10",
+    "C-06"
+   ],
+   "question": "An invalid parent reference (wrong type) is rejected.",
+   "schema": "owner",
+   "distincter": "r2c10",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { principal in App::Group::\"admins\" };",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-02"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::User",
+       "id": "alice"
+      },
+      "attrs": {
+       "name": "Alice"
+      },
+      "parents": [
+       {
+        "type": "App::Doc",
+        "id": "not-a-group"
+       }
+      ]
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C10-05-malformed-entity-json",
+   "kind": "differential",
+   "control": "malformed-entity-json",
+   "families": [
+    "C-10",
+    "C-20"
+   ],
+   "question": "Malformed entity JSON fails during request construction.",
+   "schema": "owner",
+   "distincter": "r2c10",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "operation-failure",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entitiesJson": "not-json",
+    "context": {}
+   },
+   "intendedStage": "request-validation"
+  },
+  {
+   "id": "R3-C11-01-principal-outside",
+   "kind": "differential",
+   "control": "principal-outside",
+   "families": [
+    "C-11"
+   ],
+   "question": "A principal type outside the action's appliesTo is rejected by schema validation.",
+   "schema": "userDoc",
+   "distincter": "r2c11",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { context.count > 1 };",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-04"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::Ghost",
+     "id": "g"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C11-02-resource-outside",
+   "kind": "differential",
+   "control": "resource-outside",
+   "families": [
+    "C-11"
+   ],
+   "question": "A resource type outside the action's appliesTo is rejected by schema validation.",
+   "schema": "owner",
+   "distincter": "r2c11",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-04"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::User",
+     "id": "bob"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::User",
+       "id": "alice"
+      },
+      "attrs": {
+       "name": "Alice"
+      },
+      "parents": []
+     },
+     {
+      "uid": {
+       "type": "App::User",
+       "id": "bob"
+      },
+      "attrs": {
+       "name": "Bob"
+      },
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C11-03-action-not-declared",
+   "kind": "differential",
+   "control": "action-not-declared",
+   "families": [
+    "C-11"
+   ],
+   "question": "An undeclared action is rejected by schema validation.",
+   "schema": "userDoc",
+   "distincter": "r2c11",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-04"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "delete",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C11-04-declared-inapplicable",
+   "kind": "differential",
+   "control": "declared-inapplicable",
+   "families": [
+    "C-11"
+   ],
+   "question": "A declared but inapplicable principal type is rejected by schema validation.",
+   "schema": "groupDoc",
+   "distincter": "r2c11",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { context.count > 1 };",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-04"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::Group",
+     "id": "admins"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::Group",
+       "id": "admins"
+      },
+      "attrs": {},
+      "parents": []
+     },
+     {
+      "uid": {
+       "type": "App::Doc",
+       "id": "d1"
+      },
+      "attrs": {
+       "owner": {
+        "__entity": {
+         "type": "App::User",
+         "id": "alice"
+        }
+       }
+      },
+      "parents": []
+     }
+    ],
+    "context": {
+     "count": 5
+    }
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C11-05-multi-action-appliesto",
+   "kind": "differential",
+   "control": "multi-action-appliesto",
+   "families": [
+    "C-11"
+   ],
+   "question": "A multi-action schema with different appliesTo constraints is preserved exactly.",
+   "schema": "owner",
+   "distincter": "r2c11",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C11-06-canonical-schema",
+   "kind": "managed-control",
+   "control": "canonical-schema",
+   "families": [
+    "C-11",
+    "C-22"
+   ],
+   "question": "The canonical schema JSON preserves every appliesTo constraint exactly.",
+   "schema": "owner",
+   "distincter": "r2c11",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   },
+   "expectedAppliesTo": {
+    "read": {
+     "principalTypes": [
+      "User"
+     ],
+     "resourceTypes": [
+      "Doc"
+     ],
+     "context": {}
+    }
+   }
+  },
+  {
+   "id": "R3-C11-07-action-group-member",
+   "kind": "differential",
+   "control": "action-group-member",
+   "families": [
+    "C-11",
+    "C-07"
+   ],
+   "question": "An action-group member action is authorized with the group's appliesTo constraints.",
+   "schema": "actionHierarchy",
+   "distincter": "r2c11",
+   "source": "permit(principal, action in App::Action::\"ReadGroup\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read2",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [
+     {
+      "uid": {
+       "type": "App::Doc",
+       "id": "d1"
+      },
+      "attrs": {},
+      "parents": []
+     }
+    ],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C11-08-schema-only-group",
+   "kind": "differential",
+   "control": "schema-only-group",
+   "families": [
+    "C-11"
+   ],
+   "question": "A request targeting a schema-only action-group declaration is rejected.",
+   "schema": "actionHierarchy",
+   "distincter": "r2c11",
+   "source": "permit(principal, action in App::Action::\"ReadGroup\", resource);",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-04"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "ReadGroup",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C11-09-omitted-appliesto",
+   "kind": "differential",
+   "control": "omitted-appliesto",
+   "families": [
+    "C-11"
+   ],
+   "question": "An action whose appliesTo would be omitted or replaced is rejected.",
+   "schema": "userDoc",
+   "distincter": "r2c11",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-04"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C12-01-temporal-true",
+   "kind": "differential",
+   "control": "temporal-true",
+   "families": [
+    "C-12"
+   ],
+   "question": "Trusted history produces true; both sides authorize identically and attribute the same rule.",
+   "schema": "temporal",
+   "distincter": "r2c12",
+   "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Sell",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "stock": "AMZN"
+     }
+    }
+   },
+   "history": [
+    {
+     "identity": "history-1",
+     "timestamp": 0,
+     "actionNamespace": [
+      "Test",
+      "Action"
+     ],
+     "actionId": "Approve",
+     "kind": "request",
+     "principal": {
+      "type": "Test::User",
+      "id": "alice"
+     },
+     "resource": {
+      "type": "Test::Item",
+      "id": "item-1"
+     },
+     "context": {
+      "input": {
+       "stock": "AMZN"
+      }
+     },
+     "logged": {
+      "input": {
+       "stock": "AMZN"
+      }
+     },
+     "entities": []
+    }
+   ],
+   "trustedRuntime": true,
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C12-02-window-boundary-in",
+   "kind": "differential",
+   "control": "temporal-window-boundary",
+   "families": [
+    "C-12"
+   ],
+   "question": "A trusted history event exactly 3600s before the decision stays inside the closed 1h window; both sides authorize and attribute the same rule.",
+   "schema": "temporal",
+   "distincter": "r3c12",
+   "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "intendedStage": "evaluation",
+   "trustedRuntime": true,
+   "event": {
+    "timestamp": 7200,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Sell",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "stock": "AMZN"
+     }
+    }
+   },
+   "history": [
+    {
+     "identity": "history-boundary",
+     "timestamp": 3600,
+     "actionNamespace": [
+      "Test",
+      "Action"
+     ],
+     "actionId": "Approve",
+     "kind": "request",
+     "principal": {
+      "type": "Test::User",
+      "id": "alice"
+     },
+     "resource": {
+      "type": "Test::Item",
+      "id": "item-1"
+     },
+     "context": {
+      "input": {
+       "stock": "AMZN"
+      }
+     },
+     "logged": {
+      "input": {
+       "stock": "AMZN"
+      }
+     },
+     "entities": []
+    }
+   ]
+  },
+  {
+   "id": "R3-C13-01-temporal-false",
+   "kind": "differential",
+   "control": "temporal-false",
+   "families": [
+    "C-13"
+   ],
+   "question": "Trusted history produces false; both sides deny cleanly.",
+   "schema": "temporal",
+   "distincter": "r2c13",
+   "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Sell",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "stock": "AMZN"
+     }
+    }
+   },
+   "history": [
+    {
+     "identity": "history-1",
+     "timestamp": 0,
+     "actionNamespace": [
+      "Test",
+      "Action"
+     ],
+     "actionId": "Approve",
+     "kind": "request",
+     "principal": {
+      "type": "Test::User",
+      "id": "alice"
+     },
+     "resource": {
+      "type": "Test::Item",
+      "id": "item-1"
+     },
+     "context": {
+      "input": {
+       "stock": "MSFT"
+      }
+     },
+     "logged": {
+      "input": {
+       "stock": "MSFT"
+      }
+     },
+     "entities": []
+    }
+   ],
+   "trustedRuntime": true,
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C13-02-window-boundary-out",
+   "kind": "differential",
+   "control": "temporal-window-boundary",
+   "families": [
+    "C-13"
+   ],
+   "question": "A trusted history event 3601s before the decision is outside the 1h window; both sides deny cleanly with no errors.",
+   "schema": "temporal",
+   "distincter": "r3c13",
+   "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "intendedStage": "evaluation",
+   "trustedRuntime": true,
+   "event": {
+    "timestamp": 7201,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Sell",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "stock": "AMZN"
+     }
+    }
+   },
+   "history": [
+    {
+     "identity": "history-boundary",
+     "timestamp": 3600,
+     "actionNamespace": [
+      "Test",
+      "Action"
+     ],
+     "actionId": "Approve",
+     "kind": "request",
+     "principal": {
+      "type": "Test::User",
+      "id": "alice"
+     },
+     "resource": {
+      "type": "Test::Item",
+      "id": "item-1"
+     },
+     "context": {
+      "input": {
+       "stock": "AMZN"
+      }
+     },
+     "logged": {
+      "input": {
+       "stock": "AMZN"
+      }
+     },
+     "entities": []
+    }
+   ]
+  },
+  {
+   "id": "R3-C14-03-non-decision-event",
+   "kind": "differential",
+   "control": "non-decision-event",
+   "families": [
+    "C-14"
+   ],
+   "question": "Non-decision events in history are observed without becoming a decision.",
+   "schema": "temporal",
+   "distincter": "r2c14",
+   "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Sell",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "stock": "AMZN"
+     }
+    }
+   },
+   "history": [
+    {
+     "identity": "resp-1",
+     "timestamp": 0,
+     "actionNamespace": [
+      "Test",
+      "Action"
+     ],
+     "actionId": "Approve",
+     "kind": "response",
+     "principal": {
+      "type": "Test::User",
+      "id": "alice"
+     },
+     "resource": {
+      "type": "Test::Item",
+      "id": "item-1"
+     },
+     "context": {
+      "input": {
+       "stock": "AMZN"
+      }
+     },
+     "logged": {
+      "input": {
+       "stock": "AMZN"
+      }
+     },
+     "entities": []
+    }
+   ],
+   "trustedRuntime": true,
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C14-01-empty-history",
+   "kind": "differential",
+   "control": "empty-history",
+   "families": [
+    "C-14"
+   ],
+   "question": "A temporal policy is evaluated against an empty trusted history: the temporal engine has no decision event to evaluate, so the request fails closed without authorizing.",
+   "schema": "temporal",
+   "distincter": "r3c14",
+   "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "intendedStage": "evaluation",
+   "trustedRuntime": true,
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Sell",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "stock": "AMZN"
+     }
+    }
+   },
+   "history": []
+  },
+  {
+   "id": "R3-C14-02-history-identity-duplicate",
+   "kind": "differential",
+   "control": "history-identity-duplicate",
+   "families": [
+    "C-14"
+   ],
+   "question": "A trusted history with a duplicate event identity fails closed with no decision on both sides.",
+   "schema": "temporal",
+   "distincter": "r3c14",
+   "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };",
+   "expectedClassification": "operation-failure",
+   "expectedDifferenceIds": [],
+   "intendedStage": "trusted-binding",
+   "trustedRuntime": true,
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Sell",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "stock": "AMZN"
+     }
+    }
+   },
+   "history": [
+    {
+     "identity": "dup-id",
+     "timestamp": 10,
+     "actionNamespace": [
+      "Test",
+      "Action"
+     ],
+     "actionId": "Approve",
+     "kind": "request",
+     "principal": {
+      "type": "Test::User",
+      "id": "alice"
+     },
+     "resource": {
+      "type": "Test::Item",
+      "id": "item-1"
+     },
+     "context": {
+      "input": {
+       "stock": "AMZN"
+      }
+     },
+     "logged": {
+      "input": {
+       "stock": "AMZN"
+      }
+     },
+     "entities": []
+    },
+    {
+     "identity": "dup-id",
+     "timestamp": 20,
+     "actionNamespace": [
+      "Test",
+      "Action"
+     ],
+     "actionId": "Approve",
+     "kind": "request",
+     "principal": {
+      "type": "Test::User",
+      "id": "alice"
+     },
+     "resource": {
+      "type": "Test::Item",
+      "id": "item-1"
+     },
+     "context": {
+      "input": {
+       "stock": "AMZN"
+      }
+     },
+     "logged": {
+      "input": {
+       "stock": "AMZN"
+      }
+     },
+     "entities": []
+    }
+   ]
+  },
+  {
+   "id": "R3-C15-01-reserved-field-rejection",
+   "kind": "managed-control",
+   "control": "reserved-temporal-field",
+   "families": [
+    "C-15"
+   ],
+   "question": "Caller context containing the D2-generated temporal field is rejected before dispatch.",
+   "schema": "temporal",
+   "distincter": "r2c15",
+   "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Sell",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "stock": "AMZN"
+     }
+    }
+   }
+  },
+  {
+   "id": "R3-C15-02-reserved-collision",
+   "kind": "managed-control",
+   "control": "reserved-temporal-field",
+   "families": [
+    "C-15"
+   ],
+   "question": "A collision between an authored context field and a generated field prevents bundle construction.",
+   "schema": "temporal",
+   "distincter": "r2c15",
+   "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Sell",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "stock": "AMZN"
+     }
+    }
+   }
+  },
+  {
+   "id": "R3-C16-01-provider-value",
+   "kind": "differential",
+   "control": "provider-value",
+   "families": [
+    "C-16"
+   ],
+   "question": "Deterministic provider value is used identically; provider field ownership remains internal.",
+   "schema": "provider",
+   "distincter": "r2c16",
+   "source": "permit(principal, action == Test::Action::\"Read\", resource)\nwhen { Http::Fetch(\"https://trusted.invalid/fetch\", context.input.key).body == \"ok\" };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Read",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "key": "document"
+     }
+    }
+   },
+   "providerDeclarations": "httpFetch",
+   "providerOutcomes": [
+    {
+     "name": "Http::Fetch",
+     "outcome": "value",
+     "message": null,
+     "value": {
+      "body": "ok"
+     }
+    }
+   ],
+   "trustedRuntime": true,
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C16-02-provider-value-variant",
+   "kind": "differential",
+   "control": "provider-value-variant",
+   "families": [
+    "C-16"
+   ],
+   "question": "A different trusted provider value produces a clean default Deny on both sides; the caller never supplies the value.",
+   "schema": "provider",
+   "distincter": "r3c16b",
+   "source": "permit(principal, action == Test::Action::\"Read\", resource)\nwhen { Http::Fetch(\"https://trusted.invalid/fetch\", context.input.key).body == \"ok\" };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Read",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "key": "document"
+     }
+    }
+   },
+   "providerDeclarations": "httpFetch",
+   "providerOutcomes": [
+    {
+     "name": "Http::Fetch",
+     "outcome": "value",
+     "message": null,
+     "value": {
+      "body": "blocked"
+     }
+    }
+   ],
+   "trustedRuntime": true,
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C16-03-provider-field-ownership",
+   "kind": "managed-control",
+   "control": "provider-field-ownership",
+   "families": [
+    "C-16"
+   ],
+   "question": "The D2-generated provider context field stays internal: a caller that supplies the generated provider field in its own context is rejected before dispatch, and the caller value never reaches the provider.",
+   "schema": "provider",
+   "distincter": "r3c16c",
+   "source": "permit(principal, action == Test::Action::\"Read\", resource)\nwhen { Http::Fetch(\"https://trusted.invalid/fetch\", context.input.key).body == \"ok\" };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Read",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "key": "document"
+     },
+     "providers": {
+      "r3c16c_0_p_0": {
+       "body": "caller-supplied"
+      }
+     }
+    }
+   },
+   "providerDeclarations": "httpFetch",
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C17-01-provider-omission",
+   "kind": "differential",
+   "control": "provider-omission",
+   "families": [
+    "C-17"
+   ],
+   "question": "An omitted provider outcome fails closed and never falls back to caller data.",
+   "schema": "provider",
+   "distincter": "r2c17",
+   "source": "permit(principal, action == Test::Action::\"Read\", resource)\nwhen { Http::Fetch(\"https://trusted.invalid/fetch\", context.input.key).body == \"ok\" };",
+   "expectedClassification": "fail-closed-equivalence",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Read",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "key": "document"
+     }
+    }
+   },
+   "providerDeclarations": "httpFetch",
+   "providerOutcomes": [
+    {
+     "name": "Http::Fetch",
+     "outcome": "omitted",
+     "message": null,
+     "value": null
+    }
+   ],
+   "trustedRuntime": true,
+   "intendedStage": "evaluation",
+   "failClosedNormalizationId": "FCN-01"
+  },
+  {
+   "id": "R3-C17-02-provider-failure",
+   "kind": "differential",
+   "control": "provider-failure",
+   "families": [
+    "C-17"
+   ],
+   "question": "A failed provider evaluation fails closed and never falls back to caller data.",
+   "schema": "provider",
+   "distincter": "r2c17",
+   "source": "permit(principal, action == Test::Action::\"Read\", resource)\nwhen { Http::Fetch(\"https://trusted.invalid/fetch\", context.input.key).body == \"ok\" };",
+   "expectedClassification": "fail-closed-equivalence",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Read",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "key": "document"
+     }
+    }
+   },
+   "providerDeclarations": "httpFetch",
+   "providerOutcomes": [
+    {
+     "name": "Http::Fetch",
+     "outcome": "failure",
+     "message": "trusted provider failed",
+     "value": null
+    }
+   ],
+   "trustedRuntime": true,
+   "intendedStage": "evaluation",
+   "failClosedNormalizationId": "FCN-01"
+  },
+  {
+   "id": "R3-C17-03-missing-provider",
+   "kind": "differential",
+   "control": "missing-provider",
+   "families": [
+    "C-17"
+   ],
+   "question": "A missing provider outcome fails closed without a fallback.",
+   "schema": "provider",
+   "distincter": "r2c17",
+   "source": "permit(principal, action == Test::Action::\"Read\", resource)\nwhen { Http::Fetch(\"https://trusted.invalid/fetch\", context.input.key).body == \"ok\" };",
+   "expectedClassification": "operation-failure",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Read",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "key": "document"
+     }
+    }
+   },
+   "providerDeclarations": "httpFetch",
+   "providerOutcomes": [],
+   "trustedRuntime": true,
+   "intendedStage": "trusted-binding"
+  },
+  {
+   "id": "R3-C18-01-raw-allow-with-error",
+   "kind": "differential",
+   "control": "raw-allow-with-error",
+   "families": [
+    "C-18"
+   ],
+   "question": "A valid permit beside a failing policy yields a raw Allow with an error; enforcement is not a clean Allow.",
+   "schema": "session",
+   "distincter": "r2c18",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { principal.token == \"t\" };\npermit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-01",
+    "ED-03"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::Session",
+     "id": "s1"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C19-01-errored-forbid",
+   "kind": "differential",
+   "control": "errored-forbid",
+   "families": [
+    "C-19"
+   ],
+   "question": "A forbid whose required attribute is missing on the scope principal errors without silently becoming a clean Deny; the error and the forbid identity are preserved and the raw Allow is not enforcement.",
+   "schema": "session",
+   "distincter": "r3c19",
+   "source": "forbid(principal, action == App::Action::\"read\", resource) when { principal.token == \"t\" };\npermit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-01",
+    "ED-03"
+   ],
+   "intendedStage": "evaluation",
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::Session",
+     "id": "s1"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   }
+  },
+  {
+   "id": "R3-C20-01-malformed-policy",
+   "kind": "differential",
+   "control": "malformed-policy",
+   "families": [
+    "C-20"
+   ],
+   "question": "A policy that does not parse never reaches a decision on either side.",
+   "schema": "userDoc",
+   "distincter": "r2c20",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { context.count > };",
+   "expectedClassification": "operation-failure",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   },
+   "intendedStage": "lowering"
+  },
+  {
+   "id": "R3-C20-02-malformed-context",
+   "kind": "differential",
+   "control": "malformed-context",
+   "families": [
+    "C-20"
+   ],
+   "question": "Malformed context JSON fails closed during request construction.",
+   "schema": "userDoc",
+   "distincter": "r2c20",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "operation-failure",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "contextJson": "not-json"
+   },
+   "intendedStage": "request-validation"
+  },
+  {
+   "id": "R3-C20-03-malformed-entities",
+   "kind": "differential",
+   "control": "malformed-entities",
+   "families": [
+    "C-20",
+    "C-10"
+   ],
+   "question": "Malformed entities JSON fails closed during request construction.",
+   "schema": "userDoc",
+   "distincter": "r2c20",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "operation-failure",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entitiesJson": "not-json",
+    "context": {}
+   },
+   "intendedStage": "request-validation"
+  },
+  {
+   "id": "R3-C20-04-native-failure",
+   "kind": "lifecycle-control",
+   "control": "native-failure",
+   "scenario": "mismatched-asset",
+   "families": [
+    "C-20"
+   ],
+   "question": "A native image that fails its manifest hash check is classified as a native failure without an Allow, in an isolated process.",
+   "schema": "userDoc",
+   "distincter": "r3c20",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   }
+  },
+  {
+   "id": "R3-C20-05-missing-context-attribute",
+   "kind": "differential",
+   "control": "missing-context-attribute",
+   "families": [
+    "C-20"
+   ],
+   "question": "Missing required context attribute fails closed on both sides with different stage.",
+   "schema": "userDoc",
+   "distincter": "r2c20",
+   "source": "permit(principal, action == App::Action::\"read\", resource) when { context.count > 1 };",
+   "expectedClassification": "approved-difference",
+   "expectedDifferenceIds": [
+    "ED-05"
+   ],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C21-01-non-sequential-id",
+   "kind": "managed-control",
+   "control": "identity-non-sequential",
+   "families": [
+    "C-21"
+   ],
+   "question": "Non-sequential policy IDs are preserved and mapped correctly.",
+   "schema": "userDoc",
+   "distincter": "r2c21",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   }
+  },
+  {
+   "id": "R3-C21-02-reordered-supply",
+   "kind": "managed-control",
+   "control": "identity-reordered",
+   "families": [
+    "C-21"
+   ],
+   "question": "Reordered rule supply preserves the correct identity mapping.",
+   "schema": "userDoc",
+   "distincter": "r2c21",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   }
+  },
+  {
+   "id": "R3-C21-03-source-annotation",
+   "kind": "managed-control",
+   "control": "identity-non-sequential",
+   "families": [
+    "C-21"
+   ],
+   "question": "A source @id annotation is not treated as the stored policy ID.",
+   "schema": "userDoc",
+   "distincter": "r2c21",
+   "source": "@id(\"custom-id\") permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   }
+  },
+  {
+   "id": "R3-C21-04-duplicate-id",
+   "kind": "managed-control",
+   "control": "identity-duplicate",
+   "families": [
+    "C-21"
+   ],
+   "question": "A duplicate policy ID in the export is rejected.",
+   "schema": "userDoc",
+   "distincter": "r2c21",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   }
+  },
+  {
+   "id": "R3-C21-05-unknown-diagnostic-id",
+   "kind": "managed-control",
+   "control": "identity-unknown",
+   "families": [
+    "C-21"
+   ],
+   "question": "An unknown diagnostic ID from evaluation is rejected as an operation failure.",
+   "schema": "userDoc",
+   "distincter": "r2c21",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   }
+  },
+  {
+   "id": "R3-C22-01-json-canonical",
+   "kind": "managed-control",
+   "control": "schema-transport",
+   "families": [
+    "C-22",
+    "C-11"
+   ],
+   "question": "The JSON canonical schema form parses and is the sole identity/cache value.",
+   "schema": "owner",
+   "distincter": "r2c22",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   }
+  },
+  {
+   "id": "R3-C22-02-text-diagnostic",
+   "kind": "managed-control",
+   "control": "schema-transport",
+   "families": [
+    "C-22"
+   ],
+   "question": "The text diagnostic schema form parses but is not used for identity.",
+   "schema": "owner",
+   "distincter": "r2c22",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   }
+  },
+  {
+   "id": "R3-C22-03-json-only-identity",
+   "kind": "managed-control",
+   "control": "schema-transport",
+   "families": [
+    "C-22"
+   ],
+   "question": "Only the JSON form is the canonical identity; text form is not a second cache key.",
+   "schema": "owner",
+   "distincter": "r2c22",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   }
+  },
+  {
+   "id": "R3-C23-01-decimal-typed-value",
+   "kind": "differential",
+   "control": "decimal-typed-value",
+   "families": [
+    "C-23"
+   ],
+   "question": "A valid decimal value supplied in Cedar extension encoding is evaluated identically: both sides allow and attribute the same rule.",
+   "schema": "extensionDecimal",
+   "distincter": "r3c23",
+   "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "intendedStage": "evaluation",
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "price": {
+      "__extn": {
+       "fn": "decimal",
+       "arg": "19.99"
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "R3-C23-02-decimal-typed-mismatch",
+   "kind": "differential",
+   "control": "decimal-typed-mismatch",
+   "families": [
+    "C-23"
+   ],
+   "question": "A different decimal value produces a clean default Deny on both sides with no errors.",
+   "schema": "extensionDecimal",
+   "distincter": "r3c23b",
+   "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "intendedStage": "evaluation",
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "price": {
+      "__extn": {
+       "fn": "decimal",
+       "arg": "1.00"
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "R3-C23-03-decimal-invalid",
+   "kind": "differential",
+   "control": "decimal-invalid",
+   "families": [
+    "C-23"
+   ],
+   "question": "An invalid decimal encoding fails the validated lowering closed with no decision on both sides.",
+   "schema": "userDoc",
+   "distincter": "r3c23c",
+   "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { decimal(\"not-a-decimal\") == decimal(\"1.00\") };",
+   "expectedClassification": "operation-failure",
+   "expectedDifferenceIds": [],
+   "intendedStage": "lowering",
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   }
+  },
+  {
+   "id": "R3-C23-04-ipaddr-valid",
+   "kind": "differential",
+   "control": "ipaddr-valid",
+   "families": [
+    "C-23"
+   ],
+   "question": "A valid ipaddr extension literal comparison is evaluated identically: both sides allow.",
+   "schema": "userDoc",
+   "distincter": "r3c23d",
+   "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { ip(\"192.168.1.1\") == ip(\"192.168.1.1\") };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "intendedStage": "evaluation",
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   }
+  },
+  {
+   "id": "R3-C23-05-ipaddr-invalid",
+   "kind": "differential",
+   "control": "ipaddr-invalid",
+   "families": [
+    "C-23"
+   ],
+   "question": "An invalid ipaddr encoding fails the validated lowering closed with no decision on both sides.",
+   "schema": "userDoc",
+   "distincter": "r3c23e",
+   "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { ip(\"not-an-ip\") == ip(\"192.168.1.1\") };",
+   "expectedClassification": "operation-failure",
+   "expectedDifferenceIds": [],
+   "intendedStage": "lowering",
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   }
+  },
+  {
+   "id": "R3-C23-06-datetime-valid",
+   "kind": "differential",
+   "control": "datetime-valid",
+   "families": [
+    "C-23"
+   ],
+   "question": "A valid datetime extension literal comparison is evaluated identically: both sides allow.",
+   "schema": "userDoc",
+   "distincter": "r3c23f",
+   "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { datetime(\"2024-01-01T00:00:00Z\") == datetime(\"2024-01-01T00:00:00Z\") };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "intendedStage": "evaluation",
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   }
+  },
+  {
+   "id": "R3-C23-07-datetime-invalid",
+   "kind": "differential",
+   "control": "datetime-invalid",
+   "families": [
+    "C-23"
+   ],
+   "question": "An invalid datetime encoding fails the validated lowering closed with no decision on both sides.",
+   "schema": "userDoc",
+   "distincter": "r3c23g",
+   "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { datetime(\"not-a-datetime\") == datetime(\"2024-01-01T00:00:00Z\") };",
+   "expectedClassification": "operation-failure",
+   "expectedDifferenceIds": [],
+   "intendedStage": "lowering",
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   }
+  },
+  {
+   "id": "R3-C23-08-ipaddr-typed-context",
+   "kind": "differential",
+   "control": "ipaddr-typed-context",
+   "families": [
+    "C-23"
+   ],
+   "question": "A valid ipaddr value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+   "schema": "extensionIpaddr",
+   "distincter": "r3c23h",
+   "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+   "expectedClassification": "blocking-difference",
+   "expectedDifferenceIds": [],
+   "intendedStage": "evaluation",
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "ip": {
+      "__extn": {
+       "fn": "ip",
+       "arg": "192.168.1.1"
+      }
+     }
+    }
+   },
+   "blockingFinding": "QD3Q-03",
+   "blockingReason": "The pinned upstream value model has no ipaddr variant, so an ipaddr context value cannot reach the upstream authorizer and the upstream comparison is a clean Deny while D3 evaluates the Cedar ip extension. The plan requires the two to agree and no owner-approved difference covers it, so the case is an unresolved blocking gap."
+  },
+  {
+   "id": "R3-C23-09-datetime-typed-context",
+   "kind": "differential",
+   "control": "datetime-typed-context",
+   "families": [
+    "C-23"
+   ],
+   "question": "A valid datetime value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+   "schema": "extensionDatetime",
+   "distincter": "r3c23i",
+   "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+   "expectedClassification": "blocking-difference",
+   "expectedDifferenceIds": [],
+   "intendedStage": "evaluation",
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "ts": {
+      "__extn": {
+       "fn": "datetime",
+       "arg": "2024-01-01T00:00:00Z"
+      }
+     }
+    }
+   },
+   "blockingFinding": "QD3Q-03",
+   "blockingReason": "The pinned upstream value model has no datetime variant, so a datetime context value cannot reach the upstream authorizer and the upstream comparison is a clean Deny while D3 evaluates the Cedar datetime extension. The plan requires the two to agree and no owner-approved difference covers it, so the case is an unresolved blocking gap."
+  },
+  {
+   "id": "R3-C24-04-bounded-payload",
+   "kind": "differential",
+   "control": "bounded-payload",
+   "families": [
+    "C-24"
+   ],
+   "question": "A 1000-character payload is compared by exact value on both sides: equal payloads allow and a truncated payload denies.",
+   "schema": "payloadDoc",
+   "distincter": "r3c24",
+   "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.data == \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "intendedStage": "evaluation",
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "data": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+   }
+  },
+  {
+   "id": "R3-C24-01-escaped-ids",
+   "kind": "differential",
+   "control": "escaped-ids",
+   "families": [
+    "C-24",
+    "C-05"
+   ],
+   "question": "Escaped entity IDs are compared by identity correctly.",
+   "schema": "unicode",
+   "distincter": "r2c24",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice;id"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "doc-\"1\""
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C24-02-unicode-ids",
+   "kind": "differential",
+   "control": "unicode-ids",
+   "families": [
+    "C-24",
+    "C-05"
+   ],
+   "question": "Unicode entity IDs are compared by identity correctly.",
+   "schema": "unicode",
+   "distincter": "r2c24",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "中文"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "文档"
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C24-03-semicolons-braces",
+   "kind": "differential",
+   "control": "semicolons-braces",
+   "families": [
+    "C-24"
+   ],
+   "question": "Semicolons and braces in string literals are handled correctly.",
+   "schema": "unicode",
+   "distincter": "r2c24",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {}
+   },
+   "intendedStage": "evaluation"
+  },
+  {
+   "id": "R3-C25-01-concurrency-workers",
+   "kind": "managed-control",
+   "control": "concurrency",
+   "families": [
+    "C-25"
+   ],
+   "question": "Four concurrent workers produce deterministic results.",
+   "schema": "userDoc",
+   "distincter": "r2c25",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   }
+  },
+  {
+   "id": "R3-C25-02-concurrency-iterations",
+   "kind": "managed-control",
+   "control": "concurrency",
+   "families": [
+    "C-25"
+   ],
+   "question": "Repeated iterations across workers remain deterministic.",
+   "schema": "userDoc",
+   "distincter": "r2c25",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   }
+  },
+  {
+   "id": "R3-C25-03-deterministic",
+   "kind": "managed-control",
+   "control": "concurrency",
+   "families": [
+    "C-25"
+   ],
+   "question": "Results are deterministic independent of request completion order.",
+   "schema": "userDoc",
+   "distincter": "r2c25",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   }
+  },
+  {
+   "id": "R3-C25-04-isolation",
+   "kind": "managed-control",
+   "control": "concurrency",
+   "families": [
+    "C-25"
+   ],
+   "question": "Request contexts, temporal bindings, and provider results are isolated between calls.",
+   "schema": "provider",
+   "distincter": "r2c25",
+   "source": "permit(principal, action == Test::Action::\"Read\", resource) when { context.input.key == \"document\" };",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "Test",
+     "Action"
+    ],
+    "actionId": "Read",
+    "principal": {
+     "type": "Test::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "Test::Item",
+     "id": "item-1"
+    },
+    "entities": [],
+    "context": {
+     "input": {
+      "key": "document"
+     }
+    }
+   },
+   "providerDeclarations": "httpFetch",
+   "providerOutcomes": [
+    {
+     "name": "Http::Fetch",
+     "outcome": "value",
+     "valueJson": "{\"body\":\"ok\"}",
+     "message": null
+    }
+   ],
+   "trustedRuntime": true
+  },
+  {
+   "id": "R3-C26-01-missing-asset",
+   "kind": "lifecycle-control",
+   "control": "missing-asset",
+   "families": [
+    "C-26"
+   ],
+   "question": "A missing native bridge asset fails native load before any dispatch, in an isolated process.",
+   "schema": "userDoc",
+   "distincter": "r2c26",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   },
+   "scenario": "missing-asset"
+  },
+  {
+   "id": "R3-C26-02-mismatched-asset",
+   "kind": "lifecycle-control",
+   "control": "mismatched-asset",
+   "families": [
+    "C-26"
+   ],
+   "question": "A native bridge image that does not match its manifest hash fails native load before any dispatch, in an isolated process.",
+   "schema": "userDoc",
+   "distincter": "r2c26",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   },
+   "scenario": "mismatched-asset"
+  },
+  {
+   "id": "R3-C26-03-wrong-rid",
+   "kind": "lifecycle-control",
+   "control": "wrong-rid",
+   "families": [
+    "C-26"
+   ],
+   "question": "A native bridge image placed only for another RID fails RID-resolved load before any dispatch, in an isolated process.",
+   "schema": "userDoc",
+   "distincter": "r2c26",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   },
+   "scenario": "wrong-rid"
+  },
+  {
+   "id": "R3-C26-04-incompatible-asset",
+   "kind": "lifecycle-control",
+   "control": "incompatible-abi",
+   "families": [
+    "C-26"
+   ],
+   "question": "A native manifest declaring an incompatible ABI version fails the ABI identity gate before any dispatch, in an isolated process.",
+   "schema": "userDoc",
+   "distincter": "r2c26",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   },
+   "scenario": "incompatible-abi"
+  },
+  {
+   "id": "R3-C26-05-resident",
+   "kind": "lifecycle-control",
+   "control": "resident",
+   "families": [
+    "C-26"
+   ],
+   "question": "The verified native image is loaded once for the process lifetime: repeated authorizations keep the same native identity, the same decision and the same loaded module, with no unload or hot replacement.",
+   "schema": "userDoc",
+   "distincter": "r2c26",
+   "source": "permit(principal, action == App::Action::\"read\", resource);",
+   "expectedClassification": "agreement",
+   "expectedDifferenceIds": [],
+   "event": {
+    "timestamp": 100,
+    "actionNamespace": [
+     "App",
+     "Action"
+    ],
+    "actionId": "read",
+    "principal": {
+     "type": "App::User",
+     "id": "alice"
+    },
+    "resource": {
+     "type": "App::Doc",
+     "id": "d1"
+    },
+    "entities": [],
+    "context": {
+     "count": 5
+    }
+   },
+   "scenario": "resident"
+  }
+ ]
+}
