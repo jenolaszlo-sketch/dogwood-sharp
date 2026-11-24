@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 3,
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R4",
+  "generatedAtUtc": "2026-11-24T18:32:45.0948879Z",
+  "upstream": {
+    "repository": "https://github.com/dogwood-policy/dogwood",
+    "revision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+    "version": "dogwood-language 1.1.2",
+    "cedarVersion": "4.11.0"
+  },
+  "commands": [
+    {
+      "label": "cargo-tree",
+      "exitCode": 0
+    },
+    {
+      "label": "cargo-build-oracle",
+      "exitCode": 0
+    },
+    {
+      "label": "dotnet-restore",
+      "exitCode": 0
+    },
+    {
+      "label": "dotnet-build",
+      "exitCode": 0
+    },
+    {
+      "label": "harness-self-test",
+      "exitCode": 0
+    },
+    {
+      "label": "differential-net8.0",
+      "exitCode": 0
+    },
+    {
+      "label": "differential-net10.0",
+      "exitCode": 0
+    }
+  ],
+  "summary": {
+    "net8.0": {
+      "total": 97,
+      "passed": 97,
+      "failed": 0,
+      "pending": 0,
+      "familyCount": 26,
+      "classifications": {
+        "agreement": 62,
+        "approved-difference": 24,
+        "fail-closed-equivalence": 2,
+        "operation-failure": 9
+      },
+      "coverageErrors": [],
+      "result": "docs/reviews/d3-impl-01-r4/evidence/r4-differential-net8.0-results.json",
+      "lifecycle": "docs/reviews/d3-impl-01-r4/evidence/r4-lifecycle-net8.0.json",
+      "log": "docs/reviews/d3-impl-01-r4/evidence/r4-differential-net8.0.log"
+    },
+    "net10.0": {
+      "total": 97,
+      "passed": 97,
+      "failed": 0,
+      "pending": 0,
+      "familyCount": 26,
+      "classifications": {
+        "agreement": 62,
+        "approved-difference": 24,
+        "fail-closed-equivalence": 2,
+        "operation-failure": 9
+      },
+      "coverageErrors": [],
+      "result": "docs/reviews/d3-impl-01-r4/evidence/r4-differential-net10.0-results.json",
+      "lifecycle": "docs/reviews/d3-impl-01-r4/evidence/r4-lifecycle-net10.0.json",
+      "log": "docs/reviews/d3-impl-01-r4/evidence/r4-differential-net10.0.log"
+    }
+  }
+}
