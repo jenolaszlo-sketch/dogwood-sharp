@@ -62,15 +62,21 @@ entry** and re-verifies everything:
    adds 28 controls (12 facts and 4 theories with 16 data rows) that pin the
    intended CedarSharp policy semantics for typed `ipaddr` and `datetime` context
    values: valid authorization, valid mismatch, Cedar type-specific operations
-   (`isIpv4`, `isIpv6`, `isInRange`, datetime ordering), boundary values, invalid
-   and malformed typed values, fail-closed behavior on unexpected errors, the
-   absence of any untrusted substitution of the caller's typed value, and the
-   integrity of the trusted context-binding channel.
+   (`isIpv4`, `isIpv6`, and the datetime ordering operator), boundary values,
+   invalid and malformed typed values, fail-closed behavior on unexpected
+   errors, the absence of any untrusted substitution of the caller's typed value,
+   and the integrity of the trusted context-binding channel. The evidence
+   harness additionally pins `isInRange()` on a typed `ipaddr`
+   (`R4-C23-01`, §6.2).
 3. **The full differential corpus is green on both target frameworks.** 97 cases
    across all 26 families, 97/97 pass on `net8.0` and `net10.0`, 0 coverage
    errors, no fixture removed or weakened, ED-01…ED-05 unchanged, ED-06 confined
    to its two authorized cases.
 4. **Every mandatory gate passes**, locally and on hosted CI (see §9 and §10).
+   The only red result anywhere in the R4 record is the first attempt of the
+   final hosted CI run, which failed because two macOS arm64 jobs never acquired
+   a hosted runner; it is recorded in full in §10.8 and is not a conformance
+   result.
 
 **No production code was modified.** The only change to the shipped package
 surface is additive test coverage; `src/` is byte-for-byte unchanged from the R3
@@ -635,11 +641,13 @@ together.
 
 ### 9.2 Hosted CI
 
-See §10 for the run and job identifiers of the R4 revision. The hosted matrix
+See §10 for the run and job identifiers of the R4 revisions. The hosted matrix
 adds the gates that cannot be executed on a single local host: the `linux-x64`
 and `osx-arm64` verification legs, the package candidate pack and inspection,
 and the **six-cell package-only consumer matrix** (3 RIDs × 2 TFMs, JIT and
-NativeAOT against the packed candidate packages only).
+NativeAOT against the packed candidate packages only). The package-only consumer
+matrix is green in two independent runs — `45467056283` (§10.1) and
+`45472926028` attempt 2 (§10.7).
 
 ### 9.3 Exact revision identities
 
@@ -736,8 +744,10 @@ The same record is published as a machine-readable evidence file:
 | --- | --- |
 | `a7d9a6495ebe67df115a9fe5aa99ba0cebfcca55` | The R4 implementation and evidence: the ED-06 register row, the forked R4 harness with its scoped-approval enforcement and seven new self-tests, the 97-case corpus, the five C-23 managed-control cases, the 28 in-tree C-23 regression controls, and the R4 evidence record and evidence files. Tree `4020e3bfaed4f9da6d5b4df660cb7e29d6d217c4`. |
 | `5502a776e29314f7dd922a6f0ea049fb1b5b2803` | The evidence manifest and its verification procedure. Tree `cd28b7c65c94169f440abe82918904b8436d2cbb`. |
-| `bb9e1c990935724a3a1e8498bd19bb12d5dd3479` | The verifier-documentation correction. Tree `0bd5acd2cbfa8f7de353e5489689d0e36cabf298` — the revision the hosted CI run above verifies. |
-| *(this commit)* | The hosted CI record, the published `evidence/r4-hosted-ci-run.log`, the final evidence manifest, and the §5.1/§5.5/§7.2/§8.2 wording corrections. |
+| `bb9e1c990935724a3a1e8498bd19bb12d5dd3479` | The verifier-documentation correction. Tree `0bd5acd2cbfa8f7de353e5489689d0e36cabf298` — the revision the hosted CI run in §10.1 verifies. |
+| `c666e4be5dc6237051e9118017a313d108d85f62` | The hosted CI record, the published `evidence/r4-hosted-ci-run.log`, and the §5.1/§5.5/§7.2/§8.2 wording corrections. Tree `fae9e7d6bbc9996a1f3c1e05c0dbd0135e058579`. |
+| `c115707601bfe4b00f0419c8b5ce4e45b3d1baa4` | The manifest refresh that covers the hosted CI log. Tree `9472e905b009d9d8208991ae45838d0771047c36` — the revision the hosted CI run in §10.7 verifies. |
+| *(this commit)* | The final hosted CI record for §10.7–§10.8, including the first attempt's infrastructure failure and its re-run, and the refreshed evidence manifest. |
 
 ### 10.3 R3 baseline revision
 
@@ -769,9 +779,10 @@ reported as recorded nowhere. It is unchanged by R4.
 A committed CI record can only ever bind a run to a *prior* revision, because
 the commit that carries the record is pushed after the run it describes. This
 record therefore binds each run to the revision whose content it verifies — run
-45467056283 to the R4 evidence revision `bb9e1c9`, run 45357936457 to the R3
-baseline `898c991`, and run 45127492373 to the frozen Q1 subject `ee870e9`. The
-run triggered by the final evidence-recording commit that carries this section is
+45467056283 to the R4 evidence revision `bb9e1c9`, run 45472926028 to the R4
+evidence-record revision `c115707`, run 45357936457 to the R3 baseline
+`898c991`, and run 45127492373 to the frozen Q1 subject `ee870e9`. The run
+triggered by the final evidence-recording commit that carries this section is
 observed by the producer and reported to the owner; it is an evidence-only
 commit, so it changes no implementation and no published evidence file except
 this record, the hosted CI log, and the manifest entry for the latter.
@@ -785,6 +796,89 @@ itself and the verification script are excluded, as in R3):
 manifest verified against the committed blobs: 11 files
 ```
 
+### 10.7 Final evidence-record revision
+
+| Item | Value |
+| --- | --- |
+| Workflow | `DogwoodSharp producer verification` (`.github/workflows/ci.yml`) |
+| Event | `push` to `main` |
+| Run | **45472926028** — <https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45472926028> |
+| Revision | `c115707601bfe4b00f0419c8b5ce4e45b3d1baa4` (tree `9472e905b009d9d8208991ae45838d0771047c36`) — the commit that carries §10.1–§10.6 and `evidence/r4-hosted-ci-run.log` |
+| Started / finished | 2026-11-24T19:41:47Z / 2026-11-24T20:32:54Z |
+| Result | **success** (12/12 jobs) on attempt 2; attempt 1 failed for an infrastructure reason only (§10.8) |
+
+| Job | Attempt 2 job ID | Result |
+| --- | --- | --- |
+| Verify linux-x64 / net8.0 and net10.0 | 138753360105 | success |
+| Verify osx-arm64 / net8.0 and net10.0 | 138753279928 | success |
+| Verify win-x64 / net8.0 and net10.0 | 138753280875 | success |
+| Pack D3 package candidates | 138753281911 | success |
+| Verify D3 package candidates | 138753281487 | success |
+| Package consumer / osx-arm64 / net8.0 | 138753280497 | success |
+| Package consumer / osx-arm64 / net10.0 | 138753280571 | success |
+| Package consumer / win-x64 / net8.0 | 138753282210 | success |
+| Package consumer / win-x64 / net10.0 | 138753284164 | success |
+| Package consumer / linux-x64 / net8.0 | 138753284349 | success |
+| Package consumer / linux-x64 / net10.0 | 138753284129 | success |
+| D3 package consumer summary | 138756910993 | success |
+
+The R4 revision under verification is the evidence-recording revision
+`c115707`: the implementation and evidence commit `a7d9a64`, the
+evidence-manifest commit `5502a77`, the verifier-documentation commit
+`bb9e1c9`, the hosted-CI-record commit `c666e4b`, and the manifest refresh
+`c115707`. The upstream differential corpus is not part of the hosted matrix —
+it is producer evidence executed by `run.ps1` on win-x64 (§9.1). The
+package-only consumer matrix passed all six cells
+(`D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6`).
+
+### 10.8 The first attempt of run 45472926028, and why it does not qualify the content
+
+The first attempt of run `45472926028` is recorded here in full, because it
+failed and the record must not present only the successful attempt.
+
+| Job | Attempt 1 job ID | Result |
+| --- | --- | --- |
+| Verify linux-x64 / net8.0 and net10.0 | 138725421342 | success |
+| Verify osx-arm64 / net8.0 and net10.0 | 138725420780 | success |
+| Verify win-x64 / net8.0 and net10.0 | 138725421477 | success |
+| Pack D3 package candidates | 138739899920 | success |
+| Verify D3 package candidates | 138740626168 | success |
+| Package consumer / win-x64 / net8.0 | 138741079627 | success |
+| Package consumer / win-x64 / net10.0 | 138741079517 | success |
+| Package consumer / linux-x64 / net8.0 | 138741079622 | success |
+| Package consumer / linux-x64 / net10.0 | 138741079747 | success |
+| Package consumer / osx-arm64 / net8.0 | 138741079507 | **cancelled — no runner acquired** |
+| Package consumer / osx-arm64 / net10.0 | 138741079459 | **cancelled — no runner acquired** |
+| D3 package consumer summary | 138750519801 | failure (the matrix result was not `success`) |
+
+**Root cause: hosted runner capacity, not the change.** GitHub's own job
+annotation on both cancelled jobs reads *"The job was not acquired by Runner of
+type hosted even after multiple attempts"*, next to *"Due to capacity
+constraints, jobs targeting macOS arm64 runners may experience longer queue
+times."* Both cancelled jobs ran **zero steps** and carry an empty `runner_id`,
+so no build, test, pack or consumer code ever executed in them. The summary
+job then failed because it requires exactly six successful consumer cells and
+two cells had been cancelled.
+
+**Why this does not qualify the R4 content.**
+
+1. **No executed job failed.** Every job that ran in attempt 1 succeeded. The
+   only non-success outcomes were two jobs that never started and the summary
+   job that depends on them.
+2. **The same content was already verified green.** Run 45467056283 at
+   `bb9e1c9` ran all 12 jobs successfully, including both osx-arm64
+   package-consumer cells. `c115707` differs from `bb9e1c9` only in README
+   text, the hosted-CI-log evidence file, and the manifest — no production
+   code, no test code, no build input, and no packaging input.
+3. **The failed jobs were re-run and passed.** Attempt 2 of the same run
+   executed the two osx-arm64 consumer cells and the summary job, and all
+   twelve jobs are green.
+
+The producer records this as an infrastructure failure and does **not** claim
+it as a conformance result. The package-only consumer gate is green for the R4
+content by two independent runs: `45467056283` (all six cells in attempt 1)
+and `45472926028` attempt 2 (all six cells).
+
 ---
 
 ## 11. Exclusions and limits
@@ -792,8 +886,8 @@ manifest verified against the committed blobs: 11 files
 1. **Independent requalification is not performed here.** This record is producer
    evidence only; an independent reviewer must re-execute the corpus. The
    producer declares the implementation complete and **ready for independent Q2
-   requalification**; that readiness is conditional on every mandatory gate in
-   §9 and §10 having passed.
+   requalification**; that readiness rests on every mandatory gate in §9 and §10
+   having passed, which the recorded runs confirm.
 2. **No owner acceptance is granted or implied.**
 3. **No publication, package push, tag, or release is authorized.** The R4
    changes do not alter the shipped package surface.
@@ -807,3 +901,8 @@ manifest verified against the committed blobs: 11 files
    case in the corpus agrees.
 6. **No production code was changed**, and no production defect was discovered
    during this commission.
+7. **One hosted CI attempt failed for infrastructure reasons.** The first
+   attempt of run `45472926028` never acquired macOS arm64 runners for two
+   package-consumer jobs (§10.8). No code ran in those jobs, every job that did
+   run passed, the same content had already passed all 12 jobs in run
+   `45467056283`, and the failed jobs passed when re-run.
