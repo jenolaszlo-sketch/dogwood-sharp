@@ -73,11 +73,12 @@ entry** and re-verifies everything:
    errors, no fixture removed or weakened, ED-01…ED-05 unchanged, ED-06 confined
    to its two authorized cases.
 4. **Every mandatory gate passes**, locally and on hosted CI (see §9 and §10).
-   The only red result anywhere in the R4 record is the first attempt of the
-   second hosted CI run, which failed because two macOS arm64 jobs never
-   acquired a hosted runner; it is recorded in full in §10.8 and is not a
-   conformance result. The hosted CI chain itself is green in all three runs
-   (§10.9).
+   Two hosted CI attempts in the R4 record did not succeed, and neither is a
+   conformance result: the first attempt of `45472926028` failed because two
+   macOS arm64 jobs never acquired a hosted runner (§10.8), and run
+   `45487554638` was cancelled by the producer's own superseding push (§10.10).
+   Both are recorded in full. The hosted CI chain itself is green in four
+   complete runs, each 12/12 (§10.10).
 
 **No production code was modified.** The only change to the shipped package
 surface is additive test coverage; `src/` is byte-for-byte unchanged from the R3
@@ -652,8 +653,9 @@ adds the gates that cannot be executed on a single local host: the `linux-x64`
 and `osx-arm64` verification legs, the package candidate pack and inspection,
 and the **six-cell package-only consumer matrix** (3 RIDs × 2 TFMs, JIT and
 NativeAOT against the packed candidate packages only). The package-only consumer
-matrix is green in three independent runs — `45467056283` (§10.1),
-`45472926028` attempt 2 (§10.7) and `45483027001` (§10.9).
+matrix is green in four independent runs — `45467056283` (§10.1),
+`45472926028` attempt 2 (§10.7), `45483027001` (§10.9) and `45490253791`
+(§10.10).
 
 ### 9.3 Exact revision identities
 
@@ -755,7 +757,10 @@ The same record is published as a machine-readable evidence file:
 | `c115707601bfe4b00f0419c8b5ce4e45b3d1baa4` | The manifest refresh that covers the hosted CI log. Tree `9472e905b009d9d8208991ae45838d0771047c36` — the revision the hosted CI run in §10.7 verifies. |
 | `536e1ae6c8ddf4ae9af5733c3997b88821545e55` | The final hosted CI record for §10.7–§10.8, including the first attempt's infrastructure failure and its re-run, and the refreshed hosted CI log. Tree `7b8a4e02dd9ecc0f48bfa64c34a10284d598e92c`. |
 | `103081f9a86b98f03409cd5610b4c3eccae165fc` | The evidence manifest refresh that covers the §10.7–§10.8 hosted CI log. Tree `445ad5e034f0b7e9e73f64f513187e71a046a84a` — the revision the hosted CI run in §10.9 verifies. |
-| *(this commit)* | The terminal record commit: the §10.9 hosted CI observation for the final evidence revision, the §10.2 commit-table correction, and the cross-reference corrections in §2, §9.2, §9.4, §10.3, §10.4 and §10.5. It changes no implementation, no test, no harness input and no published evidence file except this record, the hosted CI log, and the manifest entry for the latter. |
+| `d55c9d18912cd0a01686afc930cf3bfb816c7461` | The §10.9 hosted-CI record for the final-evidence revision, plus the §2, §9.4, §10.3, §10.4 and §10.5 cross-reference corrections. Tree `19a8bef50b0438ab4dbd7ca39f28fed828a8c8f7`. |
+| `554edc1103192e68933ca71d1e03f2af72cb0920` | The evidence manifest refresh for it. Tree `1aa73fd2a08e527b5d04c8a5fba487e22160e906` — the revision the hosted CI run in §10.10 records. |
+| `a244d65e3c1e803626e796bdee3af08a9ca5e89a` | The documentation-only correction that followed it: the §8.1 file-table description, the §8.3 manifest-order correction, and the §10.9 terminal-commit wording. Tree `90e4262b0fb4d9169b94ae6eae11980f54a964d4` — the revision the hosted CI run in §10.10 verifies green. |
+| *(this commit)* | The terminal record commit: the §10.10 hosted-CI chain record (both the cancelled run and its green successor), the §10.2 commit-table completion, the §10.5 binding-rule update, and the refreshed hosted CI log and evidence manifest. It changes no implementation, no test, no harness input and no published evidence file except this record, the hosted CI log, and the manifest entry for the latter. Its own hosted CI run is observed by the producer and reported to the owner per §10.5. |
 
 ### 10.3 R3 baseline revision
 
@@ -792,12 +797,15 @@ the commit that carries the record is pushed after the run it describes. This
 record therefore binds each run to the revision whose content it verifies — run
 45467056283 to the R4 evidence revision `bb9e1c9`, run 45472926028 to the R4
 evidence-record revision `c115707`, run 45483027001 to the R4 final-evidence
-revision `103081f`, run 45357936457 to the R3 baseline `898c991`, and run
-45127492373 to the frozen Q1 subject `ee870e9`. The run triggered by the final
-evidence-recording commit that carries this section is observed by the producer
-and reported to the owner; it is an evidence-only commit, so it changes no
-implementation and no published evidence file except this record, the hosted CI
-log, and the manifest entry for the latter.
+revision `103081f`, run 45490253791 to the R4 terminal-evidence revision
+`a244d65`, run 45357936457 to the R3 baseline `898c991`, and run 45127492373 to
+the frozen Q1 subject `ee870e9`. Run 45487554638 at `554edc1` was cancelled by
+the producer's own superseding push and is recorded in §10.10 rather than
+bound. The run triggered by the final evidence-recording commit that carries
+this section is observed by the producer and reported to the owner; it is an
+evidence-only commit, so it changes no implementation and no published
+evidence file except this record, the hosted CI log, and the manifest entry for
+the latter.
 
 ### 10.6 Evidence manifest coverage
 
@@ -929,12 +937,90 @@ passed all six cells (`D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6`).
 | `45467056283` | `bb9e1c9` | success, 12/12, first attempt |
 | `45472926028` | `c115707` | success, 12/12, attempt 2 (attempt 1: two macOS arm64 jobs never acquired a runner — §10.8) |
 | `45483027001` | `103081f` | success, 12/12, first attempt |
+| `45487554638` | `554edc1` | cancelled by the producer's own next push (§10.10) |
+| `45490253791` | `a244d65` | success, 12/12, first attempt (§10.10) |
 
 The terminal commit of this record changes no implementation, no test, no
 harness input and no published evidence file except this record, the hosted CI
 log, and the manifest entry for the latter, so its own hosted CI run is
 observed by the producer and reported to the owner rather than committed here —
 the same termination rule the R3 record used (§10.5).
+
+### 10.10 The terminal chain: a cancelled run and its successor
+
+Two further hosted runs exist between the ones recorded above and the terminal
+commit. Both are recorded here in full, because one of them did not succeed and
+the record must not present only the successful ones.
+
+#### Run 45487554638 — cancelled by the producer's own next push
+
+| Item | Value |
+| --- | --- |
+| Run | **45487554638** — <https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45487554638> |
+| Revision | `554edc1103192e68933ca71d1e03f2af72cb0920` (tree `1aa73fd2a08e527b5d04c8a5fba487e22160e906`) |
+| Started / finished | 2026-11-24T21:05:45Z / 2026-11-24T21:21:48Z |
+| Result | **cancelled** |
+
+| Job | Job ID | Result |
+| --- | --- | --- |
+| Verify linux-x64 / net8.0 and net10.0 | 138776858293 | cancelled |
+| Verify osx-arm64 / net8.0 and net10.0 | 138776858964 | **success** |
+| Verify win-x64 / net8.0 and net10.0 | 138776858972 | cancelled |
+| Pack D3 package candidates | 138786516957 | cancelled |
+| Verify D3 package candidates | 138786518597 | cancelled |
+| Package consumer / `${{ matrix.rid }}` / `${{ matrix.framework }}` | 138786518496 | cancelled — the matrix was never expanded (no runner, zero steps) |
+| D3 package consumer summary | 138786516748 | failure (the matrix result was not `success`) |
+
+**Root cause: the producer's own superseding push.** The workflow declares
+`concurrency: { group: d1-${{ github.ref }}, cancel-in-progress: true }`, so a
+new push to `main` cancels the run in flight for the previous revision. At
+2026-11-24T21:21:08Z the producer pushed the record commit `a244d65` while
+this run was still executing; the cancellation annotation on the affected jobs
+reads *"Canceling since a higher priority waiting request for
+d1-refs/heads/main exists"*. This is a producer action, not an infrastructure
+fault and not a content failure. The run instantiated only seven of the twelve
+jobs: the package-consumer matrix was never expanded (its one surviving job
+still carries the raw `${{ matrix.rid }}` / `${{ matrix.framework }}` name,
+acquired no runner and ran zero steps), and the osx-arm64 verification job had
+already completed successfully before the cancellation arrived.
+
+**Why this does not qualify the R4 content.** The revision `554edc1` differs
+from `a244d65` only in README text — `a244d65` is the same tree plus a
+documentation-only correction, and the README is not a build, test, harness or
+packaging input. The content that `554edc1` would have verified was verified by
+the successor run, and the same content had already been verified twice before
+(`45467056283`, `45483027001`).
+#### Run 45490253791 — the successor, green
+
+| Item | Value |
+| --- | --- |
+| Run | **45490253791** — <https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45490253791> |
+| Revision | `a244d65e3c1e803626e796bdee3af08a9ca5e89a` (tree `90e4262b0fb4d9169b94ae6eae11980f54a964d4`) |
+| Started / finished | 2026-11-24T21:21:22Z / 2026-11-24T21:58:51Z |
+| Result | **success** (12/12 jobs), first attempt, no re-run needed |
+
+| Job | Job ID | Result |
+| --- | --- | --- |
+| Verify linux-x64 / net8.0 and net10.0 | 138786586372 | success |
+| Verify osx-arm64 / net8.0 and net10.0 | 138786585601 | success |
+| Verify win-x64 / net8.0 and net10.0 | 138786586168 | success |
+| Pack D3 package candidates | 138800681856 | success |
+| Verify D3 package candidates | 138801407161 | success |
+| Package consumer / osx-arm64 / net8.0 | 138801909648 | success |
+| Package consumer / osx-arm64 / net10.0 | 138801909611 | success |
+| Package consumer / win-x64 / net8.0 | 138801909781 | success |
+| Package consumer / win-x64 / net10.0 | 138801909642 | success |
+| Package consumer / linux-x64 / net8.0 | 138801909646 | success |
+| Package consumer / linux-x64 / net10.0 | 138801909618 | success |
+| D3 package consumer summary | 138807972934 | success |
+
+The package-only consumer matrix passed all six cells
+(`D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6`).
+
+**The hosted CI chain for R4 is therefore green in four complete runs** —
+`45467056283`, `45472926028` (attempt 2), `45483027001` and `45490253791` —
+each 12/12, with one additional run (`45487554638`) cancelled by the producer's
+own superseding push and recorded above for completeness.
 
 ---
 
@@ -958,10 +1044,14 @@ the same termination rule the R3 record used (§10.5).
    case in the corpus agrees.
 6. **No production code was changed**, and no production defect was discovered
    during this commission.
-7. **One hosted CI attempt failed for infrastructure reasons.** The first
-   attempt of run `45472926028` never acquired macOS arm64 runners for two
-   package-consumer jobs (§10.8). No code ran in those jobs, every job that did
-   run passed, the same content had already passed all 12 jobs in run
-   `45467056283`, and the failed jobs passed when re-run.
-8. **The hosted CI chain is green in three independent runs** — `45467056283`,
-   `45472926028` (attempt 2) and `45483027001`, each 12/12 (§10.9).
+7. **Two hosted CI attempts did not succeed, for two different non-content
+   reasons.** The first attempt of run `45472926028` never acquired macOS arm64
+   runners for two package-consumer jobs (§10.8); no code ran in those jobs,
+   every job that did run passed, the same content had already passed all 12
+   jobs in run `45467056283`, and the failed jobs passed when re-run. Run
+   `45487554638` was cancelled by the workflow's `cancel-in-progress` setting
+   when the producer pushed the next record commit (§10.10); its successor run
+   `45490253791` passed all 12 jobs.
+8. **The hosted CI chain is green in four independent runs** — `45467056283`,
+   `45472926028` (attempt 2), `45483027001` and `45490253791`, each 12/12
+   (§10.10).

@@ -117,6 +117,74 @@ implementation, test, harness or packaging change: the only difference from
 bb9e1c9 and c115707 is README text, the hosted-CI-log evidence file and the
 evidence manifest.
 
+R4 evidence-manifest revision (cancelled by a superseding push) :
+  Run ID: 45487554638
+  Head SHA: 554edc1103192e68933ca71d1e03f2af72cb0920
+  Tree SHA: 1aa73fd2a08e527b5d04c8a5fba487e22160e906
+  URL: https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45487554638
+  Conclusion: cancelled
+  Started: 2026-11-24T21:05:45Z
+  Finished: 2026-11-24T21:21:48Z
+  Jobs: 7/7 cancelled
+
+Implementation matrix (3 RIDs x 2 TFMs):
+  Verify linux-x64 / net8.0 and net10.0          (job 138776858293) cancelled
+  Verify osx-arm64 / net8.0 and net10.0          (job 138776858964) success
+  Verify win-x64 / net8.0 and net10.0            (job 138776858972) cancelled
+
+Package pipeline:
+  Pack D3 package candidates                     (job 138786516957) cancelled
+  Verify D3 package candidates                   (job 138786518597) cancelled
+
+Package-only consumer matrix (3 RIDs x 2 TFMs):
+  Package consumer / ${{ matrix.rid }} / ${{ matrix.framework }} (job 138786518496) cancelled
+  D3 package consumer summary                    (job 138786516748) failure
+
+Package consumer summary: 0 of 1 cells succeeded (D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=0).
+
+This run verifies the R4 evidence-manifest revision 554edc1. It was cancelled
+by the workflow's own concurrency setting (cancel-in-progress: true) when the
+producer pushed the next record commit a244d65 at 2026-11-24T21:21:08Z, while
+the two osx-arm64 package-consumer jobs were still queued for runners; the
+cancellation annotation reads "Canceling since a higher priority waiting
+request for d1-refs/heads/main exists". The osx-arm64 verification job had
+already completed successfully. No job that ran failed. This is a producer
+action, not an infrastructure fault and not a content failure.
+
+R4 terminal-evidence revision :
+  Run ID: 45490253791
+  Head SHA: a244d65e3c1e803626e796bdee3af08a9ca5e89a
+  Tree SHA: 90e4262b0fb4d9169b94ae6eae11980f54a964d4
+  URL: https://github.com/jenolaszlo-sketch/dogwood-sharp/actions/runs/45490253791
+  Conclusion: success
+  Started: 2026-11-24T21:21:22Z
+  Finished: 2026-11-24T21:58:51Z
+  Jobs: 12/12 success
+
+Implementation matrix (3 RIDs x 2 TFMs):
+  Verify linux-x64 / net8.0 and net10.0          (job 138786586372) success
+  Verify osx-arm64 / net8.0 and net10.0          (job 138786585601) success
+  Verify win-x64 / net8.0 and net10.0            (job 138786586168) success
+
+Package pipeline:
+  Pack D3 package candidates                     (job 138800681856) success
+  Verify D3 package candidates                   (job 138801407161) success
+
+Package-only consumer matrix (3 RIDs x 2 TFMs):
+  Package consumer / osx-arm64 / net10.0         (job 138801909611) success
+  Package consumer / linux-x64 / net10.0         (job 138801909618) success
+  Package consumer / win-x64 / net10.0           (job 138801909642) success
+  Package consumer / linux-x64 / net8.0          (job 138801909646) success
+  Package consumer / osx-arm64 / net8.0          (job 138801909648) success
+  Package consumer / win-x64 / net8.0            (job 138801909781) success
+  D3 package consumer summary                    (job 138807972934) success
+
+Package consumer summary: 6 of 6 cells succeeded (D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6).
+
+This run verifies the R4 terminal-evidence revision a244d65 and is the
+successor of the cancelled run above. It is the final complete green run of
+the R4 hosted CI chain.
+
 R3 baseline revision :
   Run ID: 45357936457
   Head SHA: 898c9916f4038b4f751f38995e114d2a76ab03e1
