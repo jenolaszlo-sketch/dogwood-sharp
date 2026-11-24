@@ -18,6 +18,7 @@ publication, tag, or release authorization.
 | Pinned upstream | Dogwood 1.1.2 at `929f49e7305534ac61ef06cf8e47269c596dc851`; Cedar 4.11.0 |
 | R3 harness | `docs/reviews/d3-impl-01/evidence/differential/r3/` (evidence tooling only; never a production execution path) |
 | R3 evidence | `docs/reviews/d3-impl-01-r3/evidence/` |
+| R3 implementation commit | `4c4dcc92c91068f8c754884f1d28312b988b92c8`, tree `e329fabcf112de86ea9d0db2156e36a8eb2da98f` |
 
 ---
 
@@ -307,7 +308,20 @@ Get-Content evidence/manifest.sha256 | ForEach-Object {
 }
 ```
 
-The manifest covers every published evidence file except itself.
+The manifest covers every published evidence file except itself and the
+verification script that produces it.
+
+### 7.3 Verification
+
+`docs/reviews/d3-impl-01-r3/evidence/verify-manifest.ps1` recomputes every hash
+from the committed blob and compares it with the manifest:
+
+```powershell
+pwsh -File docs/reviews/d3-impl-01-r3/evidence/verify-manifest.ps1
+# manifest verified against the committed blobs: 10 files
+```
+
+`-Write` regenerates the manifest from `HEAD` after the evidence commit.
 
 ---
 
