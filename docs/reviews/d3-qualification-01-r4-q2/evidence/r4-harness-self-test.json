@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "3",
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R4",
+  "generatedAtUtc": "2026-11-24T22:44:37.0594735Z",
+  "summary": {
+    "total": 16,
+    "passed": 16,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "name": "malformed-shared-input-cannot-pass",
+      "passed": true,
+      "detail": "an upstream envelope fault is a harness defect, never an agreement",
+      "error": null
+    },
+    {
+      "name": "unregistered-difference-fails",
+      "passed": true,
+      "detail": "an Allow-versus-Deny divergence with no register row fails",
+      "error": null
+    },
+    {
+      "name": "registered-difference-with-wrong-observation-fails",
+      "passed": true,
+      "detail": "a register row that does not match the observed sides fails",
+      "error": null
+    },
+    {
+      "name": "authorized-difference-scope-accepted",
+      "passed": true,
+      "detail": "an approved difference whose observed fields are exactly its authorized scope passes",
+      "error": null
+    },
+    {
+      "name": "authorized-difference-scope-rejects-an-out-of-scope-field",
+      "passed": true,
+      "detail": "a difference outside the authorized scope is never absorbed by a register row",
+      "error": null
+    },
+    {
+      "name": "authorized-difference-scope-requires-the-authorized-field-to-differ",
+      "passed": true,
+      "detail": "an authorized scope field that does not actually differ fails the case",
+      "error": null
+    },
+    {
+      "name": "authorized-difference-scope-rejects-a-difference-that-vanished",
+      "passed": true,
+      "detail": "a case that stopped differing is no longer an approved difference",
+      "error": null
+    },
+    {
+      "name": "approved-difference-cannot-mask-an-intended-stage-mismatch",
+      "passed": true,
+      "detail": "an approved difference never converts a stage fault into a passing case",
+      "error": null
+    },
+    {
+      "name": "scoped-difference-row-must-stand-alone",
+      "passed": true,
+      "detail": "one owner-approved ceiling may not absorb an unrelated divergence",
+      "error": null
+    },
+    {
+      "name": "authorized-difference-scope-rejects-an-unknown-field",
+      "passed": true,
+      "detail": "an authorized scope may only name real comparison fields",
+      "error": null
+    },
+    {
+      "name": "intended-stage-mismatch-fails",
+      "passed": true,
+      "detail": "a case that never reaches its declared stage fails",
+      "error": null
+    },
+    {
+      "name": "dual-failure-stage-difference-detected",
+      "passed": true,
+      "detail": "a stage difference on dual failure is not normalized away",
+      "error": null
+    },
+    {
+      "name": "dual-failure-category-difference-detected",
+      "passed": true,
+      "detail": "an error-category difference on dual failure is not normalized away",
+      "error": null
+    },
+    {
+      "name": "vacuous-agreement-rejected",
+      "passed": true,
+      "detail": "two null decisions with no failure are not an agreement",
+      "error": null
+    },
+    {
+      "name": "operation-failure-only-family-coverage-rejected",
+      "passed": true,
+      "detail": "an operation-failure case cannot satisfy a decision-bearing family",
+      "error": null
+    },
+    {
+      "name": "decision-bearing-family-coverage-accepted",
+      "passed": true,
+      "detail": "a decision-bearing agreement satisfies decision coverage",
+      "error": null
+    }
+  ]
+}

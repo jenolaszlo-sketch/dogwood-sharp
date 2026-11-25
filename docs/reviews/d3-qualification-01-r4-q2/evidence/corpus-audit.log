@@ -1,0 +1,33 @@
+R3 -> R4: 92 97 added ['R4-C23-01-typed-ipaddr-authorization', 'R4-C23-02-typed-datetime-authorization', 'R4-C23-03-typed-context-boundaries', 'R4-C23-04-typed-context-invalid-values', 'R4-C23-05-typed-context-binding-integrity'] removed []
+existing case diff R3-C23-08-ipaddr-typed-context ['approvedDifferenceId', 'approvedDifferenceReason', 'blockingFinding', 'blockingReason', 'expectedClassification', 'expectedDifferenceIds']
+existing case diff R3-C23-09-datetime-typed-context ['approvedDifferenceId', 'approvedDifferenceReason', 'blockingFinding', 'blockingReason', 'expectedClassification', 'expectedDifferenceIds']
+catalog sections unchanged [('schemas', True), ('providerDeclarations', True), ('familyRequirements', True)]
+ED-01..05 raw row equality [True, True, True, True, True]
+FCN unchanged True
+probe lock identical True
+published input byte match fixtures True
+published input byte match differences True
+net8.0 {'total': 97, 'passed': 97, 'failed': 0, 'pending': 0, 'familyCount': 26, 'classifications': {'agreement': 62, 'approved-difference': 24, 'fail-closed-equivalence': 2, 'operation-failure': 9}} no coverage errors True published and executed cases classifications equal True
+  R3-C12-02-window-boundary-in agreement evaluation allow evaluation allow [] []
+  R3-C13-02-window-boundary-out agreement evaluation deny evaluation deny [] []
+  R3-C16-01-provider-value agreement evaluation allow evaluation allow [] []
+  R3-C16-02-provider-value-variant agreement evaluation deny evaluation deny [] []
+  R3-C16-03-provider-field-ownership agreement None None None None None None
+  R3-C17-01-provider-omission fail-closed-equivalence evaluation deny trusted-binding None [] []
+  R3-C17-02-provider-failure fail-closed-equivalence evaluation deny trusted-binding None [] []
+  R3-C17-03-missing-provider operation-failure trusted-binding None trusted-binding None [] []
+  R3-C19-01-errored-forbid approved-difference evaluation allow evaluation allow ['r3c19_0'] ['r3c19_0']
+  R3-C24-04-bounded-payload agreement evaluation allow evaluation allow [] []
+  lifecycle [('mismatched-asset', True, 'native-load-or-identity', 'LoadOrIdentity', 'DogwoodBridgeException: Native asset SHA-256 differs from the manifest.'), ('missing-asset', True, 'native-load-or-identity', 'LoadOrIdentity', 'DogwoodBridgeException: Could not load the verified DogwoodSharp asset for win-x64.'), ('mismatched-asset', True, 'native-load-or-identity', 'LoadOrIdentity', 'DogwoodBridgeException: Native asset SHA-256 differs from the manifest.'), ('wrong-rid', True, 'native-load-or-identity', 'LoadOrIdentity', 'DogwoodBridgeException: Could not load the verified DogwoodSharp asset for win-x64.'), ('incompatible-abi', True, 'native-load-or-identity', 'LoadOrIdentity', 'DogwoodBridgeException: Incompatible native bridge identity or feature set.'), ('resident', True, None, None, None)]
+net10.0 {'total': 97, 'passed': 97, 'failed': 0, 'pending': 0, 'familyCount': 26, 'classifications': {'agreement': 62, 'approved-difference': 24, 'fail-closed-equivalence': 2, 'operation-failure': 9}} no coverage errors True published and executed cases classifications equal True
+  R3-C12-02-window-boundary-in agreement evaluation allow evaluation allow [] []
+  R3-C13-02-window-boundary-out agreement evaluation deny evaluation deny [] []
+  R3-C16-01-provider-value agreement evaluation allow evaluation allow [] []
+  R3-C16-02-provider-value-variant agreement evaluation deny evaluation deny [] []
+  R3-C16-03-provider-field-ownership agreement None None None None None None
+  R3-C17-01-provider-omission fail-closed-equivalence evaluation deny trusted-binding None [] []
+  R3-C17-02-provider-failure fail-closed-equivalence evaluation deny trusted-binding None [] []
+  R3-C17-03-missing-provider operation-failure trusted-binding None trusted-binding None [] []
+  R3-C19-01-errored-forbid approved-difference evaluation allow evaluation allow ['r3c19_0'] ['r3c19_0']
+  R3-C24-04-bounded-payload agreement evaluation allow evaluation allow [] []
+  lifecycle [('mismatched-asset', True, 'native-load-or-identity', 'LoadOrIdentity', 'DogwoodBridgeException: Native asset SHA-256 differs from the manifest.'), ('missing-asset', True, 'native-load-or-identity', 'LoadOrIdentity', 'DogwoodBridgeException: Could not load the verified DogwoodSharp asset for win-x64.'), ('mismatched-asset', True, 'native-load-or-identity', 'LoadOrIdentity', 'DogwoodBridgeException: Native asset SHA-256 differs from the manifest.'), ('wrong-rid', True, 'native-load-or-identity', 'LoadOrIdentity', 'DogwoodBridgeException: Could not load the verified DogwoodSharp asset for win-x64.'), ('incompatible-abi', True, 'native-load-or-identity', 'LoadOrIdentity', 'DogwoodBridgeException: Incompatible native bridge identity or feature set.'), ('resident', True, None, None, None)]

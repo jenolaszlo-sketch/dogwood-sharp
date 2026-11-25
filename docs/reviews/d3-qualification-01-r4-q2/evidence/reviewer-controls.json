@@ -1,0 +1,812 @@
+[
+  {
+    "name": "alternate-encodings",
+    "tfm": "net8.0",
+    "exit": 1,
+    "coverageErrors": [
+      "family C-23 control `ipaddr-typed-context` is unexpected-difference",
+      "family C-23 control `datetime-typed-context` is unexpected-difference",
+      "family C-23 requires decision coverage but has no agreement or approved-difference case"
+    ],
+    "cases": [
+      {
+        "id": "R3-C23-08-ipaddr-typed-context-short-string",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation"
+        }
+      },
+      {
+        "id": "R3-C23-08-ipaddr-typed-context-implicit-escape",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation"
+        }
+      },
+      {
+        "id": "R3-C23-09-datetime-typed-context-short-string",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation"
+        }
+      },
+      {
+        "id": "R3-C23-09-datetime-typed-context-implicit-escape",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation"
+        }
+      }
+    ]
+  },
+  {
+    "name": "alternate-encodings",
+    "tfm": "net10.0",
+    "exit": 1,
+    "coverageErrors": [
+      "family C-23 control `ipaddr-typed-context` is unexpected-difference",
+      "family C-23 control `datetime-typed-context` is unexpected-difference",
+      "family C-23 requires decision coverage but has no agreement or approved-difference case"
+    ],
+    "cases": [
+      {
+        "id": "R3-C23-08-ipaddr-typed-context-short-string",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation"
+        }
+      },
+      {
+        "id": "R3-C23-08-ipaddr-typed-context-implicit-escape",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation"
+        }
+      },
+      {
+        "id": "R3-C23-09-datetime-typed-context-short-string",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation"
+        }
+      },
+      {
+        "id": "R3-C23-09-datetime-typed-context-implicit-escape",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation"
+        }
+      }
+    ]
+  },
+  {
+    "name": "approved-pair",
+    "tfm": "net10.0",
+    "exit": 0,
+    "coverageErrors": [],
+    "cases": [
+      {
+        "id": "R3-C23-08-ipaddr-typed-context",
+        "verdict": "pass",
+        "classification": "approved-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation",
+          "errors": []
+        }
+      },
+      {
+        "id": "R3-C23-09-datetime-typed-context",
+        "verdict": "pass",
+        "classification": "approved-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation",
+          "errors": []
+        }
+      }
+    ]
+  },
+  {
+    "name": "wrong-stage",
+    "tfm": "net10.0",
+    "exit": 1,
+    "coverageErrors": [
+      "family C-23 control `ipaddr-typed-context` is unexpected-difference"
+    ],
+    "cases": [
+      {
+        "id": "R3-C23-08-ipaddr-typed-context",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow",
+          "intendedStage"
+        ],
+        "differenceValidation": {
+          "intendedStage": "lowering",
+          "intendedStageObserved": "evaluation",
+          "errors": [],
+          "intendedStageMismatch": true
+        }
+      },
+      {
+        "id": "R3-C23-09-datetime-typed-context",
+        "verdict": "pass",
+        "classification": "approved-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation",
+          "errors": []
+        }
+      }
+    ]
+  },
+  {
+    "name": "vanished-difference",
+    "tfm": "net10.0",
+    "exit": 1,
+    "coverageErrors": [
+      "family C-23 control `ipaddr-typed-context` is unexpected-difference"
+    ],
+    "cases": [
+      {
+        "id": "R3-C23-08-ipaddr-typed-context",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation",
+          "errors": [
+            "ED-06 managed observation differs for `R3-C23-08-ipaddr-typed-context`",
+            "ED-06 does not observe its authorized difference fields for `R3-C23-08-ipaddr-typed-context`: cleanAllow, decision, determining"
+          ]
+        }
+      },
+      {
+        "id": "R3-C23-09-datetime-typed-context",
+        "verdict": "pass",
+        "classification": "approved-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation",
+          "errors": []
+        }
+      }
+    ]
+  },
+  {
+    "name": "unlisted-ed06-case",
+    "tfm": "net10.0",
+    "exit": 1,
+    "coverageErrors": [
+      "family C-23 control `ipaddr-typed-context` is unexpected-difference"
+    ],
+    "cases": [
+      {
+        "id": "R3-C23-08-ipaddr-typed-context",
+        "verdict": "pass",
+        "classification": "approved-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation",
+          "errors": []
+        }
+      },
+      {
+        "id": "R3-C23-09-datetime-typed-context",
+        "verdict": "pass",
+        "classification": "approved-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation",
+          "errors": []
+        }
+      },
+      {
+        "id": "R3-C23-08-ipaddr-typed-context-extra",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation",
+          "errors": [
+            "ED-06 does not list case `R3-C23-08-ipaddr-typed-context-extra`",
+            "ED-06 has no exact observation for `R3-C23-08-ipaddr-typed-context-extra`"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "outside-scope",
+    "tfm": "net10.0",
+    "exit": 1,
+    "coverageErrors": [
+      "family C-23 control `ipaddr-typed-context` is unexpected-difference",
+      "family C-23 control `datetime-typed-context` is unexpected-difference",
+      "family C-23 requires decision coverage but has no agreement or approved-difference case"
+    ],
+    "cases": [
+      {
+        "id": "R3-C23-08-ipaddr-typed-context",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation",
+          "errors": [
+            "ED-06 observes differences outside its authorized scope for `R3-C23-08-ipaddr-typed-context`: cleanAllow, determining"
+          ]
+        }
+      },
+      {
+        "id": "R3-C23-09-datetime-typed-context",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation",
+          "errors": [
+            "ED-06 observes differences outside its authorized scope for `R3-C23-09-datetime-typed-context`: cleanAllow, determining"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "unobserved-scope",
+    "tfm": "net10.0",
+    "exit": 1,
+    "coverageErrors": [
+      "family C-23 control `ipaddr-typed-context` is unexpected-difference",
+      "family C-23 control `datetime-typed-context` is unexpected-difference",
+      "family C-23 requires decision coverage but has no agreement or approved-difference case"
+    ],
+    "cases": [
+      {
+        "id": "R3-C23-08-ipaddr-typed-context",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation",
+          "errors": [
+            "ED-06 does not observe its authorized difference fields for `R3-C23-08-ipaddr-typed-context`: stage"
+          ]
+        }
+      },
+      {
+        "id": "R3-C23-09-datetime-typed-context",
+        "verdict": "fail",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [
+          "decision",
+          "determining",
+          "cleanAllow"
+        ],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation",
+          "errors": [
+            "ED-06 does not observe its authorized difference fields for `R3-C23-09-datetime-typed-context`: stage"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "family-deny-in-allow-role",
+    "tfm": "net10.0",
+    "exit": 0,
+    "coverageErrors": [],
+    "cases": [
+      {
+        "id": "R3-C01-02-direct-allow-with-condition",
+        "verdict": "pass",
+        "classification": "agreement",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation"
+        }
+      }
+    ]
+  },
+  {
+    "name": "multi-action-schema",
+    "tfm": "net10.0",
+    "exit": 0,
+    "coverageErrors": [],
+    "cases": [
+      {
+        "id": "R3-C11-06-canonical-schema",
+        "verdict": "pass",
+        "classification": "agreement",
+        "upstream": null,
+        "managed": {
+          "actual": {
+            "archive": {
+              "principalTypes": [
+                "Admin"
+              ],
+              "resourceTypes": [
+                "Archive"
+              ],
+              "context": {
+                "note": "String"
+              }
+            },
+            "read": {
+              "principalTypes": [
+                "User"
+              ],
+              "resourceTypes": [
+                "Doc"
+              ],
+              "context": {
+                "count": "Long"
+              }
+            }
+          },
+          "allExpectedActionsObserved": true,
+          "allAppliesToConstraintsPreserved": true,
+          "canonicalSchemaJson": "{\"App\":{\"entityTypes\":{\"Admin\":{},\"Archive\":{},\"Doc\":{},\"User\":{}},\"actions\":{\"archive\":{\"appliesTo\":{\"resourceTypes\":[\"Archive\"],\"principalTypes\":[\"Admin\"],\"context\":{\"type\":\"Record\",\"attributes\":{\"note\":{\"type\":\"EntityOrCommon\",\"name\":\"String\"}}}}},\"read\":{\"appliesTo\":{\"resourceTypes\":[\"Doc\"],\"principalTypes\":[\"User\"],\"context\":{\"type\":\"Record\",\"attributes\":{\"count\":{\"type\":\"EntityOrCommon\",\"name\":\"Long\"}}}}}}}}"
+        },
+        "differenceFields": [],
+        "differenceValidation": {}
+      }
+    ]
+  },
+  {
+    "name": "two-exported-rules-reordered",
+    "tfm": "net10.0",
+    "exit": 0,
+    "coverageErrors": [],
+    "cases": [
+      {
+        "id": "R3-C21-02-reordered-supply",
+        "verdict": "pass",
+        "classification": "agreement",
+        "upstream": null,
+        "managed": {
+          "suppliedOrder": [
+            "r2c21_1",
+            "r2c21_0"
+          ],
+          "mappedIndices": [
+            1,
+            0
+          ]
+        },
+        "differenceFields": [],
+        "differenceValidation": {}
+      }
+    ]
+  },
+  {
+    "name": "bounded-payload-length-control",
+    "tfm": "net10.0",
+    "exit": 0,
+    "coverageErrors": [],
+    "cases": [
+      {
+        "id": "R3-C24-04-bounded-payload",
+        "verdict": "pass",
+        "classification": "agreement",
+        "upstream": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "allow",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation"
+        }
+      },
+      {
+        "id": "R3-C24-04-bounded-payload-truncated",
+        "verdict": "pass",
+        "classification": "agreement",
+        "upstream": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "managed": {
+          "decision": "deny",
+          "stage": "evaluation",
+          "operationFailed": false,
+          "hasErrors": false
+        },
+        "differenceFields": [],
+        "differenceValidation": {
+          "intendedStage": "evaluation",
+          "intendedStageObserved": "evaluation"
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,845 @@
+{
+  "id": 45490253791,
+  "head_sha": "a244d65e3c1e803626e796bdee3af08a9ca5e89a",
+  "head_branch": "main",
+  "event": "push",
+  "attempt": 1,
+  "conclusion": "success",
+  "workflow": ".github/workflows/ci.yml",
+  "jobs": [
+    {
+      "id": 138786585601,
+      "name": "Verify osx-arm64 / net8.0 and net10.0",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions-rust-lang/setup-rust-toolchain@v1",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify native integration on both frameworks",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check native buffer ownership with Valgrind",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Audit managed dependencies",
+          "conclusion": "success"
+        },
+        {
+          "name": "Prepare MSVC for the D1 consumer regression",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Run version-aware D1 consumer regression",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify the archived D2 corpus and decoder controls against R2",
+          "conclusion": "success"
+        },
+        {
+          "name": "Measure supported resident native workloads",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Run actions/upload-artifact@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions-rust-lang/setup-rust-toolchain@v1",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 138786586168,
+      "name": "Verify win-x64 / net8.0 and net10.0",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions-rust-lang/setup-rust-toolchain@v1",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify native integration on both frameworks",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check native buffer ownership with Valgrind",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Audit managed dependencies",
+          "conclusion": "success"
+        },
+        {
+          "name": "Prepare MSVC for the D1 consumer regression",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run version-aware D1 consumer regression",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify the archived D2 corpus and decoder controls against R2",
+          "conclusion": "success"
+        },
+        {
+          "name": "Measure supported resident native workloads",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Run actions/upload-artifact@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions-rust-lang/setup-rust-toolchain@v1",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 138786586372,
+      "name": "Verify linux-x64 / net8.0 and net10.0",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions-rust-lang/setup-rust-toolchain@v1",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify native integration on both frameworks",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check native buffer ownership with Valgrind",
+          "conclusion": "success"
+        },
+        {
+          "name": "Audit managed dependencies",
+          "conclusion": "success"
+        },
+        {
+          "name": "Prepare MSVC for the D1 consumer regression",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Run version-aware D1 consumer regression",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify the archived D2 corpus and decoder controls against R2",
+          "conclusion": "success"
+        },
+        {
+          "name": "Measure supported resident native workloads",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions-rust-lang/setup-rust-toolchain@v1",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 138800681856,
+      "name": "Pack D3 package candidates",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download win-x64 native image and manifest",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download linux-x64 native image and manifest",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download osx-arm64 native image and manifest",
+          "conclusion": "success"
+        },
+        {
+          "name": "Pack and inspect both package candidates",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 138801407161,
+      "name": "Verify D3 package candidates",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download package candidates",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download original CedarSharp dependency",
+          "conclusion": "success"
+        },
+        {
+          "name": "Strictly inspect package identities, graphs, and native pairs",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 138801909611,
+      "name": "Package consumer / osx-arm64 / net10.0",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded package candidates",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded original CedarSharp dependency",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded package-only consumer kit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run package-only JIT and NativeAOT consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 138801909618,
+      "name": "Package consumer / linux-x64 / net10.0",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded package candidates",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded original CedarSharp dependency",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded package-only consumer kit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run package-only JIT and NativeAOT consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 138801909642,
+      "name": "Package consumer / win-x64 / net10.0",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded package candidates",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded original CedarSharp dependency",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded package-only consumer kit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run package-only JIT and NativeAOT consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 138801909646,
+      "name": "Package consumer / linux-x64 / net8.0",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded package candidates",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded original CedarSharp dependency",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded package-only consumer kit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run package-only JIT and NativeAOT consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 138801909648,
+      "name": "Package consumer / osx-arm64 / net8.0",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded package candidates",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded original CedarSharp dependency",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded package-only consumer kit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run package-only JIT and NativeAOT consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 138801909781,
+      "name": "Package consumer / win-x64 / net8.0",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded package candidates",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded original CedarSharp dependency",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded package-only consumer kit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run package-only JIT and NativeAOT consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-dotnet@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 138807972934,
+      "name": "D3 package consumer summary",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download uploaded consumer summary script",
+          "conclusion": "success"
+        },
+        {
+          "name": "Require exactly six successful package-consumer cells",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 14968475401,
+      "name": "dogwoodsharp-d3-consumer-kit",
+      "digest": "sha256:78275a1618150232f9d502f639a9a48462d44d6808ee69af6fe8b9365942b42f",
+      "workflow_run": {
+        "id": 45490253791,
+        "repository_id": 1459753885,
+        "head_repository_id": 1459753885,
+        "head_branch": "main",
+        "head_sha": "a244d65e3c1e803626e796bdee3af08a9ca5e89a"
+      }
+    },
+    {
+      "id": 14968406379,
+      "name": "dogwoodsharp-d3-package-verification",
+      "digest": "sha256:f67ef0176d61a5709f0b30b86e87e177f337300026133043a9f6329cb1549eff",
+      "workflow_run": {
+        "id": 45490253791,
+        "repository_id": 1459753885,
+        "head_repository_id": 1459753885,
+        "head_branch": "main",
+        "head_sha": "a244d65e3c1e803626e796bdee3af08a9ca5e89a"
+      }
+    },
+    {
+      "id": 14968101257,
+      "name": "dogwoodsharp-d2-r2-linux-x64",
+      "digest": "sha256:5d722ac9c68b4fac6445cf587c8d6b14f2a9444d15578b849a633b1883ef3e2a",
+      "workflow_run": {
+        "id": 45490253791,
+        "repository_id": 1459753885,
+        "head_repository_id": 1459753885,
+        "head_branch": "main",
+        "head_sha": "a244d65e3c1e803626e796bdee3af08a9ca5e89a"
+      }
+    },
+    {
+      "id": 14967986854,
+      "name": "dogwoodsharp-native-win-x64",
+      "digest": "sha256:591ff267f24f996bd74f897a3793cd3668729cc93e4b5c431a4e549b2fc93a9e",
+      "workflow_run": {
+        "id": 45490253791,
+        "repository_id": 1459753885,
+        "head_repository_id": 1459753885,
+        "head_branch": "main",
+        "head_sha": "a244d65e3c1e803626e796bdee3af08a9ca5e89a"
+      }
+    },
+    {
+      "id": 14967872298,
+      "name": "dogwoodsharp-d2-r2-win-x64",
+      "digest": "sha256:f392c43c031b08b1ef24d26f584f7a0b5cbd30842a0b8b653744e9bde0d0aa0a",
+      "workflow_run": {
+        "id": 45490253791,
+        "repository_id": 1459753885,
+        "head_repository_id": 1459753885,
+        "head_branch": "main",
+        "head_sha": "a244d65e3c1e803626e796bdee3af08a9ca5e89a"
+      }
+    },
+    {
+      "id": 14967851611,
+      "name": "dogwoodsharp-native-linux-x64",
+      "digest": "sha256:ecf0b5157c87c7072a96181c9d9fbd261aa49d668be1912e4b1805681de46ec6",
+      "workflow_run": {
+        "id": 45490253791,
+        "repository_id": 1459753885,
+        "head_repository_id": 1459753885,
+        "head_branch": "main",
+        "head_sha": "a244d65e3c1e803626e796bdee3af08a9ca5e89a"
+      }
+    },
+    {
+      "id": 14967727300,
+      "name": "dogwoodsharp-d3-candidates",
+      "digest": "sha256:31d42fd0c7b3e53046bd5e0f2c2887283fc0219e4f5457ff61e3b066db41ea2e",
+      "workflow_run": {
+        "id": 45490253791,
+        "repository_id": 1459753885,
+        "head_repository_id": 1459753885,
+        "head_branch": "main",
+        "head_sha": "a244d65e3c1e803626e796bdee3af08a9ca5e89a"
+      }
+    },
+    {
+      "id": 14967293892,
+      "name": "dogwoodsharp-d3-dependencies",
+      "digest": "sha256:453b84465f96f4f9a0466fbb5067b3d54837763b23bc61d5b593c783a9ffa04a",
+      "workflow_run": {
+        "id": 45490253791,
+        "repository_id": 1459753885,
+        "head_repository_id": 1459753885,
+        "head_branch": "main",
+        "head_sha": "a244d65e3c1e803626e796bdee3af08a9ca5e89a"
+      }
+    },
+    {
+      "id": 14966948183,
+      "name": "dogwoodsharp-native-osx-arm64",
+      "digest": "sha256:5ad538c569b7cd2b8033d3bf06cadd7d5155b49c4b29e97ba8fd7b07b427e9c2",
+      "workflow_run": {
+        "id": 45490253791,
+        "repository_id": 1459753885,
+        "head_repository_id": 1459753885,
+        "head_branch": "main",
+        "head_sha": "a244d65e3c1e803626e796bdee3af08a9ca5e89a"
+      }
+    },
+    {
+      "id": 14966268629,
+      "name": "dogwoodsharp-d2-r2-osx-arm64",
+      "digest": "sha256:96f912ebb56b5aa93099da7e68d99bfc3fa1c09c386d89dd3b5e2015df50f4d4",
+      "workflow_run": {
+        "id": 45490253791,
+        "repository_id": 1459753885,
+        "head_repository_id": 1459753885,
+        "head_branch": "main",
+        "head_sha": "a244d65e3c1e803626e796bdee3af08a9ca5e89a"
+      }
+    }
+  ],
+  "log_observations": [
+    {
+      "job_id": 138800681856,
+      "name": "Pack D3 package candidates",
+      "observations": [
+        "2026-11-24T21:46:55.3567216Z Artifact dogwoodsharp-d3-candidates successfully finalized. Artifact ID 14967727300",
+        "2026-11-24T21:46:58.0567423Z Artifact dogwoodsharp-d3-dependencies successfully finalized. Artifact ID 14967293892",
+        "2026-11-24T21:46:59.5832458Z Artifact dogwoodsharp-d3-consumer-kit successfully finalized. Artifact ID 14968475401"
+      ]
+    },
+    {
+      "job_id": 138801407161,
+      "name": "Verify D3 package candidates",
+      "observations": [
+        "2026-11-24T21:47:16.0545896Z - dogwoodsharp-d3-candidates (ID: 14967727300, Size: 18741626, Expected Digest: sha256:31d42fd0c7b3e53046bd5e0f2c2887283fc0219e4f5457ff61e3b066db41ea2e)",
+        "2026-11-24T21:47:20.9115680Z - dogwoodsharp-d3-dependencies (ID: 14967293892, Size: 9742639, Expected Digest: sha256:453b84465f96f4f9a0466fbb5067b3d54837763b23bc61d5b593c783a9ffa04a)",
+        "2026-11-24T21:47:50.8929102Z Artifact dogwoodsharp-d3-package-verification successfully finalized. Artifact ID 14968406379"
+      ]
+    },
+    {
+      "job_id": 138801909611,
+      "name": "Package consumer / osx-arm64 / net10.0",
+      "observations": [
+        "2026-11-24T21:58:05.8758720Z - dogwoodsharp-d3-candidates (ID: 14967727300, Size: 18741626, Expected Digest: sha256:31d42fd0c7b3e53046bd5e0f2c2887283fc0219e4f5457ff61e3b066db41ea2e)",
+        "2026-11-24T21:58:06.6735380Z - dogwoodsharp-d3-dependencies (ID: 14967293892, Size: 9742639, Expected Digest: sha256:453b84465f96f4f9a0466fbb5067b3d54837763b23bc61d5b593c783a9ffa04a)",
+        "2026-11-24T21:58:07.2574830Z - dogwoodsharp-d3-consumer-kit (ID: 14968475401, Size: 10215, Expected Digest: sha256:78275a1618150232f9d502f639a9a48462d44d6808ee69af6fe8b9365942b42f)",
+        "2026-11-24T21:58:08.7402210Z D3_CONSUMER_SDK=10.0.404 D3_CONSUMER_RID=osx-arm64 D3_CONSUMER_TFM=net10.0",
+        "2026-11-24T21:58:18.2895640Z D3_CONSUMER_MODE=PACKAGE_ONLY",
+        "2026-11-24T21:58:18.3786670Z D3_PACKAGE_CONSUMER_RESULT=PASS",
+        "2026-11-24T21:58:30.1127620Z   Generating native code",
+        "2026-11-24T21:58:35.0463150Z D3_CONSUMER_MODE=PACKAGE_ONLY",
+        "2026-11-24T21:58:35.0828450Z D3_PACKAGE_CONSUMER_RESULT=PASS",
+        "2026-11-24T21:58:35.1144370Z D3_CONSUMER_RESULT=PASS RID=osx-arm64 TFM=net10.0"
+      ]
+    },
+    {
+      "job_id": 138801909618,
+      "name": "Package consumer / linux-x64 / net10.0",
+      "observations": [
+        "2026-11-24T21:48:00.1046463Z - dogwoodsharp-d3-candidates (ID: 14967727300, Size: 18741626, Expected Digest: sha256:31d42fd0c7b3e53046bd5e0f2c2887283fc0219e4f5457ff61e3b066db41ea2e)",
+        "2026-11-24T21:48:01.5752045Z - dogwoodsharp-d3-dependencies (ID: 14967293892, Size: 9742639, Expected Digest: sha256:453b84465f96f4f9a0466fbb5067b3d54837763b23bc61d5b593c783a9ffa04a)",
+        "2026-11-24T21:48:03.1203675Z - dogwoodsharp-d3-consumer-kit (ID: 14968475401, Size: 10215, Expected Digest: sha256:78275a1618150232f9d502f639a9a48462d44d6808ee69af6fe8b9365942b42f)",
+        "2026-11-24T21:48:13.4909203Z D3_CONSUMER_SDK=10.0.404 D3_CONSUMER_RID=linux-x64 D3_CONSUMER_TFM=net10.0",
+        "2026-11-24T21:48:29.8452099Z D3_CONSUMER_MODE=PACKAGE_ONLY",
+        "2026-11-24T21:48:29.9844979Z D3_PACKAGE_CONSUMER_RESULT=PASS",
+        "2026-11-24T21:48:36.3457707Z   Generating native code",
+        "2026-11-24T21:48:42.0868625Z D3_CONSUMER_MODE=PACKAGE_ONLY",
+        "2026-11-24T21:48:42.1289925Z D3_PACKAGE_CONSUMER_RESULT=PASS",
+        "2026-11-24T21:48:42.1497839Z D3_CONSUMER_RESULT=PASS RID=linux-x64 TFM=net10.0"
+      ]
+    },
+    {
+      "job_id": 138801909642,
+      "name": "Package consumer / win-x64 / net10.0",
+      "observations": [
+        "2026-11-24T21:48:02.9084914Z - dogwoodsharp-d3-candidates (ID: 14967727300, Size: 18741626, Expected Digest: sha256:31d42fd0c7b3e53046bd5e0f2c2887283fc0219e4f5457ff61e3b066db41ea2e)",
+        "2026-11-24T21:48:04.0108901Z - dogwoodsharp-d3-dependencies (ID: 14967293892, Size: 9742639, Expected Digest: sha256:453b84465f96f4f9a0466fbb5067b3d54837763b23bc61d5b593c783a9ffa04a)",
+        "2026-11-24T21:48:05.0252370Z - dogwoodsharp-d3-consumer-kit (ID: 14968475401, Size: 10215, Expected Digest: sha256:78275a1618150232f9d502f639a9a48462d44d6808ee69af6fe8b9365942b42f)",
+        "2026-11-24T21:48:08.1369614Z D3_CONSUMER_SDK=10.0.404 D3_CONSUMER_RID=win-x64 D3_CONSUMER_TFM=net10.0",
+        "2026-11-24T21:48:22.3351122Z D3_CONSUMER_MODE=PACKAGE_ONLY",
+        "2026-11-24T21:48:22.6008921Z D3_PACKAGE_CONSUMER_RESULT=PASS",
+        "2026-11-24T21:48:36.6915221Z   Generating native code",
+        "2026-11-24T21:48:43.4833641Z D3_CONSUMER_MODE=PACKAGE_ONLY",
+        "2026-11-24T21:48:43.6358940Z D3_PACKAGE_CONSUMER_RESULT=PASS",
+        "2026-11-24T21:48:43.6695070Z D3_CONSUMER_RESULT=PASS RID=win-x64 TFM=net10.0"
+      ]
+    },
+    {
+      "job_id": 138801909646,
+      "name": "Package consumer / linux-x64 / net8.0",
+      "observations": [
+        "2026-11-24T21:48:00.4493119Z - dogwoodsharp-d3-candidates (ID: 14967727300, Size: 18741626, Expected Digest: sha256:31d42fd0c7b3e53046bd5e0f2c2887283fc0219e4f5457ff61e3b066db41ea2e)",
+        "2026-11-24T21:48:02.6493723Z - dogwoodsharp-d3-dependencies (ID: 14967293892, Size: 9742639, Expected Digest: sha256:453b84465f96f4f9a0466fbb5067b3d54837763b23bc61d5b593c783a9ffa04a)",
+        "2026-11-24T21:48:04.4800805Z - dogwoodsharp-d3-consumer-kit (ID: 14968475401, Size: 10215, Expected Digest: sha256:78275a1618150232f9d502f639a9a48462d44d6808ee69af6fe8b9365942b42f)",
+        "2026-11-24T21:48:10.9659589Z D3_CONSUMER_SDK=10.0.404 D3_CONSUMER_RID=linux-x64 D3_CONSUMER_TFM=net8.0",
+        "2026-11-24T21:48:23.6856429Z D3_CONSUMER_MODE=PACKAGE_ONLY",
+        "2026-11-24T21:48:24.2072285Z D3_PACKAGE_CONSUMER_RESULT=PASS",
+        "2026-11-24T21:48:30.1213523Z   Generating native code",
+        "2026-11-24T21:48:35.5078920Z D3_CONSUMER_MODE=PACKAGE_ONLY",
+        "2026-11-24T21:48:35.5493039Z D3_PACKAGE_CONSUMER_RESULT=PASS",
+        "2026-11-24T21:48:35.5698081Z D3_CONSUMER_RESULT=PASS RID=linux-x64 TFM=net8.0"
+      ]
+    },
+    {
+      "job_id": 138801909648,
+      "name": "Package consumer / osx-arm64 / net8.0",
+      "observations": [
+        "2026-11-24T21:58:04.8440390Z - dogwoodsharp-d3-candidates (ID: 14967727300, Size: 18741626, Expected Digest: sha256:31d42fd0c7b3e53046bd5e0f2c2887283fc0219e4f5457ff61e3b066db41ea2e)",
+        "2026-11-24T21:58:08.1474990Z - dogwoodsharp-d3-dependencies (ID: 14967293892, Size: 9742639, Expected Digest: sha256:453b84465f96f4f9a0466fbb5067b3d54837763b23bc61d5b593c783a9ffa04a)",
+        "2026-11-24T21:58:10.7387010Z - dogwoodsharp-d3-consumer-kit (ID: 14968475401, Size: 10215, Expected Digest: sha256:78275a1618150232f9d502f639a9a48462d44d6808ee69af6fe8b9365942b42f)",
+        "2026-11-24T21:58:13.3631940Z D3_CONSUMER_SDK=10.0.404 D3_CONSUMER_RID=osx-arm64 D3_CONSUMER_TFM=net8.0",
+        "2026-11-24T21:58:20.9648890Z D3_CONSUMER_MODE=PACKAGE_ONLY",
+        "2026-11-24T21:58:21.1535830Z D3_PACKAGE_CONSUMER_RESULT=PASS",
+        "2026-11-24T21:58:30.5127180Z   Generating native code",
+        "2026-11-24T21:58:36.1507360Z D3_CONSUMER_MODE=PACKAGE_ONLY",
+        "2026-11-24T21:58:36.1867810Z D3_PACKAGE_CONSUMER_RESULT=PASS",
+        "2026-11-24T21:58:36.2096550Z D3_CONSUMER_RESULT=PASS RID=osx-arm64 TFM=net8.0"
+      ]
+    },
+    {
+      "job_id": 138801909781,
+      "name": "Package consumer / win-x64 / net8.0",
+      "observations": [
+        "2026-11-24T21:48:05.8288785Z - dogwoodsharp-d3-candidates (ID: 14967727300, Size: 18741626, Expected Digest: sha256:31d42fd0c7b3e53046bd5e0f2c2887283fc0219e4f5457ff61e3b066db41ea2e)",
+        "2026-11-24T21:48:06.8084268Z - dogwoodsharp-d3-dependencies (ID: 14967293892, Size: 9742639, Expected Digest: sha256:453b84465f96f4f9a0466fbb5067b3d54837763b23bc61d5b593c783a9ffa04a)",
+        "2026-11-24T21:48:07.6138511Z - dogwoodsharp-d3-consumer-kit (ID: 14968475401, Size: 10215, Expected Digest: sha256:78275a1618150232f9d502f639a9a48462d44d6808ee69af6fe8b9365942b42f)",
+        "2026-11-24T21:48:10.9630340Z D3_CONSUMER_SDK=10.0.404 D3_CONSUMER_RID=win-x64 D3_CONSUMER_TFM=net8.0",
+        "2026-11-24T21:48:34.4736892Z D3_CONSUMER_MODE=PACKAGE_ONLY",
+        "2026-11-24T21:48:35.3677715Z D3_PACKAGE_CONSUMER_RESULT=PASS",
+        "2026-11-24T21:48:49.9461280Z   Generating native code",
+        "2026-11-24T21:48:56.8899884Z D3_CONSUMER_MODE=PACKAGE_ONLY",
+        "2026-11-24T21:48:56.9586187Z D3_PACKAGE_CONSUMER_RESULT=PASS",
+        "2026-11-24T21:48:56.9911031Z D3_CONSUMER_RESULT=PASS RID=win-x64 TFM=net8.0"
+      ]
+    },
+    {
+      "job_id": 138807972934,
+      "name": "D3 package consumer summary",
+      "observations": [
+        "2026-11-24T21:58:45.4760874Z - dogwoodsharp-d3-consumer-kit (ID: 14968475401, Size: 10215, Expected Digest: sha256:78275a1618150232f9d502f639a9a48462d44d6808ee69af6fe8b9365942b42f)",
+        "2026-11-24T21:58:48.5394668Z D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6"
+      ]
+    }
+  ]
+}
