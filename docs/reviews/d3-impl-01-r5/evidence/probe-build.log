@@ -1,0 +1,25 @@
+  Determining projects to restore...
+  Restored C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp.CedarSharp\DogwoodSharp.CedarSharp.csproj (in 299 ms).
+  Restored C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp\DogwoodSharp.csproj (in 299 ms).
+  Restored C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\docs\reviews\d3-impl-01\evidence\differential\r4\probe\R4Probe.csproj (in 299 ms).
+C:\Users\Laszlos\.nuget\packages\microsoft.build.tasks.git\10.0.401\build\Microsoft.Build.Tasks.Git.targets(25,5): warning : Unable to locate repository with working directory that contains directory 'C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp'. [C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp\DogwoodSharp.csproj::TargetFramework=net10.0]
+C:\Users\Laszlos\.nuget\packages\microsoft.build.tasks.git\10.0.401\build\Microsoft.Build.Tasks.Git.targets(25,5): warning : Unable to locate repository with working directory that contains directory 'C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp'. [C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp\DogwoodSharp.csproj::TargetFramework=net8.0]
+C:\Users\Laszlos\.nuget\packages\microsoft.sourcelink.common\10.0.401\build\Microsoft.SourceLink.Common.targets(56,5): warning : Source control information is not available - the generated source link is empty. [C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp\DogwoodSharp.csproj::TargetFramework=net10.0]
+C:\Users\Laszlos\.nuget\packages\microsoft.sourcelink.common\10.0.401\build\Microsoft.SourceLink.Common.targets(56,5): warning : Source control information is not available - the generated source link is empty. [C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp\DogwoodSharp.csproj::TargetFramework=net8.0]
+  DogwoodSharp -> C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp\bin\Release\net10.0\DogwoodSharp.dll
+  DogwoodSharp -> C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp\bin\Release\net8.0\DogwoodSharp.dll
+  DogwoodSharp.CedarSharp -> C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp.CedarSharp\bin\Release\net8.0\DogwoodSharp.CedarSharp.dll
+  DogwoodSharp.CedarSharp -> C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp.CedarSharp\bin\Release\net10.0\DogwoodSharp.CedarSharp.dll
+  R4Probe -> C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\docs\reviews\d3-impl-01\evidence\differential\r4\probe\bin\Release\net8.0\PrepProbe.dll
+  R4Probe -> C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\docs\reviews\d3-impl-01\evidence\differential\r4\probe\bin\Release\net10.0\PrepProbe.dll
+
+Build succeeded.
+
+C:\Users\Laszlos\.nuget\packages\microsoft.build.tasks.git\10.0.401\build\Microsoft.Build.Tasks.Git.targets(25,5): warning : Unable to locate repository with working directory that contains directory 'C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp'. [C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp\DogwoodSharp.csproj::TargetFramework=net10.0]
+C:\Users\Laszlos\.nuget\packages\microsoft.build.tasks.git\10.0.401\build\Microsoft.Build.Tasks.Git.targets(25,5): warning : Unable to locate repository with working directory that contains directory 'C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp'. [C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp\DogwoodSharp.csproj::TargetFramework=net8.0]
+C:\Users\Laszlos\.nuget\packages\microsoft.sourcelink.common\10.0.401\build\Microsoft.SourceLink.Common.targets(56,5): warning : Source control information is not available - the generated source link is empty. [C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp\DogwoodSharp.csproj::TargetFramework=net10.0]
+C:\Users\Laszlos\.nuget\packages\microsoft.sourcelink.common\10.0.401\build\Microsoft.SourceLink.Common.targets(56,5): warning : Source control information is not available - the generated source link is empty. [C:\Users\Laszlos\source\repos\Solo\dogwood-sharp-d3-r5\subject\src\DogwoodSharp\DogwoodSharp.csproj::TargetFramework=net8.0]
+    4 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:39.47

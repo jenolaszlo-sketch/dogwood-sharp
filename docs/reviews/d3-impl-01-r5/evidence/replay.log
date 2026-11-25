@@ -1,0 +1,21 @@
+net8.0 .NET 8.0.31 {'total': 18, 'passed': 12, 'failed': 6, 'pending': 0, 'familyCount': 1, 'classifications': {'agreement': 10, 'approved-difference': 2, 'unexpected-difference': 6}} exit 1
+net10.0 .NET 10.0.15 {'total': 18, 'passed': 12, 'failed': 6, 'pending': 0, 'familyCount': 1, 'classifications': {'agreement': 10, 'approved-difference': 2, 'unexpected-difference': 6}} exit 1
+ipaddr match explicit-escape deny allow approved-difference
+ipaddr match implicit-escape deny allow unexpected-difference
+ipaddr match short-string deny allow unexpected-difference
+ipaddr mismatch explicit-escape deny deny agreement
+ipaddr mismatch implicit-escape deny deny agreement
+ipaddr mismatch short-string deny deny agreement
+datetime match explicit-escape deny allow approved-difference
+datetime match implicit-escape deny allow unexpected-difference
+datetime match short-string deny allow unexpected-difference
+datetime mismatch explicit-escape deny deny agreement
+datetime mismatch implicit-escape deny deny agreement
+datetime mismatch short-string deny deny agreement
+decimal match explicit-escape allow allow agreement
+decimal match implicit-escape deny allow unexpected-difference
+decimal match short-string deny allow unexpected-difference
+decimal mismatch explicit-escape deny deny agreement
+decimal mismatch implicit-escape deny deny agreement
+decimal mismatch short-string deny deny agreement
+Oracle SHA-256 05994178be3ee951b1e63ca2e26735a711ec28070b2a3209431410eb5cb670b6

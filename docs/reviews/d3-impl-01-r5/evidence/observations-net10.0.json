@@ -1,0 +1,1248 @@
+{
+  "schemaVersion": "3",
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R4",
+  "generatedAtUtc": "2026-11-25T10:15:56.1901770Z",
+  "runtime": {
+    "framework": ".NET 10.0.15",
+    "rid": "win-x64",
+    "architecture": "X64",
+    "oracle": "C:\\Users\\Laszlos\\source\\repos\\Solo\\dogwood-sharp-d3-r5\\subject\\docs\\reviews\\d3-impl-01\\evidence\\differential\\r4\\upstream-oracle\\target\\release\\dogwoodsharp-upstream-oracle.exe",
+    "fixtures": "C:\\Users\\Laszlos\\source\\repos\\Solo\\dogwood-sharp-d3-r5\\baseline-evidence\\fixtures.json",
+    "fixturesSha256": "D5949D0F6ECD49ED7C180292219A4FBCDA6B793213E9E5D6544110BB9C0284E6",
+    "differenceRegister": "C:\\Users\\Laszlos\\source\\repos\\Solo\\dogwood-sharp-d3-r5\\baseline-evidence\\register.json",
+    "differenceRegisterSha256": "9D26DEBC2AD9B0317504EF03E718549515E1DB53259C4A2F897907C6AF903D97",
+    "nativeBridge": {
+      "loaded": true,
+      "abiVersion": 1,
+      "bridgeVersion": "0.1.0",
+      "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+      "dogwoodVersion": "1.1.2",
+      "cedarVersion": "4.11.0",
+      "rustVersion": "1.99.1",
+      "target": "x86_64-pc-windows-msvc"
+    }
+  },
+  "summary": {
+    "total": 18,
+    "passed": 12,
+    "failed": 6,
+    "pending": 0,
+    "familyCount": 1,
+    "classifications": {
+      "agreement": 10,
+      "approved-difference": 2,
+      "unexpected-difference": 6
+    }
+  },
+  "familyCoverage": {
+    "C-23": {
+      "controls": {
+        "datetime-typed-context": "agreement",
+        "decimal-typed-mismatch": "agreement",
+        "decimal-typed-value": "unexpected-difference",
+        "ipaddr-typed-context": "agreement"
+      }
+    }
+  },
+  "coverageErrors": [
+    "family C-23 control \u0060decimal-typed-value\u0060 is unexpected-difference"
+  ],
+  "cases": [
+    {
+      "id": "R3-C23-08-ipaddr-typed-context",
+      "kind": "differential",
+      "control": "ipaddr-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid ipaddr value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-06"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23h_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": "allow"
+        },
+        {
+          "field": "determining",
+          "upstream": [],
+          "managed": [
+            {
+              "cedarPolicyId": "r3c23h_0",
+              "ruleIndex": 0
+            }
+          ]
+        },
+        {
+          "field": "cleanAllow",
+          "upstream": false,
+          "managed": true
+        }
+      ],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation",
+        "errors": []
+      }
+    },
+    {
+      "id": "R3-C23-08-ipaddr-typed-context-match-implicit-escape",
+      "kind": "differential",
+      "control": "ipaddr-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid ipaddr value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "unexpected-difference",
+      "verdict": "fail",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23h_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": "allow"
+        },
+        {
+          "field": "determining",
+          "upstream": [],
+          "managed": [
+            {
+              "cedarPolicyId": "r3c23h_0",
+              "ruleIndex": 0
+            }
+          ]
+        },
+        {
+          "field": "cleanAllow",
+          "upstream": false,
+          "managed": true
+        }
+      ],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-08-ipaddr-typed-context-match-short-string",
+      "kind": "differential",
+      "control": "ipaddr-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid ipaddr value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "unexpected-difference",
+      "verdict": "fail",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23h_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": "allow"
+        },
+        {
+          "field": "determining",
+          "upstream": [],
+          "managed": [
+            {
+              "cedarPolicyId": "r3c23h_0",
+              "ruleIndex": 0
+            }
+          ]
+        },
+        {
+          "field": "cleanAllow",
+          "upstream": false,
+          "managed": true
+        }
+      ],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-08-ipaddr-typed-context-mismatch-explicit-escape",
+      "kind": "differential",
+      "control": "ipaddr-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid ipaddr value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-08-ipaddr-typed-context-mismatch-implicit-escape",
+      "kind": "differential",
+      "control": "ipaddr-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid ipaddr value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-08-ipaddr-typed-context-mismatch-short-string",
+      "kind": "differential",
+      "control": "ipaddr-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid ipaddr value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-09-datetime-typed-context",
+      "kind": "differential",
+      "control": "datetime-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid datetime value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-06"
+      ],
+      "classification": "approved-difference",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23i_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": "allow"
+        },
+        {
+          "field": "determining",
+          "upstream": [],
+          "managed": [
+            {
+              "cedarPolicyId": "r3c23i_0",
+              "ruleIndex": 0
+            }
+          ]
+        },
+        {
+          "field": "cleanAllow",
+          "upstream": false,
+          "managed": true
+        }
+      ],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation",
+        "errors": []
+      }
+    },
+    {
+      "id": "R3-C23-09-datetime-typed-context-match-implicit-escape",
+      "kind": "differential",
+      "control": "datetime-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid datetime value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "unexpected-difference",
+      "verdict": "fail",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23i_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": "allow"
+        },
+        {
+          "field": "determining",
+          "upstream": [],
+          "managed": [
+            {
+              "cedarPolicyId": "r3c23i_0",
+              "ruleIndex": 0
+            }
+          ]
+        },
+        {
+          "field": "cleanAllow",
+          "upstream": false,
+          "managed": true
+        }
+      ],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-09-datetime-typed-context-match-short-string",
+      "kind": "differential",
+      "control": "datetime-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid datetime value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "unexpected-difference",
+      "verdict": "fail",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23i_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": "allow"
+        },
+        {
+          "field": "determining",
+          "upstream": [],
+          "managed": [
+            {
+              "cedarPolicyId": "r3c23i_0",
+              "ruleIndex": 0
+            }
+          ]
+        },
+        {
+          "field": "cleanAllow",
+          "upstream": false,
+          "managed": true
+        }
+      ],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-09-datetime-typed-context-mismatch-explicit-escape",
+      "kind": "differential",
+      "control": "datetime-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid datetime value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-09-datetime-typed-context-mismatch-implicit-escape",
+      "kind": "differential",
+      "control": "datetime-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid datetime value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-09-datetime-typed-context-mismatch-short-string",
+      "kind": "differential",
+      "control": "datetime-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid datetime value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-01-decimal-typed-value-match-explicit-escape",
+      "kind": "differential",
+      "control": "decimal-typed-value",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid decimal value supplied in Cedar extension encoding is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-01-decimal-typed-value-match-implicit-escape",
+      "kind": "differential",
+      "control": "decimal-typed-value",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid decimal value supplied in Cedar extension encoding is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "unexpected-difference",
+      "verdict": "fail",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": "allow"
+        },
+        {
+          "field": "determining",
+          "upstream": [],
+          "managed": [
+            {
+              "cedarPolicyId": "r3c23_0",
+              "ruleIndex": 0
+            }
+          ]
+        },
+        {
+          "field": "cleanAllow",
+          "upstream": false,
+          "managed": true
+        }
+      ],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-01-decimal-typed-value-match-short-string",
+      "kind": "differential",
+      "control": "decimal-typed-value",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid decimal value supplied in Cedar extension encoding is evaluated identically: both sides allow and attribute the same rule.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "unexpected-difference",
+      "verdict": "fail",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "decision",
+          "upstream": "deny",
+          "managed": "allow"
+        },
+        {
+          "field": "determining",
+          "upstream": [],
+          "managed": [
+            {
+              "cedarPolicyId": "r3c23_0",
+              "ruleIndex": 0
+            }
+          ]
+        },
+        {
+          "field": "cleanAllow",
+          "upstream": false,
+          "managed": true
+        }
+      ],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-02-decimal-typed-mismatch-mismatch-explicit-escape",
+      "kind": "differential",
+      "control": "decimal-typed-mismatch",
+      "families": [
+        "C-23"
+      ],
+      "question": "A different decimal value produces a clean default Deny on both sides with no errors.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-02-decimal-typed-mismatch-mismatch-implicit-escape",
+      "kind": "differential",
+      "control": "decimal-typed-mismatch",
+      "families": [
+        "C-23"
+      ],
+      "question": "A different decimal value produces a clean default Deny on both sides with no errors.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    },
+    {
+      "id": "R3-C23-02-decimal-typed-mismatch-mismatch-short-string",
+      "kind": "differential",
+      "control": "decimal-typed-mismatch",
+      "families": [
+        "C-23"
+      ],
+      "question": "A different decimal value produces a clean default Deny on both sides with no errors.",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "classification": "agreement",
+      "verdict": "pass",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": null
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "deny",
+        "determining": [],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    }
+  ]
+}

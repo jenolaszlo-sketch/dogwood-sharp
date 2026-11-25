@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "3",
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R4",
+  "generatedAtUtc": "2026-11-25T10:15:55.4362566Z",
+  "isolation": "each destructive scenario runs in a child process against a private staged copy of the probe host directory",
+  "workRoot": "C:\\Users\\Laszlos\\source\\repos\\Solo\\dogwood-sharp-d3-r5\\scratch-net10.0",
+  "cases": []
+}

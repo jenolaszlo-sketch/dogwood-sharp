@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "3",
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R4",
+  "differences": [
+    {
+      "id": "ED-06",
+      "dimension": "typed-context-representability-ceiling",
+      "agreementClass": "expected-difference",
+      "cases": [
+        "R3-C23-08-ipaddr-typed-context",
+        "R3-C23-09-datetime-typed-context"
+      ],
+      "upstreamObservation": "The pinned upstream Dogwood 1.1.2 value model has no ipaddr or datetime variant, so a typed ipaddr or datetime context value cannot reach the upstream authorizer as a typed value. The upstream comparison of that context attribute against the policy literal is therefore false and the upstream decision is a clean Deny with no error, no determining rule and no policy error.",
+      "d3Observation": "D3 evaluates the same typed context value through CedarSharp, which models the ipaddr and datetime Cedar extension types. The comparison against the policy literal is true and the D3 decision is a clean Allow that names the single determining permit rule, with no error and no policy error.",
+      "basis": "Owner decision for commission DOGWOOD-SHARP-D3-IMPL-01-R4 (C-23 compatibility ceiling closure). The limitation is pinned to the upstream Dogwood 1.1.2 value model: dogwood-language/src/interpreter/value.rs declares the Value enum without an ipaddr or datetime variant, and dogwood-language/src/api.rs documents the ip, datetime and duration extension values as unmodeled and carried as a raw __extn value. Upstream therefore cannot represent a typed ipaddr or datetime context value at all, while D3 evaluates it with the CedarSharp engine. This row approves the representability ceiling for exactly the two C-23 cases listed above. It is not a general permission to disagree on authorization outcomes: it does not cover any other case, any other observation, or any difference in the stage, operation-failed state, error categories or policy error IDs, and the harness rejects a case whose observed difference reaches outside the authorizedDifferenceFields scope below.",
+      "failClosedEffect": "The upstream side denies and the D3 side allows only for a caller-supplied typed ipaddr or datetime context value that the upstream value model cannot represent. Every other observation of these two cases still matches exactly: both sides reach the evaluation stage, neither side reports an operation failure, neither side reports an error or an error category, neither side reports a policy error, and the determining set matches except for the single permit rule the D3 side attributes. A typed value that does not equal the policy literal is denied by D3, and an invalid or malformed typed value fails closed on the D3 side.",
+      "authorizedDifferenceFields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ],
+      "caseObservations": {
+        "R3-C23-08-ipaddr-typed-context": {
+          "upstream": {
+            "stage": "evaluation",
+            "operationFailed": false,
+            "decision": "deny",
+            "determining": [],
+            "hasErrors": false,
+            "errorCategories": [],
+            "policyErrorIds": [],
+            "cleanAllow": false
+          },
+          "d3": {
+            "stage": "evaluation",
+            "operationFailed": false,
+            "decision": "allow",
+            "determining": [
+              {
+                "ruleIndex": 0,
+                "cedarPolicyId": "r3c23h_0"
+              }
+            ],
+            "hasErrors": false,
+            "errorCategories": [],
+            "policyErrorIds": [],
+            "cleanAllow": true
+          }
+        },
+        "R3-C23-09-datetime-typed-context": {
+          "upstream": {
+            "stage": "evaluation",
+            "operationFailed": false,
+            "decision": "deny",
+            "determining": [],
+            "hasErrors": false,
+            "errorCategories": [],
+            "policyErrorIds": [],
+            "cleanAllow": false
+          },
+          "d3": {
+            "stage": "evaluation",
+            "operationFailed": false,
+            "decision": "allow",
+            "determining": [
+              {
+                "ruleIndex": 0,
+                "cedarPolicyId": "r3c23i_0"
+              }
+            ],
+            "hasErrors": false,
+            "errorCategories": [],
+            "policyErrorIds": [],
+            "cleanAllow": true
+          }
+        }
+      }
+    }
+  ],
+  "failClosedNormalizations": []
+}

@@ -1,0 +1,1366 @@
+[
+  {
+    "id": "R3-C23-08-ipaddr-typed-context",
+    "type": "ipaddr",
+    "relation": "match",
+    "encoding": "explicit-escape",
+    "approved_ed06": true,
+    "context": {
+      "ip": {
+        "__extn": {
+          "fn": "ip",
+          "arg": "192.168.1.1"
+        }
+      }
+    },
+    "net8.0": {
+      "verdict": "pass",
+      "classification": "approved-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23h_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    },
+    "net10.0": {
+      "verdict": "pass",
+      "classification": "approved-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23h_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    }
+  },
+  {
+    "id": "R3-C23-08-ipaddr-typed-context-match-implicit-escape",
+    "type": "ipaddr",
+    "relation": "match",
+    "encoding": "implicit-escape",
+    "approved_ed06": false,
+    "context": {
+      "ip": {
+        "fn": "ip",
+        "arg": "192.168.1.1"
+      }
+    },
+    "net8.0": {
+      "verdict": "fail",
+      "classification": "unexpected-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23h_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    },
+    "net10.0": {
+      "verdict": "fail",
+      "classification": "unexpected-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23h_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    }
+  },
+  {
+    "id": "R3-C23-08-ipaddr-typed-context-match-short-string",
+    "type": "ipaddr",
+    "relation": "match",
+    "encoding": "short-string",
+    "approved_ed06": false,
+    "context": {
+      "ip": "192.168.1.1"
+    },
+    "net8.0": {
+      "verdict": "fail",
+      "classification": "unexpected-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23h_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    },
+    "net10.0": {
+      "verdict": "fail",
+      "classification": "unexpected-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23h_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    }
+  },
+  {
+    "id": "R3-C23-08-ipaddr-typed-context-mismatch-explicit-escape",
+    "type": "ipaddr",
+    "relation": "mismatch",
+    "encoding": "explicit-escape",
+    "approved_ed06": false,
+    "context": {
+      "ip": {
+        "__extn": {
+          "fn": "ip",
+          "arg": "192.168.1.2"
+        }
+      }
+    },
+    "net8.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    },
+    "net10.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    }
+  },
+  {
+    "id": "R3-C23-08-ipaddr-typed-context-mismatch-implicit-escape",
+    "type": "ipaddr",
+    "relation": "mismatch",
+    "encoding": "implicit-escape",
+    "approved_ed06": false,
+    "context": {
+      "ip": {
+        "fn": "ip",
+        "arg": "192.168.1.2"
+      }
+    },
+    "net8.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    },
+    "net10.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    }
+  },
+  {
+    "id": "R3-C23-08-ipaddr-typed-context-mismatch-short-string",
+    "type": "ipaddr",
+    "relation": "mismatch",
+    "encoding": "short-string",
+    "approved_ed06": false,
+    "context": {
+      "ip": "192.168.1.2"
+    },
+    "net8.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    },
+    "net10.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    }
+  },
+  {
+    "id": "R3-C23-09-datetime-typed-context",
+    "type": "datetime",
+    "relation": "match",
+    "encoding": "explicit-escape",
+    "approved_ed06": true,
+    "context": {
+      "ts": {
+        "__extn": {
+          "fn": "datetime",
+          "arg": "2024-01-01T00:00:00Z"
+        }
+      }
+    },
+    "net8.0": {
+      "verdict": "pass",
+      "classification": "approved-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23i_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    },
+    "net10.0": {
+      "verdict": "pass",
+      "classification": "approved-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23i_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    }
+  },
+  {
+    "id": "R3-C23-09-datetime-typed-context-match-implicit-escape",
+    "type": "datetime",
+    "relation": "match",
+    "encoding": "implicit-escape",
+    "approved_ed06": false,
+    "context": {
+      "ts": {
+        "fn": "datetime",
+        "arg": "2024-01-01T00:00:00Z"
+      }
+    },
+    "net8.0": {
+      "verdict": "fail",
+      "classification": "unexpected-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23i_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    },
+    "net10.0": {
+      "verdict": "fail",
+      "classification": "unexpected-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23i_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    }
+  },
+  {
+    "id": "R3-C23-09-datetime-typed-context-match-short-string",
+    "type": "datetime",
+    "relation": "match",
+    "encoding": "short-string",
+    "approved_ed06": false,
+    "context": {
+      "ts": "2024-01-01T00:00:00Z"
+    },
+    "net8.0": {
+      "verdict": "fail",
+      "classification": "unexpected-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23i_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    },
+    "net10.0": {
+      "verdict": "fail",
+      "classification": "unexpected-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23i_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    }
+  },
+  {
+    "id": "R3-C23-09-datetime-typed-context-mismatch-explicit-escape",
+    "type": "datetime",
+    "relation": "mismatch",
+    "encoding": "explicit-escape",
+    "approved_ed06": false,
+    "context": {
+      "ts": {
+        "__extn": {
+          "fn": "datetime",
+          "arg": "2024-01-01T00:00:01Z"
+        }
+      }
+    },
+    "net8.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    },
+    "net10.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    }
+  },
+  {
+    "id": "R3-C23-09-datetime-typed-context-mismatch-implicit-escape",
+    "type": "datetime",
+    "relation": "mismatch",
+    "encoding": "implicit-escape",
+    "approved_ed06": false,
+    "context": {
+      "ts": {
+        "fn": "datetime",
+        "arg": "2024-01-01T00:00:01Z"
+      }
+    },
+    "net8.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    },
+    "net10.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    }
+  },
+  {
+    "id": "R3-C23-09-datetime-typed-context-mismatch-short-string",
+    "type": "datetime",
+    "relation": "mismatch",
+    "encoding": "short-string",
+    "approved_ed06": false,
+    "context": {
+      "ts": "2024-01-01T00:00:01Z"
+    },
+    "net8.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    },
+    "net10.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    }
+  },
+  {
+    "id": "R3-C23-01-decimal-typed-value-match-explicit-escape",
+    "type": "decimal",
+    "relation": "match",
+    "encoding": "explicit-escape",
+    "approved_ed06": false,
+    "context": {
+      "price": {
+        "__extn": {
+          "fn": "decimal",
+          "arg": "19.99"
+        }
+      }
+    },
+    "net8.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    },
+    "net10.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    }
+  },
+  {
+    "id": "R3-C23-01-decimal-typed-value-match-implicit-escape",
+    "type": "decimal",
+    "relation": "match",
+    "encoding": "implicit-escape",
+    "approved_ed06": false,
+    "context": {
+      "price": {
+        "fn": "decimal",
+        "arg": "19.99"
+      }
+    },
+    "net8.0": {
+      "verdict": "fail",
+      "classification": "unexpected-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    },
+    "net10.0": {
+      "verdict": "fail",
+      "classification": "unexpected-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    }
+  },
+  {
+    "id": "R3-C23-01-decimal-typed-value-match-short-string",
+    "type": "decimal",
+    "relation": "match",
+    "encoding": "short-string",
+    "approved_ed06": false,
+    "context": {
+      "price": "19.99"
+    },
+    "net8.0": {
+      "verdict": "fail",
+      "classification": "unexpected-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    },
+    "net10.0": {
+      "verdict": "fail",
+      "classification": "unexpected-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "cleanAllow": true,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "r3c23_0"
+          }
+        ],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": [
+        "decision",
+        "determining",
+        "cleanAllow"
+      ]
+    }
+  },
+  {
+    "id": "R3-C23-02-decimal-typed-mismatch-mismatch-explicit-escape",
+    "type": "decimal",
+    "relation": "mismatch",
+    "encoding": "explicit-escape",
+    "approved_ed06": false,
+    "context": {
+      "price": {
+        "__extn": {
+          "fn": "decimal",
+          "arg": "1.00"
+        }
+      }
+    },
+    "net8.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    },
+    "net10.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    }
+  },
+  {
+    "id": "R3-C23-02-decimal-typed-mismatch-mismatch-implicit-escape",
+    "type": "decimal",
+    "relation": "mismatch",
+    "encoding": "implicit-escape",
+    "approved_ed06": false,
+    "context": {
+      "price": {
+        "fn": "decimal",
+        "arg": "1.00"
+      }
+    },
+    "net8.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    },
+    "net10.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    }
+  },
+  {
+    "id": "R3-C23-02-decimal-typed-mismatch-mismatch-short-string",
+    "type": "decimal",
+    "relation": "mismatch",
+    "encoding": "short-string",
+    "approved_ed06": false,
+    "context": {
+      "price": "1.00"
+    },
+    "net8.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    },
+    "net10.0": {
+      "verdict": "pass",
+      "classification": "agreement",
+      "upstream": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "managed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "cleanAllow": false,
+        "operationFailed": false,
+        "hasErrors": false,
+        "determining": [],
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "errors": []
+      },
+      "difference_fields": []
+    }
+  }
+]

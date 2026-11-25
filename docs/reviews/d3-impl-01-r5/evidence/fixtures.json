@@ -1,0 +1,722 @@
+{
+  "schemaVersion": "3",
+  "comment": "R5 baseline-only typed-context representation replay",
+  "schemas": {
+    "userDoc": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { count: Long } }; }",
+    "owner": "namespace App { entity User in Group { name?: String }; entity Group; entity Doc { owner: User, secret?: Bool }; action read appliesTo { principal: [User], resource: [Doc] }; }",
+    "groupDoc": "namespace App { entity User; entity Group; entity Doc { owner: User }; action read appliesTo { principal: [User], resource: [Doc], context: { count: Long } }; }",
+    "session": "namespace App { entity Session { token: String }; entity Doc; action read appliesTo { principal: [Session], resource: [Doc] }; }",
+    "actionHierarchy": "namespace App { entity User; entity Doc; action ReadGroup; action read2 in ReadGroup appliesTo { principal: [User], resource: [Doc] }; }",
+    "temporal": "namespace Test { entity User; entity Item; action Approve appliesTo { principal: [User], resource: [Item], context: { input: { stock: String } } }; action Sell appliesTo { principal: [User], resource: [Item], context: { input: { stock: String } } }; action Audit appliesTo { principal: [User], resource: [Item], context: { input: { stock: String } } }; }",
+    "provider": "namespace Test { entity User; entity Item; action Read appliesTo { principal: [User], resource: [Item], context: { input: { key: String } } }; }",
+    "unicode": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc] }; }",
+    "ownerReq": "namespace App { entity User { name: String }; entity Group; entity Doc { owner: User, secret?: Bool }; action read appliesTo { principal: [User], resource: [Doc] }; }",
+    "ownerHier": "namespace App { entity User in Group { name?: String }; entity Group in Group; entity Doc { owner: User, secret?: Bool }; action read appliesTo { principal: [User], resource: [Doc] }; }",
+    "extensionDecimal": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+    "payloadDoc": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { data: String } }; }",
+    "extensionIpaddr": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+    "extensionDatetime": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }"
+  },
+  "providerDeclarations": {
+    "httpFetch": "{\"availableProviders\":{\"Http::Fetch\":{\"argumentTypes\":[{\"paramType\":\"string\"},{\"paramType\":\"string\"}],\"outputType\":{\"paramType\":\"record\",\"fields\":{\"body\":{\"paramType\":\"string\"}},\"required\":[\"body\"]},\"implementation\":{\"kind\":\"rhai\",\"script\":\"fn evaluate(_url, _key) { #{ body: \\\"ok\\\" } }\"}}}}"
+  },
+  "familyRequirements": {
+    "C-23": {
+      "requiredControls": [
+        "datetime-typed-context",
+        "decimal-typed-mismatch",
+        "decimal-typed-value",
+        "ipaddr-typed-context"
+      ],
+      "decisionCoverage": "required"
+    }
+  },
+  "cases": [
+    {
+      "id": "R3-C23-08-ipaddr-typed-context",
+      "kind": "differential",
+      "control": "ipaddr-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid ipaddr value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionIpaddr",
+      "distincter": "r3c23h",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-06"
+      ],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "ip": {
+            "__extn": {
+              "fn": "ip",
+              "arg": "192.168.1.1"
+            }
+          }
+        }
+      },
+      "approvedDifferenceId": "ED-06",
+      "approvedDifferenceReason": "The pinned upstream Dogwood 1.1.2 value model has no ipaddr variant, so a typed ipaddr context value cannot reach the upstream authorizer as a typed value and the upstream comparison is a clean Deny, while D3 evaluates the Cedar ip extension through CedarSharp and reaches a clean Allow. The owner approved exactly this representability ceiling as ED-06 for this case and for R3-C23-09-datetime-typed-context, with the authorized difference scope limited to the decision, determining and cleanAllow fields."
+    },
+    {
+      "id": "R3-C23-08-ipaddr-typed-context-match-implicit-escape",
+      "kind": "differential",
+      "control": "ipaddr-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid ipaddr value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionIpaddr",
+      "distincter": "r3c23h",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "ip": {
+            "fn": "ip",
+            "arg": "192.168.1.1"
+          }
+        }
+      }
+    },
+    {
+      "id": "R3-C23-08-ipaddr-typed-context-match-short-string",
+      "kind": "differential",
+      "control": "ipaddr-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid ipaddr value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionIpaddr",
+      "distincter": "r3c23h",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "ip": "192.168.1.1"
+        }
+      }
+    },
+    {
+      "id": "R3-C23-08-ipaddr-typed-context-mismatch-explicit-escape",
+      "kind": "differential",
+      "control": "ipaddr-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid ipaddr value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionIpaddr",
+      "distincter": "r3c23h",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "ip": {
+            "__extn": {
+              "fn": "ip",
+              "arg": "192.168.1.2"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "R3-C23-08-ipaddr-typed-context-mismatch-implicit-escape",
+      "kind": "differential",
+      "control": "ipaddr-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid ipaddr value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionIpaddr",
+      "distincter": "r3c23h",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "ip": {
+            "fn": "ip",
+            "arg": "192.168.1.2"
+          }
+        }
+      }
+    },
+    {
+      "id": "R3-C23-08-ipaddr-typed-context-mismatch-short-string",
+      "kind": "differential",
+      "control": "ipaddr-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid ipaddr value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionIpaddr",
+      "distincter": "r3c23h",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "ip": "192.168.1.2"
+        }
+      }
+    },
+    {
+      "id": "R3-C23-09-datetime-typed-context",
+      "kind": "differential",
+      "control": "datetime-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid datetime value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionDatetime",
+      "distincter": "r3c23i",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "expectedClassification": "approved-difference",
+      "expectedDifferenceIds": [
+        "ED-06"
+      ],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "ts": {
+            "__extn": {
+              "fn": "datetime",
+              "arg": "2024-01-01T00:00:00Z"
+            }
+          }
+        }
+      },
+      "approvedDifferenceId": "ED-06",
+      "approvedDifferenceReason": "The pinned upstream Dogwood 1.1.2 value model has no datetime variant, so a typed datetime context value cannot reach the upstream authorizer as a typed value and the upstream comparison is a clean Deny, while D3 evaluates the Cedar datetime extension through CedarSharp and reaches a clean Allow. The owner approved exactly this representability ceiling as ED-06 for this case and for R3-C23-08-ipaddr-typed-context, with the authorized difference scope limited to the decision, determining and cleanAllow fields."
+    },
+    {
+      "id": "R3-C23-09-datetime-typed-context-match-implicit-escape",
+      "kind": "differential",
+      "control": "datetime-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid datetime value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionDatetime",
+      "distincter": "r3c23i",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "ts": {
+            "fn": "datetime",
+            "arg": "2024-01-01T00:00:00Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "R3-C23-09-datetime-typed-context-match-short-string",
+      "kind": "differential",
+      "control": "datetime-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid datetime value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionDatetime",
+      "distincter": "r3c23i",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "ts": "2024-01-01T00:00:00Z"
+        }
+      }
+    },
+    {
+      "id": "R3-C23-09-datetime-typed-context-mismatch-explicit-escape",
+      "kind": "differential",
+      "control": "datetime-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid datetime value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionDatetime",
+      "distincter": "r3c23i",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "ts": {
+            "__extn": {
+              "fn": "datetime",
+              "arg": "2024-01-01T00:00:01Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "R3-C23-09-datetime-typed-context-mismatch-implicit-escape",
+      "kind": "differential",
+      "control": "datetime-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid datetime value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionDatetime",
+      "distincter": "r3c23i",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "ts": {
+            "fn": "datetime",
+            "arg": "2024-01-01T00:00:01Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "R3-C23-09-datetime-typed-context-mismatch-short-string",
+      "kind": "differential",
+      "control": "datetime-typed-context",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid datetime value supplied as a typed context attribute is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionDatetime",
+      "distincter": "r3c23i",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "ts": "2024-01-01T00:00:01Z"
+        }
+      }
+    },
+    {
+      "id": "R3-C23-01-decimal-typed-value-match-explicit-escape",
+      "kind": "differential",
+      "control": "decimal-typed-value",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid decimal value supplied in Cedar extension encoding is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionDecimal",
+      "distincter": "r3c23",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "price": {
+            "__extn": {
+              "fn": "decimal",
+              "arg": "19.99"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "R3-C23-01-decimal-typed-value-match-implicit-escape",
+      "kind": "differential",
+      "control": "decimal-typed-value",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid decimal value supplied in Cedar extension encoding is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionDecimal",
+      "distincter": "r3c23",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "price": {
+            "fn": "decimal",
+            "arg": "19.99"
+          }
+        }
+      }
+    },
+    {
+      "id": "R3-C23-01-decimal-typed-value-match-short-string",
+      "kind": "differential",
+      "control": "decimal-typed-value",
+      "families": [
+        "C-23"
+      ],
+      "question": "A valid decimal value supplied in Cedar extension encoding is evaluated identically: both sides allow and attribute the same rule.",
+      "schema": "extensionDecimal",
+      "distincter": "r3c23",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "price": "19.99"
+        }
+      }
+    },
+    {
+      "id": "R3-C23-02-decimal-typed-mismatch-mismatch-explicit-escape",
+      "kind": "differential",
+      "control": "decimal-typed-mismatch",
+      "families": [
+        "C-23"
+      ],
+      "question": "A different decimal value produces a clean default Deny on both sides with no errors.",
+      "schema": "extensionDecimal",
+      "distincter": "r3c23b",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "price": {
+            "__extn": {
+              "fn": "decimal",
+              "arg": "1.00"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "R3-C23-02-decimal-typed-mismatch-mismatch-implicit-escape",
+      "kind": "differential",
+      "control": "decimal-typed-mismatch",
+      "families": [
+        "C-23"
+      ],
+      "question": "A different decimal value produces a clean default Deny on both sides with no errors.",
+      "schema": "extensionDecimal",
+      "distincter": "r3c23b",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "price": {
+            "fn": "decimal",
+            "arg": "1.00"
+          }
+        }
+      }
+    },
+    {
+      "id": "R3-C23-02-decimal-typed-mismatch-mismatch-short-string",
+      "kind": "differential",
+      "control": "decimal-typed-mismatch",
+      "families": [
+        "C-23"
+      ],
+      "question": "A different decimal value produces a clean default Deny on both sides with no errors.",
+      "schema": "extensionDecimal",
+      "distincter": "r3c23b",
+      "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "App",
+          "Action"
+        ],
+        "actionId": "read",
+        "principal": {
+          "type": "App::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "App::Doc",
+          "id": "d1"
+        },
+        "entities": [],
+        "context": {
+          "price": "1.00"
+        }
+      }
+    }
+  ]
+}
