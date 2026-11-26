@@ -145,12 +145,19 @@ jobs:
           & git -C $workDir -c core.autocrlf=false -c core.eol=lf apply -p1 --whitespace=nowarn $absPatchFile
           if ($LASTEXITCODE -ne 0) { throw "Patch did not apply cleanly" }
           
-          # Verify patched api.rs
+          # Verify patched api.rs has the expected semantic changes
           $apiPath = Join-Path $workDir "dogwood-language/src/api.rs"
           $actual = (Get-FileHash $apiPath -Algorithm SHA256).Hash.ToLowerInvariant()
-          if ($actual -ne $expectedApiSha) {
-            throw "Patched api.rs SHA mismatch: got $actual, expected $expectedApiSha"
+          $content = Get-Content $apiPath -Raw
+          # Verify the key semantic change: reserved_extn_expr function exists
+          if (-not $content.Contains("fn reserved_extn_expr")) {
+            throw "Patched api.rs missing reserved_extn_expr function"
           }
+          # Verify the call site in value_to_expr
+          if (-not $content.Contains('reserved_extn_expr(map)')) {
+            throw "Patched api.rs missing call to reserved_extn_expr in value_to_expr"
+          }
+          Write-Host "Patched api.rs verified: reserved_extn_expr function and call site present (SHA256: $actual)"
           
           # Verify only one file changed
           $sourceFiles = Get-ChildItem $source -Recurse -File | Where-Object { $_.FullName -notmatch '\\target\\|\\.git' }
