@@ -1,12 +1,10 @@
 {
   "schemaVersion": "3",
-  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R5-R3",
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R5-R1",
   "differences": [],
   "failClosedNormalizations": [],
   "notes": [
-    "OQ-01 targeted controls TC-01 through TC-07. These test the history-event",
-    "policy evaluation error scenario from multiple angles. The register carries",
-    "no approved differences or fail-closed normalizations - these are ordinary",
-    "agreement expectations that verify the proposed contract decision."
+    "The dedicated open-question run registers no approved difference and no fail-closed normalization. The divergence it records is an owner decision, not an approval: registering either would silently decide the question.",
+    "The R5-R1 differential corpus and its registers are unaffected by this manifest and keep their own approvals."
   ]
 }

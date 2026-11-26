@@ -1,16 +1,16 @@
 {
   "schemaVersion": "3",
   "commission": "DOGWOOD-SHARP-D3-IMPL-01-R5-R1",
-  "generatedAtUtc": "2026-11-26T10:25:24.8626896Z",
+  "generatedAtUtc": "2026-11-26T09:14:34.1685665Z",
   "runtime": {
     "framework": ".NET 8.0.31",
     "rid": "win-x64",
     "architecture": "X64",
     "oracle": "C:\\Windows\\Temp\\opencode\\r5r1-work\\corrected-oracle\\target\\release\\dogwoodsharp-corrected-oracle.exe",
-    "fixtures": "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01-r5-r3\\evidence\\differential\\oq01-controls\\fixtures.json",
-    "fixturesSha256": "3526FE747BF5E279C675F51C3F2BF68666C5D706EE1E066EBFD0D7F9F17056AB",
-    "differenceRegister": "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01-r5-r3\\evidence\\differential\\oq01-controls\\register.json",
-    "differenceRegisterSha256": "D4A4BDD6A1EF039D30E275C46599670FEF81D8CFC7EF10EE34C2E11566846EEE",
+    "fixtures": "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01-r5-r1\\evidence\\differential\\open-question\\fixtures.json",
+    "fixturesSha256": "8035FB25BB362B3F461F8BEDBF582AFD84043FF935CE23DC05EAB85643091C8B",
+    "differenceRegister": "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01-r5-r1\\evidence\\differential\\open-question\\register.json",
+    "differenceRegisterSha256": "7D4ACF6A7FF4702D78B477FA4EA82BF75231BE5ECDAF8A88401604FAAA3140BF",
     "nativeBridge": {
       "loaded": true,
       "abiVersion": 1,
@@ -23,57 +23,65 @@
     }
   },
   "summary": {
-    "total": 7,
-    "passed": 3,
-    "failed": 4,
+    "total": 1,
+    "passed": 0,
+    "failed": 1,
     "pending": 0,
     "familyCount": 1,
     "classifications": {
-      "agreement": 3,
-      "unexpected-difference": 4
+      "unexpected-difference": 1
     }
   },
   "familyCoverage": {
     "OQ-01": {
       "controls": {
-        "both-missing-owner": "unexpected-difference",
-        "history-missing-owner-forbid-on-history": "unexpected-difference",
-        "history-missing-temporal-attr": "agreement",
-        "mixed-history-one-valid": "unexpected-difference",
-        "no-valid-basis": "agreement",
-        "permit-forbid-same-action-history-missing-owner": "unexpected-difference",
-        "valid-history-valid-current": "agreement"
+        "temporal-history-event-policy-evaluation-error": "unexpected-difference"
       }
     }
   },
   "coverageErrors": [
-    "family OQ-01 control \u0060history-missing-owner-forbid-on-history\u0060 is unexpected-difference",
-    "family OQ-01 control \u0060both-missing-owner\u0060 is unexpected-difference",
-    "family OQ-01 control \u0060mixed-history-one-valid\u0060 is unexpected-difference",
-    "family OQ-01 control \u0060permit-forbid-same-action-history-missing-owner\u0060 is unexpected-difference"
+    "family OQ-01 control \u0060temporal-history-event-policy-evaluation-error\u0060 is unexpected-difference"
   ],
   "cases": [
     {
-      "id": "R5R3-TC-01-valid-history-valid-current",
+      "id": "R5R1-OQ-01-temporal-history-event-policy-evaluation-error",
       "kind": "differential",
-      "control": "valid-history-valid-current",
+      "control": "temporal-history-event-policy-evaluation-error",
       "families": [
         "OQ-01"
       ],
-      "question": "Valid history and current entities - both sides should allow",
-      "expectedClassification": "agreement",
+      "question": "A trusted history event whose resource entity lacks the \u0060owner\u0060 attribute makes the reference abort the whole authorization while evaluating the policy set against the history event. D3 computes the temporal leaf from the trace and never surfaces a history-event policy error, so D3 authorizes. Must a history-event policy evaluation error abort the current authorization?",
+      "expectedClassification": "unexpected-difference",
       "expectedDifferenceIds": [],
-      "classification": "agreement",
-      "verdict": "pass",
+      "classification": "unexpected-difference",
+      "verdict": "fail",
       "upstream": {
         "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "history event \u0060h-1\u0060 failed upstream evaluation: error while evaluating policy \u0060expc14_1\u0060: \u0060Test::Item::\u0022item-1\u0022\u0060 does not have the attribute \u0060owner\u0060"
+      },
+      "managed": {
+        "side": "managed",
         "stage": "evaluation",
         "operationFailed": false,
         "decision": "allow",
         "determining": [
           {
             "ruleIndex": 0,
-            "cedarPolicyId": "oq01tc_0"
+            "cedarPolicyId": "expc14_0"
           }
         ],
         "hasErrors": false,
@@ -84,43 +92,7 @@
         "trustedBindings": {
           "temporal": [
             {
-              "id": "oq01tc_0__temporal_0",
-              "value": true
-            }
-          ],
-          "providers": []
-        },
-        "history": [
-          {
-            "identity": "h-1",
-            "timestamp": 10,
-            "kind": "request",
-            "decision": "deny",
-            "hadErrors": false
-          }
-        ],
-        "error": null
-      },
-      "managed": {
-        "side": "managed",
-        "stage": "evaluation",
-        "operationFailed": false,
-        "decision": "allow",
-        "determining": [
-          {
-            "ruleIndex": 0,
-            "cedarPolicyId": "oq01tc_0"
-          }
-        ],
-        "hasErrors": false,
-        "errorCategories": [],
-        "policyErrorIds": [],
-        "cleanAllow": true,
-        "errors": [],
-        "trustedBindings": {
-          "temporal": [
-            {
-              "id": "oq01tc_0__temporal_0",
+              "id": "expc14_0__temporal_0",
               "value": true
             }
           ],
@@ -129,407 +101,38 @@
         "bindingObservationError": null,
         "error": null
       },
-      "observedDifferenceFields": [],
-      "differenceValidation": {
-        "intendedStage": "evaluation",
-        "intendedStageObserved": "evaluation"
-      }
-    },
-    {
-      "id": "R5R3-TC-02-history-missing-temporal-attr",
-      "kind": "differential",
-      "control": "history-missing-temporal-attr",
-      "families": [
-        "OQ-01"
-      ],
-      "question": "History event missing temporal attribute (stock) - temporal leaf false, current entity valid",
-      "expectedClassification": "agreement",
-      "expectedDifferenceIds": [],
-      "classification": "agreement",
-      "verdict": "pass",
-      "upstream": {
-        "side": "upstream",
-        "stage": "evaluation",
-        "operationFailed": false,
-        "decision": "deny",
-        "determining": [],
-        "hasErrors": false,
-        "errorCategories": [],
-        "policyErrorIds": [],
-        "cleanAllow": false,
-        "errors": [],
-        "trustedBindings": {
-          "temporal": [
-            {
-              "id": "oq01tc_0__temporal_0",
-              "value": false
-            }
-          ],
-          "providers": []
-        },
-        "history": [
-          {
-            "identity": "h-1",
-            "timestamp": 10,
-            "kind": "request",
-            "decision": "deny",
-            "hadErrors": false
-          }
-        ],
-        "error": null
-      },
-      "managed": {
-        "side": "managed",
-        "stage": "evaluation",
-        "operationFailed": false,
-        "decision": "deny",
-        "determining": [],
-        "hasErrors": false,
-        "errorCategories": [],
-        "policyErrorIds": [],
-        "cleanAllow": false,
-        "errors": [],
-        "trustedBindings": {
-          "temporal": [
-            {
-              "id": "oq01tc_0__temporal_0",
-              "value": false
-            }
-          ],
-          "providers": []
-        },
-        "bindingObservationError": null,
-        "error": null
-      },
-      "observedDifferenceFields": [],
-      "differenceValidation": {
-        "intendedStage": "evaluation",
-        "intendedStageObserved": "evaluation"
-      }
-    },
-    {
-      "id": "R5R3-TC-03-history-missing-owner-forbid-on-history",
-      "kind": "differential",
-      "control": "history-missing-owner-forbid-on-history",
-      "families": [
-        "OQ-01"
-      ],
-      "question": "History event missing owner attribute, forbid on Approve action - reference should not evaluate forbid against history",
-      "expectedClassification": "agreement",
-      "expectedDifferenceIds": [],
-      "classification": "unexpected-difference",
-      "verdict": "fail",
-      "upstream": {
-        "side": "upstream",
-        "stage": "evaluation",
-        "operationFailed": true,
-        "decision": null,
-        "determining": [],
-        "hasErrors": true,
-        "errorCategories": [],
-        "policyErrorIds": [],
-        "cleanAllow": false,
-        "errors": [],
-        "trustedBindings": {
-          "temporal": [],
-          "providers": []
-        },
-        "history": [],
-        "error": "history event \u0060h-1\u0060 failed upstream evaluation: entity conformance: entity does not conform to the schema"
-      },
-      "managed": {
-        "side": "managed",
-        "stage": "trusted-binding",
-        "operationFailed": true,
-        "decision": null,
-        "determining": [],
-        "hasErrors": true,
-        "errorCategories": [
-          "trusted-binding-unavailable"
-        ],
-        "policyErrorIds": [],
-        "cleanAllow": false,
-        "errors": [
-          {
-            "category": "trusted-binding-unavailable",
-            "message": "The trusted temporal/provider binding failed closed: history event \u0060h-1\u0060 failed upstream evaluation: entity conformance: entity does not conform to the schema"
-          }
-        ],
-        "trustedBindings": {},
-        "bindingObservationError": "history event \u0060h-1\u0060 failed upstream evaluation: entity conformance: entity does not conform to the schema",
-        "error": null
-      },
       "observedDifferenceFields": [
         {
-          "field": "stage",
-          "upstream": "evaluation",
-          "managed": "trusted-binding"
-        }
-      ],
-      "differenceValidation": {
-        "intendedStage": "evaluation",
-        "intendedStageObserved": "evaluation"
-      }
-    },
-    {
-      "id": "R5R3-TC-04-both-missing-owner",
-      "kind": "differential",
-      "control": "both-missing-owner",
-      "families": [
-        "OQ-01"
-      ],
-      "question": "Both history and current entities missing owner - current event conformance failure should deny",
-      "expectedClassification": "agreement",
-      "expectedDifferenceIds": [],
-      "classification": "unexpected-difference",
-      "verdict": "fail",
-      "upstream": {
-        "side": "upstream",
-        "stage": "evaluation",
-        "operationFailed": true,
-        "decision": null,
-        "determining": [],
-        "hasErrors": true,
-        "errorCategories": [],
-        "policyErrorIds": [],
-        "cleanAllow": false,
-        "errors": [],
-        "trustedBindings": {
-          "temporal": [],
-          "providers": []
+          "field": "operationFailed",
+          "upstream": true,
+          "managed": false
         },
-        "history": [],
-        "error": "history event \u0060h-1\u0060 failed upstream evaluation: entity conformance: entity does not conform to the schema"
-      },
-      "managed": {
-        "side": "managed",
-        "stage": "trusted-binding",
-        "operationFailed": true,
-        "decision": null,
-        "determining": [],
-        "hasErrors": true,
-        "errorCategories": [
-          "trusted-binding-unavailable"
-        ],
-        "policyErrorIds": [],
-        "cleanAllow": false,
-        "errors": [
-          {
-            "category": "trusted-binding-unavailable",
-            "message": "The trusted temporal/provider binding failed closed: history event \u0060h-1\u0060 failed upstream evaluation: entity conformance: entity does not conform to the schema"
-          }
-        ],
-        "trustedBindings": {},
-        "bindingObservationError": "history event \u0060h-1\u0060 failed upstream evaluation: entity conformance: entity does not conform to the schema",
-        "error": null
-      },
-      "observedDifferenceFields": [
         {
-          "field": "stage",
-          "upstream": "evaluation",
-          "managed": "trusted-binding"
-        }
-      ],
-      "differenceValidation": {
-        "intendedStage": "evaluation",
-        "intendedStageObserved": "evaluation"
-      }
-    },
-    {
-      "id": "R5R3-TC-05-mixed-history-one-valid",
-      "kind": "differential",
-      "control": "mixed-history-one-valid",
-      "families": [
-        "OQ-01"
-      ],
-      "question": "Two history events, one valid one missing owner - valid one should satisfy temporal",
-      "expectedClassification": "agreement",
-      "expectedDifferenceIds": [],
-      "classification": "unexpected-difference",
-      "verdict": "fail",
-      "upstream": {
-        "side": "upstream",
-        "stage": "evaluation",
-        "operationFailed": true,
-        "decision": null,
-        "determining": [],
-        "hasErrors": true,
-        "errorCategories": [],
-        "policyErrorIds": [],
-        "cleanAllow": false,
-        "errors": [],
-        "trustedBindings": {
-          "temporal": [],
-          "providers": []
+          "field": "decision",
+          "upstream": null,
+          "managed": "allow"
         },
-        "history": [],
-        "error": "history event \u0060h-2\u0060 failed upstream evaluation: entity conformance: entity does not conform to the schema"
-      },
-      "managed": {
-        "side": "managed",
-        "stage": "trusted-binding",
-        "operationFailed": true,
-        "decision": null,
-        "determining": [],
-        "hasErrors": true,
-        "errorCategories": [
-          "trusted-binding-unavailable"
-        ],
-        "policyErrorIds": [],
-        "cleanAllow": false,
-        "errors": [
-          {
-            "category": "trusted-binding-unavailable",
-            "message": "The trusted temporal/provider binding failed closed: history event \u0060h-2\u0060 failed upstream evaluation: entity conformance: entity does not conform to the schema"
-          }
-        ],
-        "trustedBindings": {},
-        "bindingObservationError": "history event \u0060h-2\u0060 failed upstream evaluation: entity conformance: entity does not conform to the schema",
-        "error": null
-      },
-      "observedDifferenceFields": [
         {
-          "field": "stage",
-          "upstream": "evaluation",
-          "managed": "trusted-binding"
-        }
-      ],
-      "differenceValidation": {
-        "intendedStage": "evaluation",
-        "intendedStageObserved": "evaluation"
-      }
-    },
-    {
-      "id": "R5R3-TC-06-permit-forbid-same-action-history-missing-owner",
-      "kind": "differential",
-      "control": "permit-forbid-same-action-history-missing-owner",
-      "families": [
-        "OQ-01"
-      ],
-      "question": "Permit and forbid on same Approve action, history missing owner - forbid should not be evaluated against history",
-      "expectedClassification": "agreement",
-      "expectedDifferenceIds": [],
-      "classification": "unexpected-difference",
-      "verdict": "fail",
-      "upstream": {
-        "side": "upstream",
-        "stage": "evaluation",
-        "operationFailed": true,
-        "decision": null,
-        "determining": [],
-        "hasErrors": true,
-        "errorCategories": [],
-        "policyErrorIds": [],
-        "cleanAllow": false,
-        "errors": [],
-        "trustedBindings": {
-          "temporal": [],
-          "providers": []
-        },
-        "history": [],
-        "error": "history event \u0060h-1\u0060 failed upstream evaluation: entity conformance: entity does not conform to the schema"
-      },
-      "managed": {
-        "side": "managed",
-        "stage": "trusted-binding",
-        "operationFailed": true,
-        "decision": null,
-        "determining": [],
-        "hasErrors": true,
-        "errorCategories": [
-          "trusted-binding-unavailable"
-        ],
-        "policyErrorIds": [],
-        "cleanAllow": false,
-        "errors": [
-          {
-            "category": "trusted-binding-unavailable",
-            "message": "The trusted temporal/provider binding failed closed: history event \u0060h-1\u0060 failed upstream evaluation: entity conformance: entity does not conform to the schema"
-          }
-        ],
-        "trustedBindings": {},
-        "bindingObservationError": "history event \u0060h-1\u0060 failed upstream evaluation: entity conformance: entity does not conform to the schema",
-        "error": null
-      },
-      "observedDifferenceFields": [
-        {
-          "field": "stage",
-          "upstream": "evaluation",
-          "managed": "trusted-binding"
-        }
-      ],
-      "differenceValidation": {
-        "intendedStage": "evaluation",
-        "intendedStageObserved": "evaluation"
-      }
-    },
-    {
-      "id": "R5R3-TC-07-no-valid-basis",
-      "kind": "differential",
-      "control": "no-valid-basis",
-      "families": [
-        "OQ-01"
-      ],
-      "question": "History event stock doesn\u0027t match, no permit applies - should deny",
-      "expectedClassification": "agreement",
-      "expectedDifferenceIds": [],
-      "classification": "agreement",
-      "verdict": "pass",
-      "upstream": {
-        "side": "upstream",
-        "stage": "evaluation",
-        "operationFailed": false,
-        "decision": "deny",
-        "determining": [],
-        "hasErrors": false,
-        "errorCategories": [],
-        "policyErrorIds": [],
-        "cleanAllow": false,
-        "errors": [],
-        "trustedBindings": {
-          "temporal": [
+          "field": "determining",
+          "upstream": [],
+          "managed": [
             {
-              "id": "oq01tc_0__temporal_0",
-              "value": false
+              "cedarPolicyId": "expc14_0",
+              "ruleIndex": 0
             }
-          ],
-          "providers": []
+          ]
         },
-        "history": [
-          {
-            "identity": "h-1",
-            "timestamp": 10,
-            "kind": "request",
-            "decision": "deny",
-            "hadErrors": false
-          }
-        ],
-        "error": null
-      },
-      "managed": {
-        "side": "managed",
-        "stage": "evaluation",
-        "operationFailed": false,
-        "decision": "deny",
-        "determining": [],
-        "hasErrors": false,
-        "errorCategories": [],
-        "policyErrorIds": [],
-        "cleanAllow": false,
-        "errors": [],
-        "trustedBindings": {
-          "temporal": [
-            {
-              "id": "oq01tc_0__temporal_0",
-              "value": false
-            }
-          ],
-          "providers": []
+        {
+          "field": "hasErrors",
+          "upstream": true,
+          "managed": false
         },
-        "bindingObservationError": null,
-        "error": null
-      },
-      "observedDifferenceFields": [],
+        {
+          "field": "cleanAllow",
+          "upstream": false,
+          "managed": true
+        }
+      ],
       "differenceValidation": {
         "intendedStage": "evaluation",
         "intendedStageObserved": "evaluation"

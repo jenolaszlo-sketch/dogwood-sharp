@@ -1,0 +1,837 @@
+{
+  "schemaVersion": "3",
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R5-R1",
+  "differences": [
+    {
+      "id": "ED-01",
+      "dimension": "entity-store-mode",
+      "agreementClass": "expected-difference",
+      "cases": [
+        "R3-C08-01-omitted-scope",
+        "R3-C09-03-bare-attr-read",
+        "R3-C18-01-raw-allow-with-error",
+        "R3-C09-04-upstream-vs-d3",
+        "R3-C19-01-errored-forbid"
+      ],
+      "upstreamObservation": "Upstream adds an omitted scope principal as a bare, unchecked entity.",
+      "d3Observation": "The selected schema-carrying mode leaves the omitted scope principal absent.",
+      "failClosedEffect": "Attribute evaluation fails closed; a raw Allow with an error is not authorization.",
+      "caseObservations": {
+        "R3-C08-01-omitted-scope": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "deny",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        },
+        "R3-C09-03-bare-attr-read": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "deny",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        },
+        "R3-C18-01-raw-allow-with-error": {
+          "upstream": {
+            "decision": "allow",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "allow",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        },
+        "R3-C09-04-upstream-vs-d3": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "deny",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        },
+        "R3-C19-01-errored-forbid": {
+          "upstream": {
+            "decision": "allow",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "allow",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ED-02",
+      "dimension": "conformance-failure-stage",
+      "agreementClass": "expected-difference",
+      "cases": [
+        "R3-C08-02-explicit-attrless",
+        "R3-C08-03-explicit-incomplete",
+        "R3-C10-01-wrong-attr-type",
+        "R3-C10-02-missing-req-attr",
+        "R3-C10-03-unknown-entity-type",
+        "R3-C07-03-caller-conflict",
+        "R3-C06-04-wrong-parent-type",
+        "R3-C10-04-invalid-parent"
+      ],
+      "upstreamObservation": "A caller-entity conformance failure becomes a fail-closed Deny with diagnostics.",
+      "d3Observation": "Schema request validation returns an operation failure with no decision.",
+      "failClosedEffect": "Neither side authorizes the invalid request; failure stage differs.",
+      "caseObservations": {
+        "R3-C08-02-explicit-attrless": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          }
+        },
+        "R3-C08-03-explicit-incomplete": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          }
+        },
+        "R3-C10-01-wrong-attr-type": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          }
+        },
+        "R3-C10-02-missing-req-attr": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          }
+        },
+        "R3-C10-03-unknown-entity-type": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "operation-error"
+            ]
+          }
+        },
+        "R3-C07-03-caller-conflict": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          }
+        },
+        "R3-C06-04-wrong-parent-type": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          }
+        },
+        "R3-C10-04-invalid-parent": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "entity-conformance"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ED-03",
+      "dimension": "missing-entity-diagnostic-category",
+      "agreementClass": "expected-difference",
+      "cases": [
+        "R3-C08-01-omitted-scope",
+        "R3-C09-03-bare-attr-read",
+        "R3-C18-01-raw-allow-with-error",
+        "R3-C09-04-upstream-vs-d3",
+        "R3-C05-05-missing-ref-entity",
+        "R3-C08-04-missing-ref-entity",
+        "R3-C19-01-errored-forbid"
+      ],
+      "upstreamObservation": "The bare scope entity is reported as missing the required attribute.",
+      "d3Observation": "The absent scope entity is reported as missing.",
+      "failClosedEffect": "The diagnostic category differs; the failing policy does not authorize.",
+      "caseObservations": {
+        "R3-C08-01-omitted-scope": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "deny",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        },
+        "R3-C09-03-bare-attr-read": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "deny",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        },
+        "R3-C18-01-raw-allow-with-error": {
+          "upstream": {
+            "decision": "allow",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "allow",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        },
+        "R3-C09-04-upstream-vs-d3": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "deny",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        },
+        "R3-C05-05-missing-ref-entity": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "deny",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        },
+        "R3-C08-04-missing-ref-entity": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "deny",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        },
+        "R3-C19-01-errored-forbid": {
+          "upstream": {
+            "decision": "allow",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": "allow",
+            "hasErrors": true,
+            "operationFailed": false,
+            "errorCategories": [
+              "missing-entity"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ED-04",
+      "dimension": "scope-applicability-enforcement",
+      "agreementClass": "expected-difference",
+      "cases": [
+        "R3-C11-01-principal-outside",
+        "R3-C11-02-resource-outside",
+        "R3-C11-03-action-not-declared",
+        "R3-C11-04-declared-inapplicable",
+        "R3-C11-08-schema-only-group",
+        "R3-C11-09-omitted-appliesto"
+      ],
+      "upstreamObservation": "The upstream decision path does not enforce the action's complete appliesTo constraints and can allow an out-of-scope principal or resource.",
+      "d3Observation": "Schema request validation rejects the out-of-appliesTo scope or undeclared action before a decision.",
+      "failClosedEffect": "This owner-approved stricter D3 contract prevents the upstream out-of-scope Allow.",
+      "caseObservations": {
+        "R3-C11-01-principal-outside": {
+          "upstream": {
+            "decision": "allow",
+            "hasErrors": false,
+            "errorCategories": []
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "operation-error"
+            ]
+          }
+        },
+        "R3-C11-02-resource-outside": {
+          "upstream": {
+            "decision": "allow",
+            "hasErrors": false,
+            "errorCategories": []
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "scope-mismatch"
+            ]
+          }
+        },
+        "R3-C11-03-action-not-declared": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": false,
+            "errorCategories": []
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "undeclared-action"
+            ]
+          }
+        },
+        "R3-C11-04-declared-inapplicable": {
+          "upstream": {
+            "decision": "allow",
+            "hasErrors": false,
+            "errorCategories": []
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "scope-mismatch"
+            ]
+          }
+        },
+        "R3-C11-08-schema-only-group": {
+          "upstream": {
+            "decision": "allow",
+            "hasErrors": false,
+            "errorCategories": []
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "scope-mismatch"
+            ]
+          }
+        },
+        "R3-C11-09-omitted-appliesto": {
+          "upstream": {
+            "decision": "allow",
+            "hasErrors": false,
+            "errorCategories": []
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ED-05",
+      "dimension": "missing-context-stage",
+      "agreementClass": "expected-difference",
+      "cases": [
+        "R3-C20-05-missing-context-attribute"
+      ],
+      "upstreamObservation": "Missing required context can surface as a policy-evaluation error.",
+      "d3Observation": "Schema context parsing can produce an operation failure.",
+      "failClosedEffect": "Both fail closed; stage differs.",
+      "caseObservations": {
+        "R3-C20-05-missing-context-attribute": {
+          "upstream": {
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          },
+          "d3": {
+            "decision": null,
+            "hasErrors": true,
+            "operationFailed": true,
+            "errorCategories": [
+              "missing-attribute"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "failClosedNormalizations": [
+    {
+      "id": "FCN-01",
+      "title": "Provider resolver omission or failure",
+      "cases": [
+        "R3-C17-01-provider-omission",
+        "R3-C17-02-provider-failure"
+      ],
+      "upstreamObservation": "Evaluation-stage Deny with provider-evaluation-error diagnostics.",
+      "d3Observation": "Trusted-binding operation failure with no decision and a trusted-binding-unavailable diagnostic.",
+      "basis": "The pinned upstream ProviderResolver contract declares Some(Err(_)) undefined behavior for the decision outcome; the reference implementation's deny is its chosen handling, not a semantic guarantee. D3 reports the same non-authorization as an operation failure. No caller data is used on either side.",
+      "failClosedEffect": "Neither side authorizes and neither falls back to caller data. The stage, decision shape and diagnostic category are not compared for these two cases; the exact observations below are machine-verified.",
+      "caseObservations": {
+        "R3-C17-01-provider-omission": {
+          "upstream": {
+            "decision": "deny",
+            "operationFailed": false,
+            "hasErrors": true,
+            "cleanAllow": false,
+            "errorCategories": [
+              "provider-evaluation-error"
+            ]
+          },
+          "d3": {
+            "stage": "trusted-binding",
+            "decision": null,
+            "operationFailed": true,
+            "hasErrors": true,
+            "cleanAllow": false,
+            "errorCategories": [
+              "trusted-binding-unavailable"
+            ]
+          }
+        },
+        "R3-C17-02-provider-failure": {
+          "upstream": {
+            "decision": "deny",
+            "operationFailed": false,
+            "hasErrors": true,
+            "cleanAllow": false,
+            "errorCategories": [
+              "provider-evaluation-error"
+            ]
+          },
+          "d3": {
+            "stage": "trusted-binding",
+            "decision": null,
+            "operationFailed": true,
+            "hasErrors": true,
+            "cleanAllow": false,
+            "errorCategories": [
+              "trusted-binding-unavailable"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "FCN-02",
+      "title": "Malformed typed-context encoding",
+      "cases": [
+        "R5R1-C23-01-ipaddr-invalid-bare-string",
+        "R5R1-C23-02-ipaddr-invalid-octet",
+        "R5R1-C23-03-datetime-invalid-escape",
+        "R5R1-C23-04-decimal-invalid-escape",
+        "R5R1-C23-05-ipaddr-invalid-implicit-escape"
+      ],
+      "upstreamObservation": "The reference side does not authorize the request. The ORIGINAL reference degrades the malformed ipaddr and datetime encodings to plain records and therefore denies cleanly; the malformed decimal escape is rejected while the request context is built and the reference denies with that diagnostic. The CORRECTED reference rejects every malformed typed encoding while the request context is built and produces no decision.",
+      "d3Observation": "D3 rejects the malformed typed encoding at the request boundary and produces no decision. The diagnostic is the Cedar extension function's own error and is identical to the corrected reference's diagnostic.",
+      "basis": "A malformed typed encoding must never gain validity. Cedar's reserved extension encoding is schema-directed: the `ipaddr`, `datetime` and `decimal` constructors are applied by the engine that owns the schema, and an invalid argument is an error, not a value. The pinned reference adapter has no schema-directed parsing at its JSON boundary and the pinned Dogwood runtime value model has no ipaddr or datetime variant, so the ORIGINAL reference degrades a malformed ipaddr or datetime encoding to a plain record and denies the request as if the value had simply not matched. That degradation is the same defect boundary as ED-06: the value never reaches Cedar as a typed value. The corrected reference keeps the typed value until Cedar applies the constructor, so the malformed value is rejected with the extension function's own error, exactly as D3 rejects it. Both sides authorize nothing, so the pair is a fail-closed equivalence in the authorization sense; the per-side observations below are machine-verified and record where each side refuses the request.",
+      "failClosedEffect": "Neither side authorizes: the malformed encoding is never treated as a valid typed value, neither side produces an Allow, and the malformed input is rejected rather than coerced.",
+      "caseObservations": {
+        "R5R1-C23-01-ipaddr-invalid-bare-string": {
+          "upstream": {
+            "stage": "request-validation",
+            "operationFailed": true,
+            "decision": null,
+            "hasErrors": true,
+            "errorCategories": [],
+            "cleanAllow": false,
+            "error": "current event is malformed: typed context: error while evaluating `ipaddr` extension function: invalid IP address: not-an-ip"
+          },
+          "d3": {
+            "stage": "native-transport",
+            "operationFailed": true,
+            "decision": null,
+            "hasErrors": true,
+            "errorCategories": [
+              "operation-error"
+            ],
+            "cleanAllow": false,
+            "errors": [
+              {
+                "category": "operation-error",
+                "message": "error while evaluating `ipaddr` extension function: invalid IP address: not-an-ip"
+              }
+            ]
+          }
+        },
+        "R5R1-C23-02-ipaddr-invalid-octet": {
+          "upstream": {
+            "stage": "request-validation",
+            "operationFailed": true,
+            "decision": null,
+            "hasErrors": true,
+            "errorCategories": [],
+            "cleanAllow": false,
+            "error": "current event is malformed: typed context: error while evaluating `ipaddr` extension function: invalid IP address: 999.1.1.1"
+          },
+          "d3": {
+            "stage": "native-transport",
+            "operationFailed": true,
+            "decision": null,
+            "hasErrors": true,
+            "errorCategories": [
+              "operation-error"
+            ],
+            "cleanAllow": false,
+            "errors": [
+              {
+                "category": "operation-error",
+                "message": "error while evaluating `ipaddr` extension function: invalid IP address: 999.1.1.1"
+              }
+            ]
+          }
+        },
+        "R5R1-C23-03-datetime-invalid-escape": {
+          "upstream": {
+            "stage": "request-validation",
+            "operationFailed": true,
+            "decision": null,
+            "hasErrors": true,
+            "errorCategories": [],
+            "cleanAllow": false,
+            "error": "current event is malformed: typed context: error while evaluating `datetime` extension function: invalid date pattern"
+          },
+          "d3": {
+            "stage": "native-transport",
+            "operationFailed": true,
+            "decision": null,
+            "hasErrors": true,
+            "errorCategories": [
+              "operation-error"
+            ],
+            "cleanAllow": false,
+            "errors": [
+              {
+                "category": "operation-error",
+                "message": "error while evaluating `datetime` extension function: invalid date pattern"
+              }
+            ]
+          }
+        },
+        "R5R1-C23-04-decimal-invalid-escape": {
+          "upstream": {
+            "stage": "request-validation",
+            "operationFailed": true,
+            "decision": null,
+            "hasErrors": true,
+            "errorCategories": [],
+            "cleanAllow": false,
+            "error": "current event is malformed: typed context: error while evaluating `decimal` extension function: `not-a-number` is not a well-formed decimal value"
+          },
+          "d3": {
+            "stage": "native-transport",
+            "operationFailed": true,
+            "decision": null,
+            "hasErrors": true,
+            "errorCategories": [
+              "operation-error"
+            ],
+            "cleanAllow": false,
+            "errors": [
+              {
+                "category": "operation-error",
+                "message": "error while evaluating `decimal` extension function: `not-a-number` is not a well-formed decimal value"
+              }
+            ]
+          }
+        },
+        "R5R1-C23-05-ipaddr-invalid-implicit-escape": {
+          "upstream": {
+            "stage": "request-validation",
+            "operationFailed": true,
+            "decision": null,
+            "hasErrors": true,
+            "errorCategories": [],
+            "cleanAllow": false,
+            "error": "current event is malformed: typed context: error while evaluating `ipaddr` extension function: invalid IP address: not-an-ip"
+          },
+          "d3": {
+            "stage": "native-transport",
+            "operationFailed": true,
+            "decision": null,
+            "hasErrors": true,
+            "errorCategories": [
+              "operation-error"
+            ],
+            "cleanAllow": false,
+            "errors": [
+              {
+                "category": "operation-error",
+                "message": "error while evaluating `ipaddr` extension function: invalid IP address: not-an-ip"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "FCN-03",
+      "title": "Temporal history replay fails closed on a non-conforming entity",
+      "cases": [
+        "R5R1-C14-01-temporal-history-replay-conformance-failure"
+      ],
+      "upstreamObservation": "Evaluation-stage operation failure with no decision. The trusted history replay evaluates the history event inside the temporal pipeline; the history event carries a caller-supplied entity whose entity-typed attribute is a plain record instead of an entity reference, the entity does not satisfy the schema, and the replay fails before the current event is decided.",
+      "d3Observation": "Trusted-binding operation failure with no decision. The native trusted-runtime binding replays the same history through the same pinned upstream, observes the same entity-conformance failure and refuses the binding, so no trusted context is produced.",
+      "basis": "Qualification finding QD3Q-05 requires a C-14 observation that establishes a reachable evaluation-stage failure inside the temporal pipeline, as distinct from the trusted-binding rejections the R3/R4 corpus already carried and from a false temporal binding. This case makes the trusted history itself fail the entity-conformance check while the history is replayed for the temporal decision. Both sides report the same underlying upstream diagnostic and both refuse the request, so the pair is a fail-closed normalization, not an approved authorization difference. The residual limitation - that the pinned temporal engine's own error channel (`temporal evaluation: ...`) is not reachable from caller input in this stack - is recorded in the R5-R1 review record.",
+      "failClosedEffect": "Neither side authorizes: the reference fails closed during the history replay and D3 fails closed at the trusted-binding stage. Neither side reports a decision, neither reports a clean Allow, and the temporal bindings are never produced.",
+      "caseObservations": {
+        "R5R1-C14-01-temporal-history-replay-conformance-failure": {
+          "upstream": {
+            "stage": "evaluation",
+            "operationFailed": true,
+            "decision": null,
+            "hasErrors": true,
+            "errorCategories": [],
+            "cleanAllow": false,
+            "error": "history event `r5r1-hist-1` failed upstream evaluation: entity conformance: entity does not conform to the schema"
+          },
+          "d3": {
+            "stage": "trusted-binding",
+            "operationFailed": true,
+            "decision": null,
+            "hasErrors": true,
+            "errorCategories": [
+              "trusted-binding-unavailable"
+            ],
+            "cleanAllow": false,
+            "errors": [
+              {
+                "category": "trusted-binding-unavailable",
+                "message": "The trusted temporal/provider binding failed closed: history event `r5r1-hist-1` failed upstream evaluation: entity conformance: entity does not conform to the schema"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "FCN-04",
+      "title": "Temporal current-event evaluation fails closed on a non-conforming entity",
+      "cases": [
+        "R5R1-C14-02-temporal-current-event-conformance-failure"
+      ],
+      "upstreamObservation": "Evaluation-stage Deny with an entity-conformance diagnostic. The temporal pipeline has produced its bindings, the current event carries a caller-supplied entity whose entity-typed attribute is a plain record instead of an entity reference, and the entity-store construction fails closed with that diagnostic.",
+      "d3Observation": "Trusted-binding operation failure with no decision. The native trusted-runtime binding observes the same entity-conformance failure on the current event and refuses the binding.",
+      "basis": "This is the second reachable evaluation-stage failure inside the temporal pipeline: the history is well formed, the temporal bindings are computed, and the current event's entity store fails the schema-conformance check. The reference fails closed with a Deny that carries the conformance diagnostic; D3's trusted-runtime contract refuses the binding and produces no decision at all. Neither side authorizes, so the pair is a fail-closed normalization with machine-verified per-side observations, matching the FCN-01 precedent for the provider contract.",
+      "failClosedEffect": "Neither side authorizes: the reference denies with the conformance diagnostic and D3 refuses the trusted binding. Neither side reports a clean Allow.",
+      "caseObservations": {
+        "R5R1-C14-02-temporal-current-event-conformance-failure": {
+          "upstream": {
+            "stage": "evaluation",
+            "operationFailed": false,
+            "decision": "deny",
+            "hasErrors": true,
+            "errorCategories": [
+              "entity-conformance"
+            ],
+            "cleanAllow": false,
+            "errors": [
+              "entity conformance: entity does not conform to the schema"
+            ]
+          },
+          "d3": {
+            "stage": "trusted-binding",
+            "operationFailed": true,
+            "decision": null,
+            "hasErrors": true,
+            "errorCategories": [
+              "trusted-binding-unavailable"
+            ],
+            "cleanAllow": false,
+            "errors": [
+              {
+                "category": "trusted-binding-unavailable",
+                "message": "The trusted temporal/provider binding failed closed: current event failed upstream evaluation: entity conformance: entity does not conform to the schema"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "notes": [
+    "ED-06 is preserved in the R4 and R5 registers and in the frozen review records; it is not carried forward into the corrected-reference register. The corrected reference eliminates the divergence ED-06 approved, so the approval has nothing left to absorb and the two ED-06 cases are expected to agree. Retiring, superseding or retaining ED-06 is an owner decision: this commission records the recommendation and the executed evidence only, and it does not activate a revised contract."
+  ]
+}
