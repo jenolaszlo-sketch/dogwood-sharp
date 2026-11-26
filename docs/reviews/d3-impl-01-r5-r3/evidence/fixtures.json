@@ -3678,10 +3678,8 @@
       "schema": "extensionIpaddr",
       "distincter": "r3c23h",
       "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
-      "expectedClassification": "approved-difference",
-      "expectedDifferenceIds": [
-        "ED-06"
-      ],
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
       "intendedStage": "evaluation",
       "event": {
         "timestamp": 100,
@@ -3707,9 +3705,7 @@
             }
           }
         }
-      },
-      "approvedDifferenceId": "ED-06",
-      "approvedDifferenceReason": "The pinned upstream Dogwood 1.1.2 value model has no ipaddr variant, so a typed ipaddr context value cannot reach the upstream authorizer as a typed value and the upstream comparison is a clean Deny, while D3 evaluates the Cedar ip extension through CedarSharp and reaches a clean Allow. The owner approved exactly this representability ceiling as ED-06 for this case and for R3-C23-09-datetime-typed-context, with the authorized difference scope limited to the decision, determining and cleanAllow fields."
+      }
     },
     {
       "id": "R3-C23-09-datetime-typed-context",
@@ -3722,10 +3718,8 @@
       "schema": "extensionDatetime",
       "distincter": "r3c23i",
       "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
-      "expectedClassification": "approved-difference",
-      "expectedDifferenceIds": [
-        "ED-06"
-      ],
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
       "intendedStage": "evaluation",
       "event": {
         "timestamp": 100,
@@ -3751,9 +3745,7 @@
             }
           }
         }
-      },
-      "approvedDifferenceId": "ED-06",
-      "approvedDifferenceReason": "The pinned upstream Dogwood 1.1.2 value model has no datetime variant, so a typed datetime context value cannot reach the upstream authorizer as a typed value and the upstream comparison is a clean Deny, while D3 evaluates the Cedar datetime extension through CedarSharp and reaches a clean Allow. The owner approved exactly this representability ceiling as ED-06 for this case and for R3-C23-08-ipaddr-typed-context, with the authorized difference scope limited to the decision, determining and cleanAllow fields."
+      }
     },
     {
       "id": "R4-C23-01-typed-ipaddr-authorization",
@@ -5833,8 +5825,9 @@
       "schema": "extensionIpaddr",
       "distincter": "r5r1c23",
       "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
-      "expectedClassification": "agreement",
+      "expectedClassification": "fail-closed-equivalence",
       "expectedDifferenceIds": [],
+      "failClosedNormalizationId": "FCN-02",
       "intendedStage": "evaluation",
       "event": {
         "timestamp": 100,
@@ -5868,8 +5861,9 @@
       "schema": "extensionIpaddr",
       "distincter": "r5r1c23",
       "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
-      "expectedClassification": "agreement",
+      "expectedClassification": "fail-closed-equivalence",
       "expectedDifferenceIds": [],
+      "failClosedNormalizationId": "FCN-02",
       "intendedStage": "evaluation",
       "event": {
         "timestamp": 100,
@@ -5908,8 +5902,9 @@
       "schema": "extensionDatetime",
       "distincter": "r5r1c23",
       "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
-      "expectedClassification": "agreement",
+      "expectedClassification": "fail-closed-equivalence",
       "expectedDifferenceIds": [],
+      "failClosedNormalizationId": "FCN-02",
       "intendedStage": "evaluation",
       "event": {
         "timestamp": 100,
@@ -5948,8 +5943,9 @@
       "schema": "extensionDecimal",
       "distincter": "r5r1c23",
       "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"1.5\") };",
-      "expectedClassification": "agreement",
+      "expectedClassification": "fail-closed-equivalence",
       "expectedDifferenceIds": [],
+      "failClosedNormalizationId": "FCN-02",
       "intendedStage": "evaluation",
       "event": {
         "timestamp": 100,
@@ -5988,8 +5984,9 @@
       "schema": "extensionIpaddr",
       "distincter": "r5r1c23",
       "source": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
-      "expectedClassification": "agreement",
+      "expectedClassification": "fail-closed-equivalence",
       "expectedDifferenceIds": [],
+      "failClosedNormalizationId": "FCN-02",
       "intendedStage": "evaluation",
       "event": {
         "timestamp": 100,
