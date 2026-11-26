@@ -13,7 +13,7 @@ bridgeCargo="$bridgeDir/Cargo.toml"
 sed -i "s|dogwood-language = { git = \"https://github.com/dogwood-policy/dogwood\", rev = \"929f49e7305534ac61ef06cf8e47269c596dc851\"|dogwood-language = { path = \"$patchedDogwood\"|" "$bridgeCargo"
 
 export CARGO_TARGET_DIR="r5r3-work/bridge-target"
-cargo build --locked --release $targetArg --manifest-path "$bridgeCargo"
+cargo build --release $targetArg --manifest-path "$bridgeCargo"
 
 libName=""
 target=""
