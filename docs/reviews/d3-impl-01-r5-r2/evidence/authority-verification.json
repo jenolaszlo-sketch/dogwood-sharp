@@ -1,0 +1,1598 @@
+{
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R5-R1",
+  "purpose": "Machine-checked verification of the direct Cedar adjudication outcomes against the commission's authority table.",
+  "corpus": {
+    "path": "cedar-adjudicator/corpus.json",
+    "cases": 57,
+    "comment": "DOGWOOD-SHARP-D3-IMPL-01-R5-R1 direct Cedar adjudication corpus. Independently constructed minimal Cedar policies and schema-directed JSON requests. Group A reproduces the 18 R5 baseline replay cases (fixture cross-referenced). Group B covers adjacent valid representations. Group C covers invalid and malformed representations that must not acquire validity, including the R5-R1 malformed typed-encoding controls."
+  },
+  "engines": {
+    "reference": {
+      "version": "cedar-policy 4.11.0",
+      "outcome": "cedar-adjudicator-4110/corpus-4110-outcome.json"
+    },
+    "d3": {
+      "version": "cedar-policy 4.13.0",
+      "outcome": "cedar-adjudicator/corpus-4130-outcome.json"
+    }
+  },
+  "engineVersionParity": {
+    "cases": 57,
+    "divergences": [],
+    "identical": true
+  },
+  "authorityTable": [
+    {
+      "id": "ADJ-A01",
+      "fixtureId": "R3-C23-08-ipaddr-typed-context",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23h_0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23h_0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A02",
+      "fixtureId": "R3-C23-08-ipaddr-typed-context-match-implicit-escape",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23h_0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23h_0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A03",
+      "fixtureId": "R3-C23-08-ipaddr-typed-context-match-short-string",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23h_0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23h_0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A04",
+      "fixtureId": "R3-C23-08-ipaddr-typed-context-mismatch-explicit-escape",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A05",
+      "fixtureId": "R3-C23-08-ipaddr-typed-context-mismatch-implicit-escape",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A06",
+      "fixtureId": "R3-C23-08-ipaddr-typed-context-mismatch-short-string",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A07",
+      "fixtureId": "R3-C23-09-datetime-typed-context",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23i_0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23i_0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A08",
+      "fixtureId": "R3-C23-09-datetime-typed-context-match-implicit-escape",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23i_0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23i_0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A09",
+      "fixtureId": "R3-C23-09-datetime-typed-context-match-short-string",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23i_0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23i_0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A10",
+      "fixtureId": "R3-C23-09-datetime-typed-context-mismatch-explicit-escape",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A11",
+      "fixtureId": "R3-C23-09-datetime-typed-context-mismatch-implicit-escape",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A12",
+      "fixtureId": "R3-C23-09-datetime-typed-context-mismatch-short-string",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A13",
+      "fixtureId": "R3-C23-01-decimal-typed-value-match-explicit-escape",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23_0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23_0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A14",
+      "fixtureId": "R3-C23-01-decimal-typed-value-match-implicit-escape",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23_0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23_0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A15",
+      "fixtureId": "R3-C23-01-decimal-typed-value-match-short-string",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23_0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "r3c23_0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A16",
+      "fixtureId": "R3-C23-02-decimal-typed-mismatch-mismatch-explicit-escape",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A17",
+      "fixtureId": "R3-C23-02-decimal-typed-mismatch-mismatch-implicit-escape",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-A18",
+      "fixtureId": "R3-C23-02-decimal-typed-mismatch-mismatch-short-string",
+      "expected": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-B01",
+      "fixtureId": null,
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-B02",
+      "fixtureId": null,
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-B03",
+      "fixtureId": null,
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-B04",
+      "fixtureId": null,
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-B05",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: error while evaluating `datetime` extension function: invalid millisecond and/or offset pattern"
+      ]
+    },
+    {
+      "id": "ADJ-B06",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: error while evaluating `datetime` extension function: invalid hour/minute/second pattern"
+      ]
+    },
+    {
+      "id": "ADJ-B07",
+      "fixtureId": null,
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-B08",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: while parsing context, expected the record to have an attribute `ip`, but it does not"
+      ]
+    },
+    {
+      "id": "ADJ-B09",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: while parsing context, record attribute `junk` should not exist according to the schema"
+      ]
+    },
+    {
+      "id": "ADJ-B10",
+      "fixtureId": null,
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-B11",
+      "fixtureId": null,
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-B12",
+      "fixtureId": null,
+      "expected": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-B13",
+      "fixtureId": null,
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-C01",
+      "fixtureId": "R5R1-C23-01-ipaddr-invalid-bare-string",
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: error while evaluating `ipaddr` extension function: invalid IP address: not-an-ip"
+      ]
+    },
+    {
+      "id": "ADJ-C02",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: error while evaluating `ipaddr` extension function: invalid IP address: 999.1.1.1"
+      ]
+    },
+    {
+      "id": "ADJ-C03",
+      "fixtureId": null,
+      "expected": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "deny",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-C04",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: type error: expected string, got long"
+      ]
+    },
+    {
+      "id": "ADJ-C05",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: type error: expected string, got record"
+      ]
+    },
+    {
+      "id": "ADJ-C06",
+      "fixtureId": null,
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-C07",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: type error: expected string, got set"
+      ]
+    },
+    {
+      "id": "ADJ-C08",
+      "fixtureId": null,
+      "expected": {
+        "stage": "request-validation",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "request-validation",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "request validation failed: context `{ip: decimal(\"1.5\")}` is not valid for `App::Action::\"read\"`"
+      ]
+    },
+    {
+      "id": "ADJ-C09",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: extension function `nope` does not exist"
+      ]
+    },
+    {
+      "id": "ADJ-C10",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: expected 1 arguments for function ip but 0 arguments are provided"
+      ]
+    },
+    {
+      "id": "ADJ-C11",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: expected 1 arguments for function ip but 2 arguments are provided"
+      ]
+    },
+    {
+      "id": "ADJ-C12",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: error while evaluating `decimal` extension function: `abc` is not a well-formed decimal value"
+      ]
+    },
+    {
+      "id": "ADJ-C13",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: error while evaluating `decimal` extension function: `` is not a well-formed decimal value"
+      ]
+    },
+    {
+      "id": "ADJ-C14",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: data did not match any variant of untagged enum ExtnValueJson"
+      ]
+    },
+    {
+      "id": "ADJ-C15",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: data did not match any variant of untagged enum ExtnValueJson"
+      ]
+    },
+    {
+      "id": "ADJ-C16",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: error while evaluating `decimal` extension function: `1e3` is not a well-formed decimal value"
+      ]
+    },
+    {
+      "id": "ADJ-C17",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: error while evaluating `datetime` extension function: invalid date pattern"
+      ]
+    },
+    {
+      "id": "ADJ-C18",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: error while evaluating `datetime` extension function: invalid date: 2024-13-01"
+      ]
+    },
+    {
+      "id": "ADJ-C19",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: type error: expected string, got long"
+      ]
+    },
+    {
+      "id": "ADJ-C20",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: type error: expected string, got record"
+      ]
+    },
+    {
+      "id": "ADJ-C21",
+      "fixtureId": null,
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: while parsing context, found a `null`; JSON `null`s are not allowed in Cedar"
+      ]
+    },
+    {
+      "id": "ADJ-C22",
+      "fixtureId": null,
+      "expected": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "observed": {
+        "stage": "evaluation",
+        "decision": "allow",
+        "operationFailed": false,
+        "hasErrors": false,
+        "cleanAllow": true,
+        "determining": [
+          "policy0"
+        ]
+      },
+      "agrees": true,
+      "errors": []
+    },
+    {
+      "id": "ADJ-C23",
+      "fixtureId": "R5R1-C23-05-ipaddr-invalid-implicit-escape",
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: error while evaluating `ipaddr` extension function: invalid IP address: not-an-ip"
+      ]
+    },
+    {
+      "id": "ADJ-C24",
+      "fixtureId": "R5R1-C23-02-ipaddr-invalid-octet",
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: error while evaluating `ipaddr` extension function: invalid IP address: 999.1.1.1"
+      ]
+    },
+    {
+      "id": "ADJ-C25",
+      "fixtureId": "R5R1-C23-03-datetime-invalid-escape",
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: error while evaluating `datetime` extension function: invalid date pattern"
+      ]
+    },
+    {
+      "id": "ADJ-C26",
+      "fixtureId": "R5R1-C23-04-decimal-invalid-escape",
+      "expected": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "observed": {
+        "stage": "context-parse",
+        "decision": null,
+        "operationFailed": true,
+        "hasErrors": true,
+        "cleanAllow": false,
+        "determining": []
+      },
+      "agrees": true,
+      "errors": [
+        "context JSON parse failed: error while evaluating `decimal` extension function: `not-a-number` is not a well-formed decimal value"
+      ]
+    }
+  ],
+  "representationEquivalence": [
+    {
+      "group": "ipaddr-match",
+      "cases": [
+        "ADJ-A01",
+        "ADJ-A02",
+        "ADJ-A03"
+      ],
+      "identicalNaturalJson": true,
+      "identicalDecision": true,
+      "identicalDetermining": true,
+      "identicalErrorState": true,
+      "naturalJson": {
+        "ip": {
+          "__extn": {
+            "arg": "192.168.1.1",
+            "fn": "ip"
+          }
+        }
+      },
+      "decision": "allow",
+      "equivalent": true
+    },
+    {
+      "group": "ipaddr-mismatch",
+      "cases": [
+        "ADJ-A04",
+        "ADJ-A05",
+        "ADJ-A06"
+      ],
+      "identicalNaturalJson": true,
+      "identicalDecision": true,
+      "identicalDetermining": true,
+      "identicalErrorState": true,
+      "naturalJson": {
+        "ip": {
+          "__extn": {
+            "arg": "192.168.1.2",
+            "fn": "ip"
+          }
+        }
+      },
+      "decision": "deny",
+      "equivalent": true
+    },
+    {
+      "group": "datetime-match",
+      "cases": [
+        "ADJ-A07",
+        "ADJ-A08",
+        "ADJ-A09"
+      ],
+      "identicalNaturalJson": true,
+      "identicalDecision": true,
+      "identicalDetermining": true,
+      "identicalErrorState": true,
+      "naturalJson": {
+        "ts": {
+          "__extn": {
+            "arg": "2024-01-01T00:00:00Z",
+            "fn": "datetime"
+          }
+        }
+      },
+      "decision": "allow",
+      "equivalent": true
+    },
+    {
+      "group": "datetime-mismatch",
+      "cases": [
+        "ADJ-A10",
+        "ADJ-A11",
+        "ADJ-A12"
+      ],
+      "identicalNaturalJson": true,
+      "identicalDecision": true,
+      "identicalDetermining": true,
+      "identicalErrorState": true,
+      "naturalJson": {
+        "ts": {
+          "__extn": {
+            "arg": "2024-01-01T00:00:01Z",
+            "fn": "datetime"
+          }
+        }
+      },
+      "decision": "deny",
+      "equivalent": true
+    },
+    {
+      "group": "decimal-match",
+      "cases": [
+        "ADJ-A13",
+        "ADJ-A14",
+        "ADJ-A15"
+      ],
+      "identicalNaturalJson": true,
+      "identicalDecision": true,
+      "identicalDetermining": true,
+      "identicalErrorState": true,
+      "naturalJson": {
+        "price": {
+          "__extn": {
+            "arg": "19.99",
+            "fn": "decimal"
+          }
+        }
+      },
+      "decision": "allow",
+      "equivalent": true
+    },
+    {
+      "group": "decimal-mismatch",
+      "cases": [
+        "ADJ-A16",
+        "ADJ-A17",
+        "ADJ-A18"
+      ],
+      "identicalNaturalJson": true,
+      "identicalDecision": true,
+      "identicalDetermining": true,
+      "identicalErrorState": true,
+      "naturalJson": {
+        "price": {
+          "__extn": {
+            "arg": "1.00",
+            "fn": "decimal"
+          }
+        }
+      },
+      "decision": "deny",
+      "equivalent": true
+    }
+  ],
+  "malformedFailClosed": [
+    {
+      "id": "ADJ-C01",
+      "fixtureId": "R5R1-C23-01-ipaddr-invalid-bare-string",
+      "stage": "context-parse",
+      "decision": null,
+      "operationFailed": true,
+      "cleanAllow": false,
+      "error": "context JSON parse failed: error while evaluating `ipaddr` extension function: invalid IP address: not-an-ip",
+      "failClosed": true
+    },
+    {
+      "id": "ADJ-C23",
+      "fixtureId": "R5R1-C23-05-ipaddr-invalid-implicit-escape",
+      "stage": "context-parse",
+      "decision": null,
+      "operationFailed": true,
+      "cleanAllow": false,
+      "error": "context JSON parse failed: error while evaluating `ipaddr` extension function: invalid IP address: not-an-ip",
+      "failClosed": true
+    },
+    {
+      "id": "ADJ-C24",
+      "fixtureId": "R5R1-C23-02-ipaddr-invalid-octet",
+      "stage": "context-parse",
+      "decision": null,
+      "operationFailed": true,
+      "cleanAllow": false,
+      "error": "context JSON parse failed: error while evaluating `ipaddr` extension function: invalid IP address: 999.1.1.1",
+      "failClosed": true
+    },
+    {
+      "id": "ADJ-C25",
+      "fixtureId": "R5R1-C23-03-datetime-invalid-escape",
+      "stage": "context-parse",
+      "decision": null,
+      "operationFailed": true,
+      "cleanAllow": false,
+      "error": "context JSON parse failed: error while evaluating `datetime` extension function: invalid date pattern",
+      "failClosed": true
+    },
+    {
+      "id": "ADJ-C26",
+      "fixtureId": "R5R1-C23-04-decimal-invalid-escape",
+      "stage": "context-parse",
+      "decision": null,
+      "operationFailed": true,
+      "cleanAllow": false,
+      "error": "context JSON parse failed: error while evaluating `decimal` extension function: `not-a-number` is not a well-formed decimal value",
+      "failClosed": true
+    }
+  ],
+  "failures": [],
+  "verified": true
+}

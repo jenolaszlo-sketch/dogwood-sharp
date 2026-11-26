@@ -1,0 +1,23 @@
+[package]
+name = "cedar-adjudicator"
+version = "0.0.0"
+edition = "2021"
+publish = false
+license = "Apache-2.0"
+
+# DOGWOOD-SHARP-D3-IMPL-01-R5-R1 direct Cedar adjudication harness.
+#
+# Evaluates hand-written minimal Cedar policies and schema-directed JSON
+# requests through the underlying Cedar engine itself. It does not link the
+# Dogwood crate and does not use the Dogwood reference conversion path: the
+# context JSON is parsed by Cedar's own JSON authorization API with the action
+# schema, exactly as the D3 CedarSharp path does. Its single purpose is to
+# establish, by direct execution, the authoritative decision and error
+# behavior for every typed-context representation under adjudication.
+#
+# Test tooling only: never a production execution path.
+
+[dependencies]
+cedar-policy = "=4.13.0"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

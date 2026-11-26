@@ -1,0 +1,85 @@
+diff --git a/dogwood-language/src/api.rs b/dogwood-language/src/api.rs
+index 07c5358..ed364bc 100644
+--- a/dogwood-language/src/api.rs
++++ b/dogwood-language/src/api.rs
+@@ -1991,6 +1991,11 @@ fn json_to_value(v: &serde_json::Value) -> Value {
+ /// variant lands. Only a *single-key* object with the exact inner shape is
+ /// treated as an escape, matching Cedar (a genuine record with a member literally
+ /// named `__entity`/`__extn` but a different shape stays a record).
++///
++/// DOGWOOD-SHARP-D3-IMPL-01-R5-R1 corrected-reference note: this function is
++/// unchanged by the corrected-reference patch. The ipaddr and datetime gap it
++/// documents is closed one layer lower, where the runtime value reaches
++/// Cedar — see `reserved_extn_expr` and `value_to_expr` below.
+ fn cedar_escape_to_value(o: &serde_json::Map<String, serde_json::Value>) -> Option<Value> {
+     if o.len() != 1 {
+         return None;
+@@ -2015,6 +2020,55 @@ fn cedar_escape_to_value(o: &serde_json::Map<String, serde_json::Value>) -> Opti
+     None
+ }
+ 
++/// DOGWOOD-SHARP-D3-IMPL-01-R5-R1 corrected-reference patch: recognize
++/// Cedar's reserved `__extn` escape as carried by the runtime value model and
++/// return the corresponding extension-constructor expression.
++///
++/// The pinned value model has no ipaddr or datetime variant, so an `__extn`
++/// record for those constructors previously degraded to a plain record here
++/// and the typed value was lost at this boundary — the R5 typed-context root
++/// cause. Cedar reserves the single-key `__extn` record unconditionally (with
++/// or without schema direction; `CedarValueJson::ExtnEscape`), so recognizing
++/// exactly that reserved shape here cannot misread a genuine record: a record
++/// attribute literally named `__extn` with a different inner shape keeps the
++/// pre-patch record behavior, exactly as Cedar's own JSON parser treats it.
++///
++/// Only the single-argument `ip` and `datetime` constructors are modeled.
++/// `decimal` already has a dedicated `Value` variant, so an explicit decimal
++/// escape reaches this function only as a `Value::Decimal`, never as a raw
++/// object. Every other function name keeps the pre-patch record behavior.
++///
++/// The constructor argument is deliberately not validated here:
++/// `Context::from_pairs` evaluates the resulting restricted expression
++/// eagerly, so an invalid argument fails closed at context build with the
++/// Cedar evaluation error, matching the fail-closed behavior of Cedar's own
++/// schema-directed JSON authorization parsing.
++fn reserved_extn_expr(map: &BTreeMap<String, Value>) -> Option<RestrictedExpression> {
++    if map.len() != 1 {
++        return None;
++    }
++    let fields = match map.get("__extn")? {
++        Value::Object(fields) => fields,
++        _ => return None,
++    };
++    if fields.len() != 2 {
++        return None;
++    }
++    let func = match fields.get("fn") {
++        Some(Value::String(func)) => func.as_str(),
++        _ => return None,
++    };
++    let argument = match fields.get("arg") {
++        Some(Value::String(argument)) => argument.as_str(),
++        _ => return None,
++    };
++    match func {
++        "ip" => Some(RestrictedExpression::new_ip(argument)),
++        "datetime" => Some(RestrictedExpression::new_datetime(argument)),
++        _ => None,
++    }
++}
++
+ fn value_to_expr(v: &Value) -> RestrictedExpression {
+     match v {
+         Value::Bool(b) => RestrictedExpression::new_bool(*b),
+@@ -2026,6 +2080,12 @@ fn value_to_expr(v: &Value) -> RestrictedExpression {
+         )),
+         Value::Array(items) => RestrictedExpression::new_set(items.iter().map(value_to_expr)),
+         Value::Object(map) => {
++            // Corrected-reference patch: honor the reserved `__extn` escape
++            // before degrading the object to a plain record. See
++            // `reserved_extn_expr`.
++            if let Some(expr) = reserved_extn_expr(map) {
++                return expr;
++            }
+             let pairs: Vec<(String, RestrictedExpression)> = map
+                 .iter()
+                 .map(|(k, v)| (k.clone(), value_to_expr(v)))

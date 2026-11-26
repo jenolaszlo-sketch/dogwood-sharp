@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "3",
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R5-R1",
+  "generatedAtUtc": "2026-11-26T09:14:34.2464700Z",
+  "isolation": "each destructive scenario runs in a child process against a private staged copy of the probe host directory",
+  "workRoot": "D:\\projects\\dogwood-sharp\\docs\\reviews\\d3-impl-01-r5-r1\\evidence\\differential\\open-question\\scratch-original-reference-net10.0",
+  "cases": []
+}
