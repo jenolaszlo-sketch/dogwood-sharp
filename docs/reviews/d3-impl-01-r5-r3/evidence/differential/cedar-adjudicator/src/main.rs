@@ -56,20 +56,20 @@ struct Corpus {
 }
 
 #[derive(Debug, serde::Serialize)]
+#[serde(rename_all = "camelCase")]
 struct Outcome {
     id: String,
     note: String,
-    #[serde(rename = "fixtureId")]
     fixture_id: Option<String>,
     engine: String,
     stage: String,
     decision: Option<String>,
     determining: Vec<String>,
-    operationFailed: bool,
-    hasErrors: bool,
+    operation_failed: bool,
+    has_errors: bool,
     errors: Vec<String>,
-    policyErrorIds: Vec<String>,
-    cleanAllow: bool,
+    policy_error_ids: Vec<String>,
+    clean_allow: bool,
     interpretation: serde_json::Map<String, Json>,
 }
 
@@ -113,11 +113,11 @@ fn fault(case: &Case, engine: &str, stage: &str, message: String) -> Outcome {
         stage: stage.to_string(),
         decision: None,
         determining: Vec::new(),
-        operationFailed: true,
-        hasErrors: true,
+        operation_failed: true,
+        has_errors: true,
         errors: vec![message],
-        policyErrorIds: Vec::new(),
-        cleanAllow: false,
+        policy_error_ids: Vec::new(),
+        clean_allow: false,
         interpretation: serde_json::Map::new(),
     }
 }
@@ -210,8 +210,11 @@ fn run_case(case: &Case, corpus_shared_entities: &Option<Json>, engine: &str) ->
     let mut policy_error_ids = BTreeSet::new();
     for error in response.diagnostics().errors() {
         errors.push(format!("{error}"));
-        if let cedar_policy::AuthorizationError::PolicyEvaluationError(evaluation) = error {
-            policy_error_ids.insert(evaluation.policy_id().to_string());
+        match error {
+            cedar_policy::AuthorizationError::PolicyEvaluationError(evaluation) => {
+                policy_error_ids.insert(evaluation.policy_id().to_string());
+            }
+            _ => {}
         }
     }
     let has_errors = !errors.is_empty();
@@ -225,11 +228,11 @@ fn run_case(case: &Case, corpus_shared_entities: &Option<Json>, engine: &str) ->
         stage: "evaluation".to_string(),
         decision,
         determining,
-        operationFailed: false,
-        hasErrors: has_errors,
+        operation_failed: false,
+        has_errors,
         errors,
-        policyErrorIds: policy_error_ids.into_iter().collect(),
-        cleanAllow: clean_allow,
+        policy_error_ids: policy_error_ids.into_iter().collect(),
+        clean_allow,
         interpretation,
     }
 }
