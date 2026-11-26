@@ -79,29 +79,35 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Fetch pinned Dogwood source
+        id: fetch-dogwood
         run: ./scripts/fetch-dogwood.sh
         env:
           DOGWOOD_PINNED_REV: ${{ env.DOGWOOD_PINNED_REV }}
 
       - name: Apply reference patch
+        id: apply-patch
         run: ./scripts/apply-patch.sh "${{ steps.fetch-dogwood.outputs.path }}"
         env:
           DOGWOOD_PINNED_REV: ${{ env.DOGWOOD_PINNED_REV }}
 
       - name: Build corrected reference oracle
+        id: build-oracle
         run: ./scripts/build-oracle.sh "${{ steps.apply-patch.outputs.patched_root }}"
         env:
           DOGWOOD_PINNED_REV: ${{ env.DOGWOOD_PINNED_REV }}
 
       - name: Build Cedar adjudicator
+        id: build-adjudicator
         run: ./scripts/build-adjudicator.sh
 
       - name: Build D2 bridge
+        id: build-bridge
         run: ./scripts/build-bridge.sh
         env:
           RID: ${{ matrix.rid }}
 
       - name: Build CedarSharp native
+        id: build-cedarsharp
         run: ./scripts/build-cedarsharp.sh
         env:
           RID: ${{ matrix.rid }}
