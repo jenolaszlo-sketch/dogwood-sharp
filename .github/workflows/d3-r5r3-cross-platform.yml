@@ -92,47 +92,28 @@ jobs:
         if: matrix.rid == 'win-x64'
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Locate or fetch pinned Dogwood checkout
+      - name: Fetch pinned Dogwood source
         id: dogwood
         shell: pwsh
         run: |
           $rev = "${{ env.DOGWOOD_PINNED_REV }}"
-          $cacheDir = "$env:USERPROFILE/.cargo/git/checkouts"
+          $cloneDir = "r5r3-work/dogwood-pinned-source"
           
-          # Try to find in Cargo cache
-          $found = Get-ChildItem "$cacheDir/dogwood-*" -Directory -ErrorAction SilentlyContinue | ForEach-Object {
-            Get-ChildItem $_.FullName -Directory | Where-Object {
-              & git -C $_.FullName rev-parse HEAD 2>$null
-              if ($LASTEXITCODE -eq 0 -and (git -C $_.FullName rev-parse HEAD).Trim() -eq $rev) {
-                $_.FullName
-              }
-            }
-          } | Select-Object -First 1
+          # Clone Dogwood repo at pinned revision
+          if (Test-Path $cloneDir) { Remove-Item $cloneDir -Recurse -Force }
+          mkdir $cloneDir | Out-Null
+          & git clone https://github.com/dogwood-policy/dogwood.git $cloneDir
+          if ($LASTEXITCODE -ne 0) { throw "Failed to clone Dogwood repo" }
           
-          if ($found) {
-            Write-Host "Found pinned Dogwood at $found"
-            echo "path=$found" >> $env:GITHUB_OUTPUT
-          } else {
-            Write-Host "Pinned Dogwood not in cache, will fetch via cargo vendor"
-            echo "path=" >> $env:GITHUB_OUTPUT
-          }
-
-      - name: Fetch Dogwood source if not cached
-        if: steps.dogwood.outputs.path == ''
-        shell: pwsh
-        run: |
-          $vendorDir = "vendor/dogwood-pinned"
-          if (-not (Test-Path $vendorDir)) {
-            mkdir $vendorDir | Out-Null
-            cargo vendor --manifest-path native/dogwoodsharp-bridge/Cargo.toml --versioned-dirs $vendorDir 2>&1 | Out-Null
-          }
-          # Find the dogwood-language directory
-          $dogwoodLang = Get-ChildItem "$vendorDir/dogwood-language-*" -Directory | Select-Object -First 1
-          if ($dogwoodLang) {
-            echo "path=$($dogwoodLang.FullName)" >> $env:GITHUB_OUTPUT
-          } else {
-            throw "Could not find dogwood-language in vendor directory"
-          }
+          & git -C $cloneDir checkout $rev
+          if ($LASTEXITCODE -ne 0) { throw "Failed to checkout Dogwood revision $rev" }
+          
+          # Verify the revision
+          $actual = (& git -C $cloneDir rev-parse HEAD).Trim()
+          if ($actual -ne $rev) { throw "Dogwood revision mismatch: expected $rev, got $actual" }
+          
+          Write-Host "Dogwood cloned and checked out at $rev"
+          echo "path=$cloneDir" >> $env:GITHUB_OUTPUT
 
       - name: Apply reference patch and verify
         id: patch
