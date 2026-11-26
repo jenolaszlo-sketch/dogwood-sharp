@@ -35,10 +35,10 @@ for marker in "${insertMarkers[@]}"; do
 done
 
 if [ -z "$insertLine" ] || [ "$insertLine" = "0" ]; then
-  echo "Could not find value_to_expr function in api.rs"
+  printf 'Could not find value_to_expr function in api.rs\n'
   # Debug: show lines around value_to_expr
-  echo "Debug: searching for value_to_expr..."
-  echo "$content" | grep -n "value_to_expr" | head -20
+  printf 'Debug: searching for value_to_expr...\n'
+  printf '%s\n' "$content" | grep -n "value_to_expr" | head -20
   exit 1
 fi
 
@@ -91,16 +91,16 @@ newContent="${content:0:$byteOffset}$newFunction${content:$byteOffset}"
 callMarker='Value::Object(map) => {'
 callLine=$(echo "$newContent" | awk -v m="$callMarker" 'index($0,m){print NR; exit}')
 if [ -z "$callLine" ] || [ "$callLine" = "0" ]; then
-  echo "Could not find Value::Object arm in value_to_expr"
+  printf 'Could not find Value::Object arm in value_to_expr\n'
   # Debug: show lines around Value::Object
-  echo "$newContent" | grep -n "Value::Object" | head -20
+  printf '%s\n' "$newContent" | grep -n "Value::Object" | head -20
   exit 1
 fi
 
 callLineContent=$(echo "$newContent" | sed -n "${callLine}p")
 bracePos=$(echo "$callLineContent" | grep -ob "{" | head -1 | cut -d: -f1)
 if [ -z "$bracePos" ]; then
-  echo "Could not find opening brace for Value::Object arm"
+  printf 'Could not find opening brace for Value::Object arm\n'
   exit 1
 fi
 
@@ -117,21 +117,21 @@ if let Some(expr) = reserved_extn_expr(map) {
 '
 
 finalContent="${newContent:0:$((braceByteOffset+1))}$insertCall${newContent:$((braceByteOffset+1))}"
-echo "$finalContent" > "$apiPath"
-echo "Manual patch applied successfully"
+printf '%s\n' "$finalContent" > "$apiPath"
+printf 'Manual patch applied successfully\n'
 
 # Verify - use grep directly on file to avoid pipe issues
 if ! grep -q "fn reserved_extn_expr" "$apiPath"; then
-  echo "Patched api.rs missing reserved_extn_expr function"
-  echo "Debug: searching for reserved_extn_expr..."
+  printf 'Patched api.rs missing reserved_extn_expr function\n'
+  printf 'Debug: searching for reserved_extn_expr...\n'
   grep -n "reserved_extn_expr" "$apiPath" | head -20
   exit 1
 fi
 if ! grep -q "reserved_extn_expr(map)" "$apiPath"; then
-  echo "Patched api.rs missing call to reserved_extn_expr in value_to_expr"
-  echo "Debug: searching for reserved_extn_expr(map)..."
+  printf 'Patched api.rs missing call to reserved_extn_expr in value_to_expr\n'
+  printf 'Debug: searching for reserved_extn_expr(map)...\n'
   grep -n "reserved_extn_expr(map)" "$apiPath" | head -20
   exit 1
 fi
-echo "Patched api.rs verified: reserved_extn_expr function and call site present"
-echo "patched_root=$workDir" >> $GITHUB_OUTPUT
+printf 'Patched api.rs verified: reserved_extn_expr function and call site present\n'
+printf 'patched_root=%s\n' "$workDir" >> "$GITHUB_OUTPUT"
