@@ -120,18 +120,17 @@ finalContent="${newContent:0:$((braceByteOffset+1))}$insertCall${newContent:$((b
 echo "$finalContent" > "$apiPath"
 echo "Manual patch applied successfully"
 
-# Verify
-content=$(cat "$apiPath")
-if ! echo "$content" | grep -q "fn reserved_extn_expr"; then
+# Verify - use grep directly on file to avoid pipe issues
+if ! grep -q "fn reserved_extn_expr" "$apiPath"; then
   echo "Patched api.rs missing reserved_extn_expr function"
   echo "Debug: searching for reserved_extn_expr..."
-  echo "$content" | grep -n "reserved_extn_expr" | head -20
+  grep -n "reserved_extn_expr" "$apiPath" | head -20
   exit 1
 fi
-if ! echo "$content" | grep -q "reserved_extn_expr(map)"; then
+if ! grep -q "reserved_extn_expr(map)" "$apiPath"; then
   echo "Patched api.rs missing call to reserved_extn_expr in value_to_expr"
   echo "Debug: searching for reserved_extn_expr(map)..."
-  echo "$content" | grep -n "reserved_extn_expr(map)" | head -20
+  grep -n "reserved_extn_expr(map)" "$apiPath" | head -20
   exit 1
 fi
 echo "Patched api.rs verified: reserved_extn_expr function and call site present"
