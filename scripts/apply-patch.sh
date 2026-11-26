@@ -4,10 +4,12 @@ set -euo pipefail
 # Write all output to a log file first, then cat it at the end
 # Use trap to ensure log is printed even on early exit
 LOG_FILE="apply-patch.log"
-exec > "$LOG_FILE" 2>&1
 
-# Trap to always print log on exit
+# Set up trap first, then redirect
 trap 'cat "$LOG_FILE"' EXIT
+
+# Now redirect all output to log file
+exec > "$LOG_FILE" 2>&1
 
 source="${1}"
 workDir="r5r3-work/dogwood-patched"
