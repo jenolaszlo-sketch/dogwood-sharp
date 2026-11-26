@@ -140,8 +140,9 @@ jobs:
             if ($LASTEXITCODE -ne 0) { throw "Failed to copy Dogwood tree" }
           }
           
-          # Apply patch
-          & git -C $workDir -c core.autocrlf=false -c core.eol=lf apply -p1 --whitespace=nowarn $patchFile
+          # Apply patch (use absolute path for patch file)
+          $absPatchFile = Resolve-Path $patchFile
+          & git -C $workDir -c core.autocrlf=false -c core.eol=lf apply -p1 --whitespace=nowarn $absPatchFile
           if ($LASTEXITCODE -ne 0) { throw "Patch did not apply cleanly" }
           
           # Verify patched api.rs
