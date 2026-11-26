@@ -2,13 +2,17 @@
 set -euo pipefail
 
 # Redirect all output to a log file to avoid broken pipe issues
-exec > >(tee apply-patch.log) 2>&1
+LOG_FILE="apply-patch.log"
+exec > "$LOG_FILE" 2>&1
+
+# Ensure log file is readable at the end for GitHub Actions
+trap 'cat "$LOG_FILE"' EXIT
 
 source="${1}"
 workDir="r5r3-work/dogwood-patched"
 
 if [ ! -d "$source" ]; then
-  echo "Dogwood source not found at $source"
+  printf 'Dogwood source not found at %s\n' "$source"
   exit 1
 fi
 
@@ -16,7 +20,7 @@ fi
 if [ -d "$workDir" ]; then rm -rf "$workDir"; fi
 mkdir -p "$workDir"
 rsync -a --exclude=target --exclude=.git "$source/" "$workDir/"
-if [ $? -ne 0 ]; then echo "Failed to copy Dogwood tree"; exit 1; fi
+if [ $? -ne 0 ]; then printf 'Failed to copy Dogwood tree\n'; exit 1; fi
 
 # Apply changes manually
 apiPath="$workDir/dogwood-language/src/api.rs"
