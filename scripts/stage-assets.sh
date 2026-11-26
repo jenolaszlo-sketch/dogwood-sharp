@@ -35,7 +35,7 @@ cat > "$probeRuntime/dogwoodsharp-native.json" <<EOF
   "cedarVersion": "4.11.0",
   "rustVersion": "1.99.1",
   "dogwoodFeatures": [],
-  "cedarFeatures": []
+  "cedarFeatures": ["datetime", "decimal", "ipaddr"]
 }
 EOF
 
