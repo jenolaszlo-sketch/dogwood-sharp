@@ -128,11 +128,17 @@ jobs:
             throw "Dogwood source not found at $source"
           }
           
-          # Clean and copy
+          # Clean and copy (cross-platform)
           if (Test-Path $workDir) { Remove-Item $workDir -Recurse -Force }
           mkdir $workDir | Out-Null
-          robocopy $source $workDir /E /NFL /NDL /NJH /NJS /NP /XD target .git | Out-Null
-          if ($LASTEXITCODE -ge 8) { throw "Failed to copy Dogwood tree" }
+          if ("${{ matrix.rid }}" -eq "win-x64") {
+            robocopy $source $workDir /E /NFL /NDL /NJH /NJS /NP /XD target .git | Out-Null
+            if ($LASTEXITCODE -ge 8) { throw "Failed to copy Dogwood tree" }
+          } else {
+            # Use rsync on Linux/macOS, excluding target and .git
+            rsync -a --exclude=target --exclude=.git "$source/" "$workDir/"
+            if ($LASTEXITCODE -ne 0) { throw "Failed to copy Dogwood tree" }
+          }
           
           # Apply patch
           & git -C $workDir -c core.autocrlf=false -c core.eol=lf apply -p1 --whitespace=nowarn $patchFile
