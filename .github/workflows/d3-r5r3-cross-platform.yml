@@ -44,17 +44,16 @@ jobs:
           ref: ${{ github.sha }}
 
       - name: Verify baseline commit and tree
-        shell: pwsh
+        shell: bash
         run: |
-          $actualCommit = git rev-parse HEAD
-          if ($actualCommit -ne "${{ github.sha }}") {
-            throw "Checkout commit mismatch: expected ${{ github.sha }}, got $actualCommit"
-          }
-          # Escape ^ for PowerShell: use ^^
-          $actualTree = git rev-parse "HEAD^^{tree}"
-          Write-Host "Baseline verified: $actualCommit / $actualTree"
-          # Record the actual tree for reference
-          echo "R5R3_ACTUAL_TREE=$actualTree" >> $env:GITHUB_ENV
+          actualCommit=$(git rev-parse HEAD)
+          if [ "$actualCommit" != "${{ github.sha }}" ]; then
+            echo "Checkout commit mismatch: expected ${{ github.sha }}, got $actualCommit"
+            exit 1
+          fi
+          actualTree=$(git rev-parse HEAD^{tree})
+          echo "Baseline verified: $actualCommit / $actualTree"
+          echo "R5R3_ACTUAL_TREE=$actualTree" >> $GITHUB_ENV
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
@@ -91,65 +90,63 @@ jobs:
 
       - name: Fetch pinned Dogwood source
         id: dogwood
-        shell: pwsh
+        shell: bash
         run: |
-          $rev = "${{ env.DOGWOOD_PINNED_REV }}"
-          $cloneDir = "r5r3-work/dogwood-pinned-source"
+          rev="${{ env.DOGWOOD_PINNED_REV }}"
+          cloneDir="r5r3-work/dogwood-pinned-source"
           
           # Clone Dogwood repo at pinned revision
-          if (Test-Path $cloneDir) { Remove-Item $cloneDir -Recurse -Force }
-          mkdir $cloneDir | Out-Null
-          & git clone https://github.com/dogwood-policy/dogwood.git $cloneDir
-          if ($LASTEXITCODE -ne 0) { throw "Failed to clone Dogwood repo" }
+          if [ -d "$cloneDir" ]; then rm -rf "$cloneDir"; fi
+          mkdir -p "$cloneDir"
+          git clone https://github.com/dogwood-policy/dogwood.git "$cloneDir"
+          if [ $? -ne 0 ]; then echo "Failed to clone Dogwood repo"; exit 1; fi
           
-          & git -C $cloneDir checkout $rev
-          if ($LASTEXITCODE -ne 0) { throw "Failed to checkout Dogwood revision $rev" }
+          git -C "$cloneDir" checkout "$rev"
+          if [ $? -ne 0 ]; then echo "Failed to checkout Dogwood revision $rev"; exit 1; fi
           
           # Verify the revision
-          $actual = (& git -C $cloneDir rev-parse HEAD).Trim()
-          if ($actual -ne $rev) { throw "Dogwood revision mismatch: expected $rev, got $actual" }
+          actual=$(git -C "$cloneDir" rev-parse HEAD | tr -d '\n')
+          if [ "$actual" != "$rev" ]; then echo "Dogwood revision mismatch: expected $rev, got $actual"; exit 1; fi
           
-          Write-Host "Dogwood cloned and checked out at $rev"
-          echo "path=$cloneDir" >> $env:GITHUB_OUTPUT
+          echo "Dogwood cloned and checked out at $rev"
+          echo "path=$cloneDir" >> $GITHUB_OUTPUT
 
-      - name: Apply reference patch and verify
+      - name: Apply reference patch manually
         id: patch
-        shell: pwsh
+        shell: bash
         run: |
-          $source = "${{ steps.dogwood.outputs.path }}"
-          $workDir = "r5r3-work/dogwood-patched"
+          source="${{ steps.dogwood.outputs.path }}"
+          workDir="r5r3-work/dogwood-patched"
           
-          if (-not (Test-Path $source)) {
-            throw "Dogwood source not found at $source"
-          }
+          if [ ! -d "$source" ]; then
+            echo "Dogwood source not found at $source"
+            exit 1
+          fi
           
-          # Clean and copy (cross-platform)
-          if (Test-Path $workDir) { Remove-Item $workDir -Recurse -Force }
-          mkdir $workDir | Out-Null
-          if ("${{ matrix.rid }}" -eq "win-x64") {
-            robocopy $source $workDir /E /NFL /NDL /NJH /NJS /NP /XD target .git | Out-Null
-            if ($LASTEXITCODE -ge 8) { throw "Failed to copy Dogwood tree" }
-          } else {
-            # Use rsync on Linux/macOS, excluding target and .git
-            rsync -a --exclude=target --exclude=.git "$source/" "$workDir/"
-            if ($LASTEXITCODE -ne 0) { throw "Failed to copy Dogwood tree" }
-          }
+          # Clean and copy
+          if [ -d "$workDir" ]; then rm -rf "$workDir"; fi
+          mkdir -p "$workDir"
+          rsync -a --exclude=target --exclude=.git "$source/" "$workDir/"
+          if [ $? -ne 0 ]; then echo "Failed to copy Dogwood tree"; exit 1; fi
           
-          # Apply changes manually (patch doesn't apply to upstream source due to whitespace differences)
-          # Add reserved_extn_expr function before value_to_expr
-          $apiPath = Join-Path $workDir "dogwood-language/src/api.rs"
-          $content = Get-Content $apiPath -Raw
+          # Apply changes manually
+          apiPath="$workDir/dogwood-language/src/api.rs"
+          content=$(cat "$apiPath")
           
           # Find the value_to_expr function and insert reserved_extn_expr before it
-          $insertMarker = "fn value_to_expr(v: &Value) -> RestrictedExpression {"
-          $insertIndex = $content.IndexOf($insertMarker)
-          if ($insertIndex -lt 0) {
-            throw "Could not find value_to_expr function in api.rs"
-          }
+          insertMarker='fn value_to_expr(v: &Value) -> RestrictedExpression {'
+          insertIndex=$(echo "$content" | awk -v m="$insertMarker" 'index($0,m){print NR; exit}')
+          if [ -z "$insertIndex" ] || [ "$insertIndex" = "0" ]; then
+            echo "Could not find value_to_expr function in api.rs"
+            exit 1
+          fi
           
-          $newFunction = @"
+          # Convert line number to byte offset
+          byteOffset=$(echo "$content" | head -n $((insertIndex-1)) | wc -c)
+          
+          newFunction='
 /// DOGWOOD-SHARP-D3-IMPL-01-R5-R1 corrected-reference patch: recognize
-/// Cedar's reserved `__extn` escape as carried by the runtime value model and
+/// Cedar'\''s reserved `__extn` escape as carried by the runtime value model and
 /// return the corresponding extension-constructor expression.
 ///
 /// The pinned value model has no ipaddr or datetime variant, so an `__extn`
@@ -159,7 +156,7 @@ jobs:
 /// or without schema direction; `CedarValueJson::ExtnEscape`), so recognizing
 /// exactly that reserved shape here cannot misread a genuine record: a record
 /// attribute literally named `__extn` with a different inner shape keeps the
-/// pre-patch record behavior, exactly as Cedar's own JSON parser treats it.
+/// pre-patch record behavior, exactly as Cedar'\''s own JSON parser treats it.
 ///
 /// Only the single-argument `ip` and `datetime` constructors are modeled.
 /// `decimal` already has a dedicated `Value` variant, so an explicit decimal
@@ -169,7 +166,7 @@ jobs:
 /// The constructor argument is deliberately not validated here:
 /// `Context::from_pairs` evaluates the resulting restricted expression
 /// eagerly, so an invalid argument fails closed at context build with the
-/// Cedar evaluation error, matching the fail-closed behavior of Cedar's own
+/// Cedar evaluation error, matching the fail-closed behavior of Cedar'\''s own
 /// schema-directed JSON authorization parsing.
 fn reserved_extn_expr(map: &BTreeMap<String, Value>) -> Option<RestrictedExpression> {
     if map.len() != 1 {
@@ -197,302 +194,303 @@ fn reserved_extn_expr(map: &BTreeMap<String, Value>) -> Option<RestrictedExpress
     }
 }
 
-"@
-          $content = $content.Insert($insertIndex, $newFunction)
+'
           
-          # Add the call to reserved_extn_expr in value_to_expr's Object arm
-          $callMarker = "Value::Object(map) => {"
-          $callIndex = $content.IndexOf($callMarker)
-          if ($callIndex -lt 0) {
-            throw "Could not find Value::Object arm in value_to_expr"
-          }
+          # Insert the new function before value_to_expr
+          newContent="${content:0:$byteOffset}$newFunction${content:$byteOffset}"
+          
+          # Add the call to reserved_extn_expr in value_to_expr'\''s Object arm
+          callMarker='Value::Object(map) => {'
+          callIndex=$(echo "$newContent" | awk -v m="$callMarker" 'index($0,m){print NR; exit}')
+          if [ -z "$callIndex" ] || [ "$callIndex" = "0" ]; then
+            echo "Could not find Value::Object arm in value_to_expr"
+            exit 1
+          fi
+          
           # Find the opening brace of the Object arm
-          $braceIndex = $content.IndexOf("{", $callIndex)
-          if ($braceIndex -lt 0) {
-            throw "Could not find opening brace for Value::Object arm"
-          }
-          $insertCall = @"
+          callLine=$(echo "$newContent" | sed -n "${callIndex}p")
+          bracePos=$(echo "$callLine" | grep -ob "{" | head -1 | cut -d: -f1)
+          if [ -z "$bracePos" ]; then
+            echo "Could not find opening brace for Value::Object arm"
+            exit 1
+          fi
+          
+          # Calculate byte offset for the brace
+          braceByteOffset=$(echo "$newContent" | head -n $((callIndex-1)) | wc -c)
+          braceByteOffset=$((braceByteOffset + bracePos))
+          
+          insertCall='
 // Corrected-reference patch: honor the reserved `__extn` escape
 // before degrading the object to a plain record. See
 // `reserved_extn_expr`.
 if let Some(expr) = reserved_extn_expr(map) {
     return expr;
 }
-"
-          $content = $content.Insert($braceIndex + 1, $callMarker)
+'
+          
+          # Insert the call
+          finalContent="${newContent:0:$((braceByteOffset+1))}$insertCall${newContent:$((braceByteOffset+1))}"
           
           # Write the modified file
-          [IO.File]::WriteAllText($apiPath, $content, [Text.UTF8Encoding]::new($false))
+          echo "$finalContent" > "$apiPath"
           
-          Write-Host "Manual patch applied successfully"
+          echo "Manual patch applied successfully"
           
           # Verify patched api.rs has the expected semantic changes
-          $apiPath = Join-Path $workDir "dogwood-language/src/api.rs"
-          $actual = (Get-FileHash $apiPath -Algorithm SHA256).Hash.ToLowerInvariant()
-          $content = Get-Content $apiPath -Raw
-          # Debug: show context around reserved_extn_expr
-          $lines = $content.Split("`n")
-          for ($i = 0; $i -lt $lines.Count; $i++) {
-            if ($lines[$i].Contains("reserved_extn_expr") -or $lines[$i].Contains("value_to_expr")) {
-              $start = [Math]::Max(0, $i - 2)
-              $end = [Math]::Min($lines.Count - 1, $i + 5)
-              Write-Host "Context at line $($i+1):"
-              for ($j = $start; $j -le $end; $j++) {
-                Write-Host "  $($j+1): $($lines[$j])"
-              }
-            }
-          }
-          # Verify the key semantic change: reserved_extn_expr function exists
-          if (-not $content.Contains("fn reserved_extn_expr")) {
-            throw "Patched api.rs missing reserved_extn_expr function"
-          }
-          # Verify the call site in value_to_expr
-          if (-not $content.Contains('reserved_extn_expr(map)')) {
-            throw "Patched api.rs missing call to reserved_extn_expr in value_to_expr"
-          }
-          Write-Host "Patched api.rs verified: reserved_extn_expr function and call site present"
-          echo "patched_root=$workDir" >> $env:GITHUB_OUTPUT
+          content=$(cat "$apiPath")
+          if ! echo "$content" | grep -q "fn reserved_extn_expr"; then
+            echo "Patched api.rs missing reserved_extn_expr function"
+            exit 1
+          fi
+          if ! echo "$content" | grep -q "reserved_extn_expr(map)"; then
+            echo "Patched api.rs missing call to reserved_extn_expr in value_to_expr"
+            exit 1
+          fi
+          echo "Patched api.rs verified: reserved_extn_expr function and call site present"
+          
+          echo "patched_root=$workDir" >> $GITHUB_OUTPUT
 
       - name: Build corrected reference oracle
         id: oracle
-        shell: pwsh
+        shell: bash
         run: |
-          $patchedRoot = "${{ steps.patch.outputs.patched_root }}"
-          $staging = "r5r3-work/corrected-oracle"
+          patchedRoot="${{ steps.patch.outputs.patched_root }}"
+          staging="r5r3-work/corrected-oracle"
           
-          if (Test-Path $staging) { Remove-Item $staging -Recurse -Force }
-          mkdir $staging/src -Force | Out-Null
+          if [ -d "$staging" ]; then rm -rf "$staging"; fi
+          mkdir -p "$staging/src"
           
           # Copy oracle source
-          Copy-Item "docs/reviews/d3-impl-01-r5-r2/evidence/differential/corrected-oracle/src" $staging -Recurse -Force
+          cp -r docs/reviews/d3-impl-01-r5-r2/evidence/differential/corrected-oracle/src "$staging/"
           
           # Generate Cargo.toml with patched dependency path
-          $template = Get-Content "docs/reviews/d3-impl-01-r5-r2/evidence/differential/corrected-oracle/Cargo.toml.template" -Raw
-          $manifest = $template -replace '__DOGWOOD_PATCHED_PATH__', (Resolve-Path (Join-Path $patchedRoot "dogwood-language")).Path -replace '\\', '/'
-          [IO.File]::WriteAllText((Join-Path $staging "Cargo.toml"), $manifest, [Text.UTF8Encoding]::new($false))
+          template=$(cat docs/reviews/d3-impl-01-r5-r2/evidence/differential/corrected-oracle/Cargo.toml.template)
+          manifest="${template/__DOGWOOD_PATCHED_PATH__/$(realpath "$patchedRoot/dogwood-language")}"
+          echo "$manifest" > "$staging/Cargo.toml"
           
           # Copy locked Cargo.lock
-          Copy-Item "docs/reviews/d3-impl-01-r5-r2/evidence/differential/corrected-oracle/Cargo.lock" $staging -Force
+          cp docs/reviews/d3-impl-01-r5-r2/evidence/differential/corrected-oracle/Cargo.lock "$staging/"
           
           # Build
-          $env:CARGO_TARGET_DIR = "r5r3-work/oracle-target"
-          cargo build --locked --release --offline --manifest-path (Join-Path $staging "Cargo.toml")
+          export CARGO_TARGET_DIR="r5r3-work/oracle-target"
+          cargo build --locked --release --offline --manifest-path "$staging/Cargo.toml"
           
-          $suffix = if ($IsWindows) { '.exe' } else { '' }
-          $oracleExe = "r5r3-work/oracle-target/release/dogwoodsharp-corrected-oracle$suffix"
-          if (-not (Test-Path $oracleExe)) { throw "Oracle executable not found at $oracleExe" }
+          suffix=""
+          if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "cygwin" ]; then suffix=".exe"; fi
+          oracleExe="r5r3-work/oracle-target/release/dogwoodsharp-corrected-oracle$suffix"
+          if [ ! -f "$oracleExe" ]; then echo "Oracle executable not found at $oracleExe"; exit 1; fi
           
-          $oracleSha = (Get-FileHash $oracleExe -Algorithm SHA256).Hash.ToLowerInvariant()
-          Write-Host "Oracle built: $oracleExe (SHA256: $oracleSha)"
-          echo "path=$oracleExe" >> $env:GITHUB_OUTPUT
-          echo "sha256=$oracleSha" >> $env:GITHUB_OUTPUT
+          oracleSha=$(sha256sum "$oracleExe" | cut -d' ' -f1)
+          echo "Oracle built: $oracleExe (SHA256: $oracleSha)"
+          echo "path=$oracleExe" >> $GITHUB_OUTPUT
+          echo "sha256=$oracleSha" >> $GITHUB_OUTPUT
 
       - name: Build Cedar adjudicator (4.13.0)
         id: adjudicator
-        shell: pwsh
+        shell: bash
         run: |
-          $staging = "r5r3-work/cedar-adjudicator"
-          if (Test-Path $staging) { Remove-Item $staging -Recurse -Force }
-          mkdir $staging -Force | Out-Null
+          staging="r5r3-work/cedar-adjudicator"
+          if [ -d "$staging" ]; then rm -rf "$staging"; fi
+          mkdir -p "$staging"
           
-          Copy-Item "docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/src" $staging -Recurse -Force
-          Copy-Item "docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/Cargo.toml" $staging
-          Copy-Item "docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/Cargo.lock" $staging
+          cp -r docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/src "$staging/"
+          cp docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/Cargo.toml "$staging/"
+          cp docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/Cargo.lock "$staging/"
           
-          $env:CARGO_TARGET_DIR = "r5r3-work/adjudicator-target"
-          cargo build --locked --release --offline --manifest-path (Join-Path $staging "Cargo.toml")
+          export CARGO_TARGET_DIR="r5r3-work/adjudicator-target"
+          cargo build --locked --release --offline --manifest-path "$staging/Cargo.toml"
           
-          $suffix = if ($IsWindows) { '.exe' } else { '' }
-          $exe = "r5r3-work/adjudicator-target/release/cedar-adjudicator$suffix"
-          if (-not (Test-Path $exe)) { throw "Adjudicator not found at $exe" }
+          suffix=""
+          if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "cygwin" ]; then suffix=".exe"; fi
+          exe="r5r3-work/adjudicator-target/release/cedar-adjudicator$suffix"
+          if [ ! -f "$exe" ]; then echo "Adjudicator not found at $exe"; exit 1; fi
           
-          $sha = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()
-          Write-Host "Cedar adjudicator built: $exe (SHA256: $sha)"
-          echo "path=$exe" >> $env:GITHUB_OUTPUT
-          echo "sha256=$sha" >> $env:GITHUB_OUTPUT
+          sha=$(sha256sum "$exe" | cut -d' ' -f1)
+          echo "Cedar adjudicator built: $exe (SHA256: $sha)"
+          echo "path=$exe" >> $GITHUB_OUTPUT
+          echo "sha256=$sha" >> $GITHUB_OUTPUT
 
       - name: Build D2 bridge (native)
         id: bridge
-        shell: pwsh
+        shell: bash
         run: |
-          $bridgeDir = "native/dogwoodsharp-bridge"
-          $targetArg = if ("${{ matrix.rid }}" -eq "linux-x64") { "--target x86_64-unknown-linux-gnu" }
-                        elseif ("${{ matrix.rid }}" -eq "osx-arm64") { "--target aarch64-apple-darwin" }
-                        else { "" }
+          bridgeDir="native/dogwoodsharp-bridge"
+          targetArg=""
+          if [ "${{ matrix.rid }}" = "linux-x64" ]; then targetArg="--target x86_64-unknown-linux-gnu"; fi
+          if [ "${{ matrix.rid }}" = "osx-arm64" ]; then targetArg="--target aarch64-apple-darwin"; fi
           
-          $env:CARGO_TARGET_DIR = "r5r3-work/bridge-target"
-          cargo build --locked --release $targetArg --manifest-path (Join-Path $bridgeDir "Cargo.toml")
+          export CARGO_TARGET_DIR="r5r3-work/bridge-target"
+          cargo build --locked --release $targetArg --manifest-path "$bridgeDir/Cargo.toml"
           
-          $libName = if ("${{ matrix.rid }}" -eq "linux-x64") { "libdogwoodsharp_bridge.so" }
-                      elseif ("${{ matrix.rid }}" -eq "osx-arm64") { "libdogwoodsharp_bridge.dylib" }
-                      else { "dogwoodsharp_bridge.dll" }
-          $libPath = "r5r3-work/bridge-target/${{ matrix.rid }}/release/$libName"
-          if (-not (Test-Path $libPath)) {
-            # Try without RID in path
-            $libPath = "r5r3-work/bridge-target/release/$libName"
-          }
-          if (-not (Test-Path $libPath)) { throw "Bridge library not found at $libPath" }
+          libName=""
+          if [ "${{ matrix.rid }}" = "linux-x64" ]; then libName="libdogwoodsharp_bridge.so"; fi
+          if [ "${{ matrix.rid }}" = "osx-arm64" ]; then libName="libdogwoodsharp_bridge.dylib"; fi
+          if [ "${{ matrix.rid }}" = "win-x64" ]; then libName="dogwoodsharp_bridge.dll"; fi
           
-          $sha = (Get-FileHash $libPath -Algorithm SHA256).Hash.ToLowerInvariant()
-          Write-Host "D2 bridge built: $libPath (SHA256: $sha)"
-          echo "path=$libPath" >> $env:GITHUB_OUTPUT
-          echo "sha256=$sha" >> $env:GITHUB_OUTPUT
+          libPath="r5r3-work/bridge-target/${{ matrix.rid }}/release/$libName"
+          if [ ! -f "$libPath" ]; then
+            libPath="r5r3-work/bridge-target/release/$libName"
+          fi
+          if [ ! -f "$libPath" ]; then echo "Bridge library not found at $libPath"; exit 1; fi
+          
+          sha=$(sha256sum "$libPath" | cut -d' ' -f1)
+          echo "D2 bridge built: $libPath (SHA256: $sha)"
+          echo "path=$libPath" >> $GITHUB_OUTPUT
+          echo "sha256=$sha" >> $GITHUB_OUTPUT
 
       - name: Build CedarSharp native
         id: cedarsharp
-        shell: pwsh
+        shell: bash
         run: |
-          # CedarSharp is a separate repo; we need to build it from source
-          # For now, use the published NuGet package's native assets
-          # In a full qualification, we'd build from the CedarSharp source at the pinned revision
-          $csDir = "cedar-sharp/native"
-          if (-not (Test-Path $csDir)) {
-            Write-Host "CedarSharp source not found locally, will use NuGet package native assets"
-            # The probe restore will fetch the CedarSharp package with native assets
-            echo "path=" >> $env:GITHUB_OUTPUT
-            echo "sha256=" >> $env:GITHUB_OUTPUT
-          } else {
-            $targetArg = if ("${{ matrix.rid }}" -eq "linux-x64") { "--target x86_64-unknown-linux-gnu" }
-                          elseif ("${{ matrix.rid }}" -eq "osx-arm64") { "--target aarch64-apple-darwin" }
-                          else { "" }
-            $env:CARGO_TARGET_DIR = "r5r3-work/cedarsharp-target"
-            cargo build --locked --release $targetArg --manifest-path (Join-Path $csDir "Cargo.toml")
-            
-            $libName = if ("${{ matrix.rid }}" -eq "linux-x64") { "libcedarsharp_native.so" }
-                        elseif ("${{ matrix.rid }}" -eq "osx-arm64") { "libcedarsharp_native.dylib" }
-                        else { "cedarsharp_native.dll" }
-            $libPath = "r5r3-work/cedarsharp-target/${{ matrix.rid }}/release/$libName"
-            if (-not (Test-Path $libPath)) {
-              $libPath = "r5r3-work/cedarsharp-target/release/$libName"
-            }
-            if (-not (Test-Path $libPath)) { throw "CedarSharp native not found at $libPath" }
-            
-            $sha = (Get-FileHash $libPath -Algorithm SHA256).Hash.ToLowerInvariant()
-            Write-Host "CedarSharp native built: $libPath (SHA256: $sha)"
-            echo "path=$libPath" >> $env:GITHUB_OUTPUT
-            echo "sha256=$sha" >> $env:GITHUB_OUTPUT
-          }
+          # Build CedarSharp native from the CedarSharp source
+          # This is a separate repository that needs to be cloned
+          csDir="r5r3-work/cedar-sharp/native"
+          if [ ! -d "$csDir" ]; then
+            mkdir -p "$(dirname "$csDir")"
+            git clone https://github.com/jenolaszlo-sketch/cedar-sharp.git "$csDir"
+            if [ $? -ne 0 ]; then echo "Failed to clone CedarSharp repo"; exit 1; fi
+          fi
+          
+          targetArg=""
+          if [ "${{ matrix.rid }}" = "linux-x64" ]; then targetArg="--target x86_64-unknown-linux-gnu"; fi
+          if [ "${{ matrix.rid }}" = "osx-arm64" ]; then targetArg="--target aarch64-apple-darwin"; fi
+          
+          export CARGO_TARGET_DIR="r5r3-work/cedarsharp-target"
+          cargo build --locked --release $targetArg --manifest-path "$csDir/Cargo.toml"
+          
+          libName=""
+          if [ "${{ matrix.rid }}" = "linux-x64" ]; then libName="libcedarsharp_native.so"; fi
+          if [ "${{ matrix.rid }}" = "osx-arm64" ]; then libName="libcedarsharp_native.dylib"; fi
+          if [ "${{ matrix.rid }}" = "win-x64" ]; then libName="cedarsharp_native.dll"; fi
+          
+          libPath="r5r3-work/cedarsharp-target/${{ matrix.rid }}/release/$libName"
+          if [ ! -f "$libPath" ]; then
+            libPath="r5r3-work/cedarsharp-target/release/$libName"
+          fi
+          if [ ! -f "$libPath" ]; then echo "CedarSharp native not found at $libPath"; exit 1; fi
+          
+          sha=$(sha256sum "$libPath" | cut -d' ' -f1)
+          echo "CedarSharp native built: $libPath (SHA256: $sha)"
+          echo "path=$libPath" >> $GITHUB_OUTPUT
+          echo "sha256=$sha" >> $GITHUB_OUTPUT
 
       - name: Stage native assets for probe
-        shell: pwsh
+        shell: bash
         run: |
-          $rid = "${{ matrix.rid }}"
-          $tfm = "${{ matrix.tfm }}"
-          $probeRuntime = "docs/reviews/d3-impl-01-r5-r2/evidence/differential/probe/bin/Release/$tfm/runtimes/$rid/native"
-          mkdir $probeRuntime -Force | Out-Null
+          rid="${{ matrix.rid }}"
+          tfm="${{ matrix.tfm }}"
+          probeRuntime="docs/reviews/d3-impl-01-r5-r2/evidence/differential/probe/bin/Release/$tfm/runtimes/$rid/native"
+          mkdir -p "$probeRuntime"
           
           # D2 bridge
-          if ("${{ steps.bridge.outputs.path }}") {
-            $dest = Join-Path $probeRuntime (if ($IsWindows) { "dogwoodsharp_bridge.dll" } else { "libdogwoodsharp_bridge.so" })
-            Copy-Item "${{ steps.bridge.outputs.path }}" $dest -Force
-            Write-Host "Staged D2 bridge to $dest"
-          }
+          if [ -n "${{ steps.bridge.outputs.path }}" ]; then
+            dest="$probeRuntime/$(if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "cygwin" ]; then echo "dogwoodsharp_bridge.dll"; else echo "libdogwoodsharp_bridge.so"; fi)"
+            cp "${{ steps.bridge.outputs.path }}" "$dest"
+            echo "Staged D2 bridge to $dest"
+          fi
           
           # CedarSharp native
-          if ("${{ steps.cedarsharp.outputs.path }}") {
-            $dest = Join-Path $probeRuntime (if ($IsWindows) { "cedarsharp_native.dll" } else { "libcedarsharp_native.so" })
-            Copy-Item "${{ steps.cedarsharp.outputs.path }}" $dest -Force
-            Write-Host "Staged CedarSharp native to $dest"
-          }
+          if [ -n "${{ steps.cedarsharp.outputs.path }}" ]; then
+            dest="$probeRuntime/$(if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "cygwin" ]; then echo "cedarsharp_native.dll"; else echo "libcedarsharp_native.so"; fi)"
+            cp "${{ steps.cedarsharp.outputs.path }}" "$dest"
+            echo "Staged CedarSharp native to $dest"
+          fi
           
           # Create native manifest files
-          $bridgeSha = "${{ steps.bridge.outputs.sha256 }}"
-          $csSha = "${{ steps.cedarsharp.outputs.sha256 }}"
+          bridgeSha="${{ steps.bridge.outputs.sha256 }}"
+          csSha="${{ steps.cedarsharp.outputs.sha256 }}"
           
-          @{
-            file = if ($IsWindows) { "dogwoodsharp_bridge.dll" } else { "libdogwoodsharp_bridge.so" }
-            sha256 = $bridgeSha
-            cargoLockSha256 = (Get-FileHash "native/dogwoodsharp-bridge/Cargo.lock" -Algorithm SHA256).Hash.ToLowerInvariant()
-            target = "${{ matrix.rid }}"
-            abiVersion = 1
-            dogwoodVersion = "1.1.2"
-            dogwoodRevision = "${{ env.DOGWOOD_PINNED_REV }}"
-            cedarVersion = "4.11.0"
-            rustVersion = "1.99.1"
-          } | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $probeRuntime "dogwoodsharp-native.json") -Encoding utf8
+          cat > "$probeRuntime/dogwoodsharp-native.json" <<EOF
+{
+  "file": "$(if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "cygwin" ]; then echo "dogwoodsharp_bridge.dll"; else echo "libdogwoodsharp_bridge.so"; fi)",
+  "sha256": "$bridgeSha",
+  "cargoLockSha256": "$(sha256sum native/dogwoodsharp-bridge/Cargo.lock | cut -d' ' -f1)",
+  "target": "$rid",
+  "abiVersion": 1,
+  "dogwoodVersion": "1.1.2",
+  "dogwoodRevision": "${{ env.DOGWOOD_PINNED_REV }}",
+  "cedarVersion": "4.11.0",
+  "rustVersion": "1.99.1"
+}
+EOF
           
-          if ($csSha) {
-            @{
-              file = if ($IsWindows) { "cedarsharp_native.dll" } else { "libcedarsharp_native.so" }
-              sha256 = $csSha
-              target = "${{ matrix.rid }}"
-            } | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $probeRuntime "cedarsharp-native.json") -Encoding utf8
-          }
+          if [ -n "$csSha" ]; then
+            cat > "$probeRuntime/cedarsharp-native.json" <<EOF
+{
+  "file": "$(if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "cygwin" ]; then echo "cedarsharp_native.dll"; else echo "libcedarsharp_native.so"; fi)",
+  "sha256": "$csSha",
+  "target": "$rid"
+}
+EOF
+          fi
 
       - name: Build probe
-        shell: pwsh
+        shell: bash
         run: |
-          $probeProj = "docs/reviews/d3-impl-01-r5-r2/evidence/differential/probe/R5R1Probe.csproj"
+          probeProj="docs/reviews/d3-impl-01-r5-r2/evidence/differential/probe/R5R1Probe.csproj"
           dotnet restore "$probeProj" --locked-mode
           dotnet build "$probeProj" -c Release -f ${{ matrix.tfm }} --no-restore
           
-          $probeDll = "docs/reviews/d3-impl-01-r5-r2/evidence/differential/probe/bin/Release/${{ matrix.tfm }}/PrepProbe.dll"
-          if (-not (Test-Path $probeDll)) { throw "Probe not built at $probeDll" }
-          Write-Host "Probe built: $probeDll"
+          probeDll="docs/reviews/d3-impl-01-r5-r2/evidence/differential/probe/bin/Release/${{ matrix.tfm }}/PrepProbe.dll"
+          if [ ! -f "$probeDll" ]; then echo "Probe not built at $probeDll"; exit 1; fi
+          echo "Probe built: $probeDll"
 
       - name: Run differential (corrected reference)
         id: diff
-        shell: pwsh
+        shell: bash
         run: |
-          $probe = "docs/reviews/d3-impl-01-r5-r2/evidence/differential/probe/bin/Release/${{ matrix.tfm }}/PrepProbe.dll"
-          $oracle = "${{ steps.oracle.outputs.path }}"
-          $fixtures = "docs/reviews/d3-impl-01-r5-r2/evidence/fixtures.json"
-          $register = "docs/reviews/d3-impl-01-r5-r2/evidence/register-corrected-reference.json"
-          $outDir = "artifacts/r5r3-differential/${{ matrix.rid }}/${{ matrix.tfm }}"
-          mkdir $outDir -Force | Out-Null
-          $obs = Join-Path $outDir "observations-corrected-reference.json"
-          $life = Join-Path $outDir "lifecycle-corrected-reference.json"
-          $scratch = "r5r3-work/scratch-${{ matrix.rid }}-${{ matrix.tfm }}"
+          probe="docs/reviews/d3-impl-01-r5-r2/evidence/differential/probe/bin/Release/${{ matrix.tfm }}/PrepProbe.dll"
+          oracle="${{ steps.oracle.outputs.path }}"
+          fixtures="docs/reviews/d3-impl-01-r5-r2/evidence/fixtures.json"
+          register="docs/reviews/d3-impl-01-r5-r2/evidence/register-corrected-reference.json"
+          outDir="artifacts/r5r3-differential/${{ matrix.rid }}/${{ matrix.tfm }}"
+          mkdir -p "$outDir"
+          obs="$outDir/observations-corrected-reference.json"
+          life="$outDir/lifecycle-corrected-reference.json"
+          scratch="r5r3-work/scratch-${{ matrix.rid }}-${{ matrix.tfm }}"
           
-          dotnet $probe differential $fixtures $oracle $register $obs $life $scratch 2>&1 |
-            Tee-Object -FilePath (Join-Path $outDir "console.log")
-          $exitCode = $LASTEXITCODE
+          dotnet "$probe" differential "$fixtures" "$oracle" "$register" "$obs" "$life" "$scratch" 2>&1 | tee "$outDir/console.log"
+          exitCode=$?
           
-          if ($exitCode -ne 0) {
-            Write-Host "Differential exited with code $exitCode"
-            $result = Get-Content $obs -Raw | ConvertFrom-Json
-            Write-Host "Summary: $($result.summary | ConvertTo-Json -Compress)"
-            if ($result.coverageErrors) {
-              Write-Host "Coverage errors: $($result.coverageErrors -join '; ')"
-            }
-            foreach ($c in $result.cases) {
-              if ($c.verdict -ne 'pass') {
-                Write-Host "FAIL: $($c.id) class=$($c.classification) fields=$($c.observedDifferenceFields.field -join ',')"
-              }
-            }
-            throw "Differential failed on ${{ matrix.rid }}/${{ matrix.tfm }}"
-          }
+          if [ $exitCode -ne 0 ]; then
+            echo "Differential exited with code $exitCode"
+            result=$(cat "$obs")
+            echo "Summary: $(echo "$result" | jq -c '.summary')"
+            echo "$result" | jq -r '.coverageErrors[]?' 2>/dev/null | while read err; do echo "Coverage error: $err"; done
+            echo "$result" | jq -r '.cases[] | select(.verdict != "pass") | "FAIL: \(.id) class=\(.classification) fields=\(.observedDifferenceFields[].field)"' 2>/dev/null
+            exit 1
+          fi
           
-          $result = Get-Content $obs -Raw | ConvertFrom-Json
-          Write-Host "Differential passed: $($result.summary.passed)/$($result.summary.total) cases"
-          echo "observations=$obs" >> $env:GITHUB_OUTPUT
-          echo "lifecycle=$life" >> $env:GITHUB_OUTPUT
+          result=$(cat "$obs")
+          echo "Differential passed: $(echo "$result" | jq '.summary.passed')/$(echo "$result" | jq '.summary.total') cases"
+          echo "observations=$obs" >> $GITHUB_OUTPUT
+          echo "lifecycle=$life" >> $GITHUB_OUTPUT
 
       - name: Run harness self-test
-        shell: pwsh
+        shell: bash
         run: |
-          $probe = "docs/reviews/d3-impl-01-r5-r2/evidence/differential/probe/bin/Release/${{ matrix.tfm }}/PrepProbe.dll"
-          $oracle = "docs/reviews/d3-impl-01/evidence/differential/r4/upstream-oracle/target/release/dogwoodsharp-upstream-oracle.exe"
-          if (-not (Test-Path $oracle)) {
-            Write-Host "Original oracle not available on non-Windows, skipping self-test"
+          probe="docs/reviews/d3-impl-01-r5-r2/evidence/differential/probe/bin/Release/${{ matrix.tfm }}/PrepProbe.dll"
+          oracle="docs/reviews/d3-impl-01/evidence/differential/r4/upstream-oracle/target/release/dogwoodsharp-upstream-oracle.exe"
+          if [ ! -f "$oracle" ]; then
+            echo "Original oracle not available on non-Windows, skipping self-test"
             exit 0
-          }
-          $outDir = "artifacts/r5r3-differential/${{ matrix.rid }}/${{ matrix.tfm }}"
-          $selfTest = Join-Path $outDir "self-test.json"
-          dotnet $probe self-test $oracle $selfTest 2>&1 | Tee-Object -FilePath (Join-Path $outDir "self-test.log")
-          if ($LASTEXITCODE -ne 0) { throw "Self-test failed" }
-          Write-Host "Self-test passed"
+          fi
+          outDir="artifacts/r5r3-differential/${{ matrix.rid }}/${{ matrix.tfm }}"
+          selfTest="$outDir/self-test.json"
+          dotnet "$probe" self-test "$oracle" "$selfTest" 2>&1 | tee "$outDir/self-test.log"
+          if [ $? -ne 0 ]; then echo "Self-test failed"; exit 1; fi
+          echo "Self-test passed"
 
       - name: Run Cedar adjudicator verification
-        shell: pwsh
+        shell: bash
         run: |
-          $adj = "${{ steps.adjudicator.outputs.path }}"
-          $corpus = "docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/corpus.json"
-          $outDir = "artifacts/r5r3-differential/${{ matrix.rid }}/${{ matrix.tfm }}"
-          $outcome = Join-Path $outDir "adjudicator-outcome.json"
-          & $adj $corpus $outcome
-          if ($LASTEXITCODE -ne 0) { throw "Cedar adjudicator failed" }
-          Write-Host "Cedar adjudicator verification passed"
+          adj="${{ steps.adjudicator.outputs.path }}"
+          corpus="docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/corpus.json"
+          outDir="artifacts/r5r3-differential/${{ matrix.rid }}/${{ matrix.tfm }}"
+          outcome="$outDir/adjudicator-outcome.json"
+          "$adj" "$corpus" "$outcome"
+          if [ $? -ne 0 ]; then echo "Cedar adjudicator failed"; exit 1; fi
+          echo "Cedar adjudicator verification passed"
 
       - name: Upload differential evidence
         uses: actions/upload-artifact@v7
@@ -505,31 +503,29 @@ if let Some(expr) = reserved_extn_expr(map) {
           retention-days: 30
 
       - name: Verify differential results
-        shell: pwsh
+        shell: bash
         run: |
-          $outDir = "artifacts/r5r3-differential/${{ matrix.rid }}/${{ matrix.tfm }}"
-          $obs = Join-Path $outDir "observations-corrected-reference.json"
-          $result = Get-Content $obs -Raw | ConvertFrom-Json
+          outDir="artifacts/r5r3-differential/${{ matrix.rid }}/${{ matrix.tfm }}"
+          obs="$outDir/observations-corrected-reference.json"
+          result=$(cat "$obs")
           
-          Write-Host "=== ${{ matrix.rid }} / ${{ matrix.tfm }} ==="
-          Write-Host "Total: $($result.summary.total)"
-          Write-Host "Passed: $($result.summary.passed)"
-          Write-Host "Failed: $($result.summary.failed)"
-          Write-Host "Pending: $($result.summary.pending)"
+          echo "=== ${{ matrix.rid }} / ${{ matrix.tfm }} ==="
+          echo "Total: $(echo "$result" | jq '.summary.total')"
+          echo "Passed: $(echo "$result" | jq '.summary.passed')"
+          echo "Failed: $(echo "$result" | jq '.summary.failed')"
+          echo "Pending: $(echo "$result" | jq '.summary.pending')"
           
-          if ($result.summary.failed -gt 0) {
-            Write-Host "FAILURES:"
-            foreach ($c in $result.cases) {
-              if ($c.verdict -ne 'pass') {
-                Write-Host "  $($c.id): $($c.classification) fields=$($c.observedDifferenceFields.field -join ',')"
-              }
-            }
-            throw "Differential has $($result.summary.failed) failures on ${{ matrix.rid }}/${{ matrix.tfm }}"
-          }
+          failed=$(echo "$result" | jq '.summary.failed')
+          if [ "$failed" -gt 0 ]; then
+            echo "FAILURES:"
+            echo "$result" | jq -r '.cases[] | select(.verdict != "pass") | "  \(.id): \(.classification) fields=\(.observedDifferenceFields[].field)"'
+            exit 1
+          fi
           
-          if ($result.coverageErrors) {
-            Write-Host "Coverage errors: $($result.coverageErrors -join '; ')"
-            throw "Coverage errors present"
-          }
+          coverageErrors=$(echo "$result" | jq -r '.coverageErrors[]?' 2>/dev/null)
+          if [ -n "$coverageErrors" ]; then
+            echo "Coverage errors: $coverageErrors"
+            exit 1
+          fi
           
-          Write-Host "ALL CASES PASSED on ${{ matrix.rid }}/${{ matrix.tfm }}"
+          echo "ALL CASES PASSED on ${{ matrix.rid }}/${{ matrix.tfm }}"
