@@ -1,0 +1,109 @@
+{
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R5-R1",
+  "matrix": "the minimum D3 matrix of the pinned qualification plan, section 9",
+  "requirement": "The upstream oracle and the D3 adapter must be built from their locked graphs for each cell, and the same fixture and expected-difference manifest must be used on every cell. A cell that cannot be run is pending, never passed.",
+  "cells": [
+    {
+      "os": "Windows",
+      "rid": "win-x64",
+      "tfm": "net8.0",
+      "status": "executed",
+      "originalReference": {
+        "cases": 124,
+        "passed": 113,
+        "failed": 11,
+        "pending": 0,
+        "note": "The eleven failures are the reproduced reference defect surface: six alternate-encoding cases and five malformed-encoding cases."
+      },
+      "correctedReference": {
+        "cases": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "note": "No failure and no pending case against the corrected reference."
+      },
+      "d3": {
+        "stableAcrossBothRuns": true
+      },
+      "evidence": [
+        "evidence/observations-original-reference-net8.0.json",
+        "evidence/observations-corrected-reference-net8.0.json",
+        "evidence/lifecycle-original-reference-net8.0.json",
+        "evidence/lifecycle-corrected-reference-net8.0.json"
+      ]
+    },
+    {
+      "os": "Windows",
+      "rid": "win-x64",
+      "tfm": "net10.0",
+      "status": "executed",
+      "originalReference": {
+        "cases": 124,
+        "passed": 113,
+        "failed": 11,
+        "pending": 0,
+        "note": "The eleven failures are the reproduced reference defect surface: six alternate-encoding cases and five malformed-encoding cases."
+      },
+      "correctedReference": {
+        "cases": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "note": "No failure and no pending case against the corrected reference."
+      },
+      "d3": {
+        "stableAcrossBothRuns": true
+      },
+      "evidence": [
+        "evidence/observations-original-reference-net10.0.json",
+        "evidence/observations-corrected-reference-net10.0.json",
+        "evidence/lifecycle-original-reference-net10.0.json",
+        "evidence/lifecycle-corrected-reference-net10.0.json"
+      ]
+    },
+    {
+      "os": "Linux",
+      "rid": "linux-x64",
+      "tfm": "net8.0",
+      "status": "pending",
+      "originalReference": null,
+      "correctedReference": null,
+      "d3": null,
+      "evidence": [],
+      "note": "Not executed in this commission. The commission ran on Windows x64 and the differential harness invokes a Windows oracle executable; the pinned qualification plan requires the same locked oracle, fixtures and difference register on every cell, so this cell is pending and is never reported as passed."
+    },
+    {
+      "os": "Linux",
+      "rid": "linux-x64",
+      "tfm": "net10.0",
+      "status": "pending",
+      "originalReference": null,
+      "correctedReference": null,
+      "d3": null,
+      "evidence": [],
+      "note": "Not executed in this commission. The commission ran on Windows x64 and the differential harness invokes a Windows oracle executable; the pinned qualification plan requires the same locked oracle, fixtures and difference register on every cell, so this cell is pending and is never reported as passed."
+    },
+    {
+      "os": "macOS",
+      "rid": "osx-arm64",
+      "tfm": "net8.0",
+      "status": "pending",
+      "originalReference": null,
+      "correctedReference": null,
+      "d3": null,
+      "evidence": [],
+      "note": "Not executed in this commission. The commission ran on Windows x64 and the differential harness invokes a Windows oracle executable; the pinned qualification plan requires the same locked oracle, fixtures and difference register on every cell, so this cell is pending and is never reported as passed."
+    },
+    {
+      "os": "macOS",
+      "rid": "osx-arm64",
+      "tfm": "net10.0",
+      "status": "pending",
+      "originalReference": null,
+      "correctedReference": null,
+      "d3": null,
+      "evidence": [],
+      "note": "Not executed in this commission. The commission ran on Windows x64 and the differential harness invokes a Windows oracle executable; the pinned qualification plan requires the same locked oracle, fixtures and difference register on every cell, so this cell is pending and is never reported as passed."
+    }
+  ]
+}

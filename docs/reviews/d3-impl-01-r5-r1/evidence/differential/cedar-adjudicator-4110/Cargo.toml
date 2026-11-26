@@ -1,0 +1,19 @@
+[package]
+name = "cedar-adjudicator-4110"
+version = "0.0.0"
+edition = "2021"
+publish = false
+license = "Apache-2.0"
+
+# DOGWOOD-SHARP-D3-IMPL-01-R5-R1 direct Cedar adjudication harness, pinned to
+# the Cedar engine version the upstream Dogwood 1.1.2 reference itself links
+# (cedar-policy 4.11.0). Same corpus, same evaluation path, same observations
+# as the 4.13.0 harness; it exists to establish that the adjudicated semantics
+# do not depend on the engine version difference between the reference and D3.
+#
+# Test tooling only: never a production execution path.
+
+[dependencies]
+cedar-policy = "=4.11.0"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

@@ -1,0 +1,866 @@
+{
+  "comment": "DOGWOOD-SHARP-D3-IMPL-01-R5-R1 direct Cedar adjudication corpus. Independently constructed minimal Cedar policies and schema-directed JSON requests. Group A reproduces the 18 R5 baseline replay cases (fixture cross-referenced). Group B covers adjacent valid representations. Group C covers invalid and malformed representations that must not acquire validity, including the R5-R1 malformed typed-encoding controls.",
+  "cases": [
+    {
+      "id": "ADJ-A01",
+      "fixtureId": "R3-C23-08-ipaddr-typed-context",
+      "note": "ipaddr match, explicit __extn escape",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "192.168.1.1"
+          }
+        }
+      },
+      "policyId": "r3c23h_0"
+    },
+    {
+      "id": "ADJ-A02",
+      "fixtureId": "R3-C23-08-ipaddr-typed-context-match-implicit-escape",
+      "note": "ipaddr match, implicit escape object",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": {
+          "fn": "ip",
+          "arg": "192.168.1.1"
+        }
+      },
+      "policyId": "r3c23h_0"
+    },
+    {
+      "id": "ADJ-A03",
+      "fixtureId": "R3-C23-08-ipaddr-typed-context-match-short-string",
+      "note": "ipaddr match, bare string",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": "192.168.1.1"
+      },
+      "policyId": "r3c23h_0"
+    },
+    {
+      "id": "ADJ-A04",
+      "fixtureId": "R3-C23-08-ipaddr-typed-context-mismatch-explicit-escape",
+      "note": "ipaddr mismatch, explicit __extn escape",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "192.168.1.2"
+          }
+        }
+      },
+      "policyId": "r3c23h_0"
+    },
+    {
+      "id": "ADJ-A05",
+      "fixtureId": "R3-C23-08-ipaddr-typed-context-mismatch-implicit-escape",
+      "note": "ipaddr mismatch, implicit escape object",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": {
+          "fn": "ip",
+          "arg": "192.168.1.2"
+        }
+      },
+      "policyId": "r3c23h_0"
+    },
+    {
+      "id": "ADJ-A06",
+      "fixtureId": "R3-C23-08-ipaddr-typed-context-mismatch-short-string",
+      "note": "ipaddr mismatch, bare string",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": "192.168.1.2"
+      },
+      "policyId": "r3c23h_0"
+    },
+    {
+      "id": "ADJ-A07",
+      "fixtureId": "R3-C23-09-datetime-typed-context",
+      "note": "datetime match, explicit __extn escape",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ts": {
+          "__extn": {
+            "fn": "datetime",
+            "arg": "2024-01-01T00:00:00Z"
+          }
+        }
+      },
+      "policyId": "r3c23i_0"
+    },
+    {
+      "id": "ADJ-A08",
+      "fixtureId": "R3-C23-09-datetime-typed-context-match-implicit-escape",
+      "note": "datetime match, implicit escape object",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ts": {
+          "fn": "datetime",
+          "arg": "2024-01-01T00:00:00Z"
+        }
+      },
+      "policyId": "r3c23i_0"
+    },
+    {
+      "id": "ADJ-A09",
+      "fixtureId": "R3-C23-09-datetime-typed-context-match-short-string",
+      "note": "datetime match, bare string",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ts": "2024-01-01T00:00:00Z"
+      },
+      "policyId": "r3c23i_0"
+    },
+    {
+      "id": "ADJ-A10",
+      "fixtureId": "R3-C23-09-datetime-typed-context-mismatch-explicit-escape",
+      "note": "datetime mismatch, explicit __extn escape",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ts": {
+          "__extn": {
+            "fn": "datetime",
+            "arg": "2024-01-01T00:00:01Z"
+          }
+        }
+      },
+      "policyId": "r3c23i_0"
+    },
+    {
+      "id": "ADJ-A11",
+      "fixtureId": "R3-C23-09-datetime-typed-context-mismatch-implicit-escape",
+      "note": "datetime mismatch, implicit escape object",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ts": {
+          "fn": "datetime",
+          "arg": "2024-01-01T00:00:01Z"
+        }
+      },
+      "policyId": "r3c23i_0"
+    },
+    {
+      "id": "ADJ-A12",
+      "fixtureId": "R3-C23-09-datetime-typed-context-mismatch-short-string",
+      "note": "datetime mismatch, bare string",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ts": "2024-01-01T00:00:01Z"
+      },
+      "policyId": "r3c23i_0"
+    },
+    {
+      "id": "ADJ-A13",
+      "fixtureId": "R3-C23-01-decimal-typed-value-match-explicit-escape",
+      "note": "decimal match, explicit __extn escape",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "price": {
+          "__extn": {
+            "fn": "decimal",
+            "arg": "19.99"
+          }
+        }
+      },
+      "policyId": "r3c23_0"
+    },
+    {
+      "id": "ADJ-A14",
+      "fixtureId": "R3-C23-01-decimal-typed-value-match-implicit-escape",
+      "note": "decimal match, implicit escape object",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "price": {
+          "fn": "decimal",
+          "arg": "19.99"
+        }
+      },
+      "policyId": "r3c23_0"
+    },
+    {
+      "id": "ADJ-A15",
+      "fixtureId": "R3-C23-01-decimal-typed-value-match-short-string",
+      "note": "decimal match, bare string",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "price": "19.99"
+      },
+      "policyId": "r3c23_0"
+    },
+    {
+      "id": "ADJ-A16",
+      "fixtureId": "R3-C23-02-decimal-typed-mismatch-mismatch-explicit-escape",
+      "note": "decimal mismatch, explicit __extn escape",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "price": {
+          "__extn": {
+            "fn": "decimal",
+            "arg": "1.00"
+          }
+        }
+      },
+      "policyId": "r3c23b_0"
+    },
+    {
+      "id": "ADJ-A17",
+      "fixtureId": "R3-C23-02-decimal-typed-mismatch-mismatch-implicit-escape",
+      "note": "decimal mismatch, implicit escape object",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "price": {
+          "fn": "decimal",
+          "arg": "1.00"
+        }
+      },
+      "policyId": "r3c23b_0"
+    },
+    {
+      "id": "ADJ-A18",
+      "fixtureId": "R3-C23-02-decimal-typed-mismatch-mismatch-short-string",
+      "note": "decimal mismatch, bare string",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "price": "1.00"
+      },
+      "policyId": "r3c23b_0"
+    },
+    {
+      "id": "ADJ-B01",
+      "note": "ipaddr match, explicit escape with args array (single argument)",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "args": [
+              "192.168.1.1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ADJ-B02",
+      "note": "ipaddr IPv6 match through bare string",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"::1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": "::1"
+      }
+    },
+    {
+      "id": "ADJ-B03",
+      "note": "ipaddr method on typed context (isInRange)",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip.isInRange(ip(\"192.168.0.0/16\")) };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": "192.168.1.1"
+      }
+    },
+    {
+      "id": "ADJ-B04",
+      "note": "decimal numeric equality across trailing zeros",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "price": {
+          "__extn": {
+            "fn": "decimal",
+            "arg": "19.990"
+          }
+        }
+      }
+    },
+    {
+      "id": "ADJ-B05",
+      "note": "datetime equality across equivalent UTC offsets",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ts": {
+          "__extn": {
+            "fn": "datetime",
+            "arg": "2024-01-01T01:00:00+01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "ADJ-B06",
+      "note": "datetime lowercase RFC3339 t/z separators",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ts": "2024-01-01t00:00:00z"
+      }
+    },
+    {
+      "id": "ADJ-B07",
+      "note": "datetime date-only form",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ts": "2024-01-01"
+      }
+    },
+    {
+      "id": "ADJ-B08",
+      "note": "typed attribute absent from context",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {}
+    },
+    {
+      "id": "ADJ-B09",
+      "note": "valid typed attribute plus unexpected extra attribute",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": "192.168.1.1",
+        "junk": 5
+      }
+    },
+    {
+      "id": "ADJ-B10",
+      "note": "ipaddr boundary value 255.255.255.255",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"255.255.255.255\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": "255.255.255.255"
+      }
+    },
+    {
+      "id": "ADJ-B11",
+      "note": "decimal zero and negative forms",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"-0.00\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "price": "-0.00"
+      }
+    },
+    {
+      "id": "ADJ-B12",
+      "note": "typed attribute declared optional and omitted",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip?: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context has \"ip\" && context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {}
+    },
+    {
+      "id": "ADJ-B13",
+      "note": "optional typed attribute supplied",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip?: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context has \"ip\" && context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": "192.168.1.1"
+      }
+    },
+    {
+      "id": "ADJ-C01",
+      "note": "ipaddr non-IP string",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": "not-an-ip"
+      },
+      "fixtureId": "R5R1-C23-01-ipaddr-invalid-bare-string"
+    },
+    {
+      "id": "ADJ-C02",
+      "note": "ipaddr octet out of range",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": "999.1.1.1"
+      }
+    },
+    {
+      "id": "ADJ-C03",
+      "note": "ipaddr prefix string for address constructor",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": "192.168.1.0/24"
+      }
+    },
+    {
+      "id": "ADJ-C04",
+      "note": "ipaddr JSON number",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": 5
+      }
+    },
+    {
+      "id": "ADJ-C05",
+      "note": "ipaddr implicit escape missing argument",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": {
+          "fn": "ip"
+        }
+      }
+    },
+    {
+      "id": "ADJ-C06",
+      "note": "explicit escape with extra inner field",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "192.168.1.1",
+            "extra": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "ADJ-C07",
+      "note": "ipaddr JSON array",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": [
+          "192.168.1.1"
+        ]
+      }
+    },
+    {
+      "id": "ADJ-C08",
+      "note": "wrong constructor for declared type (decimal for ipaddr)",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": {
+          "fn": "decimal",
+          "arg": "1.5"
+        }
+      }
+    },
+    {
+      "id": "ADJ-C09",
+      "note": "unknown extension function name",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": {
+          "__extn": {
+            "fn": "nope",
+            "arg": "x"
+          }
+        }
+      }
+    },
+    {
+      "id": "ADJ-C10",
+      "note": "explicit escape with empty args array",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "args": []
+          }
+        }
+      }
+    },
+    {
+      "id": "ADJ-C11",
+      "note": "explicit escape with two arguments for one-argument constructor",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "args": [
+              "192.168.1.1",
+              "10.0.0.1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ADJ-C12",
+      "note": "decimal non-numeric string",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "price": "abc"
+      }
+    },
+    {
+      "id": "ADJ-C13",
+      "note": "decimal empty string",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "price": ""
+      }
+    },
+    {
+      "id": "ADJ-C14",
+      "note": "decimal explicit escape with numeric argument",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "price": {
+          "__extn": {
+            "fn": "decimal",
+            "arg": 19.99
+          }
+        }
+      }
+    },
+    {
+      "id": "ADJ-C15",
+      "note": "decimal JSON number as implicit constructor",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "price": 19.99
+      }
+    },
+    {
+      "id": "ADJ-C16",
+      "note": "decimal scientific notation",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"19.99\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "price": "1e3"
+      }
+    },
+    {
+      "id": "ADJ-C17",
+      "note": "datetime non-date string",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ts": "nope"
+      }
+    },
+    {
+      "id": "ADJ-C18",
+      "note": "datetime out-of-range month",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ts": "2024-13-01T00:00:00Z"
+      }
+    },
+    {
+      "id": "ADJ-C19",
+      "note": "datetime JSON number",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ts": 5
+      }
+    },
+    {
+      "id": "ADJ-C20",
+      "note": "datetime implicit escape missing argument",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ts": {
+          "fn": "datetime"
+        }
+      }
+    },
+    {
+      "id": "ADJ-C21",
+      "note": "null typed attribute value",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": null
+      }
+    },
+    {
+      "id": "ADJ-C22",
+      "note": "string-typed attribute receives escape object (wrong type must not parse as constructor)",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { name: String } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.name == \"192.168.1.1\" };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "name": "192.168.1.1"
+      }
+    },
+    {
+      "id": "ADJ-C23",
+      "fixtureId": "R5R1-C23-05-ipaddr-invalid-implicit-escape",
+      "note": "ipaddr implicit escape with an invalid argument",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": {
+          "fn": "ip",
+          "arg": "not-an-ip"
+        }
+      }
+    },
+    {
+      "id": "ADJ-C24",
+      "fixtureId": "R5R1-C23-02-ipaddr-invalid-octet",
+      "note": "ipaddr explicit escape with an out-of-range octet",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ip: ipaddr } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ip == ip(\"192.168.1.1\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "999.1.1.1"
+          }
+        }
+      }
+    },
+    {
+      "id": "ADJ-C25",
+      "fixtureId": "R5R1-C23-03-datetime-invalid-escape",
+      "note": "datetime explicit escape with an unparsable argument",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { ts: datetime } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.ts == datetime(\"2024-01-01T00:00:00Z\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "ts": {
+          "__extn": {
+            "fn": "datetime",
+            "arg": "not-a-date"
+          }
+        }
+      }
+    },
+    {
+      "id": "ADJ-C26",
+      "fixtureId": "R5R1-C23-04-decimal-invalid-escape",
+      "note": "decimal explicit escape with a non-numeric argument",
+      "schema": "namespace App { entity User; entity Doc; action read appliesTo { principal: [User], resource: [Doc], context: { price: decimal } }; }",
+      "policy": "permit(principal, action == App::Action::\"read\", resource)\nwhen { context.price == decimal(\"1.5\") };",
+      "action": "App::Action::\"read\"",
+      "principal": "App::User::\"alice\"",
+      "resource": "App::Doc::\"d1\"",
+      "context": {
+        "price": {
+          "__extn": {
+            "fn": "decimal",
+            "arg": "not-a-number"
+          }
+        }
+      }
+    }
+  ],
+  "sharedEntities": [
+    {
+      "uid": {
+        "type": "App::User",
+        "id": "alice"
+      },
+      "attrs": {},
+      "parents": []
+    },
+    {
+      "uid": {
+        "type": "App::Doc",
+        "id": "d1"
+      },
+      "attrs": {},
+      "parents": []
+    }
+  ]
+}
