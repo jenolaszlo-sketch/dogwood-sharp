@@ -53,7 +53,8 @@ jobs:
           if ($actualCommit -ne "${{ github.sha }}") {
             throw "Checkout commit mismatch: expected ${{ github.sha }}, got $actualCommit"
           }
-          $actualTree = git rev-parse HEAD^{tree}
+          # Escape ^ for PowerShell: use ^^
+          $actualTree = git rev-parse "HEAD^^{tree}"
           Write-Host "Baseline verified: $actualCommit / $actualTree"
           # Record the actual tree for reference
           echo "R5R3_ACTUAL_TREE=$actualTree" >> $env:GITHUB_ENV
