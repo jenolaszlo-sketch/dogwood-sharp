@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+# Redirect all output to a log file to avoid broken pipe issues
+exec > >(tee apply-patch.log) 2>&1
+
 source="${1}"
 workDir="r5r3-work/dogwood-patched"
 
