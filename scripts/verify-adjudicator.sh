@@ -2,7 +2,7 @@
 set -euo pipefail
 
 adj="${ADJUDICATOR_PATH}"
-corpus="docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/corpus.json"
+corpus="docs/reviews/d3-impl-01-r5-r3/evidence/differential/cedar-adjudicator/corpus.json"
 outDir="artifacts/r5r3-differential/${RID}/${TFM}"
 outcome="$outDir/adjudicator-outcome.json"
 "$adj" "$corpus" "$outcome"

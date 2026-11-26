@@ -1,10 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-probe="docs/reviews/d3-impl-01-r5-r2/evidence/differential/probe/bin/Release/${TFM}/PrepProbe.dll"
+probe="docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/${TFM}/PrepProbe.dll"
 oracle="${ORACLE_PATH}"
-fixtures="docs/reviews/d3-impl-01-r5-r2/evidence/fixtures.json"
-register="docs/reviews/d3-impl-01-r5-r2/evidence/register-corrected-reference.json"
+fixtures="docs/reviews/d3-impl-01-r5-r3/evidence/fixtures.json"
+register="docs/reviews/d3-impl-01-r5-r3/evidence/register-corrected-reference.json"
 outDir="artifacts/r5r3-differential/${RID}/${TFM}"
 mkdir -p "$outDir"
 obs="$outDir/observations-corrected-reference.json"

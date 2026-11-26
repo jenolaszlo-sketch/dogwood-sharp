@@ -6,13 +6,13 @@ staging="r5r3-work/corrected-oracle"
 
 if [ -d "$staging" ]; then rm -rf "$staging"; fi
 mkdir -p "$staging/src"
-cp -r docs/reviews/d3-impl-01-r5-r2/evidence/differential/corrected-oracle/src "$staging/"
+cp -r docs/reviews/d3-impl-01-r5-r3/evidence/differential/corrected-oracle/src "$staging/"
 
-template=$(cat docs/reviews/d3-impl-01-r5-r2/evidence/differential/corrected-oracle/Cargo.toml.template)
+template=$(cat docs/reviews/d3-impl-01-r5-r3/evidence/differential/corrected-oracle/Cargo.toml.template)
 manifest="${template/__DOGWOOD_PATCHED_PATH__/$(realpath "$patchedRoot/dogwood-language")}"
 echo "$manifest" > "$staging/Cargo.toml"
 
-cp docs/reviews/d3-impl-01-r5-r2/evidence/differential/corrected-oracle/Cargo.lock "$staging/"
+cp docs/reviews/d3-impl-01-r5-r3/evidence/differential/corrected-oracle/Cargo.lock "$staging/"
 
 export CARGO_TARGET_DIR="r5r3-work/oracle-target"
 cargo build --locked --release --offline --manifest-path "$staging/Cargo.toml"

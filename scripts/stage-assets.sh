@@ -3,7 +3,7 @@ set -euo pipefail
 
 rid="${RID}"
 tfm="${TFM}"
-probeRuntime="docs/reviews/d3-impl-01-r5-r2/evidence/differential/probe/bin/Release/$tfm/runtimes/$rid/native"
+probeRuntime="docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/$tfm/runtimes/$rid/native"
 mkdir -p "$probeRuntime"
 
 if [ -n "${BRIDGE_PATH}" ]; then

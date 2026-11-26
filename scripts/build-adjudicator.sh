@@ -4,9 +4,9 @@ set -euo pipefail
 staging="r5r3-work/cedar-adjudicator"
 if [ -d "$staging" ]; then rm -rf "$staging"; fi
 mkdir -p "$staging"
-cp -r docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/src "$staging/"
-cp docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/Cargo.toml "$staging/"
-cp docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/Cargo.lock "$staging/"
+cp -r docs/reviews/d3-impl-01-r5-r3/evidence/differential/cedar-adjudicator/src "$staging/"
+cp docs/reviews/d3-impl-01-r5-r3/evidence/differential/cedar-adjudicator/Cargo.toml "$staging/"
+cp docs/reviews/d3-impl-01-r5-r3/evidence/differential/cedar-adjudicator/Cargo.lock "$staging/"
 
 export CARGO_TARGET_DIR="r5r3-work/adjudicator-target"
 cargo build --locked --release --offline --manifest-path "$staging/Cargo.toml"
