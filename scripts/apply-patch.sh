@@ -28,7 +28,7 @@ insertMarkers=(
 
 insertLine=""
 for marker in "${insertMarkers[@]}"; do
-  insertLine=$(echo "$content" | awk -v m="$marker" 'index($0,m){print NR; exit}')
+  insertLine=$(printf '%s\n' "$content" | awk -v m="$marker" 'index($0,m){print NR; exit}')
   if [ -n "$insertLine" ] && [ "$insertLine" != "0" ]; then
     break
   fi
@@ -43,7 +43,7 @@ if [ -z "$insertLine" ] || [ "$insertLine" = "0" ]; then
 fi
 
 # Calculate byte offset
-byteOffset=$(echo "$content" | head -n $((insertLine-1)) | wc -c)
+byteOffset=$(printf '%s\n' "$content" | head -n $((insertLine-1)) | wc -c)
 
 # Insert reserved_extn_expr function
 newFunction='
@@ -89,7 +89,7 @@ newContent="${content:0:$byteOffset}$newFunction${content:$byteOffset}"
 
 # Find Value::Object arm in value_to_expr
 callMarker='Value::Object(map) => {'
-callLine=$(echo "$newContent" | awk -v m="$callMarker" 'index($0,m){print NR; exit}')
+callLine=$(printf '%s\n' "$newContent" | awk -v m="$callMarker" 'index($0,m){print NR; exit}')
 if [ -z "$callLine" ] || [ "$callLine" = "0" ]; then
   printf 'Could not find Value::Object arm in value_to_expr\n'
   # Debug: show lines around Value::Object
@@ -97,14 +97,14 @@ if [ -z "$callLine" ] || [ "$callLine" = "0" ]; then
   exit 1
 fi
 
-callLineContent=$(echo "$newContent" | sed -n "${callLine}p")
-bracePos=$(echo "$callLineContent" | grep -ob "{" | head -1 | cut -d: -f1)
+callLineContent=$(printf '%s\n' "$newContent" | sed -n "${callLine}p")
+bracePos=$(printf '%s\n' "$callLineContent" | grep -ob "{" | head -1 | cut -d: -f1)
 if [ -z "$bracePos" ]; then
   printf 'Could not find opening brace for Value::Object arm\n'
   exit 1
 fi
 
-braceByteOffset=$(echo "$newContent" | head -n $((callLine-1)) | wc -c)
+braceByteOffset=$(printf '%s\n' "$newContent" | head -n $((callLine-1)) | wc -c)
 braceByteOffset=$((braceByteOffset + bracePos))
 
 insertCall='
