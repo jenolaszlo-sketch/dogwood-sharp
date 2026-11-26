@@ -28,11 +28,14 @@ cat > "$probeRuntime/dogwoodsharp-native.json" <<EOF
   "sha256": "$bridgeSha",
   "cargoLockSha256": "$(sha256sum native/dogwoodsharp-bridge/Cargo.lock | cut -d' ' -f1)",
   "rid": "$rid",
+  "target": "$(if [ "${RID}" = "linux-x64" ]; then echo "x86_64-unknown-linux-gnu"; elif [ "${RID}" = "osx-arm64" ]; then echo "aarch64-apple-darwin"; elif [ "${RID}" = "win-x64" ]; then echo "x86_64-pc-windows-msvc"; else echo "$rid"; fi)",
   "abiVersion": 1,
   "dogwoodVersion": "1.1.2",
   "dogwoodRevision": "${DOGWOOD_PINNED_REV}",
   "cedarVersion": "4.11.0",
-  "rustVersion": "1.99.1"
+  "rustVersion": "1.99.1",
+  "dogwoodFeatures": [],
+  "cedarFeatures": []
 }
 EOF
 
