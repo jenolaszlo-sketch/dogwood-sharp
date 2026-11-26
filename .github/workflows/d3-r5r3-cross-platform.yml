@@ -1,6 +1,8 @@
 name: D3 R5-R3 Cross-Platform Differential Execution
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       platform:
