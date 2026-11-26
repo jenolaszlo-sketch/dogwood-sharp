@@ -42,8 +42,8 @@ if [ -z "$insertLine" ] || [ "$insertLine" = "0" ]; then
   exit 1
 fi
 
-# Calculate byte offset
-byteOffset=$(printf '%s\n' "$content" | head -n $((insertLine-1)) | wc -c)
+# Calculate byte offset using awk to avoid broken pipe from head
+byteOffset=$(awk -v n="$((insertLine-1))" 'NR <= n {sum += length($0) + 1} END {print sum}' <<< "$content")
 
 # Insert reserved_extn_expr function
 newFunction='
@@ -104,7 +104,7 @@ if [ -z "$bracePos" ]; then
   exit 1
 fi
 
-braceByteOffset=$(printf '%s\n' "$newContent" | head -n $((callLine-1)) | wc -c)
+braceByteOffset=$(awk -v n="$((callLine-1))" 'NR <= n {sum += length($0) + 1} END {print sum}' <<< "$newContent")
 braceByteOffset=$((braceByteOffset + bracePos))
 
 insertCall='
