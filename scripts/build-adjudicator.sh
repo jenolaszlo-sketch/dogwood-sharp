@@ -9,7 +9,7 @@ cp docs/reviews/d3-impl-01-r5-r3/evidence/differential/cedar-adjudicator/Cargo.t
 cp docs/reviews/d3-impl-01-r5-r3/evidence/differential/cedar-adjudicator/Cargo.lock "$staging/"
 
 export CARGO_TARGET_DIR="r5r3-work/adjudicator-target"
-cargo build --locked --release --offline --manifest-path "$staging/Cargo.toml"
+cargo build --locked --release --manifest-path "$staging/Cargo.toml"
 
 suffix=""
 if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "cygwin" ]; then suffix=".exe"; fi
