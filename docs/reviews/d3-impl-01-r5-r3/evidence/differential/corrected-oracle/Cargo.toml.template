@@ -1,0 +1,36 @@
+[package]
+name = "dogwoodsharp-corrected-oracle"
+version = "0.0.0"
+edition = "2024"
+publish = false
+license = "Apache-2.0"
+
+# DOGWOOD-SHARP-D3-IMPL-01-R5-R1 corrected Dogwood reference oracle.
+#
+# This harness is the R4 upstream differential oracle with one bounded
+# correction: the pinned upstream Dogwood crate is patched (see
+# dogwood-typed-context.patch) so that a typed ipaddr or datetime context
+# value reaches the upstream authorizer as a typed value instead of degrading
+# to a plain record at the Dogwood-to-Cedar value boundary, and the request
+# context JSON is canonicalized through Cedar's own schema-directed JSON
+# authorization parsing at the adapter boundary. Evaluation remains the
+# pinned Dogwood path end to end (ServiceSchema -> PolicySchema ->
+# LoweredPolicySet -> Validator -> Authorizer -> Event -> is_authorized),
+# including the three-tier entity store, the temporal pipeline and the
+# provider pipeline. No Cedar-to-Cedar evaluation is introduced: the
+# cedar-policy dependency performs JSON representation parsing only.
+#
+# This file is a template. prepare-dogwood.ps1 stages the build tree into a
+# work root outside the repository (the pinned Dogwood checkout must not be
+# placed under a repository whose .gitattributes would reinterpret its bytes)
+# and writes the manifest with the absolute path of the patched dependency.
+# The dogwood-language dependency is the pinned upstream revision
+# (929f49e7305534ac61ef06cf8e47269c596dc851, dogwood 1.1.2) with the exact
+# documented patch applied and hash-verified. Evidence tooling only; not a
+# production execution path, not shipped.
+
+[dependencies]
+dogwood-language = { path = "__DOGWOOD_PATCHED_PATH__" }
+cedar-policy = "=4.11.0"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
