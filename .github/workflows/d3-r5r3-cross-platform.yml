@@ -51,7 +51,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.platform != 'all' && github.event.inputs.platform != matrix.rid
         run: |
           echo "Skipping ${{ matrix.rid }} because platform input is ${{ github.event.inputs.platform }}"
-          exit 0
+          exit 1
 
       - name: Verify baseline
         run: ./scripts/verify-baseline.sh
