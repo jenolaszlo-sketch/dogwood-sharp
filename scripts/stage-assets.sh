@@ -51,6 +51,7 @@ cat > "$probeRuntime/dogwoodsharp-native.json" <<EOF
   "rid": "$rid",
   "target": "$target",
   "abiVersion": 1,
+  "bridgeVersion": "0.1.0",
   "dogwoodVersion": "1.1.2",
   "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
   "cedarVersion": "4.11.0",
