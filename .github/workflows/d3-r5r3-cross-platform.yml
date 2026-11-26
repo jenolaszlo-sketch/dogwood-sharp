@@ -135,6 +135,7 @@ jobs:
           TFM: ${{ matrix.tfm }}
 
       - name: Run differential
+        id: diff
         run: ./scripts/run-differential.sh
         env:
           RID: ${{ matrix.rid }}
