@@ -23,6 +23,7 @@ csSha="${CEDARSHARP_SHA256}"
 
 cat > "$probeRuntime/dogwoodsharp-native.json" <<EOF
 {
+  "manifestVersion": 1,
   "file": "$(if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "cygwin" ]; then echo "dogwoodsharp_bridge.dll"; else echo "libdogwoodsharp_bridge.so"; fi)",
   "sha256": "$bridgeSha",
   "cargoLockSha256": "$(sha256sum native/dogwoodsharp-bridge/Cargo.lock | cut -d' ' -f1)",
