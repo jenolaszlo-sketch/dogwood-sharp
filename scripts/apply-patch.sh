@@ -19,11 +19,26 @@ if [ $? -ne 0 ]; then echo "Failed to copy Dogwood tree"; exit 1; fi
 apiPath="$workDir/dogwood-language/src/api.rs"
 content=$(cat "$apiPath")
 
-# Find value_to_expr function
-insertMarker='fn value_to_expr(v: &Value) -> RestrictedExpression {'
-insertLine=$(echo "$content" | awk -v m="$insertMarker" 'index($0,m){print NR; exit}')
+# Find value_to_expr function - try multiple possible signatures
+insertMarkers=(
+  'fn value_to_expr(v: &Value) -> RestrictedExpression {'
+  'fn value_to_expr(v: &Value) -> RestrictedExpression{'
+  'fn value_to_expr(v: &Value) -> RestrictedExpression'
+)
+
+insertLine=""
+for marker in "${insertMarkers[@]}"; do
+  insertLine=$(echo "$content" | awk -v m="$marker" 'index($0,m){print NR; exit}')
+  if [ -n "$insertLine" ] && [ "$insertLine" != "0" ]; then
+    break
+  fi
+done
+
 if [ -z "$insertLine" ] || [ "$insertLine" = "0" ]; then
   echo "Could not find value_to_expr function in api.rs"
+  # Debug: show lines around value_to_expr
+  echo "Debug: searching for value_to_expr..."
+  echo "$content" | grep -n "value_to_expr" | head -20
   exit 1
 fi
 
@@ -77,6 +92,8 @@ callMarker='Value::Object(map) => {'
 callLine=$(echo "$newContent" | awk -v m="$callMarker" 'index($0,m){print NR; exit}')
 if [ -z "$callLine" ] || [ "$callLine" = "0" ]; then
   echo "Could not find Value::Object arm in value_to_expr"
+  # Debug: show lines around Value::Object
+  echo "$newContent" | grep -n "Value::Object" | head -20
   exit 1
 fi
 
@@ -107,10 +124,14 @@ echo "Manual patch applied successfully"
 content=$(cat "$apiPath")
 if ! echo "$content" | grep -q "fn reserved_extn_expr"; then
   echo "Patched api.rs missing reserved_extn_expr function"
+  echo "Debug: searching for reserved_extn_expr..."
+  echo "$content" | grep -n "reserved_extn_expr" | head -20
   exit 1
 fi
 if ! echo "$content" | grep -q "reserved_extn_expr(map)"; then
   echo "Patched api.rs missing call to reserved_extn_expr in value_to_expr"
+  echo "Debug: searching for reserved_extn_expr(map)..."
+  echo "$content" | grep -n "reserved_extn_expr(map)" | head -20
   exit 1
 fi
 echo "Patched api.rs verified: reserved_extn_expr function and call site present"
