@@ -34,8 +34,6 @@ jobs:
           - net8.0
           - net10.0
     runs-on: ${{ matrix.os }}
-    # Filter platforms based on workflow_dispatch input
-    if: ${{ github.event.inputs.platform == 'all' || github.event.inputs.platform == matrix.rid || github.event_name == 'push' }}
     timeout-minutes: 120
     env:
       DOGWOOD_PINNED_REV: 929f49e7305534ac61ef06cf8e47269c596dc851
@@ -48,6 +46,12 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.sha }}
+
+      - name: Filter platform by workflow_dispatch input
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.platform != 'all' && github.event.inputs.platform != matrix.rid
+        run: |
+          echo "Skipping ${{ matrix.rid }} because platform input is ${{ github.event.inputs.platform }}"
+          exit 0
 
       - name: Verify baseline
         run: ./scripts/verify-baseline.sh
