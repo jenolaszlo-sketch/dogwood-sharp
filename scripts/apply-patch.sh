@@ -1,16 +1,17 @@
 #!/bin/bash
 set -euo pipefail
 
-# Run everything in a subshell to capture all output to a log file
-# Then explicitly cat the log at the end for GitHub Actions visibility
-(
-set -euo pipefail
+# Write all output to a log file first, then cat it at the end
+# This avoids broken pipe issues on GitHub Actions runners
+LOG_FILE="apply-patch.log"
+exec > "$LOG_FILE" 2>&1
 
 source="${1}"
 workDir="r5r3-work/dogwood-patched"
 
 if [ ! -d "$source" ]; then
   printf 'Dogwood source not found at %s\n' "$source"
+  cat "$LOG_FILE"
   exit 1
 fi
 
@@ -18,7 +19,7 @@ fi
 if [ -d "$workDir" ]; then rm -rf "$workDir"; fi
 mkdir -p "$workDir"
 rsync -a --exclude=target --exclude=.git "$source/" "$workDir/"
-if [ $? -ne 0 ]; then printf 'Failed to copy Dogwood tree\n'; exit 1; fi
+if [ $? -ne 0 ]; then printf 'Failed to copy Dogwood tree\n'; cat "$LOG_FILE"; exit 1; fi
 
 # Apply changes manually
 apiPath="$workDir/dogwood-language/src/api.rs"
@@ -33,17 +34,17 @@ insertMarkers=(
 
 insertLine=""
 for marker in "${insertMarkers[@]}"; do
-  insertLine=$(printf '%s\n' "$content" | awk -v m="$marker" 'index($0,m){print NR; exit}')
+  insertLine=$(awk -v m="$marker" 'index($0,m){print NR; exit}' <<< "$content")
   if [ -n "$insertLine" ] && [ "$insertLine" != "0" ]; then
     break
   fi
 done
 
 if [ -z "$insertLine" ] || [ "$insertLine" = "0" ]; then
-  printf 'Could not find value_to_expr function in api.rs\n' >&2
-  # Debug: show lines around value_to_expr
-  printf 'Debug: searching for value_to_expr...\n' >&2
-  printf '%s\n' "$content" | awk '/value_to_expr/ {print NR ": " $0; count++} count >= 20 {exit}' >&2
+  printf 'Could not find value_to_expr function in api.rs\n'
+  printf 'Debug: searching for value_to_expr...\n'
+  awk '/value_to_expr/ {print NR ": " $0; count++} count >= 20 {exit}' <<< "$content"
+  cat "$LOG_FILE"
   exit 1
 fi
 
@@ -94,18 +95,19 @@ newContent="${content:0:$byteOffset}$newFunction${content:$byteOffset}"
 
 # Find Value::Object arm in value_to_expr
 callMarker='Value::Object(map) => {'
-callLine=$(printf '%s\n' "$newContent" | awk -v m="$callMarker" 'index($0,m){print NR; exit}')
+callLine=$(awk -v m="$callMarker" 'index($0,m){print NR; exit}' <<< "$newContent")
 if [ -z "$callLine" ] || [ "$callLine" = "0" ]; then
-  printf 'Could not find Value::Object arm in value_to_expr\n' >&2
-  # Debug: show lines around Value::Object
-  printf '%s\n' "$newContent" | awk '/Value::Object/ {print NR ": " $0; count++} count >= 20 {exit}' >&2
+  printf 'Could not find Value::Object arm in value_to_expr\n'
+  printf '%s\n' "$newContent" | awk '/Value::Object/ {print NR ": " $0; count++} count >= 20 {exit}'
+  cat "$LOG_FILE"
   exit 1
 fi
 
-callLineContent=$(printf '%s\n' "$newContent" | sed -n "${callLine}p")
-bracePos=$(printf '%s\n' "$callLineContent" | grep -ob "{" | head -1 | cut -d: -f1)
+callLineContent=$(sed -n "${callLine}p" <<< "$newContent")
+bracePos=$(grep -ob "{" <<< "$callLineContent" | head -1 | cut -d: -f1)
 if [ -z "$bracePos" ]; then
-  printf 'Could not find opening brace for Value::Object arm\n' >&2
+  printf 'Could not find opening brace for Value::Object arm\n'
+  cat "$LOG_FILE"
   exit 1
 fi
 
@@ -127,25 +129,22 @@ printf 'Manual patch applied successfully\n'
 
 # Verify - use grep directly on file to avoid pipe issues
 if ! grep -q "fn reserved_extn_expr" "$apiPath"; then
-  printf 'Patched api.rs missing reserved_extn_expr function\n' >&2
-  printf 'Debug: searching for reserved_extn_expr...\n' >&2
-  awk '/reserved_extn_expr/ {print NR ": " $0; count++} count >= 20 {exit}' "$apiPath" >&2
+  printf 'Patched api.rs missing reserved_extn_expr function\n'
+  awk '/reserved_extn_expr/ {print NR ": " $0; count++} count >= 20 {exit}' "$apiPath"
+  cat "$LOG_FILE"
   exit 1
 fi
 if ! grep -q "reserved_extn_expr(map)" "$apiPath"; then
-  printf 'Patched api.rs missing call to reserved_extn_expr in value_to_expr\n' >&2
-  printf 'Debug: searching for reserved_extn_expr(map)...\n' >&2
-  awk '/reserved_extn_expr\(map\)/ {print NR ": " $0; count++} count >= 20 {exit}' "$apiPath" >&2
+  printf 'Patched api.rs missing call to reserved_extn_expr in value_to_expr\n'
+  awk '/reserved_extn_expr\(map\)/ {print NR ": " $0; count++} count >= 20 {exit}' "$apiPath"
+  cat "$LOG_FILE"
   exit 1
 fi
 printf 'Patched api.rs verified: reserved_extn_expr function and call site present\n'
 printf 'patched_root=%s\n' "$workDir"
 
-) | tee apply-patch.log
-
 # Output the log for GitHub Actions visibility
-cat apply-patch.log
+cat "$LOG_FILE"
 
 # Output the patched_root for GITHUB_OUTPUT
-# The patched_root is already printed by the subshell, but we need to extract it
-grep '^patched_root=' apply-patch.log | tail -1 >> "$GITHUB_OUTPUT"
+grep '^patched_root=' "$LOG_FILE" | tail -1 >> "$GITHUB_OUTPUT"
