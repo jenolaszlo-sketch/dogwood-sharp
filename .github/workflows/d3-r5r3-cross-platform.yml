@@ -20,14 +20,140 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    name: Test Workflow
-    runs-on: ubuntu-24.04
+  differential:
+    name: Differential ${{ matrix.rid }} / ${{ matrix.tfm }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - rid: linux-x64
+            os: ubuntu-24.04
+          - rid: osx-arm64
+            os: macos-15
+        tfm:
+          - net8.0
+          - net10.0
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    env:
+      DOGWOOD_PINNED_REV: 929f49e7305534ac61ef06cf8e47269c596dc851
+      RID: ${{ matrix.rid }}
+      TFM: ${{ matrix.tfm }}
+
     steps:
-      - name: Checkout
+      - name: Checkout repository at exact commit
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ github.sha }}
-      - name: Test
-        run: echo "Workflow works!"
+
+      - name: Verify baseline
+        run: ./scripts/verify-baseline.sh
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.428
+            10.0.404
+
+      - name: Setup Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: 1.99.1
+          components: rustfmt, clippy
+          cache: false
+
+      - name: Install system dependencies (Linux)
+        if: matrix.rid == 'linux-x64'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libclang-dev pkg-config python3 python3-pip
+
+      - name: Install system dependencies (macOS)
+        if: matrix.rid == 'osx-arm64'
+        run: brew install llvm pkg-config python3
+
+      - name: Prepare MSVC (Windows)
+        if: matrix.rid == 'win-x64'
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Fetch pinned Dogwood source
+        run: ./scripts/fetch-dogwood.sh
+        env:
+          DOGWOOD_PINNED_REV: ${{ env.DOGWOOD_PINNED_REV }}
+
+      - name: Apply reference patch
+        run: ./scripts/apply-patch.sh "${{ steps.fetch-dogwood.outputs.path }}"
+        env:
+          DOGWOOD_PINNED_REV: ${{ env.DOGWOOD_PINNED_REV }}
+
+      - name: Build corrected reference oracle
+        run: ./scripts/build-oracle.sh "${{ steps.apply-patch.outputs.patched_root }}"
+        env:
+          DOGWOOD_PINNED_REV: ${{ env.DOGWOOD_PINNED_REV }}
+
+      - name: Build Cedar adjudicator
+        run: ./scripts/build-adjudicator.sh
+
+      - name: Build D2 bridge
+        run: ./scripts/build-bridge.sh
+        env:
+          RID: ${{ matrix.rid }}
+
+      - name: Build CedarSharp native
+        run: ./scripts/build-cedarsharp.sh
+        env:
+          RID: ${{ matrix.rid }}
+
+      - name: Stage native assets
+        run: ./scripts/stage-assets.sh
+        env:
+          RID: ${{ matrix.rid }}
+          TFM: ${{ matrix.tfm }}
+          BRIDGE_PATH: ${{ steps.build-bridge.outputs.path }}
+          BRIDGE_SHA256: ${{ steps.build-bridge.outputs.sha256 }}
+          CEDARSHARP_PATH: ${{ steps.build-cedarsharp.outputs.path }}
+          CEDARSHARP_SHA256: ${{ steps.build-cedarsharp.outputs.sha256 }}
+          DOGWOOD_PINNED_REV: ${{ env.DOGWOOD_PINNED_REV }}
+
+      - name: Build probe
+        run: ./scripts/build-probe.sh
+        env:
+          TFM: ${{ matrix.tfm }}
+
+      - name: Run differential
+        run: ./scripts/run-differential.sh
+        env:
+          RID: ${{ matrix.rid }}
+          TFM: ${{ matrix.tfm }}
+          ORACLE_PATH: ${{ steps.build-oracle.outputs.path }}
+
+      - name: Run harness self-test
+        run: ./scripts/self-test.sh
+        env:
+          RID: ${{ matrix.rid }}
+          TFM: ${{ matrix.tfm }}
+
+      - name: Verify Cedar adjudicator
+        run: ./scripts/verify-adjudicator.sh
+        env:
+          RID: ${{ matrix.rid }}
+          TFM: ${{ matrix.tfm }}
+          ADJUDICATOR_PATH: ${{ steps.build-adjudicator.outputs.path }}
+
+      - name: Verify differential results
+        run: ./scripts/verify-results.sh
+        env:
+          RID: ${{ matrix.rid }}
+          TFM: ${{ matrix.tfm }}
+
+      - name: Upload differential evidence
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: r5r3-differential-${{ matrix.rid }}-${{ matrix.tfm }}
+          path: |
+            artifacts/r5r3-differential/${{ matrix.rid }}/${{ matrix.tfm }}/*.json
+            artifacts/r5r3-differential/${{ matrix.rid }}/${{ matrix.tfm }}/*.log
+          retention-days: 30
