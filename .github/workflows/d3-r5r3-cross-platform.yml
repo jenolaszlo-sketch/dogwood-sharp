@@ -34,6 +34,8 @@ jobs:
           - net8.0
           - net10.0
     runs-on: ${{ matrix.os }}
+    # Filter platforms based on workflow_dispatch input
+    if: ${{ github.event.inputs.platform == 'all' || github.event.inputs.platform == matrix.rid || github.event_name == 'push' }}
     timeout-minutes: 120
     env:
       DOGWOOD_PINNED_REV: 929f49e7305534ac61ef06cf8e47269c596dc851
