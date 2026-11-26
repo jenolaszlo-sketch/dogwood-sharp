@@ -28,8 +28,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 120
     env:
-      R5R3_BASELINE: 91c899f
-      R5R3_TREE: 0aa79542874d3793e0b0d4d5bfed490c2ee9a948
+      R5R3_TREE: 71d5beda425b2c9bc45a602868abaabd03f606f5
       PATCHED_API_SHA256: 4ff2eb118a08c13eddf1d54ea1cf178db70f1a148bacb6e377333abeb5b67dd3
       PATCH_FILE: docs/reviews/d3-impl-01-r5-r2/evidence/differential/corrected-oracle/dogwood-typed-context.patch
       PATCH_SHA256: 76714faa4cbbc12866565736f1a6d7b8d4ef02ca53bd90c111eb035a3ee46b32
@@ -40,16 +39,20 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-          ref: ${{ env.R5R3_BASELINE }}
+          ref: ${{ github.sha }}
 
       - name: Verify baseline commit and tree
         shell: pwsh
         run: |
-          $actualTree = git rev-parse "${{ env.R5R3_BASELINE }}^{tree}"
+          $actualCommit = git rev-parse HEAD
+          if ($actualCommit -ne "${{ github.sha }}") {
+            throw "Checkout commit mismatch: expected ${{ github.sha }}, got $actualCommit"
+          }
+          $actualTree = git rev-parse HEAD^{tree}
           if ($actualTree -ne "${{ env.R5R3_TREE }}") {
             throw "Baseline tree mismatch: expected ${{ env.R5R3_TREE }}, got $actualTree"
           }
-          Write-Host "Baseline verified: ${{ env.R5R3_BASELINE }} / ${{ env.R5R3_TREE }}"
+          Write-Host "Baseline verified: ${{ github.sha }} / ${{ env.R5R3_TREE }}"
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
