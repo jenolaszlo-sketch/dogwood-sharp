@@ -27,7 +27,7 @@ cat > "$probeRuntime/dogwoodsharp-native.json" <<EOF
   "file": "$(if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "cygwin" ]; then echo "dogwoodsharp_bridge.dll"; else echo "libdogwoodsharp_bridge.so"; fi)",
   "sha256": "$bridgeSha",
   "cargoLockSha256": "$(sha256sum native/dogwoodsharp-bridge/Cargo.lock | cut -d' ' -f1)",
-  "target": "$rid",
+  "rid": "$rid",
   "abiVersion": 1,
   "dogwoodVersion": "1.1.2",
   "dogwoodRevision": "${DOGWOOD_PINNED_REV}",
