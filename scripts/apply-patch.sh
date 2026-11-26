@@ -1,12 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-# Redirect all output to a log file to avoid broken pipe issues
-LOG_FILE="apply-patch.log"
-exec > "$LOG_FILE" 2>&1
-
-# Ensure log file is readable at the end for GitHub Actions
-trap 'cat "$LOG_FILE"' EXIT
+# Run everything in a subshell to capture all output to a log file
+# Then explicitly cat the log at the end for GitHub Actions visibility
+(
+set -euo pipefail
 
 source="${1}"
 workDir="r5r3-work/dogwood-patched"
@@ -125,7 +123,7 @@ if let Some(expr) = reserved_extn_expr(map) {
 
 finalContent="${newContent:0:$((braceByteOffset+1))}$insertCall${newContent:$((braceByteOffset+1))}"
 printf '%s\n' "$finalContent" > "$apiPath"
-printf 'Manual patch applied successfully\n' >&2
+printf 'Manual patch applied successfully\n'
 
 # Verify - use grep directly on file to avoid pipe issues
 if ! grep -q "fn reserved_extn_expr" "$apiPath"; then
@@ -140,5 +138,14 @@ if ! grep -q "reserved_extn_expr(map)" "$apiPath"; then
   awk '/reserved_extn_expr\(map\)/ {print NR ": " $0; count++} count >= 20 {exit}' "$apiPath" >&2
   exit 1
 fi
-printf 'Patched api.rs verified: reserved_extn_expr function and call site present\n' >&2
-printf 'patched_root=%s\n' "$workDir" >> "$GITHUB_OUTPUT"
+printf 'Patched api.rs verified: reserved_extn_expr function and call site present\n'
+printf 'patched_root=%s\n' "$workDir"
+
+) | tee apply-patch.log
+
+# Output the log for GitHub Actions visibility
+cat apply-patch.log
+
+# Output the patched_root for GITHUB_OUTPUT
+# The patched_root is already printed by the subshell, but we need to extract it
+grep '^patched_root=' apply-patch.log | tail -1 >> "$GITHUB_OUTPUT"
