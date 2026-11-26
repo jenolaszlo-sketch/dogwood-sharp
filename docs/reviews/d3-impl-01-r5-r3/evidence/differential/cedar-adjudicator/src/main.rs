@@ -210,11 +210,8 @@ fn run_case(case: &Case, corpus_shared_entities: &Option<Json>, engine: &str) ->
     let mut policy_error_ids = BTreeSet::new();
     for error in response.diagnostics().errors() {
         errors.push(format!("{error}"));
-        match error {
-            cedar_policy::AuthorizationError::PolicyEvaluationError(evaluation) => {
-                policy_error_ids.insert(evaluation.policy_id().to_string());
-            }
-            _ => {}
+        if let cedar_policy::AuthorizationError::PolicyEvaluationError(evaluation) = error {
+            policy_error_ids.insert(evaluation.policy_id().to_string());
         }
     }
     let has_errors = !errors.is_empty();
