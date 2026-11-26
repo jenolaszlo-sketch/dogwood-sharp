@@ -8,9 +8,30 @@ if [ "${RID}" = "osx-arm64" ]; then targetArg="--target aarch64-apple-darwin"; f
 
 # Patch the bridge's Cargo.toml to use the patched dogwood-language (with typed-context fix)
 patchedDogwood="$(realpath r5r3-work/dogwood-patched/dogwood-language)"
+echo "Patched dogwood-language path: $patchedDogwood"
+if [ ! -d "$patchedDogwood" ]; then
+    echo "ERROR: Patched dogwood-language not found at $patchedDogwood"
+    exit 1
+fi
+
 bridgeCargo="$bridgeDir/Cargo.toml"
+echo "Original bridge Cargo.toml:"
+cat "$bridgeCargo"
+
 # Use sed to replace the dogwood-language dependency with the patched path
+# The original line has the full dependency spec on one line
 sed -i "s|dogwood-language = { git = \"https://github.com/dogwood-policy/dogwood\", rev = \"929f49e7305534ac61ef06cf8e47269c596dc851\"|dogwood-language = { path = \"$patchedDogwood\"|" "$bridgeCargo"
+
+echo "Modified bridge Cargo.toml:"
+cat "$bridgeCargo"
+
+# Verify the patch was applied
+if grep -q "path = \"$patchedDogwood\"" "$bridgeCargo"; then
+    echo "SUCCESS: Bridge Cargo.toml patched successfully"
+else
+    echo "ERROR: Failed to patch bridge Cargo.toml"
+    exit 1
+fi
 
 export CARGO_TARGET_DIR="r5r3-work/bridge-target"
 cargo build --release $targetArg --manifest-path "$bridgeCargo"
