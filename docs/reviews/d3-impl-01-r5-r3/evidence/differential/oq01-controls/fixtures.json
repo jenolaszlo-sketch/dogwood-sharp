@@ -1,0 +1,749 @@
+{
+  "schemaVersion": "3",
+  "schemas": {
+    "temporalOwner": "namespace Test { entity User; entity Item { owner: User }; action Approve appliesTo { principal: [User], resource: [Item], context: { input: { stock: String } } }; action Sell appliesTo { principal: [User], resource: [Item], context: { input: { stock: String } } }; }"
+  },
+  "cases": [
+    {
+      "id": "R5R3-TC-01-valid-history-valid-current",
+      "kind": "differential",
+      "control": "valid-history-valid-current",
+      "families": [
+        "OQ-01"
+      ],
+      "question": "Valid history and current entities - both sides should allow",
+      "schema": "temporalOwner",
+      "distincter": "oq01tc",
+      "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };\nforbid(principal, action == Test::Action::\"Approve\", resource) when { resource.owner == principal };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "trustedRuntime": true,
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "Test",
+          "Action"
+        ],
+        "actionId": "Sell",
+        "principal": {
+          "type": "Test::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "Test::Item",
+          "id": "item-1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "Test::Item",
+              "id": "item-1"
+            },
+            "attrs": {
+              "owner": {
+                "__entity": {
+                  "type": "Test::User",
+                  "id": "alice"
+                }
+              }
+            },
+            "parents": []
+          }
+        ],
+        "context": {
+          "input": {
+            "stock": "AMZN"
+          }
+        }
+      },
+      "history": [
+        {
+          "identity": "h-1",
+          "timestamp": 10,
+          "actionNamespace": [
+            "Test",
+            "Action"
+          ],
+          "actionId": "Approve",
+          "kind": "request",
+          "principal": {
+            "type": "Test::User",
+            "id": "alice"
+          },
+          "resource": {
+            "type": "Test::Item",
+            "id": "item-1"
+          },
+          "context": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "logged": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "entities": [
+            {
+              "uid": {
+                "type": "Test::Item",
+                "id": "item-1"
+              },
+              "attrs": {
+                "owner": {
+                  "__entity": {
+                    "type": "Test::User",
+                    "id": "alice"
+                  }
+                }
+              },
+              "parents": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R5R3-TC-02-history-missing-temporal-attr",
+      "kind": "differential",
+      "control": "history-missing-temporal-attr",
+      "families": [
+        "OQ-01"
+      ],
+      "question": "History event missing temporal attribute (stock) - temporal leaf false, current entity valid",
+      "schema": "temporalOwner",
+      "distincter": "oq01tc",
+      "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };\nforbid(principal, action == Test::Action::\"Approve\", resource) when { resource.owner == principal };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "trustedRuntime": true,
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "Test",
+          "Action"
+        ],
+        "actionId": "Sell",
+        "principal": {
+          "type": "Test::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "Test::Item",
+          "id": "item-1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "Test::Item",
+              "id": "item-1"
+            },
+            "attrs": {
+              "owner": {
+                "__entity": {
+                  "type": "Test::User",
+                  "id": "alice"
+                }
+              }
+            },
+            "parents": []
+          }
+        ],
+        "context": {
+          "input": {
+            "stock": "AMZN"
+          }
+        }
+      },
+      "history": [
+        {
+          "identity": "h-1",
+          "timestamp": 10,
+          "actionNamespace": [
+            "Test",
+            "Action"
+          ],
+          "actionId": "Approve",
+          "kind": "request",
+          "principal": {
+            "type": "Test::User",
+            "id": "alice"
+          },
+          "resource": {
+            "type": "Test::Item",
+            "id": "item-1"
+          },
+          "context": {
+            "input": {
+              "stock": "GOOG"
+            }
+          },
+          "logged": {
+            "input": {
+              "stock": "GOOG"
+            }
+          },
+          "entities": [
+            {
+              "uid": {
+                "type": "Test::Item",
+                "id": "item-1"
+              },
+              "attrs": {
+                "owner": {
+                  "__entity": {
+                    "type": "Test::User",
+                    "id": "alice"
+                  }
+                }
+              },
+              "parents": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R5R3-TC-03-history-missing-owner-forbid-on-history",
+      "kind": "differential",
+      "control": "history-missing-owner-forbid-on-history",
+      "families": [
+        "OQ-01"
+      ],
+      "question": "History event missing owner attribute, forbid on Approve action - reference should not evaluate forbid against history",
+      "schema": "temporalOwner",
+      "distincter": "oq01tc",
+      "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };\nforbid(principal, action == Test::Action::\"Approve\", resource) when { resource.owner == principal };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "trustedRuntime": true,
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "Test",
+          "Action"
+        ],
+        "actionId": "Sell",
+        "principal": {
+          "type": "Test::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "Test::Item",
+          "id": "item-1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "Test::Item",
+              "id": "item-1"
+            },
+            "attrs": {
+              "owner": {
+                "__entity": {
+                  "type": "Test::User",
+                  "id": "alice"
+                }
+              }
+            },
+            "parents": []
+          }
+        ],
+        "context": {
+          "input": {
+            "stock": "AMZN"
+          }
+        }
+      },
+      "history": [
+        {
+          "identity": "h-1",
+          "timestamp": 10,
+          "actionNamespace": [
+            "Test",
+            "Action"
+          ],
+          "actionId": "Approve",
+          "kind": "request",
+          "principal": {
+            "type": "Test::User",
+            "id": "alice"
+          },
+          "resource": {
+            "type": "Test::Item",
+            "id": "item-1"
+          },
+          "context": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "logged": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "entities": [
+            {
+              "uid": {
+                "type": "Test::Item",
+                "id": "item-1"
+              },
+              "attrs": {},
+              "parents": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R5R3-TC-04-both-missing-owner",
+      "kind": "differential",
+      "control": "both-missing-owner",
+      "families": [
+        "OQ-01"
+      ],
+      "question": "Both history and current entities missing owner - current event conformance failure should deny",
+      "schema": "temporalOwner",
+      "distincter": "oq01tc",
+      "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };\nforbid(principal, action == Test::Action::\"Approve\", resource) when { resource.owner == principal };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "trustedRuntime": true,
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "Test",
+          "Action"
+        ],
+        "actionId": "Sell",
+        "principal": {
+          "type": "Test::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "Test::Item",
+          "id": "item-1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "Test::Item",
+              "id": "item-1"
+            },
+            "attrs": {
+              "owner": {
+                "type": "Test::User",
+                "id": "alice"
+              }
+            },
+            "parents": []
+          }
+        ],
+        "context": {
+          "input": {
+            "stock": "AMZN"
+          }
+        }
+      },
+      "history": [
+        {
+          "identity": "h-1",
+          "timestamp": 10,
+          "actionNamespace": [
+            "Test",
+            "Action"
+          ],
+          "actionId": "Approve",
+          "kind": "request",
+          "principal": {
+            "type": "Test::User",
+            "id": "alice"
+          },
+          "resource": {
+            "type": "Test::Item",
+            "id": "item-1"
+          },
+          "context": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "logged": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "entities": [
+            {
+              "uid": {
+                "type": "Test::Item",
+                "id": "item-1"
+              },
+              "attrs": {},
+              "parents": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R5R3-TC-05-mixed-history-one-valid",
+      "kind": "differential",
+      "control": "mixed-history-one-valid",
+      "families": [
+        "OQ-01"
+      ],
+      "question": "Two history events, one valid one missing owner - valid one should satisfy temporal",
+      "schema": "temporalOwner",
+      "distincter": "oq01tc",
+      "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };\nforbid(principal, action == Test::Action::\"Approve\", resource) when { resource.owner == principal };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "trustedRuntime": true,
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "Test",
+          "Action"
+        ],
+        "actionId": "Sell",
+        "principal": {
+          "type": "Test::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "Test::Item",
+          "id": "item-1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "Test::Item",
+              "id": "item-1"
+            },
+            "attrs": {
+              "owner": {
+                "__entity": {
+                  "type": "Test::User",
+                  "id": "alice"
+                }
+              }
+            },
+            "parents": []
+          }
+        ],
+        "context": {
+          "input": {
+            "stock": "AMZN"
+          }
+        }
+      },
+      "history": [
+        {
+          "identity": "h-1",
+          "timestamp": 10,
+          "actionNamespace": [
+            "Test",
+            "Action"
+          ],
+          "actionId": "Approve",
+          "kind": "request",
+          "principal": {
+            "type": "Test::User",
+            "id": "alice"
+          },
+          "resource": {
+            "type": "Test::Item",
+            "id": "item-1"
+          },
+          "context": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "logged": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "entities": [
+            {
+              "uid": {
+                "type": "Test::Item",
+                "id": "item-1"
+              },
+              "attrs": {
+                "owner": {
+                  "__entity": {
+                    "type": "Test::User",
+                    "id": "alice"
+                  }
+                }
+              },
+              "parents": []
+            }
+          ]
+        },
+        {
+          "identity": "h-2",
+          "timestamp": 20,
+          "actionNamespace": [
+            "Test",
+            "Action"
+          ],
+          "actionId": "Approve",
+          "kind": "request",
+          "principal": {
+            "type": "Test::User",
+            "id": "alice"
+          },
+          "resource": {
+            "type": "Test::Item",
+            "id": "item-1"
+          },
+          "context": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "logged": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "entities": [
+            {
+              "uid": {
+                "type": "Test::Item",
+                "id": "item-1"
+              },
+              "attrs": {},
+              "parents": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R5R3-TC-06-permit-forbid-same-action-history-missing-owner",
+      "kind": "differential",
+      "control": "permit-forbid-same-action-history-missing-owner",
+      "families": [
+        "OQ-01"
+      ],
+      "question": "Permit and forbid on same Approve action, history missing owner - forbid should not be evaluated against history",
+      "schema": "temporalOwner",
+      "distincter": "oq01tc",
+      "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };\nforbid(principal, action == Test::Action::\"Approve\", resource) when { resource.owner == principal };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "trustedRuntime": true,
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "Test",
+          "Action"
+        ],
+        "actionId": "Sell",
+        "principal": {
+          "type": "Test::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "Test::Item",
+          "id": "item-1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "Test::Item",
+              "id": "item-1"
+            },
+            "attrs": {
+              "owner": {
+                "__entity": {
+                  "type": "Test::User",
+                  "id": "alice"
+                }
+              }
+            },
+            "parents": []
+          }
+        ],
+        "context": {
+          "input": {
+            "stock": "AMZN"
+          }
+        }
+      },
+      "history": [
+        {
+          "identity": "h-1",
+          "timestamp": 10,
+          "actionNamespace": [
+            "Test",
+            "Action"
+          ],
+          "actionId": "Approve",
+          "kind": "request",
+          "principal": {
+            "type": "Test::User",
+            "id": "alice"
+          },
+          "resource": {
+            "type": "Test::Item",
+            "id": "item-1"
+          },
+          "context": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "logged": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "entities": [
+            {
+              "uid": {
+                "type": "Test::Item",
+                "id": "item-1"
+              },
+              "attrs": {
+                "owner": {
+                  "type": "Test::User",
+                  "id": "alice"
+                }
+              },
+              "parents": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R5R3-TC-07-no-valid-basis",
+      "kind": "differential",
+      "control": "no-valid-basis",
+      "families": [
+        "OQ-01"
+      ],
+      "question": "History event stock doesn't match, no permit applies - should deny",
+      "schema": "temporalOwner",
+      "distincter": "oq01tc",
+      "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };\nforbid(principal, action == Test::Action::\"Approve\", resource) when { resource.owner == principal };",
+      "expectedClassification": "agreement",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "trustedRuntime": true,
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "Test",
+          "Action"
+        ],
+        "actionId": "Sell",
+        "principal": {
+          "type": "Test::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "Test::Item",
+          "id": "item-1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "Test::Item",
+              "id": "item-1"
+            },
+            "attrs": {
+              "owner": {
+                "__entity": {
+                  "type": "Test::User",
+                  "id": "alice"
+                }
+              }
+            },
+            "parents": []
+          }
+        ],
+        "context": {
+          "input": {
+            "stock": "GOOG"
+          }
+        }
+      },
+      "history": [
+        {
+          "identity": "h-1",
+          "timestamp": 10,
+          "actionNamespace": [
+            "Test",
+            "Action"
+          ],
+          "actionId": "Approve",
+          "kind": "request",
+          "principal": {
+            "type": "Test::User",
+            "id": "alice"
+          },
+          "resource": {
+            "type": "Test::Item",
+            "id": "item-1"
+          },
+          "context": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "logged": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "entities": [
+            {
+              "uid": {
+                "type": "Test::Item",
+                "id": "item-1"
+              },
+              "attrs": {
+                "owner": {
+                  "__entity": {
+                    "type": "Test::User",
+                    "id": "alice"
+                  }
+                }
+              },
+              "parents": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "familyRequirements": {
+    "OQ-01": {
+      "requiredControls": [
+        "valid-history-valid-current",
+        "history-missing-temporal-attr",
+        "history-missing-owner-forbid-on-history",
+        "both-missing-owner",
+        "mixed-history-one-valid",
+        "permit-forbid-same-action-history-missing-owner",
+        "no-valid-basis"
+      ],
+      "decisionCoverage": "exempt"
+    }
+  }
+}
