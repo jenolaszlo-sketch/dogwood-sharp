@@ -1,18 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
-# Write all output to a log file first, then cat it to original stdout at the end
-# Save original stdout before redirecting
-exec 3>&1
-
+# Write all output to a log file, then explicitly print it at the end
 LOG_FILE="apply-patch.log"
 
-# Redirect all output to log file
-exec > "$LOG_FILE" 2>&1
-
-# Trap to always print log to original stdout (fd 3) on exit
-trap 'cat "$LOG_FILE" >&3' EXIT
-
+# Use a subshell to capture all output
+(
 source="${1}"
 workDir="r5r3-work/dogwood-patched"
 
@@ -146,3 +139,8 @@ printf 'patched_root=%s\n' "$workDir"
 
 # Output the patched_root for GITHUB_OUTPUT
 grep '^patched_root=' "$LOG_FILE" | tail -1 >> "$GITHUB_OUTPUT"
+
+) > "$LOG_FILE" 2>&1
+
+# Explicitly print the log file to stdout for GitHub Actions visibility
+cat "$LOG_FILE"
