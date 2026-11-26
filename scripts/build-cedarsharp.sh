@@ -1,10 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
+csRoot="r5r3-work/cedar-sharp"
 csDir="r5r3-work/cedar-sharp/native"
-if [ ! -d "$csDir" ]; then
-  mkdir -p "$(dirname "$csDir")"
-  git clone https://github.com/jenolaszlo-sketch/cedar-sharp.git "$csDir"
+if [ ! -d "$csRoot" ]; then
+  git clone https://github.com/jenolaszlo-sketch/cedar-sharp.git "$csRoot"
   if [ $? -ne 0 ]; then echo "Failed to clone CedarSharp repo"; exit 1; fi
 fi
 
