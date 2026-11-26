@@ -140,15 +140,27 @@ jobs:
             if ($LASTEXITCODE -ne 0) { throw "Failed to copy Dogwood tree" }
           }
           
-          # Apply patch (use absolute path for patch file)
+          # Apply patch (use absolute path for patch file, verbose)
           $absPatchFile = Resolve-Path $patchFile
-          & git -C $workDir -c core.autocrlf=false -c core.eol=lf apply -p1 --whitespace=nowarn $absPatchFile
+          & git -C $workDir -c core.autocrlf=false -c core.eol=lf apply -p1 --whitespace=nowarn --verbose $absPatchFile
           if ($LASTEXITCODE -ne 0) { throw "Patch did not apply cleanly" }
           
           # Verify patched api.rs has the expected semantic changes
           $apiPath = Join-Path $workDir "dogwood-language/src/api.rs"
           $actual = (Get-FileHash $apiPath -Algorithm SHA256).Hash.ToLowerInvariant()
           $content = Get-Content $apiPath -Raw
+          # Debug: show context around reserved_extn_expr
+          $lines = $content.Split("`n")
+          for ($i = 0; $i -lt $lines.Count; $i++) {
+            if ($lines[$i].Contains("reserved_extn_expr") -or $lines[$i].Contains("value_to_expr")) {
+              $start = [Math]::Max(0, $i - 2)
+              $end = [Math]::Min($lines.Count - 1, $i + 5)
+              Write-Host "Context at line $($i+1):"
+              for ($j = $start; $j -le $end; $j++) {
+                Write-Host "  $($j+1): $($lines[$j])"
+              }
+            }
+          }
           # Verify the key semantic change: reserved_extn_expr function exists
           if (-not $content.Contains("fn reserved_extn_expr")) {
             throw "Patched api.rs missing reserved_extn_expr function"
