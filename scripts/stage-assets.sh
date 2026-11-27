@@ -71,8 +71,12 @@ if [ -n "$csSha" ]; then
   "rid": "$rid",
   "target": "$target",
   "abiVersion": 1,
+  "bridgeVersion": "0.1.0",
   "sdkVersion": "4.13.0",
-  "cedarVersion": "4.13.0"
+  "cedarVersion": "4.13.0",
+  "rustVersion": "1.94.0",
+  "languageVersion": "4.5",
+  "features": ["datetime", "decimal", "ipaddr"]
 }
 EOF
   echo "Created cedarsharp-native.json"
