@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "3",
+  "schemas": {
+    "temporalOwner": "namespace Test { entity User; entity Item { owner: User }; action Approve appliesTo { principal: [User], resource: [Item], context: { input: { stock: String } } }; action Sell appliesTo { principal: [User], resource: [Item], context: { input: { stock: String } } }; }"
+  },
+  "cases": [
+    {
+      "id": "R5R1-OQ-01-temporal-history-event-policy-evaluation-error",
+      "kind": "differential",
+      "control": "temporal-history-event-policy-evaluation-error",
+      "families": [
+        "OQ-01"
+      ],
+      "question": "A trusted history event whose resource entity lacks the `owner` attribute makes the reference abort the whole authorization while evaluating the policy set against the history event. D3 computes the temporal leaf from the trace and never surfaces a history-event policy error, so D3 authorizes. Must a history-event policy evaluation error abort the current authorization?",
+      "schema": "temporalOwner",
+      "distincter": "expc14",
+      "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };\nforbid(principal, action == Test::Action::\"Approve\", resource) when { resource.owner == principal };",
+      "expectedClassification": "unexpected-difference",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "trustedRuntime": true,
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "Test",
+          "Action"
+        ],
+        "actionId": "Sell",
+        "principal": {
+          "type": "Test::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "Test::Item",
+          "id": "item-1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "Test::Item",
+              "id": "item-1"
+            },
+            "attrs": {
+              "owner": {
+                "__entity": {
+                  "type": "Test::User",
+                  "id": "alice"
+                }
+              }
+            },
+            "parents": []
+          }
+        ],
+        "context": {
+          "input": {
+            "stock": "AMZN"
+          }
+        }
+      },
+      "history": [
+        {
+          "identity": "h-1",
+          "timestamp": 10,
+          "actionNamespace": [
+            "Test",
+            "Action"
+          ],
+          "actionId": "Approve",
+          "kind": "request",
+          "principal": {
+            "type": "Test::User",
+            "id": "alice"
+          },
+          "resource": {
+            "type": "Test::Item",
+            "id": "item-1"
+          },
+          "context": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "logged": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "entities": []
+        }
+      ]
+    }
+  ],
+  "familyRequirements": {
+    "OQ-01": {
+      "requiredControls": [
+        "temporal-history-event-policy-evaluation-error"
+      ],
+      "decisionCoverage": "exempt"
+    }
+  }
+}

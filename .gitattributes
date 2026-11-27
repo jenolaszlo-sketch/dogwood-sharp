@@ -1,1 +1,13 @@
 * text=auto eol=lf
+
+# Evidence manifests are canonical over committed Git blob bytes. Native and
+# package artifacts are opaque bytes and must never be text-normalized.
+*.dll binary
+*.so binary
+*.dylib binary
+*.nupkg binary
+*.exe binary
+*.pdb binary
+*.zip binary
+*.trx text eol=lf
+

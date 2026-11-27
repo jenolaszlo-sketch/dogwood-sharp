@@ -1,0 +1,42 @@
+{
+  "commission": "DOGWOOD-SHARP-D3-Q3-REMED-01",
+  "finding": "Q3-F04",
+  "bindingDependency": {
+    "id": "CedarSharp",
+    "version": "1.0.0",
+    "packageSha256": "99cc3659e750f3d5187d7b8c35e84359811a7af1247b3673d893eafc679bf835",
+    "packageEntryCount": 741,
+    "packageEntriesSha256": "2bfb631cf3acbea3fe807983518660d717e4fc43794cea2d5e0ceeea78cd1482",
+    "nuspecRepository": "https://github.com/jenolaszlo-sketch/cedar-sharp.git",
+    "nuspecCommit": "68ffdafa3bd9a2e4e5744069220bededb5684c5b",
+    "nuspecCommitRecoverable": true,
+    "nuspecCommitSubject": "Record CedarSharp 1.0.0 qualification evidence",
+    "tag": "v1.0.0",
+    "natives": {
+      "win-x64": "77de6976a7ae5b961920bb6843d39b32f3faf285f16b723581680e9c06c03895",
+      "linux-x64": "85433a352ed9b6b0122e77a4e37cbe9ba1354872641e217350bdf871ea33ebf6",
+      "osx-arm64": "290fcce995f70cd963e024d991fe7f9e2806fde81add9749304ce222b904258b"
+    },
+    "nativeLockSha256": "38f989f82af269e77ff41d80aa22560661070a7b0372dc73c8e27f2e3b71f962"
+  },
+  "nativeManifestInconsistency": {
+    "field": "sourceCommit",
+    "value": "324d3c09fc94ab91464ec340eb81e4b167deb6f5",
+    "lookup": "GitHub API for jenolaszlo-sketch/cedar-sharp returns HTTP 422 (commit not present)",
+    "nuspecCommit": "68ffdafa3bd9a2e4e5744069220bededb5684c5b",
+    "conclusion": "The native manifest's sourceCommit is inconsistent with the package's own nuspec. The nuspec commit is recoverable and is the package's declared repository identity. The native field is not used as the binding source identity."
+  },
+  "unpinnedClone": {
+    "script": "scripts/build-cedarsharp.sh",
+    "behavior": "git clone https://github.com/jenolaszlo-sketch/cedar-sharp.git without a commit",
+    "remediation": "removed from the shipped-subject qualification path; the published package native is used"
+  },
+  "comparison": {
+    "rebuiltLinux": "9e8800eda6702a2d7edc121c441a9b3d190460627810bbc60cc84eb00ea80c8e",
+    "rebuiltMac": "740e7410308d17b09694dc036d3c7fe9af5a26d766be47955cd22650a69e2d96",
+    "publishedLinux": "85433a352ed9b6b0122e77a4e37cbe9ba1354872641e217350bdf871ea33ebf6",
+    "publishedMac": "290fcce995f70cd963e024d991fe7f9e2806fde81add9749304ce222b904258b",
+    "explanation": "The rebuilt artifacts come from an unpinned main clone and a regenerated lock; they are not the published package natives."
+  },
+  "disposition": "Use the exact published package (99cc3659...) and its per-RID natives for all shipped-subject cells. The unpinned clone is retired from qualification. The native manifest sourceCommit inconsistency is a documented provenance limitation of the external package; the package's nuspec commit and immutable package/native hashes are the binding identities."
+}

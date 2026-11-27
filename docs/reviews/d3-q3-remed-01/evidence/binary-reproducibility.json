@@ -1,0 +1,53 @@
+{
+  "commission": "DOGWOOD-SHARP-D3-Q3-REMED-01",
+  "finding": "Q3-F03",
+  "subject": "Windows shipped D2 bridge binary reproducibility",
+  "builds": [
+    {
+      "label": "producer CI",
+      "run": 46005379891,
+      "sha256": "78f64c4b04502bc8fb2b78b842b934ab318be75440c10d0b72fbf29fab4440e3",
+      "size": 17645056,
+      "peTimestampUtc": "2026-11-27T13:20:01Z"
+    },
+    {
+      "label": "independent CI",
+      "run": 46027941574,
+      "sha256": "4f0bd32ac382c76d43153ac5003d408669d6e34cc93a49f80eaf948f11875860",
+      "size": 17645056,
+      "peTimestampUtc": "2026-11-27T15:52:29Z"
+    },
+    {
+      "label": "local older build",
+      "sha256": "94811767dc92488b2f47ef6d6434677c03798eb9d0e7f26fc56f47610131bda5",
+      "size": 17643008,
+      "peTimestampUtc": "2026-11-22T18:40:21Z",
+      "note": "different size and build date; not part of the same-source/same-lock comparison"
+    }
+  ],
+  "sameBlobComparison": {
+    "pair": ["producer CI 78f64c4b", "independent CI 4f0bd32a"],
+    "identicalLength": true,
+    "differingBytes": 24,
+    "offsets": [
+      "0x108-0x109: PE TimeDateStamp (4-byte field; low two bytes differ)",
+      "0xD9DA74-0xD9DA75: first debug-directory TimeDateStamp",
+      "0xD9DA90-0xD9DA91: second debug-directory TimeDateStamp",
+      "0xD9DAAC-0xD9DAAD: third debug-directory TimeDateStamp",
+      "0xD9DBB8-0xD9DBC7: 16-byte CodeView/PDB GUID"
+    ],
+    "normalization": "Zero the 4-byte PE timestamp, the three 4-byte debug-directory timestamps, and the 16-byte PDB GUID.",
+    "normalizedDiffBytes": 0,
+    "normalizedSha256": "28add84fff1a7b8fc045c0e593969602264bb7908588f80ea6ae17f845622e9e"
+  },
+  "cause": "The executable code and data are identical. The differing bytes are build metadata: the PE timestamp, debug-directory timestamps and the PDB GUID. No code, relocation, string or dependency content differs in the same-source/same-lock pair.",
+  "guarantees": {
+    "dependencyResolution": "reproducible when the committed lock is used (ec901557)",
+    "buildInputsAndProcedure": "reproducible for the shipped graph on the CI runner",
+    "functionalEquivalence": "established for the pair",
+    "byteForByteBinary": "not achieved across environments because of embedded timestamps/PDB GUID",
+    "distributionIdentity": "the per-candidate manifest hash binds the exact immutable artifact; cross-build hash equality is not claimed"
+  },
+  "contractEffect": "The binding plan requires a locked dependency graph and exact artifact identity per candidate, not cross-environment byte equality. The remediation qualifies the exact CI-built candidate and records its hash; it does not assert that independent builds produce the same SHA-256.",
+  "localOlderBuild": "The 94811767 local build predates the current run and has a different size; it is retained as historical evidence and is not used as a reproducibility comparator."
+}

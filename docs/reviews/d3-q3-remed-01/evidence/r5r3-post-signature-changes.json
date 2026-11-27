@@ -1,0 +1,55 @@
+{
+  "baseline": "b23f6a9b38eceb5753883073f071dc9068b9db82",
+  "changes": [
+    {
+      "status": "A",
+      "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/cedar-adjudicator/Cargo.lock",
+      "lastCommit": "c35e49073096a529c500734ad5a21e329d58faad"
+    },
+    {
+      "status": "A",
+      "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/cedar-adjudicator/Cargo.toml",
+      "lastCommit": "c35e49073096a529c500734ad5a21e329d58faad"
+    },
+    {
+      "status": "A",
+      "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/cedar-adjudicator/src/main.rs",
+      "lastCommit": "c35e49073096a529c500734ad5a21e329d58faad"
+    },
+    {
+      "status": "A",
+      "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/corrected-oracle/Cargo.lock",
+      "lastCommit": "6a80917dbc790046c9850ab7007554ecdefd7512"
+    },
+    {
+      "status": "A",
+      "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/corrected-oracle/Cargo.toml.template",
+      "lastCommit": "6a80917dbc790046c9850ab7007554ecdefd7512"
+    },
+    {
+      "status": "A",
+      "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/corrected-oracle/src/main.rs",
+      "lastCommit": "6a80917dbc790046c9850ab7007554ecdefd7512"
+    },
+    {
+      "status": "A",
+      "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/Program.cs",
+      "lastCommit": "6a80917dbc790046c9850ab7007554ecdefd7512"
+    },
+    {
+      "status": "A",
+      "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/R5R1Probe.csproj",
+      "lastCommit": "6a80917dbc790046c9850ab7007554ecdefd7512"
+    },
+    {
+      "status": "A",
+      "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/packages.lock.json",
+      "lastCommit": "6a80917dbc790046c9850ab7007554ecdefd7512"
+    },
+    {
+      "status": "M",
+      "path": "docs/reviews/d3-impl-01-r5-r3/evidence/fixtures.json",
+      "lastCommit": "44085d3a77f1d9b28decef2c3f4933641ba9134a"
+    }
+  ]
+}

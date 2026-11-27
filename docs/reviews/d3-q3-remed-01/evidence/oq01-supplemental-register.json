@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "3",
+  "commission": "DOGWOOD-SHARP-D3-Q3-REMED-01",
+  "status": "proposed-pending-owner-acceptance",
+  "note": "Supplemental register for the original OQ-01 case only. It does not modify the signed 124-case register or FCN-05.",
+  "entries": [
+    {
+      "id": "RD-01",
+      "caseId": "R5R1-OQ-01-temporal-history-event-policy-evaluation-error",
+      "class": "reference-defect",
+      "title": "Reference oracle re-authorizes a history event and aborts on its policy error",
+      "scope": "This case only. FCN-05 remains TC-03 through TC-06.",
+      "upstreamObservation": {
+        "stage": "evaluation",
+        "operationFailed": true,
+        "decision": null,
+        "error": "history event `h-1` failed upstream evaluation: error while evaluating policy `expc14_1`: `Test::Item::\"item-1\"` does not have the attribute `owner`"
+      },
+      "d3Observation": {
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "error": []
+      },
+      "contractBasis": "History replay is a trace; the current event is the only authorization request; entity conformance applies to present entities. The history event has no entities and the current request is valid.",
+      "effect": "Reference fails closed; D3 returns Allow for the valid current request. No current-request error is suppressed.",
+      "bindingStatus": "proposed; requires owner acceptance"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+name: D3 Q3 Remediation Evidence Verification
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Evidence integrity ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2025, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout repository at exact commit
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+
+      - name: Self-test the manifest verifier
+        run: node scripts/self-test-evidence-manifest.js
+
+      - name: Verify the independent Q3 reviewer manifest
+        run: |
+          mkdir -p artifacts/q3-remed
+          node scripts/verify-evidence-manifest.js \
+            docs/reviews/d3-qualification-01-q3/manifest.sha256 \
+            --git HEAD --base docs/reviews/d3-qualification-01-q3 \
+            --json artifacts/q3-remed/q3-manifest-verification.json
+
+      - name: Verify the canonical R5-R3 manifest at b23f6a9
+        run: |
+          mkdir -p artifacts/q3-remed
+          node scripts/verify-evidence-manifest.js \
+            docs/reviews/d3-q3-remed-01/evidence/r5r3-canonical-at-b23f6a9.sha256 \
+            --git b23f6a9 --base docs/reviews/d3-impl-01-r5-r3 \
+            --json artifacts/q3-remed/r5r3-b23f6a9-verification.json
+
+      - name: Verify the canonical R5-R3 manifest at HEAD
+        run: |
+          mkdir -p artifacts/q3-remed
+          node scripts/verify-evidence-manifest.js \
+            docs/reviews/d3-q3-remed-01/evidence/r5r3-canonical-at-head.sha256 \
+            --git HEAD --base docs/reviews/d3-impl-01-r5-r3 \
+            --json artifacts/q3-remed/r5r3-head-verification.json
+
+      - name: Upload evidence verification
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: q3-remed-evidence-${{ matrix.os }}
+          path: |
+            artifacts/q3-remed/*.json
+            docs/reviews/d3-q3-remed-01/evidence/manifest-self-test.json
+          retention-days: 30
