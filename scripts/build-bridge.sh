@@ -20,6 +20,9 @@ cat "$bridgeCargo"
 
 # Instead of sed, write the entire Cargo.toml from a template to avoid TOML parsing issues
 # Use the patched dogwood-language path
+# Escape the path for TOML (replace backslashes and escape quotes)
+escapedPatchedDogwood=$(printf '%s' "$patchedDogwood" | sed 's/\\/\\\\/g; s/"/\\"/g')
+
 cat > "$bridgeCargo" <<EOF
 [package]
 name = "dogwoodsharp-bridge"
@@ -34,7 +37,7 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 cedar-policy-core = { version = "=4.11.0", default-features = false }
-dogwood-language = { path = "$patchedDogwood", default-features = false }
+dogwood-language = { path = "$escapedPatchedDogwood", default-features = false }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 
