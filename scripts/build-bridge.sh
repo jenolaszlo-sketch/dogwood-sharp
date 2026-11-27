@@ -16,6 +16,11 @@ if [ "${RID}" = "osx-arm64" ]; then targetArg="--target aarch64-apple-darwin"; f
 
 # Patch the bridge's Cargo.toml to use the patched dogwood-language (with typed-context fix)
 patchedDogwood="$(realpath r5r3-work/dogwood-patched/dogwood-language)"
+# Cargo on Windows must receive a Windows-style path; MSYS realpath returns
+# /d/..., which Cargo reads as D:\d\...
+if command -v cygpath >/dev/null 2>&1; then
+  patchedDogwood="$(cygpath -m "$patchedDogwood")"
+fi
 echo "Patched dogwood-language path: $patchedDogwood"
 if [ ! -d "$patchedDogwood" ]; then
     echo "ERROR: Patched dogwood-language not found at $patchedDogwood"

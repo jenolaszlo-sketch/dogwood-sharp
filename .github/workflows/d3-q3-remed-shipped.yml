@@ -1,0 +1,165 @@
+name: D3 Q3 Remediation Shipped-Subject Differential
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shipped-differential:
+    name: Shipped ${{ matrix.rid }} / ${{ matrix.tfm }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - rid: win-x64
+            os: windows-2025
+            cs_sha: 77de6976a7ae5b961920bb6843d39b32f3faf285f16b723581680e9c06c03895
+          - rid: linux-x64
+            os: ubuntu-24.04
+            cs_sha: 85433a352ed9b6b0122e77a4e37cbe9ba1354872641e217350bdf871ea33ebf6
+          - rid: osx-arm64
+            os: macos-15
+            cs_sha: 290fcce995f70cd963e024d991fe7f9e2806fde81add9749304ce222b904258b
+        tfm: [net8.0, net10.0]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    defaults:
+      run:
+        shell: bash
+    env:
+      DOGWOOD_PINNED_REV: 929f49e7305534ac61ef06cf8e47269c596dc851
+      RID: ${{ matrix.rid }}
+      TFM: ${{ matrix.tfm }}
+      CEDARSHARP_EXPECTED_SHA256: ${{ matrix.cs_sha }}
+
+    steps:
+      - name: Checkout repository at exact commit
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+
+      - name: Verify baseline
+        run: ./scripts/verify-baseline.sh
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.428
+            10.0.404
+
+      - name: Setup Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: 1.99.1
+          components: rustfmt, clippy
+          cache: false
+
+      - name: Install system dependencies (Linux)
+        if: matrix.rid == 'linux-x64'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libclang-dev pkg-config python3 jq
+
+      - name: Install system dependencies (macOS)
+        if: matrix.rid == 'osx-arm64'
+        run: brew install llvm pkg-config python3 jq
+
+      - name: Prepare MSVC (Windows)
+        if: matrix.rid == 'win-x64'
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Fetch pinned Dogwood source
+        id: fetch-dogwood
+        run: ./scripts/fetch-dogwood.sh
+
+      - name: Apply reference patch
+        id: apply-patch
+        run: ./scripts/apply-patch.sh "${{ steps.fetch-dogwood.outputs.path }}"
+
+      - name: Build corrected reference oracle
+        id: build-oracle
+        run: ./scripts/build-oracle.sh "${{ steps.apply-patch.outputs.patched_root }}"
+
+      - name: Build shipped product D2 bridge (locked graph)
+        run: pwsh -NoLogo -NoProfile -NonInteractive -File eng/Build-Native.ps1 -RuntimeIdentifier "${{ matrix.rid }}"
+
+      - name: Resolve shipped product asset
+        shell: pwsh
+        run: |
+          $manifest = "artifacts/native/runtimes/${{ matrix.rid }}/native/dogwoodsharp-native.json"
+          $m = Get-Content $manifest -Raw | ConvertFrom-Json
+          "BRIDGE_PATH=artifacts/native/runtimes/${{ matrix.rid }}/native/$($m.file)" >> $env:GITHUB_ENV
+          "BRIDGE_MANIFEST=$manifest" >> $env:GITHUB_ENV
+
+      - name: Build probe (published CedarSharp package)
+        run: ./scripts/build-probe.sh
+
+      - name: Stage shipped product assets
+        id: stage-product
+        run: ./scripts/stage-product-assets.sh
+
+      - name: Run shipped differential
+        id: diff
+        run: ./scripts/run-differential.sh
+        env:
+          ORACLE_PATH: ${{ steps.build-oracle.outputs.path }}
+
+      - name: Verify shipped differential results
+        run: ./scripts/verify-results.sh
+
+      - name: Verify resident product image
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const obs = JSON.parse(fs.readFileSync(`artifacts/r5r3-differential/${process.env.RID}/${process.env.TFM}/observations-corrected-reference.json`, 'utf8'));
+          const assets = JSON.parse(fs.readFileSync(`artifacts/r5r3-shipped/${process.env.RID}/${process.env.TFM}/product-assets.json`, 'utf8'));
+          const resident = obs.cases.find(c => c.id === 'R3-C26-05-resident');
+          if (!resident || resident.verdict !== 'pass') throw new Error('resident control did not pass');
+          const expected = assets.productBridge.sha256.toUpperCase();
+          if (resident.managed.resolvedPathSha256 !== expected) {
+            throw new Error(`resident image ${resident.managed.resolvedPathSha256} != product ${expected}`);
+          }
+          if (resident.managed.modulePath === null || resident.managed.modulePath === undefined) throw new Error('resident module path missing');
+          if (resident.managed.checks.loadedModuleMatchesVerifiedAsset !== true) throw new Error('resident module does not match the verified asset');
+          if (resident.managed.checks.identityStable !== true) throw new Error('resident identity not stable');
+          console.log(`resident product verified: ${expected}`);
+          NODE
+
+      - name: Build qualification-only patched bridge for negative control
+        run: ./scripts/build-bridge.sh
+
+      - name: Resolve qualification-only bridge path
+        shell: bash
+        run: |
+          case "$RID" in
+            linux-x64) wrong="r5r3-work/bridge-target/x86_64-unknown-linux-gnu/release/libdogwoodsharp_bridge.so" ;;
+            osx-arm64) wrong="r5r3-work/bridge-target/aarch64-apple-darwin/release/libdogwoodsharp_bridge.dylib" ;;
+            win-x64) wrong="r5r3-work/bridge-target/release/dogwoodsharp_bridge.dll" ;;
+            *) echo "unsupported rid"; exit 1 ;;
+          esac
+          test -f "$wrong" || { echo "missing $wrong"; exit 1; }
+          echo "WRONG_BRIDGE=$wrong" >> "$GITHUB_ENV"
+
+      - name: Negative control - qualification-only bridge substitution
+        run: ./scripts/negative-control-bridge-substitution.sh
+        env:
+          PROBE_DIR: docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/${{ matrix.tfm }}
+          ORACLE_PATH: ${{ steps.build-oracle.outputs.path }}
+          FIXTURES: docs/reviews/d3-impl-01-r5-r3/evidence/fixtures-corrected-reference.json
+          REGISTER: docs/reviews/d3-impl-01-r5-r3/evidence/register-corrected-reference.json
+
+      - name: Upload shipped differential evidence
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: r5r3-shipped-${{ matrix.rid }}-${{ matrix.tfm }}
+          path: |
+            artifacts/r5r3-differential/${{ matrix.rid }}/${{ matrix.tfm }}/*.json
+            artifacts/r5r3-differential/${{ matrix.rid }}/${{ matrix.tfm }}/*.log
+            artifacts/r5r3-shipped/${{ matrix.rid }}/${{ matrix.tfm }}/**
+          retention-days: 30

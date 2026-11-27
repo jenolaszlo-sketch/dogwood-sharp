@@ -17,7 +17,13 @@ mkdir -p "$staging/src"
 cp -r docs/reviews/d3-impl-01-r5-r3/evidence/differential/corrected-oracle/src "$staging/"
 
 template=$(cat docs/reviews/d3-impl-01-r5-r3/evidence/differential/corrected-oracle/Cargo.toml.template)
-manifest="${template/__DOGWOOD_PATCHED_PATH__/$(realpath "$patchedRoot/dogwood-language")}"
+patchedDogwood="$(realpath "$patchedRoot/dogwood-language")"
+# Cargo on Windows must receive a Windows-style path; MSYS realpath returns
+# /d/..., which Cargo reads as D:\d\...
+if command -v cygpath >/dev/null 2>&1; then
+  patchedDogwood="$(cygpath -m "$patchedDogwood")"
+fi
+manifest="${template/__DOGWOOD_PATCHED_PATH__/$patchedDogwood}"
 echo "$manifest" > "$staging/Cargo.toml"
 
 cp docs/reviews/d3-impl-01-r5-r3/evidence/differential/corrected-oracle/Cargo.lock "$staging/"

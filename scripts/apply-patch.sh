@@ -17,7 +17,14 @@ fi
 # Clean and copy
 if [ -d "$workDir" ]; then rm -rf "$workDir"; fi
 mkdir -p "$workDir"
-rsync -a --exclude=target --exclude=.git "$source/" "$workDir/"
+if command -v rsync >/dev/null 2>&1; then
+  rsync -a --exclude=target --exclude=.git "$source/" "$workDir/"
+else
+  # Portability: GitHub Windows runners do not ship rsync. A plain copy plus
+  # explicit exclusions produces the same tree.
+  cp -a "$source/." "$workDir/"
+  rm -rf "$workDir/target" "$workDir/.git"
+fi
 if [ $? -ne 0 ]; then printf 'Failed to copy Dogwood tree\n'; exit 1; fi
 
 # Apply the official patch file
