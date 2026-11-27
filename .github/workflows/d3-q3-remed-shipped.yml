@@ -62,7 +62,13 @@ jobs:
       - name: Install system dependencies (Linux)
         if: matrix.rid == 'linux-x64'
         run: |
-          sudo apt-get update
+          # The Microsoft apt source can return 403 on hosted runners; it is not
+          # needed because setup-dotnet installs .NET independently.
+          sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/microsoft-prod.sources
+          for attempt in 1 2 3; do
+            sudo apt-get update && break
+            sleep 5
+          done
           sudo apt-get install -y libclang-dev pkg-config python3 jq
 
       - name: Install system dependencies (macOS)
@@ -175,4 +181,5 @@ jobs:
             artifacts/r5r3-differential/${{ matrix.rid }}/${{ matrix.tfm }}/*.log
             artifacts/r5r3-shipped/${{ matrix.rid }}/${{ matrix.tfm }}/**
           retention-days: 30
+
 
