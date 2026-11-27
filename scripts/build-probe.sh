@@ -2,6 +2,10 @@
 set -euo pipefail
 
 probeProj="docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/R5R1Probe.csproj"
+# The MSVC developer environment sets Platform=x64 on Windows, which moves the
+# managed output to bin/x64/Release. The qualification scripts address the
+# standard bin/Release layout, so clear the variable for the managed build.
+unset Platform
 dotnet restore "$probeProj" --locked-mode
 dotnet build "$probeProj" -c Release -f "${TFM}" --no-restore
 
