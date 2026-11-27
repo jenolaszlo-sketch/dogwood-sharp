@@ -73,6 +73,14 @@ jobs:
         if: matrix.rid == 'win-x64'
         uses: ilammy/msvc-dev-cmd@v1
 
+      - name: Resolve MSVC linker directory
+        if: matrix.rid == 'win-x64'
+        shell: pwsh
+        run: |
+          $dir = Join-Path $env:VCToolsInstallDir 'bin\Hostx64\x64'
+          if (!(Test-Path (Join-Path $dir 'link.exe'))) { throw "link.exe not found at $dir" }
+          "MSVC_LINK_DIR=$dir" >> $env:GITHUB_ENV
+
       - name: Fetch pinned Dogwood source
         id: fetch-dogwood
         run: ./scripts/fetch-dogwood.sh

@@ -8,6 +8,11 @@ fi
 if ! command -v realpath >/dev/null 2>&1; then
   realpath() { python3 -c 'import os,sys; print(os.path.realpath(sys.argv[1]))' "$1"; }
 fi
+# On Windows, Git's /usr/bin/link shadows MSVC link.exe. Prefer the MSVC
+# linker directory when the workflow supplies it.
+if [ -n "${MSVC_LINK_DIR:-}" ] && command -v cygpath >/dev/null 2>&1; then
+  export PATH="$(cygpath -u "$MSVC_LINK_DIR"):$PATH"
+fi
 
 bridgeDir="native/dogwoodsharp-bridge"
 targetArg=""
