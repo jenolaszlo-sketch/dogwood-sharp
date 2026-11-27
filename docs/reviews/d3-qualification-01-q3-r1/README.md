@@ -244,7 +244,30 @@ requirement.
 
 ---
 
-## 10. Authority exclusions
+## 10. Evidence manifest
+
+`manifest.sha256` covers every file in this reviewer record except the manifest
+itself, using committed Git blob bytes. It verifies **64/64** at the record
+commit. Raw independent evidence:
+
+- `evidence/evidence-verification/{windows,linux}` — verifier outputs and
+  self-test results;
+- `evidence/shipped-campaign/<rid>/<tfm>` — observations, lifecycle JSON,
+  console, product-assets, reference-assets and negative-control logs;
+- `evidence/shipped-campaign/results.json` and `campaign-comparison.json`;
+- `evidence/oq01` — re-executed original, seven-control and current-invalid
+  observations and the reproducer identity;
+- `evidence/remediation-manifest-verification.json` — 74/74.
+
+Verification command:
+
+```bash
+node scripts/verify-evidence-manifest.js \
+  docs/reviews/d3-qualification-01-q3-r1/manifest.sha256 \
+  --git HEAD --base docs/reviews/d3-qualification-01-q3-r1
+```
+
+## 11. Authority exclusions
 
 This Q3-R1 record does not grant D3 qualification, formal closure, release
 authorization, release tagging, NuGet publication or any later development
