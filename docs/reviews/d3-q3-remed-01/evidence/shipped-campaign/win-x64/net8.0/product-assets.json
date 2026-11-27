@@ -1,0 +1,20 @@
+{
+  "rid": "win-x64",
+  "tfm": "net8.0",
+  "target": "x86_64-pc-windows-msvc",
+  "productBridge": {
+    "path": "artifacts/native/runtimes/win-x64/native/dogwoodsharp_bridge.dll",
+    "sha256": "b876d1e2e3b4622814cb74a3227237625a56c40397bbd9ffe5d5c709c0039e29",
+    "manifestPath": "artifacts/native/runtimes/win-x64/native/dogwoodsharp-native.json",
+    "manifestSha256": "d48922685ad1e2b006b0334c83e3f7175609db6e0846e4be88d4de7763a4e5c9",
+    "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa"
+  },
+  "cedarSharpNative": {
+    "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net8.0/runtimes/win-x64/native/cedarsharp_native.dll",
+    "sha256": "77de6976a7ae5b961920bb6843d39b32f3faf285f16b723581680e9c06c03895",
+    "manifestPath": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net8.0/runtimes/win-x64/native/cedarsharp-native.json",
+    "manifestSha256": "c33e13d7e140b0d1ac759b35cbf58b1b0ad3216ec144d477e0b1e4ab6a94d817",
+    "package": "CedarSharp 1.0.0"
+  },
+  "stagedRuntime": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net8.0/runtimes/win-x64/native"
+}

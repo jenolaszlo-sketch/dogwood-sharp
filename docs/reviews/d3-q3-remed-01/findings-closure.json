@@ -1,0 +1,107 @@
+{
+  "commission": "DOGWOOD-SHARP-D3-Q3-REMED-01",
+  "date": "2026-11-27",
+  "baseline": {
+    "q3ReviewerCommit": "e980ee2e91d96b314b1564a9794725fa7214fb33",
+    "q3ReviewerTree": "d902e50011691b5b689b86fe7c13d7dffb173573",
+    "r5r4HandoffCommit": "aa319955082edd3ea0ff1ad4fa04c7676c7bf5ab",
+    "r5r4HandoffTree": "7871374758c54dcba9a5d95b922042d25743c3a0",
+    "r5r4ExecutionCommit": "12a45557eb991482ee4c7b02f26cea13eee1fa4c",
+    "r5r4ExecutionTree": "f58951e4c63935826b9630f69f18d32c02c085f9"
+  },
+  "findings": [
+    {
+      "id": "Q3-F01",
+      "originalRequirement": "Producer evidence manifests must verify against the binding tree; committed evidence must have a canonical, reproducible identity.",
+      "reproducedFailure": "R5-R3 top-level manifest: 19 blob matches, 27 CRLF-only matches, 1 stale at HEAD. Evidence manifest: 2 blob, 27 CRLF-only, 1 stale, 1 self-reference. The original manifest never verifies on a clean LF checkout.",
+      "rootCause": "The manifest hashed a mixed set of Git blobs and CRLF working-tree bytes; evidence/fixtures.json changed at 44085d3 after signing.",
+      "remediationIdentity": "commit 0894b20 (canonical hashing contract, verifier, successor manifests); evidence/r5r3-*",
+      "verification": "Q3 manifest 71/71, R5-R3 b23f6a9 47/47, R5-R3 HEAD 57/57, self-test 7/7 on Windows 2025 and Ubuntu 24.04 (run 46033663477).",
+      "negativeControls": "changed content, missing artifact, stale checksum, CRLF-vs-LF mismatch, stale manifest copy",
+      "affectedArtifacts": "docs/reviews/d3-impl-01-r5-r3/manifest.sha256 and evidence/manifest.sha256; 10 post-signature paths",
+      "supportingEvidence": "WS-A-EVIDENCE-INTEGRITY.md; evidence/r5r3-manifest-entries.json; evidence/manifest-verification/{windows,linux}",
+      "producerRecommendation": "close",
+      "remainingLimitations": "The original CRLF working-tree images were not retained separately; they are derivable from b23f6a9 blobs. The original mixed-convention generator script is not retained.",
+      "ownerDecision": "none"
+    },
+    {
+      "id": "Q3-F02",
+      "originalRequirement": "The six-cell differential must execute the actual shipped or intended-for-distribution D3 native, with the reference and product dependency trees separately identifiable.",
+      "reproducedFailure": "The prior campaign used a D2 bridge built from the patched reference tree (linux 4b6c34, mac 73d29a) rather than the shipped bridge (linux 39afbfd0, mac fbd2e98a).",
+      "rootCause": "scripts/build-bridge.sh rewrote the product bridge dependency to the patched corrected-reference dogwood-language path.",
+      "remediationIdentity": "commit 8215cd7 / 08a079d / 3d40fbc / 2366f7f: shipped-subject workflow; evidence/shipped-campaign",
+      "verification": "Shipped-subject campaign run 46039052322 against the actual Build-Native product bridge and published CedarSharp 1.0.0 natives: 6/6 cells 124/124, 26 families, resident identity verified, negative control rejected the patched bridge in every cell.",
+      "negativeControls": "qualification-only bridge substitution with the product manifest must be rejected before authorization",
+      "affectedArtifacts": "D2 bridge, CedarSharp native, probe, six cell observations",
+      "supportingEvidence": "evidence/shipped-campaign; evidence/native-lineage.json",
+      "producerRecommendation": "close after the campaign is green and the reviewer confirms the subject identity",
+      "remainingLimitations": "Windows native images are not byte-reproducible across builds (metadata only); the exact candidate is bound by hash.",
+      "ownerDecision": "none"
+    },
+    {
+      "id": "Q3-F03",
+      "originalRequirement": "The D3 adapter must be built from its locked graph; dependency identity and reproducibility must be established.",
+      "reproducedFailure": "The qualification-only bridge regenerated its lock and resolved 36 different packages from the committed lock; Windows shipped builds varied by metadata.",
+      "rootCause": "cargo generate-lockfile after the path rewrite, with only cedar-policy-core pinned; embedded PE/debug timestamps and PDB GUID.",
+      "remediationIdentity": "shipped campaign uses eng/Build-Native.ps1 + committed lock ec901557; evidence/dependency-graph.json, evidence/binary-reproducibility.json",
+      "verification": "Committed lock used with cargo --locked; 36-package divergence documented; producer/independent Windows images differ in 24 metadata bytes and are byte-identical after zeroing timestamps/PDB GUID.",
+      "negativeControls": "the unshipped regenerated bridge is used only as the negative-control wrong subject",
+      "affectedArtifacts": "native/dogwoodsharp-bridge/Cargo.lock; shipped D2 bridge; qualification-only bridge",
+      "supportingEvidence": "WS-C-DEPENDENCY-PROVENANCE.md; evidence/dependency-graph.json; evidence/binary-reproducibility.json",
+      "producerRecommendation": "close for the shipped candidate; the contract requires locked graphs and exact candidate identity, not cross-environment byte equality",
+      "remainingLimitations": "Cross-build Windows SHA-256 equality is not achieved; the exact CI candidate is bound by its manifest.",
+      "ownerDecision": "none"
+    },
+    {
+      "id": "Q3-F04",
+      "originalRequirement": "The published CedarSharp dependency and its source identity must be established; unpinned source cloning must not be used in qualification.",
+      "reproducedFailure": "CedarSharp was cloned from unpinned main; the rebuilt natives differ from the published package natives; the native manifest sourceCommit 324d3c0 is not recoverable.",
+      "rootCause": "The CedarSharp native build script cloned the public main branch and regenerated its lock; the package's native manifest sourceCommit is inconsistent with the package nuspec.",
+      "remediationIdentity": "shipped campaign uses the published CedarSharp 1.0.0 package (99cc3659) and its per-RID natives; evidence/cedarsharp-provenance.json",
+      "verification": "Nuspec commit 68ffdafa (tag v1.0.0) recovered; published natives bound by hash; package consumer matrix 6/6; unpinned clone retired from qualification.",
+      "negativeControls": "staging hash checks reject a package native that does not match the published per-RID hash",
+      "affectedArtifacts": "CedarSharp package 1.0.0; win/linux/mac published natives",
+      "supportingEvidence": "WS-C-DEPENDENCY-PROVENANCE.md; evidence/cedarsharp-provenance.json; evidence/ci/package-verification-report.json",
+      "producerRecommendation": "close with the external provenance limitation documented",
+      "remainingLimitations": "The external package's native sourceCommit field cannot be reconciled with the repository; the nuspec commit and immutable package/native hashes are the binding identities.",
+      "ownerDecision": "none unless the reviewer treats the external metadata inconsistency as a blocker"
+    },
+    {
+      "id": "Q3-F05",
+      "originalRequirement": "The original OQ-01 Allow-versus-failure case must be adjudicated against the authoritative contract and recorded in a traceable supplemental register.",
+      "reproducedFailure": "The original case reproduces D3 Allow and reference evaluation failure on net8.0 and net10.0 with the shipped bridge.",
+      "rootCause": "The reference oracle re-authorizes the history event and treats its policy error as fatal; the history event has no entities and the current request is valid. FCN-05 covers only the four fail-closed controls.",
+      "remediationIdentity": "OQ01-SEMANTIC-ADJUDICATION.md; evidence/oq01-supplemental-register.json (RD-01 proposed)",
+      "verification": "Original case and seven controls independently reproduced; new current-invalid control fails closed on D3; targeted controls distinguish validation, evaluation, history conformance and provider failure.",
+      "negativeControls": "current-invalid control; TC-03..TC-06 fail-closed controls; TC-02/TC-07 Deny controls",
+      "affectedArtifacts": "original OQ-01 fixture; supplemental register; FCN-05 signed scope unchanged",
+      "supportingEvidence": "OQ01-SEMANTIC-ADJUDICATION.md; evidence/oq01/*",
+      "producerRecommendation": "close only after owner acceptance of RD-01; the evidence is complete but the classification is not binding",
+      "remainingLimitations": "The reference-defect classification is proposed, not owner-accepted; the signed 124-case register is unchanged.",
+      "ownerDecision": "accept RD-01 (or direct an alternative reference-oracle change)"
+    },
+    {
+      "id": "Q3-F10",
+      "originalRequirement": "Historical evidence must be preserved; in-place post-signature modifications must be documented without rewriting history.",
+      "reproducedFailure": "The R5-R3 directory gained nine R5-R4 harness files and evidence/fixtures.json changed at 44085d3; the R5-R4 preservation claim was inaccurate for the directory.",
+      "rootCause": "R5-R4 harness artifacts were added under the historical R5-R3 tree and the fixture was corrected after the R5-R3 manifest was signed; the probe was later modified.",
+      "remediationIdentity": "WS-A-EVIDENCE-INTEGRITY.md; canonical successor manifests; append-only correction",
+      "verification": "b23f6a9 and HEAD canonical manifests 47/47 and 57/57; original manifest preserved; post-signature change list recorded",
+      "negativeControls": "manifest self-test stale/missing/newline controls",
+      "affectedArtifacts": "R5-R3 manifest, fixtures.json, probe Program.cs, added harness files",
+      "supportingEvidence": "WS-A-EVIDENCE-INTEGRITY.md; evidence/r5r3-post-signature-changes.json",
+      "producerRecommendation": "close",
+      "remainingLimitations": "The historical directory remains mixed; the correction is a successor record, not a rewritten signature.",
+      "ownerDecision": "none"
+    }
+  ],
+  "disposition": "B",
+  "dispositionLabel": "REMEDIATION INCOMPLETE — BOUNDED BLOCKERS REMAIN",
+  "successor": {
+    "campaignCommit": "2366f7f",
+    "campaignRun": 46039052322,
+    "documentationCommit": "the commit containing this record"
+  },
+  "blockers": ["Q3-F05 owner acceptance of RD-01"],
+  "next": "Independent Q3-R1 delta requalification after owner acceptance of RD-01 and review of the shipped-subject campaign."
+}

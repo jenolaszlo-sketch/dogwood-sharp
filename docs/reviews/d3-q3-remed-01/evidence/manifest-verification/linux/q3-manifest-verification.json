@@ -1,0 +1,373 @@
+{
+  "summary": {
+    "manifest": "docs/reviews/d3-qualification-01-q3/manifest.sha256",
+    "mode": "git",
+    "ref": "HEAD",
+    "base": "docs/reviews/d3-qualification-01-q3",
+    "root": null,
+    "entries": 71,
+    "passed": 71,
+    "failed": 0,
+    "statuses": {
+      "ok": 71
+    },
+    "failures": []
+  },
+  "entries": [
+    {
+      "path": "README.md",
+      "expected": "12e1d90c9b6fe87f0cb5890566b73c16b1373def0b7c9a1aad71298d5ac0c53e",
+      "status": "ok"
+    },
+    {
+      "path": "REPRODUCE.md",
+      "expected": "20f67670933b28ecc2622754bf11e8d5d4d2023d8e5121e4bf6681dc93e29e61",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/d3-net10.0.trx",
+      "expected": "03a8e8629e1fb653448d6a379ea4aa6902d1b7625e335b24d52a89e51b42593d",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/d3-net8.0.trx",
+      "expected": "6bd3c34698e7f210285f2789181ca745674a1c648aaf1eff7e2f8cba77ac6ef5",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/linux-d2-differential-report.json",
+      "expected": "1ee4d272a3b1b5cf0f19fed6c106ac025f9cae5634c33668e7f0d29f536dde6d",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/linux-d2-memory-ownership.log",
+      "expected": "fb8cc41e4a14d3bcfaea58c8d1083c6294d07b5e7ef9e4269aab53a4eeddd60b",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/linux-manifest-verification.json",
+      "expected": "65aca6554426348e95fed585fc67d746a8bcb262cdfe9018e1b15f98f08d7bce",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/linux-memory-ownership.log",
+      "expected": "366a8d31e49c256f9454c7e9d5375a2fbc55d21cfbf4a59fa5a222e511ef31c2",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/linux-qualification.json",
+      "expected": "939c2ff64b6bb811ac9bb30437a6900cbfaf45057afb8adf9f8f664fdc7f0ab3",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/linux-valgrind-summary.json",
+      "expected": "9d4367100695b61869841d559a70ecdcbcaa3f4a72d246f6c854c7de41d81b75",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/linux-verification.log",
+      "expected": "376194973ca1de2ecddec59e2ff76da08568472460a9e937c9a9acd38967cef1",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/macos-d2-differential-report.json",
+      "expected": "a29da8d5035a1fd947e4cc774d4ce7c690680f4dfe30554de2e6e3bd819a08e7",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/macos/d3-net10.0.trx",
+      "expected": "1f345485d4bc161f9dac9657900b07174464ce088312e4aee88f0de11e2b5d05",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/macos/d3-net8.0.trx",
+      "expected": "a40d50f3806eca6cb6871e98c853a9b60b6c3430ce436fc46553cbfd9d82ecfa",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/macos/manifest-verification.json",
+      "expected": "dd26f581c0cce7caad46d996a4c0668de4f7f65885b12afd9e1bd1bddf0a036b",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/macos/net10.0.trx",
+      "expected": "46270bd64745fbe0d9c9d0e08289ce68a9a829e147d5c88a17ca1d4b272be4a4",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/macos/net8.0.trx",
+      "expected": "0d6885849f7f80952de1e3e704be1f7b2fc14f2d9102bd16e0591fd6452e324b",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/macos/qualification-osx-arm64.json",
+      "expected": "c25a5a442edbb8fce7442ce8fa37b286f82303f89c329fc82a3a9aab6275257e",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/macos/verification.log",
+      "expected": "d6ffe5404d8d61cbd55d0111ca248b1b4634cac4721ce4bd2eccf8988c6371ba",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/net10.0.trx",
+      "expected": "3e160cc15ed7c03e6dfd928e1d9d4c73fe471a1a431006bec60bac2252de1c89",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/net8.0.trx",
+      "expected": "9db97fc11a2af963d45bbe878f155d0bbcaea79e564bc1cd4061ec723e7373da",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/package-consumer-summary.txt",
+      "expected": "fbf0be881362b935cf98cbe4ef2ac8bac800701816b757240e9f680afc5ed54c",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/package-verification-report.json",
+      "expected": "fa7dade4807c2e85a3af0e4df8cf8e23d8c1b3295b4c0dca55d5225e2d8d041a",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/windows-d2-differential-report.json",
+      "expected": "da54a5375b2b7cb9e04916bfb98003f9f90baa3f22173fa775fb4fa2d18d20c7",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/windows-manifest-verification.json",
+      "expected": "75a12feab0a42f1423eab7b696c35ece6080b97030cc3f0951c53ce1634c20ba",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/windows-native-manifest.json",
+      "expected": "7fcf87962a9ae7e99a89b0e5e3b79fe503ffc19f14e07d83663921afa6c29c1e",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/windows-qualification.json",
+      "expected": "c329684e016e4029e6272227b9b906a84339e12b6f23da418ec16f4ad8eaf324",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/ci/windows-verification.log",
+      "expected": "4301b1127ed4258d04934900277c737a8e566e5afde721c831e63bda51c883d6",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/linux-x64-net10.0/adjudicator-outcome.json",
+      "expected": "0f878b4b086506fc8894893c733656d62611b54cbd938abbd38d2c12a982a994",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/linux-x64-net10.0/console.log",
+      "expected": "270b0de3be092d3f295b989fbe051eaf755833a231380a0a0c72042ce3ea9207",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/linux-x64-net10.0/lifecycle-corrected-reference.json",
+      "expected": "3ebacdbde97b84b29013e8d578d42cf3eeab3ea28c0121ca451f891e7e72cef4",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/linux-x64-net10.0/observations-corrected-reference.json",
+      "expected": "981546e98a858c85154fc9ebdec9e45f9b51dcbc3d8fc8ea949bf1679fdfc32b",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/linux-x64-net8.0/adjudicator-outcome.json",
+      "expected": "0f878b4b086506fc8894893c733656d62611b54cbd938abbd38d2c12a982a994",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/linux-x64-net8.0/console.log",
+      "expected": "19209cfd0d098633fbc07016c1283c08a380e13ba3c75f167fdb8aa1c2a407f0",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/linux-x64-net8.0/lifecycle-corrected-reference.json",
+      "expected": "d710b447bfc58d1582c163a4fb08def5025946c13092f0f101dad0dacbe59fb8",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/linux-x64-net8.0/observations-corrected-reference.json",
+      "expected": "ea26de2056846453d519e96eadf86ab6cd2981b3bcacbb3a71291ffbb8b39e52",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/osx-arm64-net10.0/adjudicator-outcome.json",
+      "expected": "0f878b4b086506fc8894893c733656d62611b54cbd938abbd38d2c12a982a994",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/osx-arm64-net10.0/console.log",
+      "expected": "efc7298578d4011db4402d35ab8120c209d2cae22103c53ea3f6004b9c27b6a2",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/osx-arm64-net10.0/lifecycle-corrected-reference.json",
+      "expected": "cbbde7e1d3687bb43ee937c4694df2c6c3617669fbcd4de3eaa3d5e4c4b62edd",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/osx-arm64-net10.0/observations-corrected-reference.json",
+      "expected": "4ea190c626a64a0c4eeabc21695d14b3c2c5975c2c220bb07ce7835a882bbe88",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/osx-arm64-net8.0/adjudicator-outcome.json",
+      "expected": "0f878b4b086506fc8894893c733656d62611b54cbd938abbd38d2c12a982a994",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/osx-arm64-net8.0/console.log",
+      "expected": "104e2bc9acae0cc0bb1cce041c42da5c8832c0cc2f5b9eaad6467f56870189f1",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/osx-arm64-net8.0/lifecycle-corrected-reference.json",
+      "expected": "4602b644eac3d6a957c8057905d46bae637c7e59a131a3f1d2996ae464a7befc",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/hosted/osx-arm64-net8.0/observations-corrected-reference.json",
+      "expected": "bb13082261eef1a7c8942b5de16b4aadf0236961b046798b504bab4b06e61ed4",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/manifest-verification.json",
+      "expected": "178cc7fd5020ee6c48258bfc70e74cd636dcfdb026a07280877292fa3703f6e8",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/native-lineage.json",
+      "expected": "0dccc321c98dfb98134fec4627d1df19f4e0b2d8d6f5299146e13a516357d914",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/oq01/fixtures-7.json",
+      "expected": "f076d2d7b16bcab950f5de95a7f7a683f8521fe06901d6e01f755b56b9d93ac2",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/oq01/lifecycle-net10.json",
+      "expected": "8bb30010f87080b00771d923583b128d01ac00392119f530e571039ea21b7f14",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/oq01/lifecycle-net8.json",
+      "expected": "25afab0cacf5a26221de6a4f2faa2adb90f134d4e70b09bde1c3b9135128b86e",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/oq01/observations-net10.json",
+      "expected": "405909d8b760ba1c93679297762d0128bc61c2994c8988a9b33a35d83597f066",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/oq01/observations-net8.json",
+      "expected": "6f916de447133f560cb5cf2b25e695195ad9ea1089a0451808673127268fce01",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/oq01/original-observations-net8.json",
+      "expected": "bc318850216bf6955efade3552c400d1cf043960dc56063d43a874051767da19",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/oq01/register-empty.json",
+      "expected": "cc8457a4422f1d7087f48d4d913fe67f4e99cfdca0e351b83789c30d6aa93ed5",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/qd3q05-invariants.json",
+      "expected": "2ec14997fd994547953eb27f3f94ca6701ee962e6ed5cf897572e7a986628897",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/tests/q3-core-net10.0.trx",
+      "expected": "9dc4c8e78b385fbc7b7bb31a0b26d69dda01918c9447fd7c4307a0929655b21e",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/tests/q3-core-net8.0.trx",
+      "expected": "f25631ec190a3934c5ab1160eb97c1ca379e914da3ad453ae28b39346a0560fe",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/tests/q3-core2-net10.0.trx",
+      "expected": "c5a8ec960956616fb4cecbe4d5a076749deccee483068ee5c26c1ce8458a2ec0",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/tests/q3-core2-net8.0.trx",
+      "expected": "ae9605cd7c34b5e4330f62ede6d4ea7adb31595bc268f953044530daf4a69c12",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/tests/q3-cs-net10.0.trx",
+      "expected": "99b4dfa4775d4bba3562b203f6a9301217ceac5acc666fb3f56217af348f2b0f",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/tests/q3-net8.trx",
+      "expected": "d26fcb992742991b2babbe1ecf98ef0678bad11e037f1e95c05db251e64dd8d1",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/windows/build-log.txt",
+      "expected": "2578003afa2d3637c34442d5b369df76d52d2e7ad0bc83c9b8cbd8b744073c5d",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/windows/observations-net10.json",
+      "expected": "8a834a8f3646f0c7ac396f9bea105be6b72b7874954c9dbc156a1f328e324372",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/windows/observations-net8.json",
+      "expected": "889621fbc971c2f1cd10e23c5c035acc5fb73f9e96f3f7f65e19e32cdd17f1c2",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/windows/observations-shipped-net10.json",
+      "expected": "75684c2d43d204d4a30d294d2778f3363b5354786db45b2a4bd47cf06aa01b6d",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/windows/observations-shipped-net8.json",
+      "expected": "dc1ee6a4d038c423bb5810e21874308da20601591dfed0f4bd1bf509a0882e24",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/windows/self-test-net10.0.json",
+      "expected": "69612b86c5ea7c14572e2b4160200e49034fbc80db628ebbf609310a19dd021f",
+      "status": "ok"
+    },
+    {
+      "path": "evidence/windows/self-test-net8.0.json",
+      "expected": "38e371d8106504613daae0ddb3c2987ad78f4074a54d72468770dbbebb3d194b",
+      "status": "ok"
+    },
+    {
+      "path": "findings.json",
+      "expected": "17ee23afaf159b69ed3b6ae77dbbab618089ed45672866b27a8c67755f740e42",
+      "status": "ok"
+    },
+    {
+      "path": "harness-corrections.json",
+      "expected": "e051e6b93550fc69a201ef12768a8f4be40b2f4bf3ce872cda5de6edc2cf21d1",
+      "status": "ok"
+    },
+    {
+      "path": "historical-findings.json",
+      "expected": "b51498f4205a9508c633a9c6e4d46a81eba3bbd3b81075a19168342824538d41",
+      "status": "ok"
+    },
+    {
+      "path": "independent-execution.json",
+      "expected": "e894121930130ea3dc9af0915c90340f0c091d7165edcce901eb3a90a8639352",
+      "status": "ok"
+    }
+  ]
+}

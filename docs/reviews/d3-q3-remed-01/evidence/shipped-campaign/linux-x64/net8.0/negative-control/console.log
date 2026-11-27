@@ -1,0 +1,13 @@
+DogwoodBridgeException: Native asset SHA-256 differs from the manifest.
+   at DogwoodSharp.NativeBridge.VerifyManifest(String path, String rid, String target) in /_/src/DogwoodSharp/NativeBridge.cs:line 161
+   at DogwoodSharp.NativeBridge.Load(String root) in /_/src/DogwoodSharp/NativeBridge.cs:line 88
+   at DogwoodSharp.NativeBridge.<>c.<.cctor>b__57_0() in /_/src/DogwoodSharp/NativeBridge.cs:line 40
+   at System.Lazy`1.ViaFactory(LazyThreadSafetyMode mode)
+   at System.Lazy`1.ExecutionAndPublication(LazyHelper executionAndPublication, Boolean useDefaultConstructor)
+   at System.Lazy`1.CreateValue()
+   at DogwoodSharp.NativeBridge.get_Shared() in /_/src/DogwoodSharp/NativeBridge.cs:line 72
+   at DogwoodSharp.Dogwood.GetNativeVersion() in /_/src/DogwoodSharp/Dogwood.cs:line 16
+   at R5R1Probe.Program.RunResidentScenario(JsonObject caseElement, IReadOnlyDictionary`2 schemas, IReadOnlyDictionary`2 providerDeclarations) in /_/docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/Program.cs:line 3459
+   at R5R1Probe.Program.ExecuteLifecycleScenarios(IReadOnlyList`1 cases, IReadOnlyDictionary`2 schemas, IReadOnlyDictionary`2 providerDeclarations, String workRoot, String outputPath) in /_/docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/Program.cs:line 3531
+   at R5R1Probe.Program.RunDifferential(String[] args) in /_/docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/Program.cs:line 181
+   at R5R1Probe.Program.Main(String[] args) in /_/docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/Program.cs:line 123

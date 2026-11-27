@@ -1,0 +1,9 @@
+{
+  "rid": "osx-arm64",
+  "tfm": "net8.0",
+  "result": "pass",
+  "exitCode": 2,
+  "substitutedBridge": "r5r3-work/bridge-target/aarch64-apple-darwin/release/libdogwoodsharp_bridge.dylib",
+  "expectedRejection": "native asset hash/identity rejection before authorization",
+  "console": "negative-control/console.log"
+}

@@ -1,0 +1,20 @@
+{
+  "rid": "linux-x64",
+  "tfm": "net10.0",
+  "target": "x86_64-unknown-linux-gnu",
+  "productBridge": {
+    "path": "artifacts/native/runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+    "sha256": "39afbfd0b8ed60d627af6e3e0e743c594e8d72817fee16f70d98a39081dafbe9",
+    "manifestPath": "artifacts/native/runtimes/linux-x64/native/dogwoodsharp-native.json",
+    "manifestSha256": "789f3fd550db7dcd2ca82b54a0d7f58ec015336cef8aeb963cb74b2a6a09610e",
+    "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa"
+  },
+  "cedarSharpNative": {
+    "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/linux-x64/native/libcedarsharp_native.so",
+    "sha256": "85433a352ed9b6b0122e77a4e37cbe9ba1354872641e217350bdf871ea33ebf6",
+    "manifestPath": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/linux-x64/native/cedarsharp-native.json",
+    "manifestSha256": "4d4f273bbd149d29c44e16256583497a853d9e1942ffa5a868fa0a79ef69489c",
+    "package": "CedarSharp 1.0.0"
+  },
+  "stagedRuntime": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/linux-x64/native"
+}
