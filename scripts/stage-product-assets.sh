@@ -70,7 +70,8 @@ const fs = require('fs');
 const [manifestPath, actualSha, libName, rid, target] = process.argv.slice(2);
 const m = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const fail = msg => { console.error(`CedarSharp package manifest check failed: ${msg}`); process.exit(1); };
-if (m.file !== libName) fail(`file ${m.file} != ${libName}`);
+// The published CedarSharp manifest identifies the image by rid/target/sha256,
+// not by a file field.
 if (m.rid !== rid) fail(`rid ${m.rid} != ${rid}`);
 if (m.target !== target) fail(`target ${m.target} != ${target}`);
 if (String(m.sha256).toLowerCase() !== actualSha) fail(`sha256 ${m.sha256} != ${actualSha}`);
