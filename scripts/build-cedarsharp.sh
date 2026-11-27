@@ -13,19 +13,21 @@ if [ "${RID}" = "linux-x64" ]; then targetArg="--target x86_64-unknown-linux-gnu
 if [ "${RID}" = "osx-arm64" ]; then targetArg="--target aarch64-apple-darwin"; fi
 
 export CARGO_TARGET_DIR="r5r3-work/cedarsharp-target"
-# Regenerate lockfile with cedar-policy-core pinned to 4.11.0 to match NativeBridge constant and bridge manifest
-# First update the Cargo.toml to require exactly 4.11.0 for cedar-policy-core (match any version format)
-sed -i 's/cedar-policy-core = { version = "[^"]*" }/cedar-policy-core = { version = "=4.11.0" }/' "$csDir/Cargo.toml"
-# Also update the root Cargo.toml if it has cedar-policy-core
-if [ -f "$csRoot/Cargo.toml" ]; then
-  sed -i 's/cedar-policy-core = { version = "[^"]*" }/cedar-policy-core = { version = "=4.11.0" }/' "$csRoot/Cargo.toml"
-fi
-# Also update any Cargo.toml in workspace members
-for f in "$csRoot"/*/Cargo.toml; do
+# Regenerate lockfile with all cedar-policy* crates pinned to 4.11.0 to match NativeBridge constant and bridge manifest
+# First update all Cargo.toml files to require exactly 4.11.0 for cedar-policy* crates
+for f in "$csDir/Cargo.toml" "$csRoot/Cargo.toml" "$csRoot"/*/Cargo.toml; do
   if [ -f "$f" ]; then
+    # Match any version pattern for cedar-policy* crates and pin to 4.11.0
     sed -i 's/cedar-policy-core = { version = "[^"]*" }/cedar-policy-core = { version = "=4.11.0" }/' "$f"
+    sed -i 's/cedar-policy = { version = "[^"]*" }/cedar-policy = { version = "=4.11.0" }/' "$f"
+    sed -i 's/cedar-policy-formatter = { version = "[^"]*" }/cedar-policy-formatter = { version = "=4.11.0" }/' "$f"
+    sed -i 's/cedar-policy-core = "=[^"]*"/cedar-policy-core = "=4.11.0"/' "$f"
+    sed -i 's/cedar-policy = "=[^"]*"/cedar-policy = "=4.11.0"/' "$f"
+    sed -i 's/cedar-policy-formatter = "=[^"]*"/cedar-policy-formatter = "=4.11.0"/' "$f"
   fi
 done
+# Also delete any existing Cargo.lock to force regeneration
+rm -f "$csDir/Cargo.lock" "$csRoot/Cargo.lock"
 cargo generate-lockfile --manifest-path "$csDir/Cargo.toml"
 cargo build --locked --release $targetArg --manifest-path "$csDir/Cargo.toml"
 
