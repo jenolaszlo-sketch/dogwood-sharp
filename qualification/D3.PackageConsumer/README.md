@@ -2,8 +2,8 @@
 
 This disposable consumer is intentionally outside `DogwoodSharp.slnx`. Its only
 package reference is the exact range
-`DogwoodSharp.CedarSharp [0.0.0-experimental.1]`; the stable
-`DogwoodSharp 0.0.0-discovery.1` and `CedarSharp 1.0.0` packages are resolved
+`DogwoodSharp.CedarSharp [0.1.0-experimental.1]`; the stable
+`DogwoodSharp 0.1.0-preview.1` and `CedarSharp 1.0.0` packages are resolved
 transitively.
 
 The consumer targets `net8.0` and `net10.0`, enables full trimming and
@@ -22,5 +22,7 @@ uses disposable per-cell lockfiles, runs JIT and NativeAOT, and verifies the
 published native files and hashes. It never uses a project reference, source
 tree fallback, native environment override, or manual native staging.
 
-The consumer is producer qualification evidence only. It is not independent
-qualification, owner acceptance, publication authorization, or a release gate.
+This kit is used by both the D3 producer qualification gate and the
+release-candidate gate. A green consumer run is supporting evidence; it is not
+independent qualification, owner acceptance, publication authorization, or a
+release itself.

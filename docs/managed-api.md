@@ -121,10 +121,11 @@ and process shutdown. See the [native caller contract](architecture/native-inter
 
 # D3 experimental package API
 
-The stable `DogwoodSharp` `0.0.0-discovery.1` public API is unchanged. The D3
-per-rule export types and entry point remain internal to that assembly. The
-experimental `DogwoodSharp.CedarSharp` `0.0.0-experimental.1` package is the
-public D3 qualification surface:
+The stable `DogwoodSharp` `0.1.0-preview.1` public API is unchanged from the
+closed D1/D2 surface. The D3 per-rule export types and entry point remain
+internal to that assembly. The experimental
+`DogwoodSharp.CedarSharp` `0.1.0-experimental.1` package is the public D3
+surface for the preview release candidate:
 
 ```csharp
 using DogwoodSharp;
@@ -152,8 +153,10 @@ of `authorizer.PolicyIds`, and `RuleIndexFor` maps that identity back to the
 source rule.
 
 The experimental package declares exact dependency ranges for `DogwoodSharp`
-`0.0.0-discovery.1` and `CedarSharp` `1.0.0`; it does not repack CedarSharp.
-It is not a publication or release authorization.
+`0.1.0-preview.1` and `CedarSharp` `1.0.0`; it does not repack CedarSharp.
+It is not a stable API contract, and this document is not a publication or
+release authorization. Publication requires separate explicit owner
+authorization.
 
 ## Package-only consumer command
 

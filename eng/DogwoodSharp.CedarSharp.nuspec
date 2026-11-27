@@ -2,9 +2,9 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>DogwoodSharp.CedarSharp</id>
-    <version>0.0.0-experimental.1</version>
+    <version>0.1.0-experimental.1</version>
     <authors>DogwoodSharp contributors</authors>
-    <description>Experimental CedarSharp authorization adapter for DogwoodSharp. Qualification candidate only; not authorized for publication.</description>
+    <description>Experimental CedarSharp authorization adapter for DogwoodSharp. Preview release candidate; publication requires separate owner authorization. The published CedarSharp 1.0.0 native metadata is bound by package and native hashes; its declared native sourceCommit is not reproducible.</description>
     <license type="expression">Apache-2.0</license>
     <readme>README.md</readme>
     <projectUrl>https://github.com/jenolaszlo-sketch/dogwood-sharp</projectUrl>
@@ -12,11 +12,11 @@
     <repository type="git" url="https://github.com/jenolaszlo-sketch/dogwood-sharp" />
     <dependencies>
       <group targetFramework="net8.0">
-        <dependency id="DogwoodSharp" version="[0.0.0-discovery.1]" />
+        <dependency id="DogwoodSharp" version="[0.1.0-preview.1]" />
         <dependency id="CedarSharp" version="[1.0.0]" />
       </group>
       <group targetFramework="net10.0">
-        <dependency id="DogwoodSharp" version="[0.0.0-discovery.1]" />
+        <dependency id="DogwoodSharp" version="[0.1.0-preview.1]" />
         <dependency id="CedarSharp" version="[1.0.0]" />
       </group>
     </dependencies>

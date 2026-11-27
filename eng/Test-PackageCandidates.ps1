@@ -22,9 +22,9 @@ if (!$RepositoryRoot) {
 }
 
 $stableId = 'DogwoodSharp'
-$stableVersion = '0.0.0-discovery.1'
+$stableVersion = '0.1.0-preview.1'
 $experimentalId = 'DogwoodSharp.CedarSharp'
-$experimentalVersion = '0.0.0-experimental.1'
+$experimentalVersion = '0.1.0-experimental.1'
 $tfms = @('net8.0', 'net10.0')
 
 $nativeImages = [ordered]@{

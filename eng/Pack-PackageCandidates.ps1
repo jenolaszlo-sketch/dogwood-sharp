@@ -23,9 +23,9 @@ if (!$RepositoryRoot) {
 
 $expectedSdk = '10.0.404'
 $stableId = 'DogwoodSharp'
-$stableVersion = '0.0.0-discovery.1'
+$stableVersion = '0.1.0-preview.1'
 $experimentalId = 'DogwoodSharp.CedarSharp'
-$experimentalVersion = '0.0.0-experimental.1'
+$experimentalVersion = '0.1.0-experimental.1'
 
 function Invoke-Dotnet([string[]] $Arguments) {
     & $DotNetPath @Arguments
@@ -78,16 +78,16 @@ try {
     & (Join-Path $PSScriptRoot 'Test-NativePackageAssets.ps1') -AssetsRoot $nativeAssetsRootPath -RepositoryRoot $repositoryRootPath
 
     New-Item -ItemType Directory -Force -Path $outputPathFull | Out-Null
-    foreach ($name in @(
-        "$stableId.$stableVersion.nupkg",
-        "$stableId.$stableVersion.snupkg",
-        "$experimentalId.$experimentalVersion.nupkg",
-        "$experimentalId.$experimentalVersion.snupkg")) {
-        $candidatePath = Join-Path $outputPathFull $name
-        if (Test-Path -LiteralPath $candidatePath) {
-            Remove-Item -LiteralPath $candidatePath -Force
-        }
-    }
+    # Remove any prior candidate from this directory, including an older
+    # release identity, so the verification gate sees exactly this run's files.
+    Get-ChildItem -LiteralPath $outputPathFull -File |
+        Where-Object {
+            $_.Name -like "$stableId.*.nupkg" -or
+            $_.Name -like "$stableId.*.snupkg" -or
+            $_.Name -like "$experimentalId.*.nupkg" -or
+            $_.Name -like "$experimentalId.*.snupkg"
+        } |
+        Remove-Item -Force
 
     $stableProject = Join-Path $repositoryRootPath 'src/DogwoodSharp/DogwoodSharp.csproj'
     $experimentalProject = Join-Path $repositoryRootPath 'src/DogwoodSharp.CedarSharp/DogwoodSharp.CedarSharp.csproj'
@@ -111,6 +111,10 @@ try {
         '-p:ContinuousIntegrationBuild=true',
         '-p:DeterministicTimestamp=true',
         '-p:IncludeSymbols=false',
+        # The release package version is a pack-time identity. The checked-in project
+        # Version stays at the qualification-candidate value so historical probe
+        # lockfiles and the qualified restore graph remain reproducible.
+        "-p:PackageVersion=$stableVersion",
         "-p:DogwoodSharpNativeAssetsRoot=$nativeAssetsRootPath",
         "-p:DogwoodSharpPackageShell=$packageShellPath",
         "-p:DogwoodSharpPackageShellArguments=$packageShellArguments")
@@ -122,6 +126,7 @@ try {
         '-p:ContinuousIntegrationBuild=true',
         '-p:DeterministicTimestamp=true',
         '-p:IncludeSymbols=false',
+        "-p:PackageVersion=$experimentalVersion",
         "-p:DogwoodSharpNativeAssetsRoot=$nativeAssetsRootPath",
         "-p:DogwoodSharpPackageShell=$packageShellPath",
         "-p:DogwoodSharpPackageShellArguments=$packageShellArguments")

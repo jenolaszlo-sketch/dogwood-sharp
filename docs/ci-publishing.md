@@ -10,15 +10,23 @@ CI uploads staged binaries, manifests, test results, and verification logs.
 The [verification record](verification.md) identifies completed runs. The
 publication workflow remains a refusal gate.
 
-## D3 producer package-only gate
+## D3 package gate and release candidate
 
-The D3 gate produces and consumes **qualification candidates only**. It does
-not publish, sign, tag, release, or modify the publication workflow.
+The D3 package gate produces and verifies the preview release candidate. It
+does not publish, sign, tag, release, or modify the publication workflow.
+Publication remains a separate owner-authorized commission.
 
 | Candidate | ID and version | Contents/dependencies |
 | --- | --- | --- |
-| Stable | `DogwoodSharp` `0.0.0-discovery.1` | `net8.0`/`net10.0` managed assemblies and docs; all three RID image/manifest pairs; readme, license, notice |
-| Experimental adapter | `DogwoodSharp.CedarSharp` `0.0.0-experimental.1` | Only its two TFM managed assemblies/docs, readme, license, notice; exact dependency ranges `[DogwoodSharp 0.0.0-discovery.1]` and `[CedarSharp 1.0.0]` |
+| Stable | `DogwoodSharp` `0.1.0-preview.1` | `net8.0`/`net10.0` managed assemblies and docs; all three RID image/manifest pairs; readme, license, notice |
+| Experimental adapter | `DogwoodSharp.CedarSharp` `0.1.0-experimental.1` | Only its two TFM managed assemblies/docs, readme, license, notice; exact dependency ranges `[DogwoodSharp 0.1.0-preview.1]` and `[CedarSharp 1.0.0]` |
+
+The release package version is supplied by the pack gate
+(`-p:PackageVersion=...`) and is not the checked-in project `Version`. The
+checked-in project version remains the qualification-candidate identity so the
+historical probe lockfiles and the qualified restore graph stay reproducible.
+The package nuspec, the package filename and the consumer graph all bind the
+release version exactly.
 
 The experimental package does not contain native assets and does not repack
 CedarSharp. Its checked-in candidate nuspec uses exact dependency ranges while
@@ -64,7 +72,7 @@ scripts do not contain a publish command. For a local package-only cell, use:
   -WorkDirectory (Join-Path $env:TEMP 'dogwoodsharp-d3-consumer')
 ```
 
-### Hosted producer gate
+### Hosted release-candidate gate
 
 `ci.yml` retains the existing D1/D2 `verify` matrix and adds these producer
 jobs:
@@ -72,8 +80,9 @@ jobs:
 1. `verify` uploads a dedicated `dogwoodsharp-native-<rid>` artifact containing
    that RID's Dogwood image and manifest.
 2. `pack-candidates` downloads all three dedicated native artifacts, validates
-   them, packs exactly the two candidates with SDK `10.0.404`, and uploads the
-   candidates, the original CedarSharp dependency, and the consumer kit.
+   them, packs exactly the two release candidates with SDK `10.0.404`, and
+   uploads the candidates, the original CedarSharp dependency, and the consumer
+   kit.
 3. `verify-candidates` strictly checks package IDs, versions, TFMs, dependency
    groups, file allowlists, all three RIDs, manifest/image pairs, the absence
    of unexpected runtimes, and the exact CedarSharp package hashes.
@@ -89,21 +98,25 @@ jobs:
 The consumer project has one direct `PackageReference` to the experimental
 candidate. It has no project reference, direct assembly reference, `HintPath`,
 native environment override, manual native staging, or source-path package
-fallback. The candidate packages and consumer kit are uploaded CI artifacts;
-they are not published to NuGet.
+fallback. The release-candidate packages and consumer kit are uploaded CI
+artifacts; they are not published to NuGet.
 
 ### Explicit exclusions
 
-This producer gate does **not**:
+This release-candidate gate does **not**:
 
 - publish, sign, push, tag, or release a package;
 - trigger or modify `publish.yml`;
-- establish independent qualification or owner acceptance;
+- replace the independent qualification and owner acceptance already recorded
+  for D1, D2 and D3;
 - convert the experimental adapter into a stable public API; or
-- authorize distribution outside the controlled qualification artifact flow.
+- authorize distribution outside the controlled release-candidate artifact
+  flow.
 
-A green producer matrix is supporting evidence for later gates, not their
-completion.
+A green release-candidate matrix is supporting evidence for a separate
+publication authorization; it is not publication itself. The publication
+workflow remains a refusal gate until a separately commissioned release
+pipeline is implemented and qualified.
 
 ## D0 implementation (historical)
 
@@ -117,10 +130,10 @@ severity gate. The empty native crate's zero tests are not native qualification.
 NuGet metadata, SourceLink, XML docs, deterministic builds, central versions,
 symbols and Apache metadata are configured. This is a historical D0 statement:
 at D0, packaging was opt-in for local inspection and no native runtime files
-were included. The current D3 qualification candidates are described below;
-they are not production publication artifacts. The solution omits an empty
-conformance project, the research projects, and the disposable package-only
-consumer intentionally.
+were included. The current preview release candidates are described above;
+they are not published artifacts. The solution omits an empty conformance
+project, the research projects, and the disposable package-only consumer
+intentionally.
 
 Publication workflow is manually dispatchable but **always fails at readiness**.
 It cannot request OIDC tokens or push packages. D0 is ineligible for publication;

@@ -13,9 +13,12 @@
          unchanged for every other project. -->
     <IsPackable>true</IsPackable>
     <PackageId>DogwoodSharp.CedarSharp</PackageId>
+    <!-- The release package version is supplied by the pack gate and by the
+         checked-in nuspec. The project Version stays at the qualification
+         identity so the historical probe restore graph is reproducible. -->
     <Version>0.0.0-experimental.1</Version>
     <Authors>DogwoodSharp contributors</Authors>
-    <Description>Experimental CedarSharp authorization adapter for DogwoodSharp. Qualification candidate only; not authorized for publication.</Description>
+    <Description>Experimental CedarSharp authorization adapter for DogwoodSharp. Preview release candidate; publication requires separate owner authorization.</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/jenolaszlo-sketch/dogwood-sharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jenolaszlo-sketch/dogwood-sharp</RepositoryUrl>

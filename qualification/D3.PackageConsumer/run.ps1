@@ -27,9 +27,9 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 $expectedSdk = '10.0.404'
 $candidateId = 'DogwoodSharp.CedarSharp'
-$candidateVersion = '0.0.0-experimental.1'
+$candidateVersion = '0.1.0-experimental.1'
 $stableId = 'DogwoodSharp'
-$stableVersion = '0.0.0-discovery.1'
+$stableVersion = '0.1.0-preview.1'
 $cedarVersion = '1.0.0'
 
 $dogwoodImages = @{

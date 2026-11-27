@@ -2,14 +2,18 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <PackageId>DogwoodSharp</PackageId>
+    <!-- This is the qualification-candidate project graph identity. Historical
+         probe lockfiles reference it, so it is not rewritten for a release.
+         The release package version is supplied by eng/Pack-PackageCandidates.ps1
+         as -p:PackageVersion=0.1.0-preview.1. -->
     <Version>0.0.0-discovery.1</Version>
     <Authors>DogwoodSharp contributors</Authors>
-    <Description>Dogwood policy parsing for .NET using the pinned native Dogwood parser.</Description>
+    <Description>Dogwood policy parsing, schema validation and policy lowering for .NET using the pinned native Dogwood parser.</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/jenolaszlo-sketch/dogwood-sharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jenolaszlo-sketch/dogwood-sharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>dogwood;cedar;authorization;temporal</PackageTags>
+    <PackageTags>dogwood;cedar;authorization;temporal;validation;lowering</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

@@ -54,8 +54,8 @@ compare it against the exact source revision used by CI.
 
 ## Package layout and qualification gate
 
-The stable `DogwoodSharp` `0.0.0-discovery.1` candidate stores each native pair
-at `runtimes/<rid>/native/` in the package:
+The stable `DogwoodSharp` `0.1.0-preview.1` release candidate stores each
+native pair at `runtimes/<rid>/native/` in the package:
 
 | Package path | Payload |
 | --- | --- |

@@ -168,3 +168,14 @@ ence boundary is preserved: no unload,
 no hot-replacement, and process isolation remains the recovery boundary.
 
 See the review record for the complete requirement and gate reconciliation.
+
+## Closure status (27 November 2026)
+
+The producer-stage limitations above are historical. The independent Q3-R1
+requalification and the owner acceptance subsequently closed D3 with the
+documented residual qualifications. The authoritative successor records are
+`docs/reviews/d3-qualification-01-q3-r1/README.md` and
+`docs/reviews/d3-close-release-prep-01/README.md`. This producer report is not
+rewritten; the closure record binds the exact reviewed identities. The preview
+release candidate is prepared under `DOGWOOD-SHARP-D3-CLOSE-RELEASE-PREP-01`;
+publication is not authorized by this report.
