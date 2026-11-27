@@ -68,7 +68,7 @@ if [ -n "$csSha" ]; then
 {
   "file": "$csLibName",
   "sha256": "$csSha",
-  "target": "$target"
+  "rid": "$rid"
 }
 EOF
   echo "Created cedarsharp-native.json"
