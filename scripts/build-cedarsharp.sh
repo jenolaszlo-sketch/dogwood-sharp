@@ -60,23 +60,25 @@ cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-mcp-schema-gene
 # Use environment variables if provided, otherwise default to expected values
 export CEDARSHARP_RUST_VERSION="${CEDARSHARP_RUST_VERSION:-1.94.0}"
 export CEDARSHARP_LANGUAGE_VERSION="${CEDARSHARP_LANGUAGE_VERSION:-4.5}"
-# Use target from RID if not explicitly provided
-# Use parameter expansion safely with -z to avoid unbound variable error with set -u
-if [ -z "${CEDARSHARP_TARGET:-}" ]; then
-  if [ "${RID}" = "linux-x64" ]; then
+# Use target from RID - explicit case statement to avoid unbound variable issues with set -u
+case "${RID}" in
+  linux-x64)
     export CEDARSHARP_TARGET="x86_64-unknown-linux-gnu"
-  elif [ "${RID}" = "osx-arm64" ]; then
+    ;;
+  osx-arm64)
     export CEDARSHARP_TARGET="aarch64-apple-darwin"
-  elif [ "${RID}" = "win-x64" ]; then
+    ;;
+  win-x64)
     export CEDARSHARP_TARGET="x86_64-pc-windows-msvc"
-  else
+    ;;
+  *)
     export CEDARSHARP_TARGET="${RID}"
-  fi
-fi
+    ;;
+esac
 # Debug: log the target
-echo "CEDARSHARP_TARGET: ${CEDARSHARP_TARGET:-unset}"
-echo "CEDARSHARP_RUST_VERSION: ${CEDARSHARP_RUST_VERSION:-unset}"
-echo "CEDARSHARP_LANGUAGE_VERSION: ${CEDARSHARP_LANGUAGE_VERSION:-unset}"
+echo "CEDARSHARP_TARGET: ${CEDARSHARP_TARGET}"
+echo "CEDARSHARP_RUST_VERSION: ${CEDARSHARP_RUST_VERSION}"
+echo "CEDARSHARP_LANGUAGE_VERSION: ${CEDARSHARP_LANGUAGE_VERSION}"
 
 cargo build --locked --release $targetArg --manifest-path "$csDir/Cargo.toml"
 
