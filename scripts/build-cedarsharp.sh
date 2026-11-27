@@ -28,7 +28,11 @@ for f in "$csDir/Cargo.toml" "$csRoot/Cargo.toml" "$csRoot"/*/Cargo.toml; do
 done
 # Also delete ALL existing Cargo.lock files to force regeneration with pinned versions
 find "$csRoot" -name "Cargo.lock" -delete
+# Generate lockfile, then force pin all cedar-policy* crates to exactly 4.11.0
 cargo generate-lockfile --manifest-path "$csDir/Cargo.toml"
+cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-core --precise 4.11.0
+cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy --precise 4.11.0
+cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-formatter --precise 4.11.0
 cargo build --locked --release $targetArg --manifest-path "$csDir/Cargo.toml"
 
 libName=""
