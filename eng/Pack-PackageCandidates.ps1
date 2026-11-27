@@ -114,6 +114,7 @@ try {
         # Version stays at the qualification-candidate value so historical probe
         # lockfiles and the qualified restore graph remain reproducible.
         "-p:PackageVersion=$stableVersion",
+        "-p:InformationalVersion=$stableVersion",
         "-p:DogwoodSharpNativeAssetsRoot=$nativeAssetsRootPath",
         "-p:DogwoodSharpPackageShell=$packageShellPath",
         "-p:DogwoodSharpPackageShellArguments=$packageShellArguments")
@@ -125,6 +126,7 @@ try {
         '-p:ContinuousIntegrationBuild=true',
         '-p:DeterministicTimestamp=true',
         "-p:PackageVersion=$experimentalVersion",
+        "-p:InformationalVersion=$experimentalVersion",
         "-p:DogwoodSharpNativeAssetsRoot=$nativeAssetsRootPath",
         "-p:DogwoodSharpPackageShell=$packageShellPath",
         "-p:DogwoodSharpPackageShellArguments=$packageShellArguments")
