@@ -1,0 +1,87 @@
+{
+  "commission": "DOGWOOD-SHARP-D3-QUAL-01-Q3-R1",
+  "date": "2026-11-27",
+  "disposition": "B",
+  "dispositionLabel": "SUPPORTED WITH QUALIFICATIONS",
+  "reviewedIdentities": {
+    "q3Commit": "e980ee2e91d96b314b1564a9794725fa7214fb33",
+    "q3Tree": "d902e50011691b5b689b86fe7c13d7dffb173573",
+    "remediationCommit": "d2d9ad72e129a04e9d3502a3382103240aaa1c94",
+    "remediationTree": "1692b33d0fff5648dcabc23ddd80e173512ad76d",
+    "q3ManifestEntries": 71,
+    "remediationManifestEntries": 74,
+    "producerShippedRun": 46039052322,
+    "producerShippedCommit": "2366f7ff39eaba6a03afc229939a4f67ec2be6eb",
+    "independentEvidenceRun": 46044342439,
+    "independentShippedRun": 46044345656,
+    "crossPlatformVerifierRun": 46033663477,
+    "crossPlatformVerifierCommit": "0894b209477ca7fc63eb57a1366590e485acd075"
+  },
+  "findings": [
+    {
+      "id": "Q3-F01",
+      "disposition": "closed",
+      "verification": "Independent verifier run 46044342439 on Windows 2025 and Ubuntu 24.04: Q3 manifest 71/71; R5-R3 canonical b23f6a9 47/47; HEAD 57/57; self-test 7/7. Remediation manifest 74/74 at d2d9ad7.",
+      "negativeControls": ["changed content", "missing artifact", "stale checksum", "CRLF-vs-LF mismatch", "stale manifest copy"],
+      "residual": []
+    },
+    {
+      "id": "Q3-F02",
+      "disposition": "closed",
+      "verification": "Independent shipped campaign 46044345656 at d2d9ad7: 6/6 cells, 124/124, 26/26 families, 0 coverage errors, resident hash equals the staged product bridge, qualification-only bridge rejected in all six cells. Product graph uses committed lock ec901557; CedarSharp natives are the published 1.0.0 images.",
+      "negativeControls": ["qualification-only patched bridge under the product manifest rejected with Native asset SHA-256 differs from the manifest."],
+      "residual": []
+    },
+    {
+      "id": "Q3-F03",
+      "disposition": "closed",
+      "verification": "All six cells record lock ec901557. The retired path's 36-package divergence is independently reproduced from the retained regenerated lock. The Windows producer/independent images differ in 24 metadata bytes and are identical after zeroing PE/debug timestamps and PDB GUID (normalized SHA-256 28add84f).",
+      "negativeControls": ["the regenerated path is used only as the wrong-subject negative control"],
+      "residual": ["Windows binary cross-build SHA-256 equality is not achieved; exact per-candidate manifests bind the artifacts."]
+    },
+    {
+      "id": "Q3-F04",
+      "disposition": "closed",
+      "boundedQualification": true,
+      "verification": "Package SHA-256 99cc3659; nuspec commit 68ffdafa recoverable; published natives 77de6976 / 85433a35 / 290fcce9; package consumer 6/6. The native manifests declare sourceCommit 324d3c0, which is HTTP 422 in the package repository.",
+      "negativeControls": ["staging rejects a native whose hash does not match the published per-RID manifest"],
+      "residual": ["The external package's native sourceCommit cannot be reconciled; the package/nuspec/native hashes are the binding identities. This is bounded because the package is the pinned consumer artifact and the nuspec source commit is recoverable."]
+    },
+    {
+      "id": "Q3-F05",
+      "disposition": "closed",
+      "verification": "Owner decision OWNER-DECISION-RD01.md accepts S-A/RD-01 within the exact OQ-01 scope. Independent re-execution with shipped bridge 78f64c4b and published native 77de6976: original case D3 Allow/reference failure; TC-01/02/07 agreement; TC-03..06 both fail closed; current-invalid control fails closed on D3. FCN-05 remains exactly TC-03..06. Signed 124 register unchanged (5962c4dc); corrected fixture unchanged (568267e0).",
+      "negativeControls": ["current-invalid control", "TC-03..TC-06 fail-closed controls", "TC-02/TC-07 Deny controls"],
+      "residual": []
+    },
+    {
+      "id": "Q3-F10",
+      "disposition": "closed",
+      "verification": "e980ee2..d2d9ad7 changes zero files under docs/reviews/d3-impl-01-r5-r3. Original top-level/evidence manifests and fixtures are byte-identical at both commits. Post-signature additions/changes are recorded; successor blob manifests verify 47/47 and 57/57.",
+      "negativeControls": ["manifest self-test and stale-copy control"],
+      "residual": ["The historical R5-R3 directory remains a mixed original-plus-successor tree; the original signature is not claimed valid for later content."]
+    }
+  ],
+  "residualQualifications": [
+    {
+      "id": "Q3R1-Q1",
+      "description": "CedarSharp native manifests declare an unrecoverable sourceCommit 324d3c0 inconsistent with the package nuspec commit 68ffdafa. The published package and native images are hash-verified; the package is the binding artifact.",
+      "bounded": true,
+      "effect": "No effect on executed image identity or behavior; source reproducibility of the external native is not established."
+    },
+    {
+      "id": "Q3R1-Q2",
+      "description": "Windows same-source/same-lock builds differ only in PE/debug timestamps and PDB GUID; normalized binaries are identical.",
+      "bounded": true,
+      "effect": "The exact CI candidate hash binds each artifact; cross-environment byte equality is not claimed."
+    },
+    {
+      "id": "Q3R1-Q3",
+      "description": "The remediation findings-closure F04 supporting-evidence path points to the Q3 reviewer tree; the file exists there and is verified.",
+      "bounded": true,
+      "effect": "Documentation-reference defect only; no evidence loss."
+    }
+  ],
+  "ownerDecisionRecord": "OWNER-DECISION-RD01.md",
+  "authorityExclusions": "No D3 qualification, formal closure, release authorization, tagging, publication or later-stage authorization is granted."
+}

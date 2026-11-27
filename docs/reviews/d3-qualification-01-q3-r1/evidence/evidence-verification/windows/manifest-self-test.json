@@ -1,0 +1,78 @@
+{
+  "controls": 7,
+  "passed": 7,
+  "failed": 0,
+  "results": [
+    {
+      "name": "lf-exact-passes",
+      "passed": true,
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "statuses": {
+        "ok": 1
+      },
+      "stdout": "verified 1/1; failed 0"
+    },
+    {
+      "name": "changed-content-fails",
+      "passed": true,
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "statuses": {
+        "mismatch": 1
+      },
+      "stdout": "FAIL mismatch: changed.txt\nverified 0/1; failed 1"
+    },
+    {
+      "name": "missing-artifact-fails",
+      "passed": true,
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "statuses": {
+        "missing": 1
+      },
+      "stdout": "FAIL missing: missing.txt\nverified 0/1; failed 1"
+    },
+    {
+      "name": "stale-checksum-fails",
+      "passed": true,
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "statuses": {
+        "mismatch": 1
+      },
+      "stdout": "FAIL mismatch: lf.txt\nverified 0/1; failed 1"
+    },
+    {
+      "name": "crlf-is-not-silently-accepted",
+      "passed": true,
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "statuses": {
+        "newline-only-mismatch": 1
+      },
+      "stdout": "FAIL newline-only-mismatch: crlf.txt (matches only after lf transform)\nverified 0/1; failed 1"
+    },
+    {
+      "name": "q3-git-manifest-passes",
+      "passed": true,
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "statuses": {
+        "ok": 71
+      },
+      "stdout": "verified 71/71; failed 0"
+    },
+    {
+      "name": "q3-stale-copy-fails",
+      "passed": true,
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "statuses": {
+        "mismatch": 1,
+        "ok": 70
+      },
+      "stdout": "FAIL mismatch: README.md\nverified 70/71; failed 1"
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "3",
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R5-R1",
+  "generatedAtUtc": "2026-11-27T17:47:48.2475669Z",
+  "runtime": {
+    "framework": ".NET 8.0.31",
+    "rid": "win-x64",
+    "architecture": "X64",
+    "oracle": "D:\\q3-independent\\r5r3-work\\oracle-target\\release\\dogwoodsharp-corrected-oracle.exe",
+    "fixtures": "D:\\q3-independent\\artifacts\\q3-oq01-orig\\fixtures-1.json",
+    "fixturesSha256": "A22E6824081AB6FB862F3B28C0007DD9BC28839DFE6FB2E3FF8288CFAE965B91",
+    "differenceRegister": "D:\\q3-independent\\artifacts\\q3-oq01\\register-empty.json",
+    "differenceRegisterSha256": "CC8457A4422F1D7087F48D4D913FE67F4E99CFDCA0E351B83789C30D6AA93ED5",
+    "nativeBridge": {
+      "loaded": true,
+      "abiVersion": 1,
+      "bridgeVersion": "0.1.0",
+      "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+      "dogwoodVersion": "1.1.2",
+      "cedarVersion": "4.11.0",
+      "rustVersion": "1.99.1",
+      "target": "x86_64-pc-windows-msvc"
+    }
+  },
+  "summary": {
+    "total": 1,
+    "passed": 0,
+    "failed": 1,
+    "pending": 0,
+    "familyCount": 1,
+    "classifications": {
+      "unexpected-difference": 1
+    }
+  },
+  "familyCoverage": {
+    "OQ-01": {
+      "controls": {
+        "temporal-history-event-policy-evaluation-error": "unexpected-difference"
+      }
+    }
+  },
+  "coverageErrors": [
+    "family OQ-01 control \u0060temporal-history-event-policy-evaluation-error\u0060 is unexpected-difference"
+  ],
+  "cases": [
+    {
+      "id": "R5R1-OQ-01-temporal-history-event-policy-evaluation-error",
+      "kind": "differential",
+      "control": "temporal-history-event-policy-evaluation-error",
+      "families": [
+        "OQ-01"
+      ],
+      "question": "A trusted history event whose resource entity lacks the \u0060owner\u0060 attribute makes the reference abort the whole authorization while evaluating the policy set against the history event. D3 computes the temporal leaf from the trace and never surfaces a history-event policy error, so D3 authorizes. Must a history-event policy evaluation error abort the current authorization?",
+      "expectedClassification": "unexpected-difference",
+      "expectedDifferenceIds": [],
+      "classification": "unexpected-difference",
+      "verdict": "fail",
+      "upstream": {
+        "side": "upstream",
+        "stage": "evaluation",
+        "operationFailed": true,
+        "decision": null,
+        "determining": [],
+        "hasErrors": true,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": false,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [],
+          "providers": []
+        },
+        "history": [],
+        "error": "history event \u0060h-1\u0060 failed upstream evaluation: error while evaluating policy \u0060expc14_1\u0060: \u0060Test::Item::\u0022item-1\u0022\u0060 does not have the attribute \u0060owner\u0060"
+      },
+      "managed": {
+        "side": "managed",
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow",
+        "determining": [
+          {
+            "ruleIndex": 0,
+            "cedarPolicyId": "expc14_0"
+          }
+        ],
+        "hasErrors": false,
+        "errorCategories": [],
+        "policyErrorIds": [],
+        "cleanAllow": true,
+        "errors": [],
+        "trustedBindings": {
+          "temporal": [
+            {
+              "id": "expc14_0__temporal_0",
+              "value": true
+            }
+          ],
+          "providers": []
+        },
+        "bindingObservationError": null,
+        "error": null
+      },
+      "observedDifferenceFields": [
+        {
+          "field": "operationFailed",
+          "upstream": true,
+          "managed": false
+        },
+        {
+          "field": "decision",
+          "upstream": null,
+          "managed": "allow"
+        },
+        {
+          "field": "determining",
+          "upstream": [],
+          "managed": [
+            {
+              "cedarPolicyId": "expc14_0",
+              "ruleIndex": 0
+            }
+          ]
+        },
+        {
+          "field": "hasErrors",
+          "upstream": true,
+          "managed": false
+        },
+        {
+          "field": "cleanAllow",
+          "upstream": false,
+          "managed": true
+        }
+      ],
+      "differenceValidation": {
+        "intendedStage": "evaluation",
+        "intendedStageObserved": "evaluation"
+      }
+    }
+  ]
+}

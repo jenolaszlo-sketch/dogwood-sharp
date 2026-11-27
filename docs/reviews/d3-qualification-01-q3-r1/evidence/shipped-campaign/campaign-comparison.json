@@ -1,0 +1,274 @@
+{
+  "producerRun": 46039052322,
+  "independentRun": 46044345656,
+  "note": "Windows bridge hashes differ because each build embeds its own PE/debug metadata; Linux and macOS hashes are stable. Both runs bind the same committed lock and published CedarSharp natives.",
+  "cells": [
+    {
+      "rid": "win-x64",
+      "tfm": "net8.0",
+      "producer": {
+        "run": 46039052322,
+        "bridge": "b876d1e2e3b4622814cb74a3227237625a56c40397bbd9ffe5d5c709c0039e29",
+        "cases": {
+          "total": 124,
+          "passed": 124,
+          "failed": 0,
+          "pending": 0,
+          "familyCount": 26,
+          "classifications": {
+            "agreement": 84,
+            "approved-difference": 22,
+            "fail-closed-equivalence": 9,
+            "operation-failure": 9
+          }
+        },
+        "negative": "pass"
+      },
+      "independent": {
+        "run": 46044345656,
+        "bridge": "c607e815f489502e695471e14a6c1b8a3740029f2173151ace019b341c08d016",
+        "cases": {
+          "total": 124,
+          "passed": 124,
+          "failed": 0,
+          "pending": 0,
+          "familyCount": 26,
+          "classifications": {
+            "agreement": 84,
+            "approved-difference": 22,
+            "fail-closed-equivalence": 9,
+            "operation-failure": 9
+          }
+        },
+        "negative": "pass"
+      },
+      "lock": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+      "cedarSharp": "77de6976a7ae5b961920bb6843d39b32f3faf285f16b723581680e9c06c03895",
+      "bridgeEqual": false,
+      "classificationEqual": true
+    },
+    {
+      "rid": "win-x64",
+      "tfm": "net10.0",
+      "producer": {
+        "run": 46039052322,
+        "bridge": "b2e5eb83e8b18bff4697fceedfe235e0c7b54086f860368c67ce531ac4431c9c",
+        "cases": {
+          "total": 124,
+          "passed": 124,
+          "failed": 0,
+          "pending": 0,
+          "familyCount": 26,
+          "classifications": {
+            "agreement": 84,
+            "approved-difference": 22,
+            "fail-closed-equivalence": 9,
+            "operation-failure": 9
+          }
+        },
+        "negative": "pass"
+      },
+      "independent": {
+        "run": 46044345656,
+        "bridge": "6345c7b2cbedf0233c761cb3ace0ca73940e16052ce5427e0ec669d62ec66ec9",
+        "cases": {
+          "total": 124,
+          "passed": 124,
+          "failed": 0,
+          "pending": 0,
+          "familyCount": 26,
+          "classifications": {
+            "agreement": 84,
+            "approved-difference": 22,
+            "fail-closed-equivalence": 9,
+            "operation-failure": 9
+          }
+        },
+        "negative": "pass"
+      },
+      "lock": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+      "cedarSharp": "77de6976a7ae5b961920bb6843d39b32f3faf285f16b723581680e9c06c03895",
+      "bridgeEqual": false,
+      "classificationEqual": true
+    },
+    {
+      "rid": "linux-x64",
+      "tfm": "net8.0",
+      "producer": {
+        "run": 46039052322,
+        "bridge": "39afbfd0b8ed60d627af6e3e0e743c594e8d72817fee16f70d98a39081dafbe9",
+        "cases": {
+          "total": 124,
+          "passed": 124,
+          "failed": 0,
+          "pending": 0,
+          "familyCount": 26,
+          "classifications": {
+            "agreement": 84,
+            "approved-difference": 22,
+            "fail-closed-equivalence": 9,
+            "operation-failure": 9
+          }
+        },
+        "negative": "pass"
+      },
+      "independent": {
+        "run": 46044345656,
+        "bridge": "39afbfd0b8ed60d627af6e3e0e743c594e8d72817fee16f70d98a39081dafbe9",
+        "cases": {
+          "total": 124,
+          "passed": 124,
+          "failed": 0,
+          "pending": 0,
+          "familyCount": 26,
+          "classifications": {
+            "agreement": 84,
+            "approved-difference": 22,
+            "fail-closed-equivalence": 9,
+            "operation-failure": 9
+          }
+        },
+        "negative": "pass"
+      },
+      "lock": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+      "cedarSharp": "85433a352ed9b6b0122e77a4e37cbe9ba1354872641e217350bdf871ea33ebf6",
+      "bridgeEqual": true,
+      "classificationEqual": true
+    },
+    {
+      "rid": "linux-x64",
+      "tfm": "net10.0",
+      "producer": {
+        "run": 46039052322,
+        "bridge": "39afbfd0b8ed60d627af6e3e0e743c594e8d72817fee16f70d98a39081dafbe9",
+        "cases": {
+          "total": 124,
+          "passed": 124,
+          "failed": 0,
+          "pending": 0,
+          "familyCount": 26,
+          "classifications": {
+            "agreement": 84,
+            "approved-difference": 22,
+            "fail-closed-equivalence": 9,
+            "operation-failure": 9
+          }
+        },
+        "negative": "pass"
+      },
+      "independent": {
+        "run": 46044345656,
+        "bridge": "39afbfd0b8ed60d627af6e3e0e743c594e8d72817fee16f70d98a39081dafbe9",
+        "cases": {
+          "total": 124,
+          "passed": 124,
+          "failed": 0,
+          "pending": 0,
+          "familyCount": 26,
+          "classifications": {
+            "agreement": 84,
+            "approved-difference": 22,
+            "fail-closed-equivalence": 9,
+            "operation-failure": 9
+          }
+        },
+        "negative": "pass"
+      },
+      "lock": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+      "cedarSharp": "85433a352ed9b6b0122e77a4e37cbe9ba1354872641e217350bdf871ea33ebf6",
+      "bridgeEqual": true,
+      "classificationEqual": true
+    },
+    {
+      "rid": "osx-arm64",
+      "tfm": "net8.0",
+      "producer": {
+        "run": 46039052322,
+        "bridge": "fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e",
+        "cases": {
+          "total": 124,
+          "passed": 124,
+          "failed": 0,
+          "pending": 0,
+          "familyCount": 26,
+          "classifications": {
+            "agreement": 84,
+            "approved-difference": 22,
+            "fail-closed-equivalence": 9,
+            "operation-failure": 9
+          }
+        },
+        "negative": "pass"
+      },
+      "independent": {
+        "run": 46044345656,
+        "bridge": "fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e",
+        "cases": {
+          "total": 124,
+          "passed": 124,
+          "failed": 0,
+          "pending": 0,
+          "familyCount": 26,
+          "classifications": {
+            "agreement": 84,
+            "approved-difference": 22,
+            "fail-closed-equivalence": 9,
+            "operation-failure": 9
+          }
+        },
+        "negative": "pass"
+      },
+      "lock": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+      "cedarSharp": "290fcce995f70cd963e024d991fe7f9e2806fde81add9749304ce222b904258b",
+      "bridgeEqual": true,
+      "classificationEqual": true
+    },
+    {
+      "rid": "osx-arm64",
+      "tfm": "net10.0",
+      "producer": {
+        "run": 46039052322,
+        "bridge": "fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e",
+        "cases": {
+          "total": 124,
+          "passed": 124,
+          "failed": 0,
+          "pending": 0,
+          "familyCount": 26,
+          "classifications": {
+            "agreement": 84,
+            "approved-difference": 22,
+            "fail-closed-equivalence": 9,
+            "operation-failure": 9
+          }
+        },
+        "negative": "pass"
+      },
+      "independent": {
+        "run": 46044345656,
+        "bridge": "fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e",
+        "cases": {
+          "total": 124,
+          "passed": 124,
+          "failed": 0,
+          "pending": 0,
+          "familyCount": 26,
+          "classifications": {
+            "agreement": 84,
+            "approved-difference": 22,
+            "fail-closed-equivalence": 9,
+            "operation-failure": 9
+          }
+        },
+        "negative": "pass"
+      },
+      "lock": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+      "cedarSharp": "290fcce995f70cd963e024d991fe7f9e2806fde81add9749304ce222b904258b",
+      "bridgeEqual": true,
+      "classificationEqual": true
+    }
+  ],
+  "allCasesPassed": true,
+  "allClassificationsEqual": true,
+  "allNegativePassed": true
+}

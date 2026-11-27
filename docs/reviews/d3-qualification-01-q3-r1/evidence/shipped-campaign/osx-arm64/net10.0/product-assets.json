@@ -1,0 +1,20 @@
+{
+  "rid": "osx-arm64",
+  "tfm": "net10.0",
+  "target": "aarch64-apple-darwin",
+  "productBridge": {
+    "path": "artifacts/native/runtimes/osx-arm64/native/libdogwoodsharp_bridge.dylib",
+    "sha256": "fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e",
+    "manifestPath": "artifacts/native/runtimes/osx-arm64/native/dogwoodsharp-native.json",
+    "manifestSha256": "bd951df87a3f681b3176cce134fe74859d9b6a25aaa759edbf240bf9c9a98bed",
+    "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa"
+  },
+  "cedarSharpNative": {
+    "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/osx-arm64/native/libcedarsharp_native.dylib",
+    "sha256": "290fcce995f70cd963e024d991fe7f9e2806fde81add9749304ce222b904258b",
+    "manifestPath": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/osx-arm64/native/cedarsharp-native.json",
+    "manifestSha256": "4efab72744e59ff905f08c2f47f889e4ff0d3327aab0866b0ba5c6b73ed34095",
+    "package": "CedarSharp 1.0.0"
+  },
+  "stagedRuntime": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/osx-arm64/native"
+}

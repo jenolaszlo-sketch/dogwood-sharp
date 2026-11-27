@@ -1,0 +1,11 @@
+{
+    "tfm":  "net10.0",
+    "pinnedDogwood":  "929f49e7305534ac61ef06cf8e47269c596dc851",
+    "rid":  "linux-x64",
+    "oracleSha256":  "59cb6688430e2e6595f1b97493f60997cf87806940f05f3701d45549e0368979",
+    "oraclePath":  "r5r3-work/oracle-target/release/dogwoodsharp-corrected-oracle",
+    "oracleLockSha256":  "89c373bdfbdc77abf4d278aed239724083a9cc7d1d4621d18ab26a2dbdf464f9",
+    "job":  140659723963,
+    "patchedApiSha256":  "4ff2eb118a08c13eddf1d54ea1cf178db70f1a148bacb6e377333abeb5b67dd3",
+    "run":  46044345656
+}

@@ -1,0 +1,190 @@
+{
+  "schemaVersion": "3",
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R5-R1",
+  "generatedAtUtc": "2026-11-27T17:54:36.2079510Z",
+  "isolation": "each destructive scenario runs in a child process against a private staged copy of the probe host directory",
+  "workRoot": "/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0",
+  "cases": [
+    {
+      "scenario": "mismatched-asset",
+      "passed": true,
+      "stageDirectory": "/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/mismatched-asset-ca0f1655b69345b3a3660663f03c9fd1",
+      "childExitCode": 0,
+      "childStderr": "",
+      "childStdout": "{\n  \u0022scenario\u0022: \u0022mismatched-asset\u0022,\n  \u0022passed\u0022: true,\n  \u0022operationFailed\u0022: true,\n  \u0022failureBoundary\u0022: \u0022native-load-or-identity\u0022,\n  \u0022decision\u0022: null,\n  \u0022stage\u0022: null,\n  \u0022error\u0022: \u0022DogwoodBridgeException: Native asset SHA-256 differs from the manifest.\u0022,\n  \u0022checks\u0022: {\n    \u0022declaredSha256\u0022: \u0022fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e\u0022,\n    \u0022actualSha256\u0022: \u0022BA455846D8B8EB66B508C147D6573318E2B1CDA0BDAE3BB4022FAF88D2D424D1\u0022,\n    \u0022manifestHashMatchesImage\u0022: false,\n    \u0022nativeIdentityGateRejected\u0022: true,\n    \u0022noAuthorizationAttemptedAfterGate\u0022: true\n  },\n  \u0022baseDirectory\u0022: \u0022/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/mismatched-asset-ca0f1655b69345b3a3660663f03c9fd1/\u0022,\n  \u0022bridgeFailure\u0022: \u0022LoadOrIdentity\u0022\n}\n",
+      "operationFailed": true,
+      "failureBoundary": "native-load-or-identity",
+      "decision": null,
+      "stage": null,
+      "error": "DogwoodBridgeException: Native asset SHA-256 differs from the manifest.",
+      "checks": {
+        "declaredSha256": "fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e",
+        "actualSha256": "BA455846D8B8EB66B508C147D6573318E2B1CDA0BDAE3BB4022FAF88D2D424D1",
+        "manifestHashMatchesImage": false,
+        "nativeIdentityGateRejected": true,
+        "noAuthorizationAttemptedAfterGate": true
+      },
+      "baseDirectory": "/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/mismatched-asset-ca0f1655b69345b3a3660663f03c9fd1/",
+      "bridgeFailure": "LoadOrIdentity",
+      "parentChecks": {
+        "childExitCodeZero": true,
+        "childReportedPass": true,
+        "operationFailed": true,
+        "decisionNull": true,
+        "failureBoundaryIsNativeGate": true
+      },
+      "stageRemoved": true,
+      "id": "R3-C20-04-native-failure"
+    },
+    {
+      "scenario": "missing-asset",
+      "passed": true,
+      "stageDirectory": "/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/missing-asset-ae47f2f687dd4265afc373447d9cf6c1",
+      "childExitCode": 0,
+      "childStderr": "",
+      "childStdout": "{\n  \u0022scenario\u0022: \u0022missing-asset\u0022,\n  \u0022passed\u0022: true,\n  \u0022operationFailed\u0022: true,\n  \u0022failureBoundary\u0022: \u0022native-load-or-identity\u0022,\n  \u0022decision\u0022: null,\n  \u0022stage\u0022: null,\n  \u0022error\u0022: \u0022DogwoodBridgeException: Could not load the verified DogwoodSharp asset for osx-arm64.\u0022,\n  \u0022checks\u0022: {\n    \u0022adjacentDllAbsent\u0022: true,\n    \u0022nestedDllAbsent\u0022: true,\n    \u0022adjacentManifestAbsent\u0022: true,\n    \u0022nestedManifestAbsent\u0022: true,\n    \u0022nativeIdentityGateRejected\u0022: true,\n    \u0022noAuthorizationAttemptedAfterGate\u0022: true\n  },\n  \u0022baseDirectory\u0022: \u0022/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/missing-asset-ae47f2f687dd4265afc373447d9cf6c1/\u0022,\n  \u0022bridgeFailure\u0022: \u0022LoadOrIdentity\u0022\n}\n",
+      "operationFailed": true,
+      "failureBoundary": "native-load-or-identity",
+      "decision": null,
+      "stage": null,
+      "error": "DogwoodBridgeException: Could not load the verified DogwoodSharp asset for osx-arm64.",
+      "checks": {
+        "adjacentDllAbsent": true,
+        "nestedDllAbsent": true,
+        "adjacentManifestAbsent": true,
+        "nestedManifestAbsent": true,
+        "nativeIdentityGateRejected": true,
+        "noAuthorizationAttemptedAfterGate": true
+      },
+      "baseDirectory": "/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/missing-asset-ae47f2f687dd4265afc373447d9cf6c1/",
+      "bridgeFailure": "LoadOrIdentity",
+      "parentChecks": {
+        "childExitCodeZero": true,
+        "childReportedPass": true,
+        "operationFailed": true,
+        "decisionNull": true,
+        "failureBoundaryIsNativeGate": true
+      },
+      "stageRemoved": true,
+      "id": "R3-C26-01-missing-asset"
+    },
+    {
+      "scenario": "mismatched-asset",
+      "passed": true,
+      "stageDirectory": "/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/mismatched-asset-ae8d383622754c6fa92c029bfff0e645",
+      "childExitCode": 0,
+      "childStderr": "",
+      "childStdout": "{\n  \u0022scenario\u0022: \u0022mismatched-asset\u0022,\n  \u0022passed\u0022: true,\n  \u0022operationFailed\u0022: true,\n  \u0022failureBoundary\u0022: \u0022native-load-or-identity\u0022,\n  \u0022decision\u0022: null,\n  \u0022stage\u0022: null,\n  \u0022error\u0022: \u0022DogwoodBridgeException: Native asset SHA-256 differs from the manifest.\u0022,\n  \u0022checks\u0022: {\n    \u0022declaredSha256\u0022: \u0022fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e\u0022,\n    \u0022actualSha256\u0022: \u0022BA455846D8B8EB66B508C147D6573318E2B1CDA0BDAE3BB4022FAF88D2D424D1\u0022,\n    \u0022manifestHashMatchesImage\u0022: false,\n    \u0022nativeIdentityGateRejected\u0022: true,\n    \u0022noAuthorizationAttemptedAfterGate\u0022: true\n  },\n  \u0022baseDirectory\u0022: \u0022/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/mismatched-asset-ae8d383622754c6fa92c029bfff0e645/\u0022,\n  \u0022bridgeFailure\u0022: \u0022LoadOrIdentity\u0022\n}\n",
+      "operationFailed": true,
+      "failureBoundary": "native-load-or-identity",
+      "decision": null,
+      "stage": null,
+      "error": "DogwoodBridgeException: Native asset SHA-256 differs from the manifest.",
+      "checks": {
+        "declaredSha256": "fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e",
+        "actualSha256": "BA455846D8B8EB66B508C147D6573318E2B1CDA0BDAE3BB4022FAF88D2D424D1",
+        "manifestHashMatchesImage": false,
+        "nativeIdentityGateRejected": true,
+        "noAuthorizationAttemptedAfterGate": true
+      },
+      "baseDirectory": "/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/mismatched-asset-ae8d383622754c6fa92c029bfff0e645/",
+      "bridgeFailure": "LoadOrIdentity",
+      "parentChecks": {
+        "childExitCodeZero": true,
+        "childReportedPass": true,
+        "operationFailed": true,
+        "decisionNull": true,
+        "failureBoundaryIsNativeGate": true
+      },
+      "stageRemoved": true,
+      "id": "R3-C26-02-mismatched-asset"
+    },
+    {
+      "scenario": "wrong-rid",
+      "passed": true,
+      "stageDirectory": "/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/wrong-rid-3c5e2d5a40fd4b1aa7e28ff7d32bc1e7",
+      "childExitCode": 0,
+      "childStderr": "",
+      "childStdout": "{\n  \u0022scenario\u0022: \u0022wrong-rid\u0022,\n  \u0022passed\u0022: true,\n  \u0022operationFailed\u0022: true,\n  \u0022failureBoundary\u0022: \u0022native-load-or-identity\u0022,\n  \u0022decision\u0022: null,\n  \u0022stage\u0022: null,\n  \u0022error\u0022: \u0022DogwoodBridgeException: Could not load the verified DogwoodSharp asset for osx-arm64.\u0022,\n  \u0022checks\u0022: {\n    \u0022actualRidDllAbsent\u0022: true,\n    \u0022wrongRidDllPresent\u0022: true,\n    \u0022wrongRidManifestPresent\u0022: true,\n    \u0022nativeIdentityGateRejected\u0022: true,\n    \u0022noAuthorizationAttemptedAfterGate\u0022: true\n  },\n  \u0022baseDirectory\u0022: \u0022/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/wrong-rid-3c5e2d5a40fd4b1aa7e28ff7d32bc1e7/\u0022,\n  \u0022bridgeFailure\u0022: \u0022LoadOrIdentity\u0022\n}\n",
+      "operationFailed": true,
+      "failureBoundary": "native-load-or-identity",
+      "decision": null,
+      "stage": null,
+      "error": "DogwoodBridgeException: Could not load the verified DogwoodSharp asset for osx-arm64.",
+      "checks": {
+        "actualRidDllAbsent": true,
+        "wrongRidDllPresent": true,
+        "wrongRidManifestPresent": true,
+        "nativeIdentityGateRejected": true,
+        "noAuthorizationAttemptedAfterGate": true
+      },
+      "baseDirectory": "/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/wrong-rid-3c5e2d5a40fd4b1aa7e28ff7d32bc1e7/",
+      "bridgeFailure": "LoadOrIdentity",
+      "parentChecks": {
+        "childExitCodeZero": true,
+        "childReportedPass": true,
+        "operationFailed": true,
+        "decisionNull": true,
+        "failureBoundaryIsNativeGate": true
+      },
+      "stageRemoved": true,
+      "id": "R3-C26-03-wrong-rid"
+    },
+    {
+      "scenario": "incompatible-abi",
+      "passed": true,
+      "stageDirectory": "/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/incompatible-abi-7c63d14d737d445292b57858b191a496",
+      "childExitCode": 0,
+      "childStderr": "",
+      "childStdout": "{\n  \u0022scenario\u0022: \u0022incompatible-abi\u0022,\n  \u0022passed\u0022: true,\n  \u0022operationFailed\u0022: true,\n  \u0022failureBoundary\u0022: \u0022native-load-or-identity\u0022,\n  \u0022decision\u0022: null,\n  \u0022stage\u0022: null,\n  \u0022error\u0022: \u0022DogwoodBridgeException: Incompatible native bridge identity or feature set.\u0022,\n  \u0022checks\u0022: {\n    \u0022declaredAbiVersion\u0022: 2,\n    \u0022declaredAbiVersionIsTwo\u0022: true,\n    \u0022nativeIdentityGateRejected\u0022: true,\n    \u0022noAuthorizationAttemptedAfterGate\u0022: true\n  },\n  \u0022baseDirectory\u0022: \u0022/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/incompatible-abi-7c63d14d737d445292b57858b191a496/\u0022,\n  \u0022bridgeFailure\u0022: \u0022LoadOrIdentity\u0022\n}\n",
+      "operationFailed": true,
+      "failureBoundary": "native-load-or-identity",
+      "decision": null,
+      "stage": null,
+      "error": "DogwoodBridgeException: Incompatible native bridge identity or feature set.",
+      "checks": {
+        "declaredAbiVersion": 2,
+        "declaredAbiVersionIsTwo": true,
+        "nativeIdentityGateRejected": true,
+        "noAuthorizationAttemptedAfterGate": true
+      },
+      "baseDirectory": "/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/scratch-osx-arm64-net10.0/incompatible-abi-7c63d14d737d445292b57858b191a496/",
+      "bridgeFailure": "LoadOrIdentity",
+      "parentChecks": {
+        "childExitCodeZero": true,
+        "childReportedPass": true,
+        "operationFailed": true,
+        "decisionNull": true,
+        "failureBoundaryIsNativeGate": true
+      },
+      "stageRemoved": true,
+      "id": "R3-C26-04-incompatible-asset"
+    },
+    {
+      "scenario": "resident",
+      "passed": true,
+      "operationFailed": false,
+      "decision": "allow",
+      "iterations": 25,
+      "checks": {
+        "loadedModuleMatchesVerifiedAsset": true,
+        "identityStable": true,
+        "singleDecisionAcrossIterations": true,
+        "noOperationFailure": true
+      },
+      "resolvedPath": "/Users/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/osx-arm64/native/libdogwoodsharp_bridge.dylib",
+      "resolvedPathSha256": "FBD2E98AC6DC393B3AFB42BC9684F3843F75F030107CE72CAE675469C17DB42E",
+      "nativeIdentity": {
+        "abiVersion": 1,
+        "bridgeVersion": "0.1.0",
+        "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+        "target": "aarch64-apple-darwin"
+      },
+      "modulePath": "/Users/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/osx-arm64/native/libdogwoodsharp_bridge.dylib",
+      "decisions": [
+        "allow"
+      ],
+      "id": "R3-C26-05-resident"
+    }
+  ]
+}

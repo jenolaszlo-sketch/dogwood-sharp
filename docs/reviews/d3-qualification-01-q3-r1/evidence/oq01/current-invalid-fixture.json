@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "3",
+  "schemas": {
+    "temporalOwner": "namespace Test { entity User; entity Item { owner: User }; action Approve appliesTo { principal: [User], resource: [Item], context: { input: { stock: String } } }; action Sell appliesTo { principal: [User], resource: [Item], context: { input: { stock: String } } }; }"
+  },
+  "cases": [
+    {
+      "id": "Q3R-OQ01-history-empty-current-invalid",
+      "kind": "differential",
+      "control": "history-empty-current-invalid",
+      "families": [
+        "OQ-01"
+      ],
+      "question": "History event has no entities; current request entity is missing the owner attribute. D3 must not continue after an invalid current event.",
+      "schema": "temporalOwner",
+      "distincter": "expc14",
+      "source": "permit(principal, action == Test::Action::\"Sell\", resource)\nwhen temporal { formerly within 1h Test::Action::\"Approve\"::request { input.stock: context.input.stock } };\nforbid(principal, action == Test::Action::\"Approve\", resource) when { resource.owner == principal };",
+      "expectedClassification": "unexpected-difference",
+      "expectedDifferenceIds": [],
+      "intendedStage": "evaluation",
+      "trustedRuntime": true,
+      "event": {
+        "timestamp": 100,
+        "actionNamespace": [
+          "Test",
+          "Action"
+        ],
+        "actionId": "Sell",
+        "principal": {
+          "type": "Test::User",
+          "id": "alice"
+        },
+        "resource": {
+          "type": "Test::Item",
+          "id": "item-1"
+        },
+        "entities": [
+          {
+            "uid": {
+              "type": "Test::Item",
+              "id": "item-1"
+            },
+            "attrs": {},
+            "parents": []
+          }
+        ],
+        "context": {
+          "input": {
+            "stock": "AMZN"
+          }
+        }
+      },
+      "history": [
+        {
+          "identity": "h-1",
+          "timestamp": 10,
+          "actionNamespace": [
+            "Test",
+            "Action"
+          ],
+          "actionId": "Approve",
+          "kind": "request",
+          "principal": {
+            "type": "Test::User",
+            "id": "alice"
+          },
+          "resource": {
+            "type": "Test::Item",
+            "id": "item-1"
+          },
+          "context": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "logged": {
+            "input": {
+              "stock": "AMZN"
+            }
+          },
+          "entities": []
+        }
+      ]
+    }
+  ],
+  "familyRequirements": {
+    "OQ-01": {
+      "requiredControls": [
+        "history-empty-current-invalid"
+      ],
+      "decisionCoverage": "exempt"
+    }
+  }
+}

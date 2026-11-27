@@ -1,0 +1,15 @@
+{
+  "productBridge": {
+    "sha256": "78f64c4b04502bc8fb2b78b842b934ab318be75440c10d0b72fbf29fab4440e3",
+    "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+    "source": "shipped win-x64 Build-Native build"
+  },
+  "cedarSharp": {
+    "sha256": "77de6976a7ae5b961920bb6843d39b32f3faf285f16b723581680e9c06c03895",
+    "version": "1.0.0"
+  },
+  "oracle": {
+    "patchedApiSha256": "4ff2eb118a08c13eddf1d54ea1cf178db70f1a148bacb6e377333abeb5b67dd3",
+    "pinnedDogwood": "929f49e7305534ac61ef06cf8e47269c596dc851"
+  }
+}
