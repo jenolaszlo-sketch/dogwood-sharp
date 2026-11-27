@@ -13,6 +13,8 @@ if [ "${RID}" = "linux-x64" ]; then targetArg="--target x86_64-unknown-linux-gnu
 if [ "${RID}" = "osx-arm64" ]; then targetArg="--target aarch64-apple-darwin"; fi
 
 export CARGO_TARGET_DIR="r5r3-work/cedarsharp-target"
+# Pin cedar-policy-core to 4.11.0 to match NativeBridge constant and bridge manifest
+cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-core --precise 4.11.0
 cargo build --locked --release $targetArg --manifest-path "$csDir/Cargo.toml"
 
 libName=""
