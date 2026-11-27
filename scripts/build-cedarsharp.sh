@@ -18,21 +18,45 @@ export CARGO_TARGET_DIR="r5r3-work/cedarsharp-target"
 for f in "$csDir/Cargo.toml" "$csRoot/Cargo.toml" "$csRoot"/*/Cargo.toml; do
   if [ -f "$f" ]; then
     # Match any version pattern for cedar-policy* crates and pin to 4.11.0
+    # Handle table format: cedar-policy-core = { version = "=X.Y.Z", ... }
     sed -i 's/cedar-policy-core = { version = "[^"]*" }/cedar-policy-core = { version = "=4.11.0" }/' "$f"
     sed -i 's/cedar-policy = { version = "[^"]*" }/cedar-policy = { version = "=4.11.0" }/' "$f"
     sed -i 's/cedar-policy-formatter = { version = "[^"]*" }/cedar-policy-formatter = { version = "=4.11.0" }/' "$f"
+    # Handle inline format: cedar-policy-core = "=X.Y.Z"
     sed -i 's/cedar-policy-core = "=[^"]*"/cedar-policy-core = "=4.11.0"/' "$f"
     sed -i 's/cedar-policy = "=[^"]*"/cedar-policy = "=4.11.0"/' "$f"
     sed -i 's/cedar-policy-formatter = "=[^"]*"/cedar-policy-formatter = "=4.11.0"/' "$f"
+    # Handle version without =: cedar-policy = "X.Y.Z"
+    sed -i 's/cedar-policy-core = "[0-9.]*"/cedar-policy-core = "=4.11.0"/' "$f"
+    sed -i 's/cedar-policy = "[0-9.]*"/cedar-policy = "=4.11.0"/' "$f"
+    sed -i 's/cedar-policy-formatter = "[0-9.]*"/cedar-policy-formatter = "=4.11.0"/' "$f"
   fi
 done
+# Debug: show the modified Cargo.toml files
+echo "=== Modified cedar-sharp/native Cargo.toml ==="
+cat "$csDir/Cargo.toml"
+echo "=== Modified cedar-sharp Cargo.toml ==="
+cat "$csRoot/Cargo.toml" 2>/dev/null || echo "No root Cargo.toml"
+for f in "$csRoot"/*/Cargo.toml; do
+  if [ -f "$f" ]; then
+    echo "=== Modified $f ==="
+    cat "$f"
+  fi
+done
+
 # Also delete ALL existing Cargo.lock files to force regeneration with pinned versions
 find "$csRoot" -name "Cargo.lock" -delete
 # Generate lockfile, then force pin all cedar-policy* crates to exactly 4.11.0
 cargo generate-lockfile --manifest-path "$csDir/Cargo.toml"
+# Use cargo update with --manifest-path on the specific crate to ensure lockfile is updated
 cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-core --precise 4.11.0
 cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy --precise 4.11.0
 cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-formatter --precise 4.11.0
+# Also pin transitive dependencies that might pull in newer versions
+cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-mcp-schema-generator --precise 0.6.1 2>/dev/null || true
+# Verify lockfile has correct versions
+echo "=== Lockfile cedar-policy versions ==="
+grep -A 5 'name = "cedar-policy"' "$csDir/Cargo.lock" | head -20
 cargo build --locked --release $targetArg --manifest-path "$csDir/Cargo.toml"
 
 libName=""
