@@ -110,7 +110,6 @@ try {
         '--output', $outputPathFull,
         '-p:ContinuousIntegrationBuild=true',
         '-p:DeterministicTimestamp=true',
-        '-p:IncludeSymbols=false',
         # The release package version is a pack-time identity. The checked-in project
         # Version stays at the qualification-candidate value so historical probe
         # lockfiles and the qualified restore graph remain reproducible.
@@ -125,19 +124,19 @@ try {
         '--output', $outputPathFull,
         '-p:ContinuousIntegrationBuild=true',
         '-p:DeterministicTimestamp=true',
-        '-p:IncludeSymbols=false',
         "-p:PackageVersion=$experimentalVersion",
         "-p:DogwoodSharpNativeAssetsRoot=$nativeAssetsRootPath",
         "-p:DogwoodSharpPackageShell=$packageShellPath",
         "-p:DogwoodSharpPackageShellArguments=$packageShellArguments")
 
     $stablePackage = Join-Path $outputPathFull "$stableId.$stableVersion.nupkg"
+    $stableSymbols = Join-Path $outputPathFull "$stableId.$stableVersion.snupkg"
     $experimentalPackage = Join-Path $outputPathFull "$experimentalId.$experimentalVersion.nupkg"
-    if (!(Test-Path -LiteralPath $stablePackage -PathType Leaf)) {
-        throw "The stable package candidate was not produced: $stablePackage"
-    }
-    if (!(Test-Path -LiteralPath $experimentalPackage -PathType Leaf)) {
-        throw "The experimental package candidate was not produced: $experimentalPackage"
+    $experimentalSymbols = Join-Path $outputPathFull "$experimentalId.$experimentalVersion.snupkg"
+    foreach ($candidatePath in @($stablePackage, $stableSymbols, $experimentalPackage, $experimentalSymbols)) {
+        if (!(Test-Path -LiteralPath $candidatePath -PathType Leaf)) {
+            throw "The package candidate was not produced: $candidatePath"
+        }
     }
     if ((Get-LowerSha256 $stableLock) -cne $stableLockHash -or
         (Get-LowerSha256 $experimentalLock) -cne $experimentalLockHash) {
@@ -145,16 +144,18 @@ try {
     }
 
     # NuGet's ZIP writer records the wall-clock entry time even when deterministic builds are
-    # enabled. Normalize only our unsigned candidates to a fixed DOS timestamp so repeated
-    # producer runs have byte-identical package hashes. The original CedarSharp dependency is
-    # copied separately and is never rewritten.
+    # enabled. Normalize only our unsigned candidates (nupkg and snupkg) to a fixed DOS
+    # timestamp so repeated producer runs have byte-identical package hashes. The original
+    # CedarSharp dependency is copied separately and is never rewritten.
     $normalizerProject = Join-Path $PSScriptRoot 'PackageNormalizer/PackageNormalizer.csproj'
     Invoke-Dotnet @(
         'run', '--project', $normalizerProject,
         '--configuration', 'Release',
         '--',
         $stablePackage,
-        $experimentalPackage)
+        $stableSymbols,
+        $experimentalPackage,
+        $experimentalSymbols)
 
     $nugetRoot = $env:NUGET_PACKAGES
     if (!$nugetRoot) {

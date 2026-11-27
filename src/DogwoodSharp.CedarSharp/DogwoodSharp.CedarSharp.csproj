@@ -30,6 +30,10 @@
     <NuspecFile>$(MSBuildProjectDirectory)/../../eng/DogwoodSharp.CedarSharp.nuspec</NuspecFile>
     <NuspecBasePath>$(MSBuildProjectDirectory)</NuspecBasePath>
     <IncludeContentInPack>false</IncludeContentInPack>
+    <!-- The custom nuspec lists the PDBs; the SDK moves them into the snupkg
+         and keeps them out of the main nupkg. -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>

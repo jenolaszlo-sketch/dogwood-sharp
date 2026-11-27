@@ -24,8 +24,10 @@
   <files>
     <file src="bin/Release/net8.0/DogwoodSharp.CedarSharp.dll" target="lib/net8.0" />
     <file src="bin/Release/net8.0/DogwoodSharp.CedarSharp.xml" target="lib/net8.0" />
+    <file src="bin/Release/net8.0/DogwoodSharp.CedarSharp.pdb" target="lib/net8.0" />
     <file src="bin/Release/net10.0/DogwoodSharp.CedarSharp.dll" target="lib/net10.0" />
     <file src="bin/Release/net10.0/DogwoodSharp.CedarSharp.xml" target="lib/net10.0" />
+    <file src="bin/Release/net10.0/DogwoodSharp.CedarSharp.pdb" target="lib/net10.0" />
     <file src="README.md" />
     <file src="../../LICENSE" />
     <file src="../../NOTICE" />

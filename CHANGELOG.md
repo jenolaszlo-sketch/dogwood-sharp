@@ -14,6 +14,7 @@ here. This file does not itself authorize publication.
 - Clean-Allow-only enforcement, fail-closed stage/category diagnostics, and
   trusted temporal/provider runtime paths.
 - Six-cell package-only JIT and NativeAOT consumer verification.
+- Matching `.snupkg` symbol packages for both TFMs of both packages.
 - D3 closure and release-preparation record.
 
 ### Changed

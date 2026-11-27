@@ -291,6 +291,39 @@ function Assert-CedarNativeManifest(
     }
 }
 
+function Assert-SymbolPackage(
+    [string] $Path,
+    [string] $Id,
+    [string] $Version) {
+    if (!(Test-Path -LiteralPath $Path -PathType Leaf)) {
+        throw "The symbols package is missing: $Path"
+    }
+    $entries = @(Get-ArchiveEntries $Path)
+    $entryNames = @($entries | ForEach-Object FullName)
+    $nuspecName = "$Id.nuspec"
+    $nuspecEntry = @($entries | Where-Object FullName -CEQ $nuspecName)
+    if ($nuspecEntry.Count -ne 1) {
+        throw "The $Id symbols package has no unique $nuspecName."
+    }
+    $metadata = Get-NuspecMetadata (Get-EntryText $nuspecEntry[0])
+    if ([string] $metadata.id -cne $Id) {
+        throw "The $Id symbols package ID is wrong."
+    }
+    if ([string] $metadata.version -cne $Version) {
+        throw "The $Id symbols package version is wrong."
+    }
+    foreach ($tfm in $tfms) {
+        $pdbPath = "lib/$tfm/$Id.pdb"
+        if ($entryNames -cnotcontains $pdbPath) {
+            throw "The $Id symbols package is missing $pdbPath."
+        }
+    }
+    return [ordered]@{
+        sha256 = Get-LowerSha256 $Path
+        entries = @($entryNames | Sort-Object -CaseSensitive)
+    }
+}
+
 $packageDirectoryPath = [System.IO.Path]::GetFullPath($PackageDirectory)
 if (!(Test-Path -LiteralPath $packageDirectoryPath -PathType Container)) {
     throw "The package candidate directory is missing: $packageDirectoryPath"
@@ -298,17 +331,27 @@ if (!(Test-Path -LiteralPath $packageDirectoryPath -PathType Container)) {
 
 $allPackageDirectoryFiles = @(Get-ChildItem -LiteralPath $packageDirectoryPath -File)
 $packageFiles = @($allPackageDirectoryFiles | Where-Object { $_.Extension -ceq '.nupkg' })
+$symbolFiles = @($allPackageDirectoryFiles | Where-Object { $_.Extension -ceq '.snupkg' })
 $stableFileName = "$stableId.$stableVersion.nupkg"
 $experimentalFileName = "$experimentalId.$experimentalVersion.nupkg"
+$stableSymbolsFileName = "$stableId.$stableVersion.snupkg"
+$experimentalSymbolsFileName = "$experimentalId.$experimentalVersion.snupkg"
 $stablePackage = @($packageFiles | Where-Object Name -CEQ $stableFileName)
 $experimentalPackage = @($packageFiles | Where-Object Name -CEQ $experimentalFileName)
+$stableSymbolsPackage = @($symbolFiles | Where-Object Name -CEQ $stableSymbolsFileName)
+$experimentalSymbolsPackage = @($symbolFiles | Where-Object Name -CEQ $experimentalSymbolsFileName)
 if ($stablePackage.Count -ne 1) { throw "Expected exactly one $stableFileName candidate." }
 if ($experimentalPackage.Count -ne 1) { throw "Expected exactly one $experimentalFileName candidate." }
+if ($stableSymbolsPackage.Count -ne 1) { throw "Expected exactly one $stableSymbolsFileName candidate." }
+if ($experimentalSymbolsPackage.Count -ne 1) { throw "Expected exactly one $experimentalSymbolsFileName candidate." }
 if ($packageFiles.Count -ne 2) {
     throw "The candidate directory contains unexpected nupkg files: $(@($packageFiles | ForEach-Object Name) -join ', ')."
 }
-if ($allPackageDirectoryFiles.Count -ne 2) {
-    throw "The candidate directory must contain exactly the two nupkg candidates: $(@($allPackageDirectoryFiles | ForEach-Object Name) -join ', ')."
+if ($symbolFiles.Count -ne 2) {
+    throw "The candidate directory contains unexpected snupkg files: $(@($symbolFiles | ForEach-Object Name) -join ', ')."
+}
+if ($allPackageDirectoryFiles.Count -ne 4) {
+    throw "The candidate directory must contain exactly the two nupkg and two snupkg candidates: $(@($allPackageDirectoryFiles | ForEach-Object Name) -join ', ')."
 }
 
 $repositoryRootPath = [System.IO.Path]::GetFullPath($RepositoryRoot)
@@ -326,8 +369,8 @@ $report = [ordered]@{
 }
 
 foreach ($candidate in @(
-    [pscustomobject]@{ kind = 'stable'; id = $stableId; version = $stableVersion; path = $stablePackage[0].FullName },
-    [pscustomobject]@{ kind = 'experimental'; id = $experimentalId; version = $experimentalVersion; path = $experimentalPackage[0].FullName })) {
+    [pscustomobject]@{ kind = 'stable'; id = $stableId; version = $stableVersion; path = $stablePackage[0].FullName; symbolsPath = $stableSymbolsPackage[0].FullName },
+    [pscustomobject]@{ kind = 'experimental'; id = $experimentalId; version = $experimentalVersion; path = $experimentalPackage[0].FullName; symbolsPath = $experimentalSymbolsPackage[0].FullName })) {
     $entries = @(Get-ArchiveEntries $candidate.path)
     $entryNames = @($entries | ForEach-Object FullName)
     $nuspecName = "$($candidate.id).nuspec"
@@ -401,11 +444,14 @@ foreach ($candidate in @(
         throw 'The experimental package must not contain native runtime assets.'
     }
 
+    $symbolsReport = Assert-SymbolPackage $candidate.symbolsPath $candidate.id $candidate.version
     $candidateReport = [ordered]@{
         id = [string] $metadata.id
         version = [string] $metadata.version
         sha256 = Get-LowerSha256 $candidate.path
+        symbolsSha256 = $symbolsReport.sha256
         entries = @($entryNames | Sort-Object -CaseSensitive)
+        symbols = $symbolsReport
         dependencies = @($metadata.dependencies | ForEach-Object { "$($_.targetFramework):$($_.id):$($_.version)" })
         nativeAssets = $nativeReport
     }
@@ -433,7 +479,7 @@ foreach ($candidate in @(
         }
     }
 
-    Write-Host "Package candidate verified: $($candidate.id) $($candidate.version) / $($candidateReport.sha256)"
+    Write-Host "Package candidate verified: $($candidate.id) $($candidate.version) / nupkg $($candidateReport.sha256) / snupkg $($symbolsReport.sha256)"
 }
 
 if (!$CedarSharpPackagePath) {

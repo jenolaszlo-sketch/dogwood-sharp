@@ -18,8 +18,12 @@ Publication remains a separate owner-authorized commission.
 
 | Candidate | ID and version | Contents/dependencies |
 | --- | --- | --- |
-| Stable | `DogwoodSharp` `0.1.0-preview.1` | `net8.0`/`net10.0` managed assemblies and docs; all three RID image/manifest pairs; readme, license, notice |
-| Experimental adapter | `DogwoodSharp.CedarSharp` `0.1.0-experimental.1` | Only its two TFM managed assemblies/docs, readme, license, notice; exact dependency ranges `[DogwoodSharp 0.1.0-preview.1]` and `[CedarSharp 1.0.0]` |
+| Stable | `DogwoodSharp` `0.1.0-preview.1` | `net8.0`/`net10.0` managed assemblies and docs; all three RID image/manifest pairs; readme, license, notice; matching `.snupkg` with both TFMs' PDBs |
+| Experimental adapter | `DogwoodSharp.CedarSharp` `0.1.0-experimental.1` | Only its two TFM managed assemblies/docs, readme, license, notice; exact dependency ranges `[DogwoodSharp 0.1.0-preview.1]` and `[CedarSharp 1.0.0]`; matching `.snupkg` with both TFMs' PDBs |
+
+Each candidate produces a matching symbol package. The SDK moves the PDBs into
+the `.snupkg` and keeps them out of the main `.nupkg`; the package gate verifies
+both package identities.
 
 The release package version is supplied by the pack gate
 (`-p:PackageVersion=...`) and is not the checked-in project `Version`. The
@@ -80,12 +84,13 @@ jobs:
 1. `verify` uploads a dedicated `dogwoodsharp-native-<rid>` artifact containing
    that RID's Dogwood image and manifest.
 2. `pack-candidates` downloads all three dedicated native artifacts, validates
-   them, packs exactly the two release candidates with SDK `10.0.404`, and
-   uploads the candidates, the original CedarSharp dependency, and the consumer
-   kit.
+   them, packs the two release candidates and their symbol packages with SDK
+   `10.0.404`, and uploads the candidates, the original CedarSharp dependency,
+   and the consumer kit.
 3. `verify-candidates` strictly checks package IDs, versions, TFMs, dependency
    groups, file allowlists, all three RIDs, manifest/image pairs, the absence
-   of unexpected runtimes, and the exact CedarSharp package hashes.
+   of unexpected runtimes and PDBs from the main packages, the presence and
+   identity of both symbol packages, and the exact CedarSharp package hashes.
 4. `package-consumer` runs six cells with no repository checkout:
    `windows-2025`/`win-x64`, `ubuntu-24.04`/`linux-x64`, and `macos-15`/
    `osx-arm64`, each for `net8.0` and `net10.0`. Each cell consumes only the
