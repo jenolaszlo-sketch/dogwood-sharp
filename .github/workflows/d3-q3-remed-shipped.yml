@@ -1,4 +1,4 @@
-name: D3 Q3 Remediation Shipped-Subject Differential
+﻿name: D3 Q3 Remediation Shipped-Subject Differential
 
 on:
   workflow_dispatch:
@@ -80,9 +80,6 @@ jobs:
           $dir = Join-Path $env:VCToolsInstallDir 'bin\Hostx64\x64'
           if (!(Test-Path (Join-Path $dir 'link.exe'))) { throw "link.exe not found at $dir" }
           "MSVC_LINK_DIR=$dir" >> $env:GITHUB_ENV
-          # Git's usr\bin\link.exe can precede the MSVC linker in PATH; put the
-          # MSVC directory first for every subsequent step, including pwsh.
-          "PATH=$dir;$env:PATH" >> $env:GITHUB_ENV
 
       - name: Fetch pinned Dogwood source
         id: fetch-dogwood
@@ -97,7 +94,10 @@ jobs:
         run: ./scripts/build-oracle.sh "${{ steps.apply-patch.outputs.patched_root }}"
 
       - name: Build shipped product D2 bridge (locked graph)
-        run: pwsh -NoLogo -NoProfile -NonInteractive -File eng/Build-Native.ps1 -RuntimeIdentifier "${{ matrix.rid }}"
+        shell: pwsh
+        run: |
+          $env:PATH = "$env:MSVC_LINK_DIR;$env:PATH"
+          ./eng/Build-Native.ps1 -RuntimeIdentifier "${{ matrix.rid }}"
 
       - name: Resolve shipped product asset
         shell: pwsh
@@ -175,3 +175,4 @@ jobs:
             artifacts/r5r3-differential/${{ matrix.rid }}/${{ matrix.tfm }}/*.log
             artifacts/r5r3-shipped/${{ matrix.rid }}/${{ matrix.tfm }}/**
           retention-days: 30
+
