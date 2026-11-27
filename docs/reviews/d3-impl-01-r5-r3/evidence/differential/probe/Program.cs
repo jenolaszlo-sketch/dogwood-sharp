@@ -83,6 +83,7 @@ using System.Buffers;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -3467,8 +3468,15 @@ internal static class Program
             .Cast<ProcessModule>()
             .FirstOrDefault(candidate => string.Equals(
                 Path.GetFullPath(candidate.FileName), Path.GetFullPath(resolved), StringComparison.OrdinalIgnoreCase));
-        checks["loadedModuleMatchesVerifiedAsset"] = module is not null;
-        result["modulePath"] = module?.FileName;
+        // .NET's Process.Modules does not always enumerate a dlopen'd dylib on
+        // macOS. Resolve the live image through dladdr on the exported ABI
+        // symbol instead; this still proves which image the process is running.
+        var modulePath = module?.FileName
+            ?? (OperatingSystem.IsMacOS() ? MacOsLoadedModulePath(resolved) : null);
+        checks["loadedModuleMatchesVerifiedAsset"] = modulePath is not null
+            && string.Equals(Path.GetFullPath(modulePath), Path.GetFullPath(resolved),
+                StringComparison.OrdinalIgnoreCase);
+        result["modulePath"] = modulePath;
 
         var decisions = new HashSet<string>(StringComparer.Ordinal);
         var identityStable = true;
@@ -3727,6 +3735,49 @@ internal static class Program
     {
         using var stream = File.OpenRead(path);
         return Convert.ToHexString(SHA256.HashData(stream));
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct DlInfo
+    {
+        public IntPtr FileName;
+        public IntPtr BaseAddress;
+        public IntPtr SymbolName;
+        public IntPtr SymbolAddress;
+    }
+
+    [DllImport("libSystem.B.dylib", EntryPoint = "dladdr", SetLastError = false)]
+    private static extern int dladdr(IntPtr address, out DlInfo info);
+
+    /// <summary>
+    /// Resolves the image path of the live native library from the address of
+    /// one of its exported symbols. Used only on macOS, where Process.Modules
+    /// does not reliably list a dlopen'd dylib.
+    /// </summary>
+    private static string? MacOsLoadedModulePath(string resolved)
+    {
+        try
+        {
+            var handle = NativeLibrary.Load(resolved);
+            try
+            {
+                var symbol = NativeLibrary.GetExport(handle, "dogwoodsharp_abi_version");
+                return dladdr(symbol, out var info) != 0 && info.FileName != IntPtr.Zero
+                    ? Marshal.PtrToStringUTF8(info.FileName)
+                    : null;
+            }
+            finally
+            {
+                // Release only this probe reference; the production singleton
+                // retains the library for the process lifetime.
+                NativeLibrary.Free(handle);
+            }
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or
+            BadImageFormatException or DllNotFoundException or EntryPointNotFoundException)
+        {
+            return null;
+        }
     }
 
     private static JsonObject DescribeNativeBridge()

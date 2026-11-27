@@ -3,7 +3,10 @@ set -euo pipefail
 
 probe="docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/${TFM}/PrepProbe.dll"
 oracle="${ORACLE_PATH}"
-fixtures="docs/reviews/d3-impl-01-r5-r3/evidence/fixtures.json"
+# The corrected-reference run must use the corrected fixture manifest: it
+# updates the five malformed typed-encoding cases to their actual upstream
+# stage (request-validation), which is what the FCN-02 register row records.
+fixtures="docs/reviews/d3-impl-01-r5-r3/evidence/fixtures-corrected-reference.json"
 register="docs/reviews/d3-impl-01-r5-r3/evidence/register-corrected-reference.json"
 outDir="artifacts/r5r3-differential/${RID}/${TFM}"
 mkdir -p "$outDir"
