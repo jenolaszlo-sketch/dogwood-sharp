@@ -80,6 +80,9 @@ jobs:
           $dir = Join-Path $env:VCToolsInstallDir 'bin\Hostx64\x64'
           if (!(Test-Path (Join-Path $dir 'link.exe'))) { throw "link.exe not found at $dir" }
           "MSVC_LINK_DIR=$dir" >> $env:GITHUB_ENV
+          # Git's usr\bin\link.exe can precede the MSVC linker in PATH; put the
+          # MSVC directory first for every subsequent step, including pwsh.
+          "PATH=$dir;$env:PATH" >> $env:GITHUB_ENV
 
       - name: Fetch pinned Dogwood source
         id: fetch-dogwood
