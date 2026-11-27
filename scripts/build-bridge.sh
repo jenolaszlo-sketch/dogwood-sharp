@@ -34,7 +34,7 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 cedar-policy-core = { version = "=4.11.0", default-features = false }
-dogwood-language = { path = "$patchedDogwood" }
+dogwood-language = { path = "$patchedDogwood", default-features = false }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 
