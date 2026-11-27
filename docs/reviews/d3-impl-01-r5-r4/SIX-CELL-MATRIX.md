@@ -50,7 +50,7 @@ cells were executed by workflow run `46005380010`:
 | Cell | Job | Duration |
 |------|-----|----------|
 | Linux `net8.0` | `140527108760` | 7m57s |
-| Linux `net10.0` | `140527108313` | 12m+ |
+| Linux `net10.0` | `140527108313` | 10m04s |
 | macOS `net8.0` | `140527108625` | 13m41s |
 | macOS `net10.0` | `140527108903` | 13m17s |
 
