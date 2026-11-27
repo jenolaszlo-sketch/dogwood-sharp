@@ -1,0 +1,155 @@
+{
+  "run": 46053558029,
+  "headSha": "58b0a3332391d85cdf19fd7b794d79516d2ecdfe",
+  "cells": [
+    {
+      "rid": "win-x64",
+      "d1Qualification": {
+        "result": "pass",
+        "imageSha256": "61e92101b1aa127093635fa9a93f3d8248008dc9ba67e2ca6adcaeba3142cacc",
+        "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+        "frameworks": [
+          "net8.0",
+          "net10.0"
+        ]
+      },
+      "d2r2NativeIdentity": {
+        "abiVersion": 1,
+        "bridgeVersion": "0.1.0",
+        "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+        "dogwoodVersion": "1.1.2",
+        "cedarVersion": "4.11.0",
+        "rustVersion": "1.99.1",
+        "target": "x86_64-pc-windows-msvc",
+        "dogwoodFeatures": [],
+        "cedarFeatures": [
+          "datetime",
+          "decimal",
+          "ipaddr"
+        ]
+      },
+      "managedTests": {
+        "dogwoodSharp": {
+          "net8_0": 71,
+          "net10_0": 71
+        },
+        "cedarSharp": {
+          "net8_0": 96,
+          "net10_0": 96
+        }
+      },
+      "nativeTests": {
+        "note": "Nonzero cargo test result: ok; includes the D3 export and frozen-operation-3 tests. The doc-test 0-passed line is excluded.",
+        "passedCounts": [
+          32
+        ]
+      },
+      "d2Differential": {
+        "cases": 39,
+        "failures": 0
+      },
+      "valgrind": null
+    },
+    {
+      "rid": "linux-x64",
+      "d1Qualification": {
+        "result": "pass",
+        "imageSha256": "39afbfd0b8ed60d627af6e3e0e743c594e8d72817fee16f70d98a39081dafbe9",
+        "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+        "frameworks": [
+          "net8.0",
+          "net10.0"
+        ]
+      },
+      "d2r2NativeIdentity": {
+        "abiVersion": 1,
+        "bridgeVersion": "0.1.0",
+        "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+        "dogwoodVersion": "1.1.2",
+        "cedarVersion": "4.11.0",
+        "rustVersion": "1.99.1",
+        "target": "x86_64-unknown-linux-gnu",
+        "dogwoodFeatures": [],
+        "cedarFeatures": [
+          "datetime",
+          "decimal",
+          "ipaddr"
+        ]
+      },
+      "managedTests": {
+        "dogwoodSharp": {
+          "net8_0": 71,
+          "net10_0": 71
+        },
+        "cedarSharp": {
+          "net8_0": 96,
+          "net10_0": 96
+        }
+      },
+      "nativeTests": {
+        "note": "Nonzero cargo test result: ok; includes the D3 export and frozen-operation-3 tests. The doc-test 0-passed line is excluded.",
+        "passedCounts": [
+          32
+        ]
+      },
+      "d2Differential": {
+        "cases": 39,
+        "failures": 0
+      },
+      "valgrind": {
+        "result": "pass",
+        "errorSummary": "0 errors",
+        "definitelyLost": "0 bytes",
+        "log": "logs/native-selftest-valgrind.log"
+      }
+    },
+    {
+      "rid": "osx-arm64",
+      "d1Qualification": {
+        "result": "pass",
+        "imageSha256": "fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e",
+        "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+        "frameworks": [
+          "net8.0",
+          "net10.0"
+        ]
+      },
+      "d2r2NativeIdentity": {
+        "abiVersion": 1,
+        "bridgeVersion": "0.1.0",
+        "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+        "dogwoodVersion": "1.1.2",
+        "cedarVersion": "4.11.0",
+        "rustVersion": "1.99.1",
+        "target": "aarch64-apple-darwin",
+        "dogwoodFeatures": [],
+        "cedarFeatures": [
+          "datetime",
+          "decimal",
+          "ipaddr"
+        ]
+      },
+      "managedTests": {
+        "dogwoodSharp": {
+          "net8_0": 71,
+          "net10_0": 71
+        },
+        "cedarSharp": {
+          "net8_0": 96,
+          "net10_0": 96
+        }
+      },
+      "nativeTests": {
+        "note": "Nonzero cargo test result: ok; includes the D3 export and frozen-operation-3 tests. The doc-test 0-passed line is excluded.",
+        "passedCounts": [
+          32
+        ]
+      },
+      "d2Differential": {
+        "cases": 39,
+        "failures": 0
+      },
+      "valgrind": null
+    }
+  ]
+}

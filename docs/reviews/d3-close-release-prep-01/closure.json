@@ -1,0 +1,165 @@
+{
+  "commission": "DOGWOOD-SHARP-D3-CLOSE-RELEASE-PREP-01",
+  "date": "2026-11-27",
+  "disposition": "A",
+  "dispositionLabel": "D3 CLOSED; RELEASE CANDIDATE READY FOR PUBLICATION AUTHORIZATION",
+  "qualificationDispositionPreserved": "B — SUPPORTED WITH QUALIFICATIONS",
+  "ownerAcceptance": "OWNER-ACCEPTANCE-D3-CLOSE.md",
+  "verification": "VERIFICATION.md",
+  "reviewedIdentities": {
+    "q3Commit": "e980ee2e91d96b314b1564a9794725fa7214fb33",
+    "q3Tree": "d902e50011691b5b689b86fe7c13d7dffb173573",
+    "remediationCommit": "d2d9ad72e129a04e9d3502a3382103240aaa1c94",
+    "remediationTree": "1692b33d0fff5648dcabc23ddd80e173512ad76d",
+    "q3r1Commit": "d8ea9782fca5cd16d0666d691eaf53ce1829f6bd",
+    "q3r1Tree": "f0d3f9507462cb8f28b41fe46bc98d306910b658",
+    "q3ManifestEntries": 71,
+    "remediationManifestEntries": 74,
+    "q3r1ManifestEntries": 64,
+    "independentEvidenceRun": 46044342439,
+    "independentShippedRun": 46044345656,
+    "producerShippedRun": 46039052322,
+    "productionImplementationCommit": "7a22871ae89205a51e382c3cdc238190d927a471",
+    "productionTrees": {
+      "src": "50abeca4",
+      "native": "100ffb3d",
+      "tests": "93cfa537",
+      "eng": "7d5d646d"
+    },
+    "releaseCandidateCommit": "58b0a3332391d85cdf19fd7b794d79516d2ecdfe",
+    "releaseCandidateTree": "4c535ac8640ec5a1086d0956017e80b63850ef98"
+  },
+  "packages": {
+    "stable": {
+      "id": "DogwoodSharp",
+      "version": "0.1.0-preview.1"
+    },
+    "experimental": {
+      "id": "DogwoodSharp.CedarSharp",
+      "version": "0.1.0-experimental.1"
+    },
+    "dependency": {
+      "id": "CedarSharp",
+      "version": "1.0.0"
+    }
+  },
+  "findings": [
+    {
+      "id": "Q3-F01",
+      "disposition": "closed",
+      "summary": "Independent evidence verification and manifest integrity.",
+      "basis": "Independent verifier 46044342439: Q3 71/71, R5-R3 b23f6a9 47/47, HEAD 57/57, self-test 7/7 on Windows and Linux. Remediation manifest 74/74 and Q3-R1 manifest 64/64 at the release candidate."
+    },
+    {
+      "id": "Q3-F02",
+      "disposition": "closed",
+      "summary": "Shipped-subject qualification and package consumer.",
+      "basis": "Six cells, 124/124 cases, 26/26 families; resident hash equals the product bridge; qualification-only bridge rejected in all cells. Independent campaigns 46044345656 and 46039052322."
+    },
+    {
+      "id": "Q3-F03",
+      "disposition": "closed",
+      "summary": "Locked dependency provenance.",
+      "basis": "Committed lock ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa in every shipped cell; 36-package divergence reproduced; Windows images normalize to 28add84f after metadata zeroing.",
+      "qualification": "Windows cross-build byte equality is not claimed; exact candidate hashes bind the artifacts."
+    },
+    {
+      "id": "Q3-F04",
+      "disposition": "closed",
+      "boundedQualification": true,
+      "summary": "Published CedarSharp dependency and native provenance.",
+      "basis": "Package 99cc3659e750f3d5187d7b8c35e84359811a7af1247b3673d893eafc679bf835; nuspec commit 68ffdafa3bd9a2e4e5744069220bededb5684c5b; natives 77de6976, 85433a35, 290fcce9; package consumer 6/6.",
+      "qualification": "The native manifests declare sourceCommit 324d3c0, which is not recoverable. Source reproducibility of the external native is not claimed; the published package and native hashes are binding."
+    },
+    {
+      "id": "Q3-F05",
+      "disposition": "closed",
+      "summary": "OQ-01 reference defect and RD-01.",
+      "basis": "Owner RD-01 acceptance within the original OQ-01 scope; original case and seven controls re-executed; current-invalid control fails closed; FCN-05 remains TC-03 through TC-06."
+    },
+    {
+      "id": "Q3-F10",
+      "disposition": "closed",
+      "summary": "Historical evidence preservation.",
+      "basis": "Zero changes under docs/reviews/d3-impl-01-r5-r3 from e980ee2 to d2d9ad7; original manifests and fixtures preserved; successor manifests 47/47 and 57/57."
+    }
+  ],
+  "acceptedQualifications": [
+    {
+      "id": "Q3R1-Q1",
+      "description": "External CedarSharp native source metadata inconsistency.",
+      "bounded": true,
+      "effect": "The published package and native images are hash-verified; source reproducibility of the external native is not established."
+    },
+    {
+      "id": "Q3R1-Q2",
+      "description": "Windows binary metadata nondeterminism.",
+      "bounded": true,
+      "effect": "The exact release-candidate SHA-256 binds the publication artifact; normalized equality is not a publication identity."
+    },
+    {
+      "id": "Q3R1-Q3",
+      "description": "F04 evidence-path documentation defect.",
+      "bounded": true,
+      "effect": "The content is present and verified under the Q3 reviewer tree; no evidence loss."
+    }
+  ],
+  "stageReconciliation": [
+    {
+      "stage": "D1",
+      "qualification": "DOGWOOD-SHARP-D1-QUAL-01",
+      "disposition": "qualified",
+      "ownerRecord": "docs/d1-acceptance.md",
+      "state": "closed"
+    },
+    {
+      "stage": "D2",
+      "qualification": "DOGWOOD-SHARP-D2-QUAL-02",
+      "disposition": "B",
+      "ownerRecord": "docs/d2-acceptance.md",
+      "state": "closed"
+    },
+    {
+      "stage": "D3",
+      "qualification": "DOGWOOD-SHARP-D3-QUAL-01-Q3-R1",
+      "disposition": "B",
+      "ownerRecord": "OWNER-ACCEPTANCE-D3-CLOSE.md",
+      "state": "closed"
+    }
+  ],
+  "supportedMatrix": [
+    { "os": "windows-2025", "rid": "win-x64", "frameworks": ["net8.0", "net10.0"] },
+    { "os": "ubuntu-24.04", "rid": "linux-x64", "frameworks": ["net8.0", "net10.0"] },
+    { "os": "macos-15", "rid": "osx-arm64", "frameworks": ["net8.0", "net10.0"] }
+  ],
+  "preservedScopes": {
+    "rd01": "R5R1-OQ-01-temporal-history-event-policy-evaluation-error",
+    "fcn05": ["TC-03", "TC-04", "TC-05", "TC-06"],
+    "signedRegisterCanonicalSha256": "5962c4dc7191444e4dedb66db87e74d816b0e5f7cb7cf60af7ae5be11da65e3d",
+    "correctedFixtureCanonicalSha256": "568267e0b31e233505ce322e54d4f9262d83647d7cc7a307c3c1500c598ff9f6"
+  },
+  "releaseVersionBasis": {
+    "publicNugetDogwoodSharp": "HTTP 404; no published versions",
+    "publicNugetDogwoodSharpCedarSharp": "HTTP 404; no published versions",
+    "githubTags": "none",
+    "githubReleases": "none",
+    "retiredQualificationIdentities": ["0.0.0-discovery.1", "0.0.0-experimental.1"],
+    "selectedStableVersion": "0.1.0-preview.1",
+    "selectedExperimentalVersion": "0.1.0-experimental.1"
+  },
+  "releasePreparation": {
+    "productSourceChanged": false,
+    "nativeSourceChanged": false,
+    "testSourceChanged": false,
+    "dependencyGraphChanged": false,
+    "releaseMetadataAndToolingOnly": true
+  },
+  "publication": {
+    "authorized": false,
+    "tagCreated": false,
+    "githubReleaseCreated": false,
+    "nugetPublished": false,
+    "separatePublicationCommissionRequired": true
+  },
+  "authorityExclusions": "No release tag, GitHub release, NuGet publication, new development stage, dependency modernization, deterministic native build remediation or destructive cleanup is authorized."
+}

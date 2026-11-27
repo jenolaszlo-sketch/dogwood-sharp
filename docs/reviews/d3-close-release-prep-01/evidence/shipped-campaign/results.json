@@ -1,0 +1,504 @@
+{
+  "cells": [
+    {
+      "rid": "win-x64",
+      "tfm": "net8.0",
+      "errors": [],
+      "summary": {
+        "total": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "familyCount": 26,
+        "classifications": {
+          "agreement": 84,
+          "approved-difference": 22,
+          "fail-closed-equivalence": 9,
+          "operation-failure": 9
+        }
+      },
+      "productBridge": {
+        "path": "artifacts/native/runtimes/win-x64/native/dogwoodsharp_bridge.dll",
+        "sha256": "6797ea3f52bf3943125a649107fdfa072ab1b86973f62cf4f5efe3c9cfd14599",
+        "manifestPath": "artifacts/native/runtimes/win-x64/native/dogwoodsharp-native.json",
+        "manifestSha256": "33c688000be5ac57cb42a4d235595a3323232ae02282ebf745aac5b7147af099",
+        "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa"
+      },
+      "cedarSharpNative": {
+        "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net8.0/runtimes/win-x64/native/cedarsharp_native.dll",
+        "sha256": "77de6976a7ae5b961920bb6843d39b32f3faf285f16b723581680e9c06c03895",
+        "manifestPath": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net8.0/runtimes/win-x64/native/cedarsharp-native.json",
+        "manifestSha256": "c33e13d7e140b0d1ac759b35cbf58b1b0ad3216ec144d477e0b1e4ab6a94d817",
+        "package": "CedarSharp 1.0.0"
+      },
+      "resident": {
+        "id": "R3-C26-05-resident",
+        "kind": "lifecycle-control",
+        "control": "resident",
+        "families": [
+          "C-26"
+        ],
+        "question": "The verified native image is loaded once for the process lifetime: repeated authorizations keep the same native identity, the same decision and the same loaded module, with no unload or hot replacement.",
+        "expectedClassification": "agreement",
+        "expectedDifferenceIds": [],
+        "classification": "agreement",
+        "verdict": "pass",
+        "upstream": null,
+        "managed": {
+          "scenario": "resident",
+          "passed": true,
+          "operationFailed": false,
+          "decision": "allow",
+          "iterations": 25,
+          "checks": {
+            "loadedModuleMatchesVerifiedAsset": true,
+            "identityStable": true,
+            "singleDecisionAcrossIterations": true,
+            "noOperationFailure": true
+          },
+          "resolvedPath": "D:\\a\\dogwood-sharp\\dogwood-sharp\\docs\\reviews\\d3-impl-01-r5-r3\\evidence\\differential\\probe\\bin\\Release\\net8.0\\runtimes\\win-x64\\native\\dogwoodsharp_bridge.dll",
+          "resolvedPathSha256": "6797EA3F52BF3943125A649107FDFA072AB1B86973F62CF4F5EFE3C9CFD14599",
+          "nativeIdentity": {
+            "abiVersion": 1,
+            "bridgeVersion": "0.1.0",
+            "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+            "target": "x86_64-pc-windows-msvc"
+          },
+          "modulePath": "D:\\a\\dogwood-sharp\\dogwood-sharp\\docs\\reviews\\d3-impl-01-r5-r3\\evidence\\differential\\probe\\bin\\Release\\net8.0\\runtimes\\win-x64\\native\\dogwoodsharp_bridge.dll",
+          "decisions": [
+            "allow"
+          ],
+          "id": "R3-C26-05-resident"
+        },
+        "observedDifferenceFields": null,
+        "differenceValidation": {}
+      },
+      "negativeControl": {
+        "rid": "win-x64",
+        "tfm": "net8.0",
+        "result": "pass",
+        "exitCode": 2,
+        "substitutedBridge": "r5r3-work/bridge-target/release/dogwoodsharp_bridge.dll",
+        "expectedRejection": "native asset hash/identity rejection before authorization",
+        "console": "negative-control/console.log"
+      }
+    },
+    {
+      "rid": "win-x64",
+      "tfm": "net10.0",
+      "errors": [],
+      "summary": {
+        "total": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "familyCount": 26,
+        "classifications": {
+          "agreement": 84,
+          "approved-difference": 22,
+          "fail-closed-equivalence": 9,
+          "operation-failure": 9
+        }
+      },
+      "productBridge": {
+        "path": "artifacts/native/runtimes/win-x64/native/dogwoodsharp_bridge.dll",
+        "sha256": "21fffcde18db2c429984493e01f6a20962fdbf3f13266ee0bfccdce1ff11bade",
+        "manifestPath": "artifacts/native/runtimes/win-x64/native/dogwoodsharp-native.json",
+        "manifestSha256": "1432eb2609a3cdc59980ddb86a890ffcc4a442d351ff5fc8bfa82e4ea7dbe96e",
+        "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa"
+      },
+      "cedarSharpNative": {
+        "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/win-x64/native/cedarsharp_native.dll",
+        "sha256": "77de6976a7ae5b961920bb6843d39b32f3faf285f16b723581680e9c06c03895",
+        "manifestPath": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/win-x64/native/cedarsharp-native.json",
+        "manifestSha256": "c33e13d7e140b0d1ac759b35cbf58b1b0ad3216ec144d477e0b1e4ab6a94d817",
+        "package": "CedarSharp 1.0.0"
+      },
+      "resident": {
+        "id": "R3-C26-05-resident",
+        "kind": "lifecycle-control",
+        "control": "resident",
+        "families": [
+          "C-26"
+        ],
+        "question": "The verified native image is loaded once for the process lifetime: repeated authorizations keep the same native identity, the same decision and the same loaded module, with no unload or hot replacement.",
+        "expectedClassification": "agreement",
+        "expectedDifferenceIds": [],
+        "classification": "agreement",
+        "verdict": "pass",
+        "upstream": null,
+        "managed": {
+          "scenario": "resident",
+          "passed": true,
+          "operationFailed": false,
+          "decision": "allow",
+          "iterations": 25,
+          "checks": {
+            "loadedModuleMatchesVerifiedAsset": true,
+            "identityStable": true,
+            "singleDecisionAcrossIterations": true,
+            "noOperationFailure": true
+          },
+          "resolvedPath": "D:\\a\\dogwood-sharp\\dogwood-sharp\\docs\\reviews\\d3-impl-01-r5-r3\\evidence\\differential\\probe\\bin\\Release\\net10.0\\runtimes\\win-x64\\native\\dogwoodsharp_bridge.dll",
+          "resolvedPathSha256": "21FFFCDE18DB2C429984493E01F6A20962FDBF3F13266EE0BFCCDCE1FF11BADE",
+          "nativeIdentity": {
+            "abiVersion": 1,
+            "bridgeVersion": "0.1.0",
+            "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+            "target": "x86_64-pc-windows-msvc"
+          },
+          "modulePath": "D:\\a\\dogwood-sharp\\dogwood-sharp\\docs\\reviews\\d3-impl-01-r5-r3\\evidence\\differential\\probe\\bin\\Release\\net10.0\\runtimes\\win-x64\\native\\dogwoodsharp_bridge.dll",
+          "decisions": [
+            "allow"
+          ],
+          "id": "R3-C26-05-resident"
+        },
+        "observedDifferenceFields": null,
+        "differenceValidation": {}
+      },
+      "negativeControl": {
+        "rid": "win-x64",
+        "tfm": "net10.0",
+        "result": "pass",
+        "exitCode": 2,
+        "substitutedBridge": "r5r3-work/bridge-target/release/dogwoodsharp_bridge.dll",
+        "expectedRejection": "native asset hash/identity rejection before authorization",
+        "console": "negative-control/console.log"
+      }
+    },
+    {
+      "rid": "linux-x64",
+      "tfm": "net8.0",
+      "errors": [],
+      "summary": {
+        "total": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "familyCount": 26,
+        "classifications": {
+          "agreement": 84,
+          "approved-difference": 22,
+          "fail-closed-equivalence": 9,
+          "operation-failure": 9
+        }
+      },
+      "productBridge": {
+        "path": "artifacts/native/runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+        "sha256": "39afbfd0b8ed60d627af6e3e0e743c594e8d72817fee16f70d98a39081dafbe9",
+        "manifestPath": "artifacts/native/runtimes/linux-x64/native/dogwoodsharp-native.json",
+        "manifestSha256": "789f3fd550db7dcd2ca82b54a0d7f58ec015336cef8aeb963cb74b2a6a09610e",
+        "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa"
+      },
+      "cedarSharpNative": {
+        "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net8.0/runtimes/linux-x64/native/libcedarsharp_native.so",
+        "sha256": "85433a352ed9b6b0122e77a4e37cbe9ba1354872641e217350bdf871ea33ebf6",
+        "manifestPath": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net8.0/runtimes/linux-x64/native/cedarsharp-native.json",
+        "manifestSha256": "4d4f273bbd149d29c44e16256583497a853d9e1942ffa5a868fa0a79ef69489c",
+        "package": "CedarSharp 1.0.0"
+      },
+      "resident": {
+        "id": "R3-C26-05-resident",
+        "kind": "lifecycle-control",
+        "control": "resident",
+        "families": [
+          "C-26"
+        ],
+        "question": "The verified native image is loaded once for the process lifetime: repeated authorizations keep the same native identity, the same decision and the same loaded module, with no unload or hot replacement.",
+        "expectedClassification": "agreement",
+        "expectedDifferenceIds": [],
+        "classification": "agreement",
+        "verdict": "pass",
+        "upstream": null,
+        "managed": {
+          "scenario": "resident",
+          "passed": true,
+          "operationFailed": false,
+          "decision": "allow",
+          "iterations": 25,
+          "checks": {
+            "loadedModuleMatchesVerifiedAsset": true,
+            "identityStable": true,
+            "singleDecisionAcrossIterations": true,
+            "noOperationFailure": true
+          },
+          "resolvedPath": "/home/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net8.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+          "resolvedPathSha256": "39AFBFD0B8ED60D627AF6E3E0E743C594E8D72817FEE16F70D98A39081DAFBE9",
+          "nativeIdentity": {
+            "abiVersion": 1,
+            "bridgeVersion": "0.1.0",
+            "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+            "target": "x86_64-unknown-linux-gnu"
+          },
+          "modulePath": "/home/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net8.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+          "decisions": [
+            "allow"
+          ],
+          "id": "R3-C26-05-resident"
+        },
+        "observedDifferenceFields": null,
+        "differenceValidation": {}
+      },
+      "negativeControl": {
+        "rid": "linux-x64",
+        "tfm": "net8.0",
+        "result": "pass",
+        "exitCode": 2,
+        "substitutedBridge": "r5r3-work/bridge-target/x86_64-unknown-linux-gnu/release/libdogwoodsharp_bridge.so",
+        "expectedRejection": "native asset hash/identity rejection before authorization",
+        "console": "negative-control/console.log"
+      }
+    },
+    {
+      "rid": "linux-x64",
+      "tfm": "net10.0",
+      "errors": [],
+      "summary": {
+        "total": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "familyCount": 26,
+        "classifications": {
+          "agreement": 84,
+          "approved-difference": 22,
+          "fail-closed-equivalence": 9,
+          "operation-failure": 9
+        }
+      },
+      "productBridge": {
+        "path": "artifacts/native/runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+        "sha256": "39afbfd0b8ed60d627af6e3e0e743c594e8d72817fee16f70d98a39081dafbe9",
+        "manifestPath": "artifacts/native/runtimes/linux-x64/native/dogwoodsharp-native.json",
+        "manifestSha256": "789f3fd550db7dcd2ca82b54a0d7f58ec015336cef8aeb963cb74b2a6a09610e",
+        "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa"
+      },
+      "cedarSharpNative": {
+        "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/linux-x64/native/libcedarsharp_native.so",
+        "sha256": "85433a352ed9b6b0122e77a4e37cbe9ba1354872641e217350bdf871ea33ebf6",
+        "manifestPath": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/linux-x64/native/cedarsharp-native.json",
+        "manifestSha256": "4d4f273bbd149d29c44e16256583497a853d9e1942ffa5a868fa0a79ef69489c",
+        "package": "CedarSharp 1.0.0"
+      },
+      "resident": {
+        "id": "R3-C26-05-resident",
+        "kind": "lifecycle-control",
+        "control": "resident",
+        "families": [
+          "C-26"
+        ],
+        "question": "The verified native image is loaded once for the process lifetime: repeated authorizations keep the same native identity, the same decision and the same loaded module, with no unload or hot replacement.",
+        "expectedClassification": "agreement",
+        "expectedDifferenceIds": [],
+        "classification": "agreement",
+        "verdict": "pass",
+        "upstream": null,
+        "managed": {
+          "scenario": "resident",
+          "passed": true,
+          "operationFailed": false,
+          "decision": "allow",
+          "iterations": 25,
+          "checks": {
+            "loadedModuleMatchesVerifiedAsset": true,
+            "identityStable": true,
+            "singleDecisionAcrossIterations": true,
+            "noOperationFailure": true
+          },
+          "resolvedPath": "/home/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+          "resolvedPathSha256": "39AFBFD0B8ED60D627AF6E3E0E743C594E8D72817FEE16F70D98A39081DAFBE9",
+          "nativeIdentity": {
+            "abiVersion": 1,
+            "bridgeVersion": "0.1.0",
+            "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+            "target": "x86_64-unknown-linux-gnu"
+          },
+          "modulePath": "/home/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+          "decisions": [
+            "allow"
+          ],
+          "id": "R3-C26-05-resident"
+        },
+        "observedDifferenceFields": null,
+        "differenceValidation": {}
+      },
+      "negativeControl": {
+        "rid": "linux-x64",
+        "tfm": "net10.0",
+        "result": "pass",
+        "exitCode": 2,
+        "substitutedBridge": "r5r3-work/bridge-target/x86_64-unknown-linux-gnu/release/libdogwoodsharp_bridge.so",
+        "expectedRejection": "native asset hash/identity rejection before authorization",
+        "console": "negative-control/console.log"
+      }
+    },
+    {
+      "rid": "osx-arm64",
+      "tfm": "net8.0",
+      "errors": [],
+      "summary": {
+        "total": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "familyCount": 26,
+        "classifications": {
+          "agreement": 84,
+          "approved-difference": 22,
+          "fail-closed-equivalence": 9,
+          "operation-failure": 9
+        }
+      },
+      "productBridge": {
+        "path": "artifacts/native/runtimes/osx-arm64/native/libdogwoodsharp_bridge.dylib",
+        "sha256": "fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e",
+        "manifestPath": "artifacts/native/runtimes/osx-arm64/native/dogwoodsharp-native.json",
+        "manifestSha256": "bd951df87a3f681b3176cce134fe74859d9b6a25aaa759edbf240bf9c9a98bed",
+        "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa"
+      },
+      "cedarSharpNative": {
+        "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net8.0/runtimes/osx-arm64/native/libcedarsharp_native.dylib",
+        "sha256": "290fcce995f70cd963e024d991fe7f9e2806fde81add9749304ce222b904258b",
+        "manifestPath": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net8.0/runtimes/osx-arm64/native/cedarsharp-native.json",
+        "manifestSha256": "4efab72744e59ff905f08c2f47f889e4ff0d3327aab0866b0ba5c6b73ed34095",
+        "package": "CedarSharp 1.0.0"
+      },
+      "resident": {
+        "id": "R3-C26-05-resident",
+        "kind": "lifecycle-control",
+        "control": "resident",
+        "families": [
+          "C-26"
+        ],
+        "question": "The verified native image is loaded once for the process lifetime: repeated authorizations keep the same native identity, the same decision and the same loaded module, with no unload or hot replacement.",
+        "expectedClassification": "agreement",
+        "expectedDifferenceIds": [],
+        "classification": "agreement",
+        "verdict": "pass",
+        "upstream": null,
+        "managed": {
+          "scenario": "resident",
+          "passed": true,
+          "operationFailed": false,
+          "decision": "allow",
+          "iterations": 25,
+          "checks": {
+            "loadedModuleMatchesVerifiedAsset": true,
+            "identityStable": true,
+            "singleDecisionAcrossIterations": true,
+            "noOperationFailure": true
+          },
+          "resolvedPath": "/Users/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net8.0/runtimes/osx-arm64/native/libdogwoodsharp_bridge.dylib",
+          "resolvedPathSha256": "FBD2E98AC6DC393B3AFB42BC9684F3843F75F030107CE72CAE675469C17DB42E",
+          "nativeIdentity": {
+            "abiVersion": 1,
+            "bridgeVersion": "0.1.0",
+            "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+            "target": "aarch64-apple-darwin"
+          },
+          "modulePath": "/Users/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net8.0/runtimes/osx-arm64/native/libdogwoodsharp_bridge.dylib",
+          "decisions": [
+            "allow"
+          ],
+          "id": "R3-C26-05-resident"
+        },
+        "observedDifferenceFields": null,
+        "differenceValidation": {}
+      },
+      "negativeControl": {
+        "rid": "osx-arm64",
+        "tfm": "net8.0",
+        "result": "pass",
+        "exitCode": 2,
+        "substitutedBridge": "r5r3-work/bridge-target/aarch64-apple-darwin/release/libdogwoodsharp_bridge.dylib",
+        "expectedRejection": "native asset hash/identity rejection before authorization",
+        "console": "negative-control/console.log"
+      }
+    },
+    {
+      "rid": "osx-arm64",
+      "tfm": "net10.0",
+      "errors": [],
+      "summary": {
+        "total": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "familyCount": 26,
+        "classifications": {
+          "agreement": 84,
+          "approved-difference": 22,
+          "fail-closed-equivalence": 9,
+          "operation-failure": 9
+        }
+      },
+      "productBridge": {
+        "path": "artifacts/native/runtimes/osx-arm64/native/libdogwoodsharp_bridge.dylib",
+        "sha256": "fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e",
+        "manifestPath": "artifacts/native/runtimes/osx-arm64/native/dogwoodsharp-native.json",
+        "manifestSha256": "bd951df87a3f681b3176cce134fe74859d9b6a25aaa759edbf240bf9c9a98bed",
+        "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa"
+      },
+      "cedarSharpNative": {
+        "path": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/osx-arm64/native/libcedarsharp_native.dylib",
+        "sha256": "290fcce995f70cd963e024d991fe7f9e2806fde81add9749304ce222b904258b",
+        "manifestPath": "docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/osx-arm64/native/cedarsharp-native.json",
+        "manifestSha256": "4efab72744e59ff905f08c2f47f889e4ff0d3327aab0866b0ba5c6b73ed34095",
+        "package": "CedarSharp 1.0.0"
+      },
+      "resident": {
+        "id": "R3-C26-05-resident",
+        "kind": "lifecycle-control",
+        "control": "resident",
+        "families": [
+          "C-26"
+        ],
+        "question": "The verified native image is loaded once for the process lifetime: repeated authorizations keep the same native identity, the same decision and the same loaded module, with no unload or hot replacement.",
+        "expectedClassification": "agreement",
+        "expectedDifferenceIds": [],
+        "classification": "agreement",
+        "verdict": "pass",
+        "upstream": null,
+        "managed": {
+          "scenario": "resident",
+          "passed": true,
+          "operationFailed": false,
+          "decision": "allow",
+          "iterations": 25,
+          "checks": {
+            "loadedModuleMatchesVerifiedAsset": true,
+            "identityStable": true,
+            "singleDecisionAcrossIterations": true,
+            "noOperationFailure": true
+          },
+          "resolvedPath": "/Users/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/osx-arm64/native/libdogwoodsharp_bridge.dylib",
+          "resolvedPathSha256": "FBD2E98AC6DC393B3AFB42BC9684F3843F75F030107CE72CAE675469C17DB42E",
+          "nativeIdentity": {
+            "abiVersion": 1,
+            "bridgeVersion": "0.1.0",
+            "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+            "target": "aarch64-apple-darwin"
+          },
+          "modulePath": "/Users/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/net10.0/runtimes/osx-arm64/native/libdogwoodsharp_bridge.dylib",
+          "decisions": [
+            "allow"
+          ],
+          "id": "R3-C26-05-resident"
+        },
+        "observedDifferenceFields": null,
+        "differenceValidation": {}
+      },
+      "negativeControl": {
+        "rid": "osx-arm64",
+        "tfm": "net10.0",
+        "result": "pass",
+        "exitCode": 2,
+        "substitutedBridge": "r5r3-work/bridge-target/aarch64-apple-darwin/release/libdogwoodsharp_bridge.dylib",
+        "expectedRejection": "native asset hash/identity rejection before authorization",
+        "console": "negative-control/console.log"
+      }
+    }
+  ],
+  "passed": 6,
+  "failed": 0
+}

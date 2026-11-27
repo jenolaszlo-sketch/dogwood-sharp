@@ -1,0 +1,50 @@
+﻿[
+    {
+        "rid":  "win-x64",
+        "tfm":  "net8.0",
+        "job":  140698311840,
+        "conclusion":  "success",
+        "result":  "PASS RID=win-x64 TFM=net8.0",
+        "sdkLine":  "10.0.404 D3_CONSUMER_RID=win-x64 D3_CONSUMER_TFM=net8.0"
+    },
+    {
+        "rid":  "win-x64",
+        "tfm":  "net10.0",
+        "job":  140698311764,
+        "conclusion":  "success",
+        "result":  "PASS RID=win-x64 TFM=net10.0",
+        "sdkLine":  "10.0.404 D3_CONSUMER_RID=win-x64 D3_CONSUMER_TFM=net10.0"
+    },
+    {
+        "rid":  "linux-x64",
+        "tfm":  "net8.0",
+        "job":  140698311741,
+        "conclusion":  "success",
+        "result":  "PASS RID=linux-x64 TFM=net8.0",
+        "sdkLine":  "10.0.404 D3_CONSUMER_RID=linux-x64 D3_CONSUMER_TFM=net8.0"
+    },
+    {
+        "rid":  "linux-x64",
+        "tfm":  "net10.0",
+        "job":  140698311736,
+        "conclusion":  "success",
+        "result":  "PASS RID=linux-x64 TFM=net10.0",
+        "sdkLine":  "10.0.404 D3_CONSUMER_RID=linux-x64 D3_CONSUMER_TFM=net10.0"
+    },
+    {
+        "rid":  "osx-arm64",
+        "tfm":  "net8.0",
+        "job":  140698311859,
+        "conclusion":  "success",
+        "result":  "PASS RID=osx-arm64 TFM=net8.0",
+        "sdkLine":  "10.0.404 D3_CONSUMER_RID=osx-arm64 D3_CONSUMER_TFM=net8.0"
+    },
+    {
+        "rid":  "osx-arm64",
+        "tfm":  "net10.0",
+        "job":  140698311793,
+        "conclusion":  "success",
+        "result":  "PASS RID=osx-arm64 TFM=net10.0",
+        "sdkLine":  "10.0.404 D3_CONSUMER_RID=osx-arm64 D3_CONSUMER_TFM=net10.0"
+    }
+]

@@ -1,0 +1,6 @@
+{
+  "result": "pass",
+  "errorSummary": "0 errors",
+  "definitelyLost": "0 bytes",
+  "log": "logs/native-selftest-valgrind.log"
+}

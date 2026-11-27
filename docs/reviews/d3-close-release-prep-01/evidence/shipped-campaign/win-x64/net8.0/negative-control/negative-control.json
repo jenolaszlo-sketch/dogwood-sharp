@@ -1,0 +1,9 @@
+{
+  "rid": "win-x64",
+  "tfm": "net8.0",
+  "result": "pass",
+  "exitCode": 2,
+  "substitutedBridge": "r5r3-work/bridge-target/release/dogwoodsharp_bridge.dll",
+  "expectedRejection": "native asset hash/identity rejection before authorization",
+  "console": "negative-control/console.log"
+}

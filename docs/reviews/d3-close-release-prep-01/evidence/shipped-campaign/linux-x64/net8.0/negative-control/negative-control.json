@@ -1,0 +1,9 @@
+{
+  "rid": "linux-x64",
+  "tfm": "net8.0",
+  "result": "pass",
+  "exitCode": 2,
+  "substitutedBridge": "r5r3-work/bridge-target/x86_64-unknown-linux-gnu/release/libdogwoodsharp_bridge.so",
+  "expectedRejection": "native asset hash/identity rejection before authorization",
+  "console": "negative-control/console.log"
+}
