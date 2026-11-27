@@ -57,7 +57,10 @@ else
 fi
 
 export CARGO_TARGET_DIR="r5r3-work/bridge-target"
-cargo build --release $targetArg --manifest-path "$bridgeCargo"
+# Generate lockfile and pin cedar-policy-core to exactly 4.11.0 to match NativeBridge constant
+cargo generate-lockfile --manifest-path "$bridgeCargo"
+cargo update --manifest-path "$bridgeCargo" -p cedar-policy-core --precise 4.11.0
+cargo build --locked --release $targetArg --manifest-path "$bridgeCargo"
 
 libName=""
 target=""
