@@ -22,9 +22,6 @@ permissions:
 jobs:
   differential:
     name: Differential ${{ matrix.rid }} / ${{ matrix.tfm }}
-    # A dispatched run that targets one platform must skip the other platform's
-    # jobs cleanly instead of failing them after a partial checkout.
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.platform == 'all' || github.event.inputs.platform == matrix.rid
     strategy:
       fail-fast: false
       matrix:
@@ -49,10 +46,21 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.sha }}
 
+      - name: Select platform
+        id: platform-filter
+        run: |
+          if [ "${{ github.event_name }}" != "workflow_dispatch" ] || [ "${{ github.event.inputs.platform }}" = "all" ] || [ "${{ github.event.inputs.platform }}" = "${{ matrix.rid }}" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "Skipping ${{ matrix.rid }} because platform input is ${{ github.event.inputs.platform }}"
+          fi
       - name: Verify baseline
+        if: steps.platform-filter.outputs.run == 'true'
         run: ./scripts/verify-baseline.sh
 
       - name: Setup .NET
+        if: steps.platform-filter.outputs.run == 'true'
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
@@ -60,6 +68,7 @@ jobs:
             10.0.404
 
       - name: Setup Rust
+        if: steps.platform-filter.outputs.run == 'true'
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: 1.99.1
@@ -67,48 +76,54 @@ jobs:
           cache: false
 
       - name: Install system dependencies (Linux)
-        if: matrix.rid == 'linux-x64'
+        if: matrix.rid == 'linux-x64' && steps.platform-filter.outputs.run == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y libclang-dev pkg-config python3 python3-pip
 
       - name: Install system dependencies (macOS)
-        if: matrix.rid == 'osx-arm64'
+        if: matrix.rid == 'osx-arm64' && steps.platform-filter.outputs.run == 'true'
         run: brew install llvm pkg-config python3
 
       - name: Prepare MSVC (Windows)
-        if: matrix.rid == 'win-x64'
+        if: matrix.rid == 'win-x64' && steps.platform-filter.outputs.run == 'true'
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Fetch pinned Dogwood source
+        if: steps.platform-filter.outputs.run == 'true'
         id: fetch-dogwood
         run: ./scripts/fetch-dogwood.sh
         env:
           DOGWOOD_PINNED_REV: ${{ env.DOGWOOD_PINNED_REV }}
 
       - name: Apply reference patch
+        if: steps.platform-filter.outputs.run == 'true'
         id: apply-patch
         run: ./scripts/apply-patch.sh "${{ steps.fetch-dogwood.outputs.path }}"
         env:
           DOGWOOD_PINNED_REV: ${{ env.DOGWOOD_PINNED_REV }}
 
       - name: Build corrected reference oracle
+        if: steps.platform-filter.outputs.run == 'true'
         id: build-oracle
         run: ./scripts/build-oracle.sh "${{ steps.apply-patch.outputs.patched_root }}"
         env:
           DOGWOOD_PINNED_REV: ${{ env.DOGWOOD_PINNED_REV }}
 
       - name: Build Cedar adjudicator
+        if: steps.platform-filter.outputs.run == 'true'
         id: build-adjudicator
         run: ./scripts/build-adjudicator.sh
 
       - name: Build D2 bridge
+        if: steps.platform-filter.outputs.run == 'true'
         id: build-bridge
         run: ./scripts/build-bridge.sh
         env:
           RID: ${{ matrix.rid }}
 
       - name: Build CedarSharp native
+        if: steps.platform-filter.outputs.run == 'true'
         id: build-cedarsharp
         run: ./scripts/build-cedarsharp.sh
         env:
@@ -117,11 +132,13 @@ jobs:
           CEDARSHARP_LANGUAGE_VERSION: "4.5"
 
       - name: Build probe
+        if: steps.platform-filter.outputs.run == 'true'
         run: ./scripts/build-probe.sh
         env:
           TFM: ${{ matrix.tfm }}
 
       - name: Stage native assets
+        if: steps.platform-filter.outputs.run == 'true'
         run: ./scripts/stage-assets.sh
         env:
           RID: ${{ matrix.rid }}
@@ -133,6 +150,7 @@ jobs:
           DOGWOOD_PINNED_REV: ${{ env.DOGWOOD_PINNED_REV }}
 
       - name: Run differential
+        if: steps.platform-filter.outputs.run == 'true'
         id: diff
         run: ./scripts/run-differential.sh
         env:
@@ -141,12 +159,14 @@ jobs:
           ORACLE_PATH: ${{ steps.build-oracle.outputs.path }}
 
       - name: Run harness self-test
+        if: steps.platform-filter.outputs.run == 'true'
         run: ./scripts/self-test.sh
         env:
           RID: ${{ matrix.rid }}
           TFM: ${{ matrix.tfm }}
 
       - name: Verify Cedar adjudicator
+        if: steps.platform-filter.outputs.run == 'true'
         run: ./scripts/verify-adjudicator.sh
         env:
           RID: ${{ matrix.rid }}
@@ -154,6 +174,7 @@ jobs:
           ADJUDICATOR_PATH: ${{ steps.build-adjudicator.outputs.path }}
 
       - name: Verify differential results
+        if: steps.platform-filter.outputs.run == 'true'
         run: ./scripts/verify-results.sh
         env:
           RID: ${{ matrix.rid }}
@@ -161,7 +182,7 @@ jobs:
 
       - name: Upload differential evidence
         uses: actions/upload-artifact@v7
-        if: always()
+        if: always() && always() && steps.platform-filter.outputs.run == 'true'
         with:
           name: r5r3-differential-${{ matrix.rid }}-${{ matrix.tfm }}
           path: |
