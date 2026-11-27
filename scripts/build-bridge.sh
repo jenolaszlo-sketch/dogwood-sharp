@@ -18,10 +18,29 @@ bridgeCargo="$bridgeDir/Cargo.toml"
 echo "Original bridge Cargo.toml:"
 cat "$bridgeCargo"
 
-# Use sed to replace the dogwood-language dependency with the patched path
-# The original line has the full dependency spec on one line including default-features = false
-# Replace with a simple path dependency (no trailing comma needed as serde follows on next line)
-sed -i "s|dogwood-language = { git = \"https://github.com/dogwood-policy/dogwood\", rev = \"929f49e7305534ac61ef06cf8e47269c596dc851\", default-features = false }|dogwood-language = { path = \"$patchedDogwood\" }|" "$bridgeCargo"
+# Instead of sed, write the entire Cargo.toml from a template to avoid TOML parsing issues
+# Use the patched dogwood-language path
+cat > "$bridgeCargo" <<EOF
+[package]
+name = "dogwoodsharp-bridge"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.99.1"
+publish = false
+license = "Apache-2.0"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+cedar-policy-core = { version = "=4.11.0", default-features = false }
+dogwood-language = { path = "$patchedDogwood" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.release]
+panic = "unwind"
+EOF
 
 echo "Modified bridge Cargo.toml:"
 cat "$bridgeCargo"
