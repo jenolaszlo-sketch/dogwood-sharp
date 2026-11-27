@@ -26,8 +26,8 @@ for f in "$csDir/Cargo.toml" "$csRoot/Cargo.toml" "$csRoot"/*/Cargo.toml; do
     sed -i 's/cedar-policy-formatter = "=[^"]*"/cedar-policy-formatter = "=4.11.0"/' "$f"
   fi
 done
-# Also delete any existing Cargo.lock to force regeneration
-rm -f "$csDir/Cargo.lock" "$csRoot/Cargo.lock"
+# Also delete ALL existing Cargo.lock files to force regeneration with pinned versions
+find "$csRoot" -name "Cargo.lock" -delete
 cargo generate-lockfile --manifest-path "$csDir/Cargo.toml"
 cargo build --locked --release $targetArg --manifest-path "$csDir/Cargo.toml"
 
