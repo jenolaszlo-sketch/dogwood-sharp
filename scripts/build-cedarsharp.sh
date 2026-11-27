@@ -61,8 +61,8 @@ cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-mcp-schema-gene
 export CEDARSHARP_RUST_VERSION="${CEDARSHARP_RUST_VERSION:-1.94.0}"
 export CEDARSHARP_LANGUAGE_VERSION="${CEDARSHARP_LANGUAGE_VERSION:-4.5}"
 # Use target from RID if not explicitly provided
-export CEDARSHARP_TARGET="${CEDARSHARP_TARGET:-}"
-if [ -z "$CEDARSHARP_TARGET" ]; then
+# Use parameter expansion safely with -z to avoid unbound variable error with set -u
+if [ -z "${CEDARSHARP_TARGET:-}" ]; then
   if [ "${RID}" = "linux-x64" ]; then
     export CEDARSHARP_TARGET="x86_64-unknown-linux-gnu"
   elif [ "${RID}" = "osx-arm64" ]; then
