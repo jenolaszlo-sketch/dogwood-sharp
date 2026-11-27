@@ -1,0 +1,10 @@
+##[group]Run if ('success' -cne 'success') {
+^[[36;1mif ('success' -cne 'success') {^[[0m
+^[[36;1m  throw "Package candidate verification result was 'success'."^[[0m
+^[[36;1m}^[[0m
+^[[36;1m./consumer-kit/Test-Summary.ps1 -MatrixResult 'success'^[[0m
+shell: /usr/bin/pwsh -command ". '{0}'"
+env:
+  GITHUB_TOKEN: ***
+##[endgroup]
+D3_PACKAGE_CONSUMER_SUMMARY=PASS CELLS=6

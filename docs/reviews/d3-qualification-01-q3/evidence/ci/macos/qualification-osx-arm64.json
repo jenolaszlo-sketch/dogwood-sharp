@@ -1,0 +1,22 @@
+{
+  "result": "pass",
+  "runtimeIdentifier": "osx-arm64",
+  "target": "aarch64-apple-darwin",
+  "frameworks": [
+    "net8.0",
+    "net10.0"
+  ],
+  "image": "libdogwoodsharp_bridge.dylib",
+  "imageSha256": "fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e",
+  "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+  "nativeSelftest": "logs/native-selftest.log",
+  "differential": "reports/osx-arm64/differential/differential-report.json",
+  "managed": [
+    "reports/osx-arm64/managed-net8.0/managed-report.json",
+    "reports/osx-arm64/managed-net10.0/managed-report.json"
+  ],
+  "aot": [
+    "aot/osx-arm64/net8.0",
+    "aot/osx-arm64/net10.0"
+  ]
+}

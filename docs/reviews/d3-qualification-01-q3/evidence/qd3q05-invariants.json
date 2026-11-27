@@ -1,0 +1,36 @@
+{
+  "commission": "DOGWOOD-SHARP-D3-QUAL-01-Q3",
+  "finding": "QD3Q-05 / C-14",
+  "pinnedRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+  "source": "https://github.com/dogwood-policy/dogwood at the pinned revision, cloned independently",
+  "invariants": [
+    {
+      "invariant": "Ingestion precedes evaluation",
+      "file": "dogwood-language/src/api.rs",
+      "function": "ingest",
+      "observation": "ingest calls temporal.observe(event) before it returns decide_at(...) for a decision-kind event.",
+      "consequence": "A decision event that references an action is already in the temporal trace when evaluate runs."
+    },
+    {
+      "invariant": "The only temporal-engine error path is 'no event observed'",
+      "file": "dogwood-language/src/engine.rs",
+      "function": "InMemoryTemporalEngine::evaluate",
+      "observation": "The function returns Err only when the partition last/trace is missing or the trace length is zero (ok_or(\"no event observed\")). All leaf computation uses eval_condition, which is total.",
+      "consequence": "For an observed decision event the error path is structurally unreachable."
+    },
+    {
+      "invariant": "The condition evaluator is total",
+      "file": "dogwood-language/src/interpreter/eval.rs",
+      "function": "eval_condition",
+      "observation": "Signature returns bool; all branches return bool; no Result/error channel.",
+      "consequence": "A temporal leaf cannot raise a runtime evaluation error in this engine."
+    },
+    {
+      "invariant": "Cedar has no temporal extension",
+      "file": "cedar-policy 4.11.0 and 4.13.0 crate sources",
+      "observation": "A recursive grep for 'formerly' returns no matches.",
+      "consequence": "Temporal evaluation is entirely in the Dogwood layer; Cedar cannot produce a temporal-engine failure."
+    }
+  ],
+  "conclusion": "The literal QD3Q-05 requirement (a genuine temporal-engine evaluation failure) is structurally unreachable in the pinned stack. C-14 is discharged by the reachable fail-closed controls FCN-03 and FCN-04, which pass on all six independent cells. Owner acknowledgment remains the only authorization for the limitation."
+}

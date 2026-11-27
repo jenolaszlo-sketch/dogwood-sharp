@@ -1,0 +1,599 @@
+{
+  "method": "SHA-256 of the committed Git blob (git cat-file blob) and of the working-tree file for every manifest line.",
+  "topLevel": {
+    "manifest": "docs/reviews/d3-impl-01-r5-r3/manifest.sha256",
+    "entries": 47,
+    "blobMatches": 19,
+    "worktreeOnlyMatches": 27,
+    "stale": [
+      {
+        "path": "evidence/fixtures.json",
+        "expected": "2E9E7D8BFE1669B40F1289E2262EF67EAB9ED8007CC1F22E0B94D152709449CA",
+        "blobSha": "0234A384A4C8129566B170D59FCDFCFFA36E9F8184CFFBEB9197EFB2C0741FC0",
+        "worktreeSha": "6D322E0E63868E56A7259B4174A5F52090231136909E9170D564730644F5A764",
+        "status": "stale"
+      }
+    ],
+    "selfReference": [],
+    "detail": [
+      {
+        "path": "OQ01-EXECUTION.md",
+        "expected": "737029F81693EC9BA547E1CDC66AFCE457105B669DD47FA087987FDF4C0E11EA",
+        "blobSha": "737029F81693EC9BA547E1CDC66AFCE457105B669DD47FA087987FDF4C0E11EA",
+        "worktreeSha": "737029F81693EC9BA547E1CDC66AFCE457105B669DD47FA087987FDF4C0E11EA",
+        "status": "blob-match"
+      },
+      {
+        "path": "QD3Q05-ACKNOWLEDGMENT.md",
+        "expected": "1A4E4D6B6D76907813E7EEAA4C47F43EBCC3FD853ED6A16EA9788180C87A5611",
+        "blobSha": "1A4E4D6B6D76907813E7EEAA4C47F43EBCC3FD853ED6A16EA9788180C87A5611",
+        "worktreeSha": "1A4E4D6B6D76907813E7EEAA4C47F43EBCC3FD853ED6A16EA9788180C87A5611",
+        "status": "blob-match"
+      },
+      {
+        "path": "README.md",
+        "expected": "810690CA398AC87E393D10BD56D9FFD3DB7EDE305D85A1C18722B561D524E8DD",
+        "blobSha": "810690CA398AC87E393D10BD56D9FFD3DB7EDE305D85A1C18722B561D524E8DD",
+        "worktreeSha": "810690CA398AC87E393D10BD56D9FFD3DB7EDE305D85A1C18722B561D524E8DD",
+        "status": "blob-match"
+      },
+      {
+        "path": "evidence/authority-verification.json",
+        "expected": "1B9777B37C89E8E919E1DCE7FD3A82E6B35BBCAFCF253CC384D082B1586FBAE6",
+        "blobSha": "3B774CCA04FBD44ED47AF08929112BEB5A2F94D6B4E0E3F6A7CF7693683F4D3C",
+        "worktreeSha": "1B9777B37C89E8E919E1DCE7FD3A82E6B35BBCAFCF253CC384D082B1586FBAE6",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/differential/oq01-controls/build-open-question-fixture.py",
+        "expected": "91351E81B5C9B0294479EDFC4198473D2AB3F2BAEA1E52AD8747174A461302DB",
+        "blobSha": "91351E81B5C9B0294479EDFC4198473D2AB3F2BAEA1E52AD8747174A461302DB",
+        "worktreeSha": "91351E81B5C9B0294479EDFC4198473D2AB3F2BAEA1E52AD8747174A461302DB",
+        "status": "blob-match"
+      },
+      {
+        "path": "evidence/differential/oq01-controls/build-oq01-controls.py",
+        "expected": "4DC48D6F30334837429069A34E1537EAB242F6FE5F3D1F002B12D4EF776D56CE",
+        "blobSha": "4DC48D6F30334837429069A34E1537EAB242F6FE5F3D1F002B12D4EF776D56CE",
+        "worktreeSha": "4DC48D6F30334837429069A34E1537EAB242F6FE5F3D1F002B12D4EF776D56CE",
+        "status": "blob-match"
+      },
+      {
+        "path": "evidence/differential/oq01-controls/fixtures.json",
+        "expected": "8035FB25BB362B3F461F8BEDBF582AFD84043FF935CE23DC05EAB85643091C8B",
+        "blobSha": "A22E6824081AB6FB862F3B28C0007DD9BC28839DFE6FB2E3FF8288CFAE965B91",
+        "worktreeSha": "8035FB25BB362B3F461F8BEDBF582AFD84043FF935CE23DC05EAB85643091C8B",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/differential/oq01-controls/lifecycle-corrected-reference-net10.0.json",
+        "expected": "5E13E32337EECBE06B805201F22ECEC25D2F9F5F64A23E08A500EE839514EAE0",
+        "blobSha": "2C894C1F0238D5A227EBF44AF462EEB9EFD4874A5CF0B27A007C75C45EB4F910",
+        "worktreeSha": "5E13E32337EECBE06B805201F22ECEC25D2F9F5F64A23E08A500EE839514EAE0",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/differential/oq01-controls/lifecycle-corrected-reference-net8.0.json",
+        "expected": "977BC64822C84623D033DA1D7F27AD4BE8E56D65E835544D3A54178CB5BC525D",
+        "blobSha": "7B7D3D123EFCF8A159A9510F420B4D14F181FFFB35685FC4C6959019E0F3C1AE",
+        "worktreeSha": "977BC64822C84623D033DA1D7F27AD4BE8E56D65E835544D3A54178CB5BC525D",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/differential/oq01-controls/lifecycle-original-reference-net10.0.json",
+        "expected": "F24B876D99FEAA7A94DD428B093BB62623A1E453BEEFEB6AF8DEE64C508C6796",
+        "blobSha": "50AACCF3F274706B6240604EF7076BE68040BFD264DE3C1AAF8710FAAC7448BC",
+        "worktreeSha": "F24B876D99FEAA7A94DD428B093BB62623A1E453BEEFEB6AF8DEE64C508C6796",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/differential/oq01-controls/lifecycle-original-reference-net8.0.json",
+        "expected": "CF09248DC666D9AEB360F1A982280E3EEFD278F82AD379B220A99FE8006B4C23",
+        "blobSha": "1269315A30821A82D7732E93A82603D921D52455F0446D5926269F08EC7559CB",
+        "worktreeSha": "CF09248DC666D9AEB360F1A982280E3EEFD278F82AD379B220A99FE8006B4C23",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/differential/oq01-controls/observations-corrected-reference-net10.0.json",
+        "expected": "FA60343F3E940B60C9608579B79D3DFDC8A78B41B8AF0E0220A25E5BCEBB7118",
+        "blobSha": "DFD42DDF6DA46EEA2F122FCBCA1620CC4DBF9B396792D35AF8E4D75C08FF6305",
+        "worktreeSha": "FA60343F3E940B60C9608579B79D3DFDC8A78B41B8AF0E0220A25E5BCEBB7118",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/differential/oq01-controls/observations-corrected-reference-net8.0.json",
+        "expected": "D4E404BAC7302881884FF4BC9560E33424704FB297E25E16AF2E1B912870FE7A",
+        "blobSha": "08153013EEFD09BF0F106BEDE75AD38FE4947535BD354774B3297B6B27ECA0E0",
+        "worktreeSha": "D4E404BAC7302881884FF4BC9560E33424704FB297E25E16AF2E1B912870FE7A",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/differential/oq01-controls/observations-original-reference-net10.0.json",
+        "expected": "4BCB3B3088836F6AEFC3A620FEA03DB9E4C71F8837F6AEA02A9ED5BB4B741B6B",
+        "blobSha": "71A6A1D7F0E5BF6CCFE750401FD16449F2D4FF94891CAE4189834C531B2AC76A",
+        "worktreeSha": "4BCB3B3088836F6AEFC3A620FEA03DB9E4C71F8837F6AEA02A9ED5BB4B741B6B",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/differential/oq01-controls/observations-original-reference-net8.0.json",
+        "expected": "3DD316744AEBCC5FAA2A21F043CF7E5E3800603C200ED7CF160DF3D1C3D321B8",
+        "blobSha": "4F1C169EC7FF487C10251C1E8B669C970ADCBD2ABB92DF49026D0BF81AEFB0C0",
+        "worktreeSha": "3DD316744AEBCC5FAA2A21F043CF7E5E3800603C200ED7CF160DF3D1C3D321B8",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/differential/oq01-controls/register.json",
+        "expected": "7D4ACF6A7FF4702D78B477FA4EA82BF75231BE5ECDAF8A88401604FAAA3140BF",
+        "blobSha": "61F3371A61320C53E9738E3369C41C6D387DC32EC13EF1B7930E4F4739D83DB0",
+        "worktreeSha": "7D4ACF6A7FF4702D78B477FA4EA82BF75231BE5ECDAF8A88401604FAAA3140BF",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/fixtures-corrected-reference.json",
+        "expected": "B563AD1997C79C1A61D91832378336E389ED51C6F523C3D2AC75C098360C3AC9",
+        "blobSha": "568267E0B31E233505CE322E54D4F9262D83647D7CC7A307C3C1500C598FF9F6",
+        "worktreeSha": "B563AD1997C79C1A61D91832378336E389ED51C6F523C3D2AC75C098360C3AC9",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/fixtures.json",
+        "expected": "2E9E7D8BFE1669B40F1289E2262EF67EAB9ED8007CC1F22E0B94D152709449CA",
+        "blobSha": "0234A384A4C8129566B170D59FCDFCFFA36E9F8184CFFBEB9197EFB2C0741FC0",
+        "worktreeSha": "6D322E0E63868E56A7259B4174A5F52090231136909E9170D564730644F5A764",
+        "status": "stale"
+      },
+      {
+        "path": "evidence/lifecycle-corrected-reference-net10.0.json",
+        "expected": "29593391C983B43D724F459858FAE5930AD9447A23C6C81F5EB508DFCBDC5843",
+        "blobSha": "87D24185623A1E752EB568D17D86D96EF569D396E3EF5A38F79F0B6BAA3E3679",
+        "worktreeSha": "29593391C983B43D724F459858FAE5930AD9447A23C6C81F5EB508DFCBDC5843",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/lifecycle-corrected-reference-net8.0.json",
+        "expected": "FE94015339101D57B965C17B0342AF2DEE410588C5DEEF8A0535584CD876513E",
+        "blobSha": "CEFCB819562C32EF982EA4BB66E4B78DE03E98DE58083FEF52F1696570892A0F",
+        "worktreeSha": "FE94015339101D57B965C17B0342AF2DEE410588C5DEEF8A0535584CD876513E",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/lifecycle-original-reference-net10.0.json",
+        "expected": "1234FC67F3258BCC480C7C9FD925700760A53C5F739832A3DF5CB10B16EB8272",
+        "blobSha": "8DD4B0B44A82283B6F82F2033A87CD45FC746E5E6B6BB6E741BC920587341B3D",
+        "worktreeSha": "1234FC67F3258BCC480C7C9FD925700760A53C5F739832A3DF5CB10B16EB8272",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/lifecycle-original-reference-net8.0.json",
+        "expected": "B49084D2FE5F8CD16BACB13D26CFE81F4AEC2FC104ED581B71F177E38C8C3D68",
+        "blobSha": "181DB765B04FD78A14824425B74CEB56466F0E58A12C32DFBDFED2DD4A738A75",
+        "worktreeSha": "B49084D2FE5F8CD16BACB13D26CFE81F4AEC2FC104ED581B71F177E38C8C3D68",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/manifest.sha256",
+        "expected": "30A90C1F2A749763C6FDBB0716BBFA215B6A8898D33502D8CD768CC39A367FB8",
+        "blobSha": "30A90C1F2A749763C6FDBB0716BBFA215B6A8898D33502D8CD768CC39A367FB8",
+        "worktreeSha": "30A90C1F2A749763C6FDBB0716BBFA215B6A8898D33502D8CD768CC39A367FB8",
+        "status": "blob-match"
+      },
+      {
+        "path": "evidence/observations-corrected-reference-net10.0.json",
+        "expected": "95E7765CFA8C18C1BFB9A9D541D1B53A279BFDC004E32C03E4038C105CEEC9B1",
+        "blobSha": "316C5DE94669A579A9CE4480D3581DB8773BC1173A94E530B06446A892D1FC31",
+        "worktreeSha": "95E7765CFA8C18C1BFB9A9D541D1B53A279BFDC004E32C03E4038C105CEEC9B1",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/observations-corrected-reference-net8.0.json",
+        "expected": "DF73437E6A04592EE3795772ED352111CEC490AE5CE57A72F53F70AD6F168DDC",
+        "blobSha": "17BB18C193D99A1B0835A727DC0DC20B56F585BEE719EA47146B0615F3C34136",
+        "worktreeSha": "DF73437E6A04592EE3795772ED352111CEC490AE5CE57A72F53F70AD6F168DDC",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/observations-original-reference-net10.0.json",
+        "expected": "4393E18886EC3B0D9500182912FD86A1E5927D65D6F8BC88DB5AA2F542C57161",
+        "blobSha": "26F7B31646A0EBB269F4D5002E5C9E858C883925CF0A8F101F5AADC5A4DED080",
+        "worktreeSha": "4393E18886EC3B0D9500182912FD86A1E5927D65D6F8BC88DB5AA2F542C57161",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/observations-original-reference-net8.0.json",
+        "expected": "FC8E9CA87737082287393B55C9A6350F1FC1124DE72A331A53DCDF25CD5D5FCD",
+        "blobSha": "C8632878276A22476A084490FD597C810095E0DB0E7CC9CA0EE4D72785BD95D9",
+        "worktreeSha": "FC8E9CA87737082287393B55C9A6350F1FC1124DE72A331A53DCDF25CD5D5FCD",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/register-corrected-reference.json",
+        "expected": "0BF7A9AE218167126BE86A1096A2382FEFACFCBB7D486DA403C100484B161B31",
+        "blobSha": "5962C4DC7191444E4DEDB66DB87E74D816B0E5F7CB7CF60AF7AE5BE11DA65E3D",
+        "worktreeSha": "0BF7A9AE218167126BE86A1096A2382FEFACFCBB7D486DA403C100484B161B31",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/register.json",
+        "expected": "9E45EC3AEB5C6BF8AA39FE59FC8D98EDAB61097275A373E2C845CC87D58DE19A",
+        "blobSha": "17E3811CCE363EE5614E24B9B0AF2F42DD5DB31ECD8B86FE85F71A597A99DC25",
+        "worktreeSha": "9E45EC3AEB5C6BF8AA39FE59FC8D98EDAB61097275A373E2C845CC87D58DE19A",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/self-test-net10.0.json",
+        "expected": "3208531E9623DAA0C971AB82FD8413D54E051EBAE3771F9CAAE0235BBB23623E",
+        "blobSha": "B8EDD96F39C9D62B0BCE8EF26665DB196DD6C61C17622B0667456DBF2717BA36",
+        "worktreeSha": "3208531E9623DAA0C971AB82FD8413D54E051EBAE3771F9CAAE0235BBB23623E",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/self-test-net8.0.json",
+        "expected": "736EF7F584231CF84300DFDA17985630CFEA9C9B67529A9D6FE1278F9664E37B",
+        "blobSha": "B038C2FCC42870E8EA050D6C91D7DE0504561ED9CE1E9888188DBB69D9B1FC20",
+        "worktreeSha": "736EF7F584231CF84300DFDA17985630CFEA9C9B67529A9D6FE1278F9664E37B",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/six-cell-matrix.json",
+        "expected": "426D71B46D68F8EEAAF1C9ABBAFB7F66604C3F2951F275943866F0F84253E728",
+        "blobSha": "5B9CB08026F66482A6D4A5D1B762D57A49F423627100EA84F58981002119B6EB",
+        "worktreeSha": "426D71B46D68F8EEAAF1C9ABBAFB7F66604C3F2951F275943866F0F84253E728",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/three-way-record.json",
+        "expected": "59459E1451042776AD4505D4CB46373C2AE1C00DEBC9C667EF14DB72E339BA10",
+        "blobSha": "A290DBD716BF1F9B7198C706952E8045596D187CB6EE1267018DAECA85591401",
+        "worktreeSha": "59459E1451042776AD4505D4CB46373C2AE1C00DEBC9C667EF14DB72E339BA10",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "evidence/three-way-record.md",
+        "expected": "1532DE22129551000175E51BEFD656E60C1383B3893401AED45C08266DB80062",
+        "blobSha": "4FCFE5E36B2412C346C206812035E980B58588B0B7AF746F07238ADA144BE91B",
+        "worktreeSha": "1532DE22129551000175E51BEFD656E60C1383B3893401AED45C08266DB80062",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "scripts/apply-patch.sh",
+        "expected": "5385D37891B4CB79C99DA5AA618F8599E774E33FBF008003B9499E78E66DE58B",
+        "blobSha": "5385D37891B4CB79C99DA5AA618F8599E774E33FBF008003B9499E78E66DE58B",
+        "worktreeSha": "5385D37891B4CB79C99DA5AA618F8599E774E33FBF008003B9499E78E66DE58B",
+        "status": "blob-match"
+      },
+      {
+        "path": "scripts/build-adjudicator.sh",
+        "expected": "66055E55AE3676978F499C100241F903601CD413578B5AA5A76426AB5C347573",
+        "blobSha": "66055E55AE3676978F499C100241F903601CD413578B5AA5A76426AB5C347573",
+        "worktreeSha": "66055E55AE3676978F499C100241F903601CD413578B5AA5A76426AB5C347573",
+        "status": "blob-match"
+      },
+      {
+        "path": "scripts/build-bridge.sh",
+        "expected": "2771533FFADD96BA21C7E436C0251452E424D618B6ABA90BD3C5F02A12ED73A5",
+        "blobSha": "2771533FFADD96BA21C7E436C0251452E424D618B6ABA90BD3C5F02A12ED73A5",
+        "worktreeSha": "2771533FFADD96BA21C7E436C0251452E424D618B6ABA90BD3C5F02A12ED73A5",
+        "status": "blob-match"
+      },
+      {
+        "path": "scripts/build-cedarsharp.sh",
+        "expected": "C15E4134575B49AB5EBC9D8CF67B58BA70B0E0A8591CC12CAAD39BE39FBE8C35",
+        "blobSha": "C15E4134575B49AB5EBC9D8CF67B58BA70B0E0A8591CC12CAAD39BE39FBE8C35",
+        "worktreeSha": "C15E4134575B49AB5EBC9D8CF67B58BA70B0E0A8591CC12CAAD39BE39FBE8C35",
+        "status": "blob-match"
+      },
+      {
+        "path": "scripts/build-oracle.sh",
+        "expected": "25A5646AE918A131DC711A78B43BB49F85DD17ECF4949F323A7696111E396678",
+        "blobSha": "25A5646AE918A131DC711A78B43BB49F85DD17ECF4949F323A7696111E396678",
+        "worktreeSha": "25A5646AE918A131DC711A78B43BB49F85DD17ECF4949F323A7696111E396678",
+        "status": "blob-match"
+      },
+      {
+        "path": "scripts/build-probe.sh",
+        "expected": "123F12ED4656C2EF8A642B73F24B8FDD1E2DD8298F6455FDFBF6BADC3E81A9FE",
+        "blobSha": "123F12ED4656C2EF8A642B73F24B8FDD1E2DD8298F6455FDFBF6BADC3E81A9FE",
+        "worktreeSha": "123F12ED4656C2EF8A642B73F24B8FDD1E2DD8298F6455FDFBF6BADC3E81A9FE",
+        "status": "blob-match"
+      },
+      {
+        "path": "scripts/fetch-dogwood.sh",
+        "expected": "CEB6773BF60EC6B39E8D83077E27D632EEB5F344976DF6EA843AF85C9DC9F8E6",
+        "blobSha": "CEB6773BF60EC6B39E8D83077E27D632EEB5F344976DF6EA843AF85C9DC9F8E6",
+        "worktreeSha": "CEB6773BF60EC6B39E8D83077E27D632EEB5F344976DF6EA843AF85C9DC9F8E6",
+        "status": "blob-match"
+      },
+      {
+        "path": "scripts/run-differential.sh",
+        "expected": "9F1DAF945808C3431383C2FD5708CA64C0E4DDEFAFD1A49567015BCD92021DED",
+        "blobSha": "9F1DAF945808C3431383C2FD5708CA64C0E4DDEFAFD1A49567015BCD92021DED",
+        "worktreeSha": "9F1DAF945808C3431383C2FD5708CA64C0E4DDEFAFD1A49567015BCD92021DED",
+        "status": "blob-match"
+      },
+      {
+        "path": "scripts/self-test.sh",
+        "expected": "D56BD6BFE09097459A2F61ED2DA6E594DB5803F3BACB0B79016D5FA11B03F72F",
+        "blobSha": "D56BD6BFE09097459A2F61ED2DA6E594DB5803F3BACB0B79016D5FA11B03F72F",
+        "worktreeSha": "D56BD6BFE09097459A2F61ED2DA6E594DB5803F3BACB0B79016D5FA11B03F72F",
+        "status": "blob-match"
+      },
+      {
+        "path": "scripts/stage-assets.sh",
+        "expected": "32488DDA150AB345674F3CD371E13FECF3B2CAAB1EA81B07053B9C9EB669D734",
+        "blobSha": "32488DDA150AB345674F3CD371E13FECF3B2CAAB1EA81B07053B9C9EB669D734",
+        "worktreeSha": "32488DDA150AB345674F3CD371E13FECF3B2CAAB1EA81B07053B9C9EB669D734",
+        "status": "blob-match"
+      },
+      {
+        "path": "scripts/verify-adjudicator.sh",
+        "expected": "96087D7CAAF184B447F3DFEE5FE09A8397403BF9BE6414D4989B24E79C77D7AA",
+        "blobSha": "96087D7CAAF184B447F3DFEE5FE09A8397403BF9BE6414D4989B24E79C77D7AA",
+        "worktreeSha": "96087D7CAAF184B447F3DFEE5FE09A8397403BF9BE6414D4989B24E79C77D7AA",
+        "status": "blob-match"
+      },
+      {
+        "path": "scripts/verify-baseline.sh",
+        "expected": "BA2F83416AAF1FC2A0309C8B6AFF0EB9462BAACA3011E45AA031DE4C3D315B6C",
+        "blobSha": "BA2F83416AAF1FC2A0309C8B6AFF0EB9462BAACA3011E45AA031DE4C3D315B6C",
+        "worktreeSha": "BA2F83416AAF1FC2A0309C8B6AFF0EB9462BAACA3011E45AA031DE4C3D315B6C",
+        "status": "blob-match"
+      },
+      {
+        "path": "scripts/verify-results.sh",
+        "expected": "FEF83FE3E0127E3F575C7E03ACCA74E8D997CAF6359AE892D6CE231079D44CFA",
+        "blobSha": "FEF83FE3E0127E3F575C7E03ACCA74E8D997CAF6359AE892D6CE231079D44CFA",
+        "worktreeSha": "FEF83FE3E0127E3F575C7E03ACCA74E8D997CAF6359AE892D6CE231079D44CFA",
+        "status": "blob-match"
+      }
+    ]
+  },
+  "evidenceLevel": {
+    "manifest": "docs/reviews/d3-impl-01-r5-r3/evidence/manifest.sha256",
+    "entries": 31,
+    "blobMatches": 2,
+    "worktreeOnlyMatches": 27,
+    "stale": [
+      {
+        "path": "fixtures.json",
+        "expected": "2E9E7D8BFE1669B40F1289E2262EF67EAB9ED8007CC1F22E0B94D152709449CA",
+        "blobSha": "0234A384A4C8129566B170D59FCDFCFFA36E9F8184CFFBEB9197EFB2C0741FC0",
+        "worktreeSha": "6D322E0E63868E56A7259B4174A5F52090231136909E9170D564730644F5A764",
+        "status": "stale"
+      }
+    ],
+    "selfReference": [
+      "manifest.sha256"
+    ],
+    "detail": [
+      {
+        "path": "authority-verification.json",
+        "expected": "1B9777B37C89E8E919E1DCE7FD3A82E6B35BBCAFCF253CC384D082B1586FBAE6",
+        "blobSha": "3B774CCA04FBD44ED47AF08929112BEB5A2F94D6B4E0E3F6A7CF7693683F4D3C",
+        "worktreeSha": "1B9777B37C89E8E919E1DCE7FD3A82E6B35BBCAFCF253CC384D082B1586FBAE6",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "differential/oq01-controls/build-open-question-fixture.py",
+        "expected": "91351E81B5C9B0294479EDFC4198473D2AB3F2BAEA1E52AD8747174A461302DB",
+        "blobSha": "91351E81B5C9B0294479EDFC4198473D2AB3F2BAEA1E52AD8747174A461302DB",
+        "worktreeSha": "91351E81B5C9B0294479EDFC4198473D2AB3F2BAEA1E52AD8747174A461302DB",
+        "status": "blob-match"
+      },
+      {
+        "path": "differential/oq01-controls/build-oq01-controls.py",
+        "expected": "4DC48D6F30334837429069A34E1537EAB242F6FE5F3D1F002B12D4EF776D56CE",
+        "blobSha": "4DC48D6F30334837429069A34E1537EAB242F6FE5F3D1F002B12D4EF776D56CE",
+        "worktreeSha": "4DC48D6F30334837429069A34E1537EAB242F6FE5F3D1F002B12D4EF776D56CE",
+        "status": "blob-match"
+      },
+      {
+        "path": "differential/oq01-controls/fixtures.json",
+        "expected": "8035FB25BB362B3F461F8BEDBF582AFD84043FF935CE23DC05EAB85643091C8B",
+        "blobSha": "A22E6824081AB6FB862F3B28C0007DD9BC28839DFE6FB2E3FF8288CFAE965B91",
+        "worktreeSha": "8035FB25BB362B3F461F8BEDBF582AFD84043FF935CE23DC05EAB85643091C8B",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "differential/oq01-controls/lifecycle-corrected-reference-net10.0.json",
+        "expected": "5E13E32337EECBE06B805201F22ECEC25D2F9F5F64A23E08A500EE839514EAE0",
+        "blobSha": "2C894C1F0238D5A227EBF44AF462EEB9EFD4874A5CF0B27A007C75C45EB4F910",
+        "worktreeSha": "5E13E32337EECBE06B805201F22ECEC25D2F9F5F64A23E08A500EE839514EAE0",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "differential/oq01-controls/lifecycle-corrected-reference-net8.0.json",
+        "expected": "977BC64822C84623D033DA1D7F27AD4BE8E56D65E835544D3A54178CB5BC525D",
+        "blobSha": "7B7D3D123EFCF8A159A9510F420B4D14F181FFFB35685FC4C6959019E0F3C1AE",
+        "worktreeSha": "977BC64822C84623D033DA1D7F27AD4BE8E56D65E835544D3A54178CB5BC525D",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "differential/oq01-controls/lifecycle-original-reference-net10.0.json",
+        "expected": "F24B876D99FEAA7A94DD428B093BB62623A1E453BEEFEB6AF8DEE64C508C6796",
+        "blobSha": "50AACCF3F274706B6240604EF7076BE68040BFD264DE3C1AAF8710FAAC7448BC",
+        "worktreeSha": "F24B876D99FEAA7A94DD428B093BB62623A1E453BEEFEB6AF8DEE64C508C6796",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "differential/oq01-controls/lifecycle-original-reference-net8.0.json",
+        "expected": "CF09248DC666D9AEB360F1A982280E3EEFD278F82AD379B220A99FE8006B4C23",
+        "blobSha": "1269315A30821A82D7732E93A82603D921D52455F0446D5926269F08EC7559CB",
+        "worktreeSha": "CF09248DC666D9AEB360F1A982280E3EEFD278F82AD379B220A99FE8006B4C23",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "differential/oq01-controls/observations-corrected-reference-net10.0.json",
+        "expected": "FA60343F3E940B60C9608579B79D3DFDC8A78B41B8AF0E0220A25E5BCEBB7118",
+        "blobSha": "DFD42DDF6DA46EEA2F122FCBCA1620CC4DBF9B396792D35AF8E4D75C08FF6305",
+        "worktreeSha": "FA60343F3E940B60C9608579B79D3DFDC8A78B41B8AF0E0220A25E5BCEBB7118",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "differential/oq01-controls/observations-corrected-reference-net8.0.json",
+        "expected": "D4E404BAC7302881884FF4BC9560E33424704FB297E25E16AF2E1B912870FE7A",
+        "blobSha": "08153013EEFD09BF0F106BEDE75AD38FE4947535BD354774B3297B6B27ECA0E0",
+        "worktreeSha": "D4E404BAC7302881884FF4BC9560E33424704FB297E25E16AF2E1B912870FE7A",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "differential/oq01-controls/observations-original-reference-net10.0.json",
+        "expected": "4BCB3B3088836F6AEFC3A620FEA03DB9E4C71F8837F6AEA02A9ED5BB4B741B6B",
+        "blobSha": "71A6A1D7F0E5BF6CCFE750401FD16449F2D4FF94891CAE4189834C531B2AC76A",
+        "worktreeSha": "4BCB3B3088836F6AEFC3A620FEA03DB9E4C71F8837F6AEA02A9ED5BB4B741B6B",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "differential/oq01-controls/observations-original-reference-net8.0.json",
+        "expected": "3DD316744AEBCC5FAA2A21F043CF7E5E3800603C200ED7CF160DF3D1C3D321B8",
+        "blobSha": "4F1C169EC7FF487C10251C1E8B669C970ADCBD2ABB92DF49026D0BF81AEFB0C0",
+        "worktreeSha": "3DD316744AEBCC5FAA2A21F043CF7E5E3800603C200ED7CF160DF3D1C3D321B8",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "differential/oq01-controls/register.json",
+        "expected": "7D4ACF6A7FF4702D78B477FA4EA82BF75231BE5ECDAF8A88401604FAAA3140BF",
+        "blobSha": "61F3371A61320C53E9738E3369C41C6D387DC32EC13EF1B7930E4F4739D83DB0",
+        "worktreeSha": "7D4ACF6A7FF4702D78B477FA4EA82BF75231BE5ECDAF8A88401604FAAA3140BF",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "fixtures-corrected-reference.json",
+        "expected": "B563AD1997C79C1A61D91832378336E389ED51C6F523C3D2AC75C098360C3AC9",
+        "blobSha": "568267E0B31E233505CE322E54D4F9262D83647D7CC7A307C3C1500C598FF9F6",
+        "worktreeSha": "B563AD1997C79C1A61D91832378336E389ED51C6F523C3D2AC75C098360C3AC9",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "fixtures.json",
+        "expected": "2E9E7D8BFE1669B40F1289E2262EF67EAB9ED8007CC1F22E0B94D152709449CA",
+        "blobSha": "0234A384A4C8129566B170D59FCDFCFFA36E9F8184CFFBEB9197EFB2C0741FC0",
+        "worktreeSha": "6D322E0E63868E56A7259B4174A5F52090231136909E9170D564730644F5A764",
+        "status": "stale"
+      },
+      {
+        "path": "lifecycle-corrected-reference-net10.0.json",
+        "expected": "29593391C983B43D724F459858FAE5930AD9447A23C6C81F5EB508DFCBDC5843",
+        "blobSha": "87D24185623A1E752EB568D17D86D96EF569D396E3EF5A38F79F0B6BAA3E3679",
+        "worktreeSha": "29593391C983B43D724F459858FAE5930AD9447A23C6C81F5EB508DFCBDC5843",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "lifecycle-corrected-reference-net8.0.json",
+        "expected": "FE94015339101D57B965C17B0342AF2DEE410588C5DEEF8A0535584CD876513E",
+        "blobSha": "CEFCB819562C32EF982EA4BB66E4B78DE03E98DE58083FEF52F1696570892A0F",
+        "worktreeSha": "FE94015339101D57B965C17B0342AF2DEE410588C5DEEF8A0535584CD876513E",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "lifecycle-original-reference-net10.0.json",
+        "expected": "1234FC67F3258BCC480C7C9FD925700760A53C5F739832A3DF5CB10B16EB8272",
+        "blobSha": "8DD4B0B44A82283B6F82F2033A87CD45FC746E5E6B6BB6E741BC920587341B3D",
+        "worktreeSha": "1234FC67F3258BCC480C7C9FD925700760A53C5F739832A3DF5CB10B16EB8272",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "lifecycle-original-reference-net8.0.json",
+        "expected": "B49084D2FE5F8CD16BACB13D26CFE81F4AEC2FC104ED581B71F177E38C8C3D68",
+        "blobSha": "181DB765B04FD78A14824425B74CEB56466F0E58A12C32DFBDFED2DD4A738A75",
+        "worktreeSha": "B49084D2FE5F8CD16BACB13D26CFE81F4AEC2FC104ED581B71F177E38C8C3D68",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "manifest.sha256",
+        "expected": "96B74504AEC64952D1881F1E3AEC9B44A808234BA755468C61D1FA152BA42D14",
+        "blobSha": "30A90C1F2A749763C6FDBB0716BBFA215B6A8898D33502D8CD768CC39A367FB8",
+        "worktreeSha": "30A90C1F2A749763C6FDBB0716BBFA215B6A8898D33502D8CD768CC39A367FB8",
+        "status": "self-reference"
+      },
+      {
+        "path": "observations-corrected-reference-net10.0.json",
+        "expected": "95E7765CFA8C18C1BFB9A9D541D1B53A279BFDC004E32C03E4038C105CEEC9B1",
+        "blobSha": "316C5DE94669A579A9CE4480D3581DB8773BC1173A94E530B06446A892D1FC31",
+        "worktreeSha": "95E7765CFA8C18C1BFB9A9D541D1B53A279BFDC004E32C03E4038C105CEEC9B1",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "observations-corrected-reference-net8.0.json",
+        "expected": "DF73437E6A04592EE3795772ED352111CEC490AE5CE57A72F53F70AD6F168DDC",
+        "blobSha": "17BB18C193D99A1B0835A727DC0DC20B56F585BEE719EA47146B0615F3C34136",
+        "worktreeSha": "DF73437E6A04592EE3795772ED352111CEC490AE5CE57A72F53F70AD6F168DDC",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "observations-original-reference-net10.0.json",
+        "expected": "4393E18886EC3B0D9500182912FD86A1E5927D65D6F8BC88DB5AA2F542C57161",
+        "blobSha": "26F7B31646A0EBB269F4D5002E5C9E858C883925CF0A8F101F5AADC5A4DED080",
+        "worktreeSha": "4393E18886EC3B0D9500182912FD86A1E5927D65D6F8BC88DB5AA2F542C57161",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "observations-original-reference-net8.0.json",
+        "expected": "FC8E9CA87737082287393B55C9A6350F1FC1124DE72A331A53DCDF25CD5D5FCD",
+        "blobSha": "C8632878276A22476A084490FD597C810095E0DB0E7CC9CA0EE4D72785BD95D9",
+        "worktreeSha": "FC8E9CA87737082287393B55C9A6350F1FC1124DE72A331A53DCDF25CD5D5FCD",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "register-corrected-reference.json",
+        "expected": "0BF7A9AE218167126BE86A1096A2382FEFACFCBB7D486DA403C100484B161B31",
+        "blobSha": "5962C4DC7191444E4DEDB66DB87E74D816B0E5F7CB7CF60AF7AE5BE11DA65E3D",
+        "worktreeSha": "0BF7A9AE218167126BE86A1096A2382FEFACFCBB7D486DA403C100484B161B31",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "register.json",
+        "expected": "9E45EC3AEB5C6BF8AA39FE59FC8D98EDAB61097275A373E2C845CC87D58DE19A",
+        "blobSha": "17E3811CCE363EE5614E24B9B0AF2F42DD5DB31ECD8B86FE85F71A597A99DC25",
+        "worktreeSha": "9E45EC3AEB5C6BF8AA39FE59FC8D98EDAB61097275A373E2C845CC87D58DE19A",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "self-test-net10.0.json",
+        "expected": "3208531E9623DAA0C971AB82FD8413D54E051EBAE3771F9CAAE0235BBB23623E",
+        "blobSha": "B8EDD96F39C9D62B0BCE8EF26665DB196DD6C61C17622B0667456DBF2717BA36",
+        "worktreeSha": "3208531E9623DAA0C971AB82FD8413D54E051EBAE3771F9CAAE0235BBB23623E",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "self-test-net8.0.json",
+        "expected": "736EF7F584231CF84300DFDA17985630CFEA9C9B67529A9D6FE1278F9664E37B",
+        "blobSha": "B038C2FCC42870E8EA050D6C91D7DE0504561ED9CE1E9888188DBB69D9B1FC20",
+        "worktreeSha": "736EF7F584231CF84300DFDA17985630CFEA9C9B67529A9D6FE1278F9664E37B",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "six-cell-matrix.json",
+        "expected": "426D71B46D68F8EEAAF1C9ABBAFB7F66604C3F2951F275943866F0F84253E728",
+        "blobSha": "5B9CB08026F66482A6D4A5D1B762D57A49F423627100EA84F58981002119B6EB",
+        "worktreeSha": "426D71B46D68F8EEAAF1C9ABBAFB7F66604C3F2951F275943866F0F84253E728",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "three-way-record.json",
+        "expected": "59459E1451042776AD4505D4CB46373C2AE1C00DEBC9C667EF14DB72E339BA10",
+        "blobSha": "A290DBD716BF1F9B7198C706952E8045596D187CB6EE1267018DAECA85591401",
+        "worktreeSha": "59459E1451042776AD4505D4CB46373C2AE1C00DEBC9C667EF14DB72E339BA10",
+        "status": "worktree-only-match"
+      },
+      {
+        "path": "three-way-record.md",
+        "expected": "1532DE22129551000175E51BEFD656E60C1383B3893401AED45C08266DB80062",
+        "blobSha": "4FCFE5E36B2412C346C206812035E980B58588B0B7AF746F07238ADA144BE91B",
+        "worktreeSha": "1532DE22129551000175E51BEFD656E60C1383B3893401AED45C08266DB80062",
+        "status": "worktree-only-match"
+      }
+    ]
+  },
+  "staleAnalysis": {
+    "evidence/fixtures.json": {
+      "note": "Matches the R5-R2 fixtures content with CRLF line endings (12f6b32), not the current R5-R3 working tree or blob.",
+      "r5r2CrlfSha256": "2E9E7D8BFE1669B40F1289E2262EF67EAB9ED8007CC1F22E0B94D152709449CA",
+      "currentBlobSha256": "0234A384A4C8129566B170D59FCDFCFFA36E9F8184CFFBEB9197EFB2C0741FC0",
+      "currentWorktreeSha256": "6D322E0E63868E56A7259B4174A5F52090231136909E9170D564730644F5A764",
+      "changedByCommit": "44085d3a77f1d9b28decef2c3f4933641ba9134a",
+      "changedBySubject": "Fix fixtures: remove retired ED-06 references, add FCN-02 fail-closed normalization for 5 cases",
+      "changedAfterManifestCommit": "b23f6a9b38eceb5753883073f071dc9068b9db82"
+    }
+  },
+  "conclusion": "Neither R5-R3 manifest verifies against the binding tree. The manifests hash CRLF working-tree bytes and one covered file was changed after signing."
+}

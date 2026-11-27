@@ -1,0 +1,611 @@
+{
+  "commission": "DOGWOOD-SHARP-D3-QUAL-01-Q3",
+  "baseline": {
+    "handoffCommit": "aa319955082edd3ea0ff1ad4fa04c7676c7bf5ab",
+    "handoffTree": "7871374758c54dcba9a5d95b922042d25743c3a0",
+    "executionCommit": "12a45557eb991482ee4c7b02f26cea13eee1fa4c",
+    "executionTree": "f58951e4c63935826b9630f69f18d32c02c085f9",
+    "producerTerminalRun": 46005380010,
+    "independentDifferentialRun": 46027320360,
+    "independentRegressionRun": 46027941574
+  },
+  "fixture": {
+    "executedPath": "docs/reviews/d3-impl-01-r5-r3/evidence/fixtures-corrected-reference.json",
+    "committedBlobSha256": "568267E0B31E233505CE322E54D4F9262D83647D7CC7A307C3C1500C598FF9F6",
+    "windowsCrlfSha256": "B563AD1997C79C1A61D91832378336E389ED51C6F523C3D2AC75C098360C3AC9",
+    "registerBlobSha256": "5962C4DC7191444E4DEDB66DB87E74D816B0E5F7CB7CF60AF7AE5BE11DA65E3D",
+    "registerWindowsCrlfSha256": "0BF7A9AE218167126BE86A1096A2382FEFACFCBB7D486DA403C100484B161B31"
+  },
+  "hostedIndependentCells": {
+    "linux-x64-net8.0": {
+      "summary": {
+        "total": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "familyCount": 26,
+        "classifications": {
+          "agreement": 84,
+          "approved-difference": 22,
+          "fail-closed-equivalence": 9,
+          "operation-failure": 9
+        }
+      },
+      "families": 26,
+      "coverageErrors": 0,
+      "runtime": {
+        "framework": ".NET 8.0.34",
+        "rid": "linux-x64",
+        "architecture": "X64",
+        "oracle": "/home/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/oracle-target/release/dogwoodsharp-corrected-oracle",
+        "fixtures": "/home/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/fixtures-corrected-reference.json",
+        "fixturesSha256": "568267E0B31E233505CE322E54D4F9262D83647D7CC7A307C3C1500C598FF9F6",
+        "differenceRegister": "/home/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/register-corrected-reference.json",
+        "differenceRegisterSha256": "5962C4DC7191444E4DEDB66DB87E74D816B0E5F7CB7CF60AF7AE5BE11DA65E3D",
+        "nativeBridge": {
+          "loaded": true,
+          "abiVersion": 1,
+          "bridgeVersion": "0.1.0",
+          "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+          "dogwoodVersion": "1.1.2",
+          "cedarVersion": "4.11.0",
+          "rustVersion": "1.99.1",
+          "target": "x86_64-unknown-linux-gnu"
+        }
+      },
+      "files": {
+        "observations": "EA26DE2056846453D519E96EADF86AB6CD2981B3BCACBB3A71291FFBB8B39E52",
+        "lifecycle": "D710B447BFC58D1582C163A4FB08DEF5025946C13092F0F101DAD0DACBE59FB8",
+        "adjudicator": "0F878B4B086506FC8894893C733656D62611B54CBD938ABBD38D2C12A982A994",
+        "console": "19209CFD0D098633FBC07016C1283C08A380E13BA3C75F167FDB8AA1C2A407F0"
+      }
+    },
+    "linux-x64-net10.0": {
+      "summary": {
+        "total": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "familyCount": 26,
+        "classifications": {
+          "agreement": 84,
+          "approved-difference": 22,
+          "fail-closed-equivalence": 9,
+          "operation-failure": 9
+        }
+      },
+      "families": 26,
+      "coverageErrors": 0,
+      "runtime": {
+        "framework": ".NET 10.0.15",
+        "rid": "linux-x64",
+        "architecture": "X64",
+        "oracle": "/home/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/oracle-target/release/dogwoodsharp-corrected-oracle",
+        "fixtures": "/home/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/fixtures-corrected-reference.json",
+        "fixturesSha256": "568267E0B31E233505CE322E54D4F9262D83647D7CC7A307C3C1500C598FF9F6",
+        "differenceRegister": "/home/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/register-corrected-reference.json",
+        "differenceRegisterSha256": "5962C4DC7191444E4DEDB66DB87E74D816B0E5F7CB7CF60AF7AE5BE11DA65E3D",
+        "nativeBridge": {
+          "loaded": true,
+          "abiVersion": 1,
+          "bridgeVersion": "0.1.0",
+          "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+          "dogwoodVersion": "1.1.2",
+          "cedarVersion": "4.11.0",
+          "rustVersion": "1.99.1",
+          "target": "x86_64-unknown-linux-gnu"
+        }
+      },
+      "files": {
+        "observations": "981546E98A858C85154FC9EBDEC9E45F9B51DCBC3D8FC8EA949BF1679FDFC32B",
+        "lifecycle": "3EBACDBDE97B84B29013E8D578D42CF3EEAB3EA28C0121CA451F891E7E72CEF4",
+        "adjudicator": "0F878B4B086506FC8894893C733656D62611B54CBD938ABBD38D2C12A982A994",
+        "console": "270B0DE3BE092D3F295B989FBE051EAF755833A231380A0A0C72042CE3EA9207"
+      }
+    },
+    "osx-arm64-net8.0": {
+      "summary": {
+        "total": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "familyCount": 26,
+        "classifications": {
+          "agreement": 84,
+          "approved-difference": 22,
+          "fail-closed-equivalence": 9,
+          "operation-failure": 9
+        }
+      },
+      "families": 26,
+      "coverageErrors": 0,
+      "runtime": {
+        "framework": ".NET 8.0.34",
+        "rid": "osx-arm64",
+        "architecture": "Arm64",
+        "oracle": "/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/oracle-target/release/dogwoodsharp-corrected-oracle",
+        "fixtures": "/Users/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/fixtures-corrected-reference.json",
+        "fixturesSha256": "568267E0B31E233505CE322E54D4F9262D83647D7CC7A307C3C1500C598FF9F6",
+        "differenceRegister": "/Users/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/register-corrected-reference.json",
+        "differenceRegisterSha256": "5962C4DC7191444E4DEDB66DB87E74D816B0E5F7CB7CF60AF7AE5BE11DA65E3D",
+        "nativeBridge": {
+          "loaded": true,
+          "abiVersion": 1,
+          "bridgeVersion": "0.1.0",
+          "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+          "dogwoodVersion": "1.1.2",
+          "cedarVersion": "4.11.0",
+          "rustVersion": "1.99.1",
+          "target": "aarch64-apple-darwin"
+        }
+      },
+      "files": {
+        "observations": "BB13082261EEF1A7C8942B5DE16B4AADF0236961B046798B504BAB4B06E61ED4",
+        "lifecycle": "4602B644EAC3D6A957C8057905D46BAE637C7E59A131A3F1D2996AE464A7BEFC",
+        "adjudicator": "0F878B4B086506FC8894893C733656D62611B54CBD938ABBD38D2C12A982A994",
+        "console": "104E2BC9ACAE0CC0BB1CCE041C42DA5C8832C0CC2F5B9EAAD6467F56870189F1"
+      }
+    },
+    "osx-arm64-net10.0": {
+      "summary": {
+        "total": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "familyCount": 26,
+        "classifications": {
+          "agreement": 84,
+          "approved-difference": 22,
+          "fail-closed-equivalence": 9,
+          "operation-failure": 9
+        }
+      },
+      "families": 26,
+      "coverageErrors": 0,
+      "runtime": {
+        "framework": ".NET 10.0.15",
+        "rid": "osx-arm64",
+        "architecture": "Arm64",
+        "oracle": "/Users/runner/work/dogwood-sharp/dogwood-sharp/r5r3-work/oracle-target/release/dogwoodsharp-corrected-oracle",
+        "fixtures": "/Users/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/fixtures-corrected-reference.json",
+        "fixturesSha256": "568267E0B31E233505CE322E54D4F9262D83647D7CC7A307C3C1500C598FF9F6",
+        "differenceRegister": "/Users/runner/work/dogwood-sharp/dogwood-sharp/docs/reviews/d3-impl-01-r5-r3/evidence/register-corrected-reference.json",
+        "differenceRegisterSha256": "5962C4DC7191444E4DEDB66DB87E74D816B0E5F7CB7CF60AF7AE5BE11DA65E3D",
+        "nativeBridge": {
+          "loaded": true,
+          "abiVersion": 1,
+          "bridgeVersion": "0.1.0",
+          "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+          "dogwoodVersion": "1.1.2",
+          "cedarVersion": "4.11.0",
+          "rustVersion": "1.99.1",
+          "target": "aarch64-apple-darwin"
+        }
+      },
+      "files": {
+        "observations": "4EA190C626A64A0C4EEABC21695D14B3C2C5975C2C220BB07CE7835A882BBE88",
+        "lifecycle": "CBBDE7E1D3687BB43EE937C4694DF2C6C3617669FBCD4DE3EAA3D5E4C4B62EDD",
+        "adjudicator": "0F878B4B086506FC8894893C733656D62611B54CBD938ABBD38D2C12A982A994",
+        "console": "EFC7298578D4011DB4402D35AB8120C209D2CAE22103C53EA3F6004B9C27B6A2"
+      }
+    }
+  },
+  "windowsLocal": {
+    "patchedBridgeNet8": {
+      "summary": {
+        "total": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "familyCount": 26,
+        "classifications": {
+          "agreement": 84,
+          "approved-difference": 22,
+          "fail-closed-equivalence": 9,
+          "operation-failure": 9
+        }
+      },
+      "families": 26,
+      "coverageErrors": 0,
+      "runtime": {
+        "framework": ".NET 8.0.31",
+        "rid": "win-x64",
+        "architecture": "X64",
+        "oracle": "D:\\q3-independent\\r5r3-work\\oracle-target\\release\\dogwoodsharp-corrected-oracle.exe",
+        "fixtures": "D:\\q3-independent\\docs\\reviews\\d3-impl-01-r5-r3\\evidence\\fixtures-corrected-reference.json",
+        "fixturesSha256": "568267E0B31E233505CE322E54D4F9262D83647D7CC7A307C3C1500C598FF9F6",
+        "differenceRegister": "D:\\q3-independent\\docs\\reviews\\d3-impl-01-r5-r3\\evidence\\register-corrected-reference.json",
+        "differenceRegisterSha256": "5962C4DC7191444E4DEDB66DB87E74D816B0E5F7CB7CF60AF7AE5BE11DA65E3D",
+        "nativeBridge": {
+          "loaded": true,
+          "abiVersion": 1,
+          "bridgeVersion": "0.1.0",
+          "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+          "dogwoodVersion": "1.1.2",
+          "cedarVersion": "4.11.0",
+          "rustVersion": "1.99.1",
+          "target": "x86_64-pc-windows-msvc"
+        }
+      },
+      "fileSha256": "2CB3B487E58FEE04CF402E686659A2EBFBF670D12A2A92E9989475B9115262F1"
+    },
+    "patchedBridgeNet10": {
+      "summary": {
+        "total": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "familyCount": 26,
+        "classifications": {
+          "agreement": 84,
+          "approved-difference": 22,
+          "fail-closed-equivalence": 9,
+          "operation-failure": 9
+        }
+      },
+      "families": 26,
+      "coverageErrors": 0,
+      "runtime": {
+        "framework": ".NET 10.0.12",
+        "rid": "win-x64",
+        "architecture": "X64",
+        "oracle": "D:\\q3-independent\\r5r3-work\\oracle-target\\release\\dogwoodsharp-corrected-oracle.exe",
+        "fixtures": "D:\\q3-independent\\docs\\reviews\\d3-impl-01-r5-r3\\evidence\\fixtures-corrected-reference.json",
+        "fixturesSha256": "568267E0B31E233505CE322E54D4F9262D83647D7CC7A307C3C1500C598FF9F6",
+        "differenceRegister": "D:\\q3-independent\\docs\\reviews\\d3-impl-01-r5-r3\\evidence\\register-corrected-reference.json",
+        "differenceRegisterSha256": "5962C4DC7191444E4DEDB66DB87E74D816B0E5F7CB7CF60AF7AE5BE11DA65E3D",
+        "nativeBridge": {
+          "loaded": true,
+          "abiVersion": 1,
+          "bridgeVersion": "0.1.0",
+          "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+          "dogwoodVersion": "1.1.2",
+          "cedarVersion": "4.11.0",
+          "rustVersion": "1.99.1",
+          "target": "x86_64-pc-windows-msvc"
+        }
+      },
+      "fileSha256": "387DABE3D87F19CBDEA74725B31C9DA62B502369D6E2C0894EB13C679999F3DC"
+    },
+    "shippedBridgeNet8": {
+      "summary": {
+        "total": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "familyCount": 26,
+        "classifications": {
+          "agreement": 84,
+          "approved-difference": 22,
+          "fail-closed-equivalence": 9,
+          "operation-failure": 9
+        }
+      },
+      "families": 26,
+      "coverageErrors": 0,
+      "runtime": {
+        "framework": ".NET 8.0.31",
+        "rid": "win-x64",
+        "architecture": "X64",
+        "oracle": "D:\\q3-independent\\r5r3-work\\oracle-target\\release\\dogwoodsharp-corrected-oracle.exe",
+        "fixtures": "D:\\q3-independent\\docs\\reviews\\d3-impl-01-r5-r3\\evidence\\fixtures-corrected-reference.json",
+        "fixturesSha256": "568267E0B31E233505CE322E54D4F9262D83647D7CC7A307C3C1500C598FF9F6",
+        "differenceRegister": "D:\\q3-independent\\docs\\reviews\\d3-impl-01-r5-r3\\evidence\\register-corrected-reference.json",
+        "differenceRegisterSha256": "5962C4DC7191444E4DEDB66DB87E74D816B0E5F7CB7CF60AF7AE5BE11DA65E3D",
+        "nativeBridge": {
+          "loaded": true,
+          "abiVersion": 1,
+          "bridgeVersion": "0.1.0",
+          "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+          "dogwoodVersion": "1.1.2",
+          "cedarVersion": "4.11.0",
+          "rustVersion": "1.99.1",
+          "target": "x86_64-pc-windows-msvc"
+        }
+      },
+      "fileSha256": "58CFF11A314C8FC03122E49E41C57A0FD8F151B36DE12F0E7B8DD2A07168C543"
+    },
+    "shippedBridgeNet10": {
+      "summary": {
+        "total": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0,
+        "familyCount": 26,
+        "classifications": {
+          "agreement": 84,
+          "approved-difference": 22,
+          "fail-closed-equivalence": 9,
+          "operation-failure": 9
+        }
+      },
+      "families": 26,
+      "coverageErrors": 0,
+      "runtime": {
+        "framework": ".NET 10.0.12",
+        "rid": "win-x64",
+        "architecture": "X64",
+        "oracle": "D:\\q3-independent\\r5r3-work\\oracle-target\\release\\dogwoodsharp-corrected-oracle.exe",
+        "fixtures": "D:\\q3-independent\\docs\\reviews\\d3-impl-01-r5-r3\\evidence\\fixtures-corrected-reference.json",
+        "fixturesSha256": "568267E0B31E233505CE322E54D4F9262D83647D7CC7A307C3C1500C598FF9F6",
+        "differenceRegister": "D:\\q3-independent\\docs\\reviews\\d3-impl-01-r5-r3\\evidence\\register-corrected-reference.json",
+        "differenceRegisterSha256": "5962C4DC7191444E4DEDB66DB87E74D816B0E5F7CB7CF60AF7AE5BE11DA65E3D",
+        "nativeBridge": {
+          "loaded": true,
+          "abiVersion": 1,
+          "bridgeVersion": "0.1.0",
+          "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+          "dogwoodVersion": "1.1.2",
+          "cedarVersion": "4.11.0",
+          "rustVersion": "1.99.1",
+          "target": "x86_64-pc-windows-msvc"
+        }
+      },
+      "fileSha256": "479BAC5E36155AC497E70798724368CCDC82966893CA1010F3398CBB4FF08B46"
+    }
+  },
+  "oq01": {
+    "net8": [
+      {
+        "id": "R5R3-TC-01-valid-history-valid-current",
+        "classification": "agreement",
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": false,
+          "decision": "allow"
+        },
+        "d3": {
+          "stage": "evaluation",
+          "operationFailed": false,
+          "decision": "allow"
+        }
+      },
+      {
+        "id": "R5R3-TC-02-history-missing-temporal-attr",
+        "classification": "agreement",
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": false,
+          "decision": "deny"
+        },
+        "d3": {
+          "stage": "evaluation",
+          "operationFailed": false,
+          "decision": "deny"
+        }
+      },
+      {
+        "id": "R5R3-TC-03-history-missing-owner-forbid-on-history",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": true,
+          "decision": null
+        },
+        "d3": {
+          "stage": "trusted-binding",
+          "operationFailed": true,
+          "decision": null
+        }
+      },
+      {
+        "id": "R5R3-TC-04-both-missing-owner",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": true,
+          "decision": null
+        },
+        "d3": {
+          "stage": "trusted-binding",
+          "operationFailed": true,
+          "decision": null
+        }
+      },
+      {
+        "id": "R5R3-TC-05-mixed-history-one-valid",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": true,
+          "decision": null
+        },
+        "d3": {
+          "stage": "trusted-binding",
+          "operationFailed": true,
+          "decision": null
+        }
+      },
+      {
+        "id": "R5R3-TC-06-permit-forbid-same-action-history-missing-owner",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": true,
+          "decision": null
+        },
+        "d3": {
+          "stage": "trusted-binding",
+          "operationFailed": true,
+          "decision": null
+        }
+      },
+      {
+        "id": "R5R3-TC-07-no-valid-basis",
+        "classification": "agreement",
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": false,
+          "decision": "deny"
+        },
+        "d3": {
+          "stage": "evaluation",
+          "operationFailed": false,
+          "decision": "deny"
+        }
+      }
+    ],
+    "net10": [
+      {
+        "id": "R5R3-TC-01-valid-history-valid-current",
+        "classification": "agreement",
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": false,
+          "decision": "allow"
+        },
+        "d3": {
+          "stage": "evaluation",
+          "operationFailed": false,
+          "decision": "allow"
+        }
+      },
+      {
+        "id": "R5R3-TC-02-history-missing-temporal-attr",
+        "classification": "agreement",
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": false,
+          "decision": "deny"
+        },
+        "d3": {
+          "stage": "evaluation",
+          "operationFailed": false,
+          "decision": "deny"
+        }
+      },
+      {
+        "id": "R5R3-TC-03-history-missing-owner-forbid-on-history",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": true,
+          "decision": null
+        },
+        "d3": {
+          "stage": "trusted-binding",
+          "operationFailed": true,
+          "decision": null
+        }
+      },
+      {
+        "id": "R5R3-TC-04-both-missing-owner",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": true,
+          "decision": null
+        },
+        "d3": {
+          "stage": "trusted-binding",
+          "operationFailed": true,
+          "decision": null
+        }
+      },
+      {
+        "id": "R5R3-TC-05-mixed-history-one-valid",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": true,
+          "decision": null
+        },
+        "d3": {
+          "stage": "trusted-binding",
+          "operationFailed": true,
+          "decision": null
+        }
+      },
+      {
+        "id": "R5R3-TC-06-permit-forbid-same-action-history-missing-owner",
+        "classification": "unexpected-difference",
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": true,
+          "decision": null
+        },
+        "d3": {
+          "stage": "trusted-binding",
+          "operationFailed": true,
+          "decision": null
+        }
+      },
+      {
+        "id": "R5R3-TC-07-no-valid-basis",
+        "classification": "agreement",
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": false,
+          "decision": "deny"
+        },
+        "d3": {
+          "stage": "evaluation",
+          "operationFailed": false,
+          "decision": "deny"
+        }
+      }
+    ]
+  },
+  "oq01OriginalCase": [
+    {
+      "id": "R5R1-OQ-01-temporal-history-event-policy-evaluation-error",
+      "classification": "unexpected-difference",
+      "upstream": {
+        "stage": "evaluation",
+        "operationFailed": true,
+        "decision": null
+      },
+      "d3": {
+        "stage": "evaluation",
+        "operationFailed": false,
+        "decision": "allow"
+      }
+    }
+  ],
+  "selfTest": {
+    "net8.0": {
+      "summary": {
+        "total": 19,
+        "passed": 19,
+        "failed": 0
+      },
+      "checks": 19,
+      "failed": 0
+    },
+    "net10.0": {
+      "summary": {
+        "total": 19,
+        "passed": 19,
+        "failed": 0
+      },
+      "checks": 19,
+      "failed": 0
+    }
+  },
+  "trxFiles": [
+    {
+      "file": "q3-core-net10.0.trx",
+      "sha256": "A874B58BFD0589237702BC5E18F0848CEC1D639BA6DFD37B8F47E5418EAF3754"
+    },
+    {
+      "file": "q3-core-net8.0.trx",
+      "sha256": "C1D9ED5424D078E3CF4E49C908BBD9720621D1F44BEA10B0ED2175A36F8EA756"
+    },
+    {
+      "file": "q3-core2-net10.0.trx",
+      "sha256": "BCB84B981F22249D5C801B5B2611ADDF6149BA2ACF7843DB7429F247CF5AA1B2"
+    },
+    {
+      "file": "q3-core2-net8.0.trx",
+      "sha256": "3B2EABD14A50A5950EAA3E372AED053EE31ECE4C9C8E7F66CB277B0CC1304A3D"
+    },
+    {
+      "file": "q3-cs-net10.0.trx",
+      "sha256": "752A674F92387DE93EC4751B60004C7D107C4631A2049E7D563D840BC0EFFCF1"
+    },
+    {
+      "file": "q3-net8.trx",
+      "sha256": "4AFCD33384B6EDED80D5E4D3486F075E68E518DACA3D218EC0960C6FFF945E23"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "3",
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R5-R1",
+  "generatedAtUtc": "2026-11-27T15:59:46.4647138Z",
+  "isolation": "each destructive scenario runs in a child process against a private staged copy of the probe host directory",
+  "workRoot": "D:\\q3-independent\\r5r3-work\\scratch-q3-oq01-8",
+  "cases": []
+}

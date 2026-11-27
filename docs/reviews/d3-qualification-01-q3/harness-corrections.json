@@ -1,0 +1,68 @@
+{
+  "commission": "DOGWOOD-SHARP-D3-QUAL-01-Q3",
+  "corrections": [
+    {
+      "id": "Q3-H01",
+      "title": "CedarSharp native identity toolchain",
+      "assessment": "verified",
+      "evidence": [
+        "scripts/build-cedarsharp.sh requires active rustc 1.94.0 before cargo build and exits on any other compiler",
+        "the cloned crate's native/build.rs writes cargo:rustc-env=CEDARSHARP_RUST_VERSION and CEDARSHARP_TARGET from the actual compiler and Cargo target",
+        "the loaded identity observed in the hosted run is rustVersion 1.94.0, target x86_64-unknown-linux-gnu or aarch64-apple-darwin",
+        "the staged manifest is hardcoded to the same values, but the C# loader also checks the loaded library identity, so a manifest-only spoof does not pass"
+      ],
+      "limitations": [
+        "The script clones the CedarSharp source without a commit; the source provenance is not pinned (finding Q3-F04).",
+        "The wrong-compiler rejection was assessed by source inspection and the guard condition, not by a full script run on the review host."
+      ],
+      "bypassFound": false,
+      "responseRewritingFound": false
+    },
+    {
+      "id": "Q3-H02",
+      "title": "Corrected fixture selection",
+      "assessment": "verified",
+      "evidence": [
+        "the executed hosted observations record fixturesSha256 568267E0B31E233505CE322E54D4F9262D83647D7CC7A307C3C1500C598FF9F6, the committed LF blob of fixtures-corrected-reference.json",
+        "the register hash is 5962C4DC7191444E4DEDB66DB87E74D816B0E5F7CB7CF60AF7AE5BE11DA65E3D, the committed corrected-reference register",
+        "the only content difference between fixtures.json and fixtures-corrected-reference.json is intendedStage: request-validation for the five malformed typed-encoding cases",
+        "the original-reference register and observations remain committed and unchanged in content"
+      ],
+      "limitations": [
+        "The Windows evidence records the CRLF hash B563AD19; the JSON content is the same, but the byte hash differs by line ending (finding Q3-F06)."
+      ],
+      "weakenedAuthorizationOutcomes": false,
+      "suppressedUnexpectedDivergence": false
+    },
+    {
+      "id": "Q3-H03",
+      "title": "macOS resident native control",
+      "assessment": "verified",
+      "evidence": [
+        "the probe loads the resolved path, obtains the exported dogwoodsharp_abi_version symbol, and calls dladdr on that symbol address",
+        "the macOS cells record modulePath equal to the resolved verified asset and loadedModuleMatchesVerifiedAsset true",
+        "the helper returns null on any load/export/dladdr failure; the caller then fails the check instead of assuming a path",
+        "no package-name or fixed-path fallback is used"
+      ],
+      "limitations": [
+        "The comparison uses GetFullPath + OrdinalIgnoreCase, not inode/realpath canonicalization; a symlinked deployment path could differ."
+      ],
+      "failClosedOnUnresolvedIdentity": true
+    },
+    {
+      "id": "Q3-H04",
+      "title": "Adjudicator corpus",
+      "assessment": "verified",
+      "evidence": [
+        "the 57-case corpus in R5-R2 is byte-identical to the R5-R1 corpus (SHA-256 62B654C18ACDCEBB7298919D5CFDC52A0F473F862D12B65B7A765EB4CD0D1860)",
+        "the four independent hosted adjudicator outputs are byte-identical to the committed R5-R2 corpus-4130-outcome.json (SHA-256 0F878B4B086506FC8894893C733656D62611B54CBD938ABBD38D2C12A982A994)",
+        "the committed cedar-4.11.0 and cedar-4.13.0 outcomes are identical after removing the engine label, with 57 cases each",
+        "the corpus contains all 57 ADJ-A01..A18, B01..B13, C01..C26 cases"
+      ],
+      "limitations": [
+        "The adjudicator binary itself emits outcomes; the expected/observed authority comparison is a separate R5-R1 record, not re-derived by the verification script."
+      ],
+      "casesRemovedOrReclassified": false
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "target": "aarch64-apple-darwin",
+  "dogwoodRevision": "929f49e7305534ac61ef06cf8e47269c596dc851",
+  "defaultMaxDepth": 32,
+  "defaultMaxNodes": 1000000,
+  "sourceCases": 73,
+  "wireCases": 131,
+  "statusCounts": {
+    "0": 89,
+    "6": 6,
+    "1": 1,
+    "5": 31,
+    "4": 2,
+    "3": 2
+  },
+  "responseBytesMin": 49,
+  "responseBytesMax": 1048769,
+  "oracleWireBytesMax": 6291641,
+  "responseCeilingExercised": true,
+  "messageMismatches": [],
+  "wireLengthMismatches": [],
+  "resourceTransitions": {
+    "depth-parens": [
+      {
+        "case": "depth-parens-30",
+        "outcome": "ok",
+        "diagnostics": 0,
+        "wireStatus": 0,
+        "wireBytes": 49
+      },
+      {
+        "case": "depth-parens-31",
+        "outcome": "ok",
+        "diagnostics": 0,
+        "wireStatus": 0,
+        "wireBytes": 49
+      },
+      {
+        "case": "depth-parens-32",
+        "outcome": "parse",
+        "diagnostics": 1,
+        "wireStatus": 0,
+        "wireBytes": 162
+      },
+      {
+        "case": "depth-parens-33",
+        "outcome": "parse",
+        "diagnostics": 1,
+        "wireStatus": 0,
+        "wireBytes": 162
+      },
+      {
+        "case": "depth-parens-34",
+        "outcome": "parse",
+        "diagnostics": 1,
+        "wireStatus": 0,
+        "wireBytes": 162
+      }
+    ],
+    "depth-lists": [
+      {
+        "case": "depth-lists-31",
+        "outcome": "ok",
+        "diagnostics": 0,
+        "wireStatus": 0,
+        "wireBytes": 49
+      },
+      {
+        "case": "depth-lists-32",
+        "outcome": "parse",
+        "diagnostics": 1,
+        "wireStatus": 0,
+        "wireBytes": 162
+      },
+      {
+        "case": "depth-lists-33",
+        "outcome": "parse",
+        "diagnostics": 1,
+        "wireStatus": 0,
+        "wireBytes": 162
+      }
+    ],
+    "macro-budget": [
+      {
+        "case": "macro-budget-10",
+        "outcome": "ok",
+        "diagnostics": 0,
+        "wireStatus": 0,
+        "wireBytes": 49
+      },
+      {
+        "case": "macro-budget-16",
+        "outcome": "ok",
+        "diagnostics": 0,
+        "wireStatus": 0,
+        "wireBytes": 49
+      },
+      {
+        "case": "macro-budget-18",
+        "outcome": "macro",
+        "diagnostics": 1,
+        "wireStatus": 0,
+        "wireBytes": 173
+      },
+      {
+        "case": "macro-budget-19",
+        "outcome": "macro",
+        "diagnostics": 1,
+        "wireStatus": 0,
+        "wireBytes": 173
+      },
+      {
+        "case": "macro-budget-20",
+        "outcome": "macro",
+        "diagnostics": 1,
+        "wireStatus": 0,
+        "wireBytes": 173
+      }
+    ],
+    "scope": [
+      {
+        "case": "scope-action-group",
+        "outcome": "ok",
+        "diagnostics": 0,
+        "wireStatus": 0,
+        "wireBytes": 49
+      },
+      {
+        "case": "scope-type-mismatch",
+        "outcome": "ok",
+        "diagnostics": 0,
+        "wireStatus": 0,
+        "wireBytes": 49
+      },
+      {
+        "case": "scope-unknown-attribute",
+        "outcome": "ok",
+        "diagnostics": 0,
+        "wireStatus": 0,
+        "wireBytes": 49
+      },
+      {
+        "case": "scope-unknown-entity",
+        "outcome": "ok",
+        "diagnostics": 0,
+        "wireStatus": 0,
+        "wireBytes": 49
+      },
+      {
+        "case": "scope-unknown-function",
+        "outcome": "macro",
+        "diagnostics": 1,
+        "wireStatus": 0,
+        "wireBytes": 206
+      }
+    ]
+  },
+  "failures": [],
+  "result": "pass"
+}

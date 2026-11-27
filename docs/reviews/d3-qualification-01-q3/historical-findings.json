@@ -1,0 +1,186 @@
+{
+  "commission": "DOGWOOD-SHARP-D3-QUAL-01-Q3",
+  "source": "Q2 findings matrix, R4 reconciliation, R5-R1/R5-R2/R5-R3 reconciliation records",
+  "findings": [
+    {
+      "id": "QD3Q-01",
+      "severity": "Critical",
+      "originalRequirement": "Provider fixture and resolver outcome use the upstream envelope; malformed shared input must not pass.",
+      "remediation": "R4 provider fixture and harness controls; R5 unchanged.",
+      "independentVerification": "C-16 (3 cases) and C-17 (3 cases) pass on all six independent cells; self-test malformed-shared-input-cannot-pass passes; FCN-01 observations match.",
+      "evidence": "evidence/hosted/*/observations-corrected-reference.json; evidence/windows/self-test-*.json",
+      "finalDisposition": "Remediated",
+      "remainingLimitations": []
+    },
+    {
+      "id": "QD3Q-02",
+      "severity": "Critical",
+      "originalRequirement": "Native-failure and lifecycle scenarios must be executed in isolated processes with real interventions.",
+      "remediation": "R4 lifecycle probe; R5 C-26 cases.",
+      "independentVerification": "C-26 lifecycle controls pass on all six cells (missing, mismatched, wrong-RID, incompatible, resident); Windows self-test invalid-ABI path passes; macOS hosted Verify native selftest passes.",
+      "evidence": "evidence/hosted/*/lifecycle-corrected-reference.json; evidence/ci/macos",
+      "finalDisposition": "Remediated",
+      "remainingLimitations": []
+    },
+    {
+      "id": "QD3Q-03",
+      "severity": "Critical",
+      "originalRequirement": "C-23 compatibility ceiling must be resolved or explicitly bounded.",
+      "remediation": "ED-06 approval in R4; ED-06 retired in R5-R2 after the corrected reference.",
+      "independentVerification": "Eight typed-context cases (two base, six alternate encodings) are clean Allow/Allow on the corrected reference and D3 on all six cells; the original register preserves ED-06 verbatim; the original reference still produces Deny (historical defect surface).",
+      "evidence": "evidence/hosted/*/observations-corrected-reference.json; docs/reviews/d3-impl-01-r5/evidence/register.json",
+      "finalDisposition": "Remediated and retired",
+      "remainingLimitations": ["The original reference remains defective by design; it is retained only for historical reproducibility."]
+    },
+    {
+      "id": "QD3Q-04",
+      "severity": "High",
+      "originalRequirement": "An errored forbid must preserve the raw Allow, the error and the forbid identity; it must not become a clean Deny.",
+      "remediation": "R3/R4 errored-forbid control.",
+      "independentVerification": "R3-C19-01 passes as a fail-closed raw Allow with error on all six cells.",
+      "evidence": "evidence/hosted/*/observations-corrected-reference.json",
+      "finalDisposition": "Remediated",
+      "remainingLimitations": []
+    },
+    {
+      "id": "QD3Q-05",
+      "severity": "High",
+      "originalRequirement": "A genuine temporal-engine evaluation failure must be demonstrated.",
+      "remediation": "R5-R3 owner acknowledgment of structural unreachability; C-14 discharged via FCN-03 and FCN-04.",
+      "independentVerification": "Pinned source confirms temporal.observe precedes temporal.evaluate; the only InMemoryTemporalEngine error is 'no event observed', unreachable for an observed decision event; eval_condition returns bool; Cedar 4.11.0/4.13.0 has no 'formerly'. FCN-03/04 pass on all cells.",
+      "evidence": "evidence/qd3q05-invariants.json; evidence/hosted/*/observations-corrected-reference.json",
+      "finalDisposition": "Bounded limitation, owner-acknowledged",
+      "remainingLimitations": ["The literal temporal-engine failure path remains unexecuted; the acceptance is limited to the pinned Dogwood 1.1.2 / Cedar 4.11.0 stack."]
+    },
+    {
+      "id": "QD3Q-06",
+      "severity": "High",
+      "originalRequirement": "A bounded 1,000-character payload must be compared by value.",
+      "remediation": "R3/R4 C-24 control.",
+      "independentVerification": "C-24-04 passes on all six cells.",
+      "evidence": "evidence/hosted/*/observations-corrected-reference.json",
+      "finalDisposition": "Remediated",
+      "remainingLimitations": []
+    },
+    {
+      "id": "QD3Q-07",
+      "severity": "High",
+      "originalRequirement": "Semantic family coverage and required controls must be enforced on both sides.",
+      "remediation": "R5-R1 family-role enforcement and negative controls.",
+      "independentVerification": "26/26 families covered; every required control present; 19/19 harness self-tests pass on both TFMs, including false family pass, vacuous agreement, stage-mismatch and scope-masking negatives.",
+      "evidence": "evidence/windows/self-test-net8.0.json; evidence/windows/self-test-net10.0.json",
+      "finalDisposition": "Remediated",
+      "remainingLimitations": ["Self-test executes on Windows only (finding Q3-F07)."]
+    },
+    {
+      "id": "QD3Q-08",
+      "severity": "High",
+      "originalRequirement": "Evidence manifests must match a clean checkout byte-for-byte.",
+      "remediation": "R4 blob-based manifest; R5-R3 partial regression.",
+      "independentVerification": "FAILED. The R5-R3 manifests hash CRLF working-tree bytes and one covered file was changed after signing; 19/47 top-level entries match blobs and 1 is stale.",
+      "evidence": "evidence/manifest-verification.json",
+      "finalDisposition": "Open blocking finding Q3-F01",
+      "remainingLimitations": ["A clean LF checkout cannot verify either R5-R3 manifest."]
+    },
+    {
+      "id": "QD3Q-09",
+      "severity": "Medium",
+      "originalRequirement": "Hosted CI and baseline identities must be bound to the reviewed subject.",
+      "remediation": "R4 hosted bindings; R5-R3/R5-R4 run records.",
+      "independentVerification": "Producer terminal run 46005380010 head is 12a4555; handoff aa31995 is its two-commit documentation-only child; independent run 46027320360 and 46027941574 are bound to aa31995.",
+      "evidence": "findings.json baseline",
+      "finalDisposition": "Verified",
+      "remainingLimitations": []
+    },
+    {
+      "id": "QD3Q-10",
+      "severity": "Medium",
+      "originalRequirement": "The implementation delta must be fully inventoried.",
+      "remediation": "R3/R4 delta inventory; R5-R4 handoff diff.",
+      "independentVerification": "12a4555..aa31995 is five documentation files only; the 87-commit R5-R3..R5-R4 remediation campaign is outside the handoff diff and is covered by the independent regression run.",
+      "evidence": "git diff --name-status 12a4555 aa31995",
+      "finalDisposition": "Verified for the handoff; historical fixture change is Q3-F10",
+      "remainingLimitations": []
+    },
+    {
+      "id": "QD3Q-11",
+      "severity": "Medium",
+      "originalRequirement": "Diagnostic normalization must not depend on non-normative message wording.",
+      "remediation": "Not corrected; documented.",
+      "independentVerification": "The 124-case categories are stable on all six cells; a wording change would surface as an unexpected difference, not a silent pass.",
+      "evidence": "evidence/hosted/*/observations-corrected-reference.json",
+      "finalDisposition": "Documented residual risk",
+      "remainingLimitations": ["A pinned-engine wording change could move a diagnostic between categories."]
+    },
+    {
+      "id": "QD3Q-12",
+      "severity": "Medium",
+      "originalRequirement": "Five production-suite gaps must be reconciled without silent resolution.",
+      "remediation": "R5-R2 reconciliation; C-11 controls added; C-21 controls.",
+      "independentVerification": "Five gaps retain original ratings (diagnostic ID Low, duplicate IDs Low, caller action-entity conflict Medium, multi-action appliesTo Low, CurrentLoggedJson Low). C-11 has 13 cases and C-21 has 6 cases across the corpus, all passing.",
+      "evidence": "docs/reviews/d3-impl-01-r5-r2/QD3Q12-RECONCILIATION.md; findings.json",
+      "finalDisposition": "Reconciled with retained ratings",
+      "remainingLimitations": ["Gap 3 remains Medium; the others remain Low."]
+    },
+    {
+      "id": "QD3Q-13",
+      "severity": "Low/Medium",
+      "originalRequirement": "The name-based InternalsVisibleTo grant must be assessed.",
+      "remediation": "Not corrected; documented.",
+      "independentVerification": "src/DogwoodSharp/DogwoodSharp.csproj still grants InternalsVisibleTo('PrepProbe'); the evidence probe uses that internal surface.",
+      "evidence": "src/DogwoodSharp/DogwoodSharp.csproj",
+      "finalDisposition": "Documented residual risk",
+      "remainingLimitations": ["Any assembly named PrepProbe can reach the internal export/lower surface."]
+    },
+    {
+      "id": "QD3Q-14",
+      "severity": "Low",
+      "originalRequirement": "CurrentLoggedJson mirroring must be assessed against upstream temporal semantics.",
+      "remediation": "Not corrected; documented.",
+      "independentVerification": "Temporal cases pass on all cells; no explicit production regression covers a non-empty logged record.",
+      "evidence": "evidence/hosted/*/observations-corrected-reference.json",
+      "finalDisposition": "Documented residual risk",
+      "remainingLimitations": ["Non-empty CurrentLoggedJson semantics remain outside the corpus."]
+    },
+    {
+      "id": "QD3Q-15",
+      "severity": "Low",
+      "originalRequirement": "The capture engine's inability to surface upstream policy errors must be recorded.",
+      "remediation": "Not corrected; documented.",
+      "independentVerification": "The D3 trusted-binding capture path returns synthetic Deny/no errors by construction; FCN-03/04 record the observed behavior.",
+      "evidence": "native/dogwoodsharp-bridge/src/d2/runtime.rs; evidence/hosted/*",
+      "finalDisposition": "Documented residual risk",
+      "remainingLimitations": ["Upstream policy errors inside the trusted binding are reported through the binding error channel."]
+    },
+    {
+      "id": "QD3Q-16",
+      "severity": "Info",
+      "originalRequirement": "Per-request re-lowering and managed/native residency must be bounded.",
+      "remediation": "Accepted architecture; unchanged.",
+      "independentVerification": "The production API still retains source/schema/provider data for the request lifetime; no new persistence was introduced in the handoff.",
+      "evidence": "src/DogwoodSharp.CedarSharp/DogwoodCedarAuthorizer.cs",
+      "finalDisposition": "Accepted design",
+      "remainingLimitations": ["Residency scales with the retained per-request lowering."]
+    },
+    {
+      "id": "ED-06",
+      "severity": "Critical (historical)",
+      "originalRequirement": "The ipaddr/datetime representability ceiling was an approved expected difference in R4.",
+      "remediation": "Corrected reference plus formal retirement in R5-R2.",
+      "independentVerification": "The two base cases and six alternate encodings are clean Allow on both sides on all six cells; the original register still carries ED-06; the patched api.rs hash matches the recorded identity.",
+      "evidence": "evidence/hosted/*/observations-corrected-reference.json; docs/reviews/d3-impl-01-r5/evidence/register.json",
+      "finalDisposition": "Retired from the active contract, preserved historically",
+      "remainingLimitations": []
+    },
+    {
+      "id": "OQ-01",
+      "severity": "High",
+      "originalRequirement": "History-event policy-evaluation divergence between the reference and D3 must be decided.",
+      "remediation": "Owner contract decision; FCN-05 for TC-03..TC-06.",
+      "independentVerification": "Seven controls independently reproduced on both TFMs: TC-01/02/07 agreement; TC-03..06 stage-only fail-closed divergence with no decision; the original single-case OQ-01 reproduces D3 Allow vs reference failure.",
+      "evidence": "evidence/oq01/observations-net8.json; evidence/oq01/original-observations-net8.json",
+      "finalDisposition": "FCN-05 formalized for TC-03..TC-06; original case remains unregistered (Q3-F05)",
+      "remainingLimitations": ["The original Allow-versus-failure case is outside FCN-05 and has no ED/FCN row."]
+    }
+  ]
+}

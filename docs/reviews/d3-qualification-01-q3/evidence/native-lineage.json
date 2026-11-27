@@ -1,0 +1,93 @@
+{
+  "commission": "DOGWOOD-SHARP-D3-QUAL-01-Q3",
+  "purpose": "Independent comparison of the native assets used by the differential evidence and the native assets produced by the shipped/regression build.",
+  "d2Bridge": {
+    "differential": {
+      "builder": "scripts/build-bridge.sh",
+      "dependency": "patched corrected-reference dogwood-language path (typed-context patch)",
+      "lock": "regenerated with cargo generate-lockfile; only cedar-policy-core pinned to 4.11.0",
+      "sha256": {
+        "linux-x64": "4b6c3409841f3c9e49f3cc2701d5db6346deea708f1d126855c2bfb4b1368dfd",
+        "osx-arm64": "73d29a7030e6fb7d40f6be1abd37823b24a7a616901a173736d5fc38f4bf049e",
+        "win-x64": "not preserved in the R5-R4 evidence"
+      }
+    },
+    "shippedRegression": {
+      "builder": "eng/Build-Native.ps1",
+      "dependency": "upstream dogwood-language git rev 929f49e with committed Cargo.lock",
+      "lockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+      "sha256": {
+        "linux-x64": "39afbfd0b8ed60d627af6e3e0e743c594e8d72817fee16f70d98a39081dafbe9",
+        "osx-arm64": "fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e",
+        "win-x64-independent-ci": "4f0bd32ac382c76d43153ac5003d408669d6e34cc93a49f80eaf948f11875860",
+        "win-x64-producer-ci": "78f64c4b04502bc8fb2b78b842b934ab318be75440c10d0b72fbf29fab4440e3",
+        "win-x64-local-build": "94811767dc92488b2f47ef6d6434677c03798eb9d0e7f26fc56f47610131bda5"
+      },
+      "note": "Three Windows builds with the same committed lock ec901557 produced three different image hashes (4f0bd32a, 78f64c4b, 94811767). The Windows native binary is not byte-reproducible across environments, although the manifest binds each individual artifact."
+    },
+    "independentLocalRebuild": {
+      "builder": "reviewer, same build-bridge.sh recipe in a detached worktree",
+      "sha256": "620dca4a1278343aa445cc93902cff73ad2d426b08636a83782893cf320ced1a",
+      "lockSha256": "d07dc3fbfb6eeb167e0dd1f6792ea2ec64de2bdcc371131708ac7bb31f9cb170",
+      "committedLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+      "differingPackageVersions": 36,
+      "examples": [
+        "jiff 0.2.46 -> 1.0.3",
+        "regex 1.13.1 -> 1.13.2",
+        "serde_with 3.24.0 -> 3.25.0",
+        "uuid 1.29.2 -> 1.29.3",
+        "zerocopy 0.8.63 -> 0.8.66"
+      ]
+    },
+    "conclusion": "The differential evidence and the shipped/regression evidence use different D2 bridge binaries and different dependency graphs. The differential graph is regenerated and not reproducible from the committed lock."
+  },
+  "cedarSharpNative": {
+    "differential": {
+      "builder": "scripts/build-cedarsharp.sh",
+      "source": "git clone https://github.com/jenolaszlo-sketch/cedar-sharp main (unpinned); observed main a25181d17603381e42adde60613f7a49d5309a2b",
+      "rustc": "1.94.0 enforced by build-cedarsharp.sh",
+      "identity": {
+        "sdkVersion": "4.13.0",
+        "languageVersion": "4.5",
+        "bridgeVersion": "0.1.0",
+        "rustVersion": "1.94.0",
+        "features": ["ipaddr", "decimal", "datetime"]
+      },
+      "sha256": {
+        "linux-x64": "9e8800eda6702a2d7edc121c441a9b3d190460627810bbc60cc84eb00ea80c8e",
+        "osx-arm64": "740e7410308d17b09694dc036d3c7fe9af5a26d766be47955cd22650a69e2d96"
+      }
+    },
+    "publishedPackage": {
+      "package": "CedarSharp 1.0.0",
+      "sourceCommit": "324d3c09fc94ab91464ec340eb81e4b167deb6f5",
+      "sourceCommitLookup": "GitHub API returns HTTP 422 for this commit in jenolaszlo-sketch/cedar-sharp",
+      "sha256": {
+        "win-x64": "77de6976a7ae5b961920bb6843d39b32f3faf285f16b723581680e9c06c03895",
+        "linux-x64": "85433a352ed9b6b0122e77a4e37cbe9ba1354872641e217350bdf871ea33ebf6",
+        "osx-arm64": "290fcce995f70cd963e024d991fe7f9e2806fde81add9749304ce222b904258b"
+      },
+      "lockSha256": "38f989f82af269e77ff41d80aa22560661070a7b0372dc73c8e27f2e3b71f962"
+    },
+    "conclusion": "The hosted differential cells use a rebuilt native from an unpinned public source, not the published 1.0.0 native. A Windows control with the published 77de6976 native passes 124/124 on both TFMs."
+  },
+  "independentWindowsControl": {
+    "oracle": "corrected oracle built from pinned dogwood 929f49e with dogwood-typed-context.patch",
+    "patchedApiSha256": "4ff2eb118a08c13eddf1d54ea1cf178db70f1a148bacb6e377333abeb5b67dd3",
+    "d3Bridge": "620dca4a (locally rebuilt, regenerated lock)",
+    "cedarSharpNative": "77de6976 (published win-x64)",
+    "result": {
+      "net8.0": "124/124",
+      "net10.0": "124/124"
+    },
+    "shippedBridgeControl": {
+      "bridge": "78f64c4b (committed lock ec901557)",
+      "cedarSharpNative": "77de6976 (published)",
+      "result": {
+        "net8.0": "124/124",
+        "net10.0": "124/124"
+      },
+      "semanticProjectionIdenticalToPatchedBridge": true
+    }
+  }
+}

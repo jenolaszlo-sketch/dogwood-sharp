@@ -1,0 +1,1207 @@
+[
+  {
+    "id": "ADJ-A01",
+    "note": "ipaddr match, explicit __extn escape",
+    "fixtureId": "R3-C23-08-ipaddr-typed-context",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "r3c23h_0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "192.168.1.1"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A02",
+    "note": "ipaddr match, implicit escape object",
+    "fixtureId": "R3-C23-08-ipaddr-typed-context-match-implicit-escape",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "r3c23h_0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "192.168.1.1"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A03",
+    "note": "ipaddr match, bare string",
+    "fixtureId": "R3-C23-08-ipaddr-typed-context-match-short-string",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "r3c23h_0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "192.168.1.1"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A04",
+    "note": "ipaddr mismatch, explicit __extn escape",
+    "fixtureId": "R3-C23-08-ipaddr-typed-context-mismatch-explicit-escape",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "deny",
+    "determining": [],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "192.168.1.2"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A05",
+    "note": "ipaddr mismatch, implicit escape object",
+    "fixtureId": "R3-C23-08-ipaddr-typed-context-mismatch-implicit-escape",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "deny",
+    "determining": [],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "192.168.1.2"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A06",
+    "note": "ipaddr mismatch, bare string",
+    "fixtureId": "R3-C23-08-ipaddr-typed-context-mismatch-short-string",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "deny",
+    "determining": [],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "192.168.1.2"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A07",
+    "note": "datetime match, explicit __extn escape",
+    "fixtureId": "R3-C23-09-datetime-typed-context",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "r3c23i_0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ts": {
+          "__extn": {
+            "fn": "datetime",
+            "arg": "2024-01-01T00:00:00Z"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A08",
+    "note": "datetime match, implicit escape object",
+    "fixtureId": "R3-C23-09-datetime-typed-context-match-implicit-escape",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "r3c23i_0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ts": {
+          "__extn": {
+            "fn": "datetime",
+            "arg": "2024-01-01T00:00:00Z"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A09",
+    "note": "datetime match, bare string",
+    "fixtureId": "R3-C23-09-datetime-typed-context-match-short-string",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "r3c23i_0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ts": {
+          "__extn": {
+            "fn": "datetime",
+            "arg": "2024-01-01T00:00:00Z"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A10",
+    "note": "datetime mismatch, explicit __extn escape",
+    "fixtureId": "R3-C23-09-datetime-typed-context-mismatch-explicit-escape",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "deny",
+    "determining": [],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ts": {
+          "__extn": {
+            "fn": "datetime",
+            "arg": "2024-01-01T00:00:01Z"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A11",
+    "note": "datetime mismatch, implicit escape object",
+    "fixtureId": "R3-C23-09-datetime-typed-context-mismatch-implicit-escape",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "deny",
+    "determining": [],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ts": {
+          "__extn": {
+            "fn": "datetime",
+            "arg": "2024-01-01T00:00:01Z"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A12",
+    "note": "datetime mismatch, bare string",
+    "fixtureId": "R3-C23-09-datetime-typed-context-mismatch-short-string",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "deny",
+    "determining": [],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ts": {
+          "__extn": {
+            "fn": "datetime",
+            "arg": "2024-01-01T00:00:01Z"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A13",
+    "note": "decimal match, explicit __extn escape",
+    "fixtureId": "R3-C23-01-decimal-typed-value-match-explicit-escape",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "r3c23_0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "price": {
+          "__extn": {
+            "fn": "decimal",
+            "arg": "19.99"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A14",
+    "note": "decimal match, implicit escape object",
+    "fixtureId": "R3-C23-01-decimal-typed-value-match-implicit-escape",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "r3c23_0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "price": {
+          "__extn": {
+            "fn": "decimal",
+            "arg": "19.99"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A15",
+    "note": "decimal match, bare string",
+    "fixtureId": "R3-C23-01-decimal-typed-value-match-short-string",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "r3c23_0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "price": {
+          "__extn": {
+            "fn": "decimal",
+            "arg": "19.99"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A16",
+    "note": "decimal mismatch, explicit __extn escape",
+    "fixtureId": "R3-C23-02-decimal-typed-mismatch-mismatch-explicit-escape",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "deny",
+    "determining": [],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {
+      "contextNaturalJson": {
+        "price": {
+          "__extn": {
+            "fn": "decimal",
+            "arg": "1.00"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A17",
+    "note": "decimal mismatch, implicit escape object",
+    "fixtureId": "R3-C23-02-decimal-typed-mismatch-mismatch-implicit-escape",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "deny",
+    "determining": [],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {
+      "contextNaturalJson": {
+        "price": {
+          "__extn": {
+            "fn": "decimal",
+            "arg": "1.00"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-A18",
+    "note": "decimal mismatch, bare string",
+    "fixtureId": "R3-C23-02-decimal-typed-mismatch-mismatch-short-string",
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "deny",
+    "determining": [],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {
+      "contextNaturalJson": {
+        "price": {
+          "__extn": {
+            "fn": "decimal",
+            "arg": "1.00"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-B01",
+    "note": "ipaddr match, explicit escape with args array (single argument)",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "policy0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "192.168.1.1"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-B02",
+    "note": "ipaddr IPv6 match through bare string",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "policy0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "::1"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-B03",
+    "note": "ipaddr method on typed context (isInRange)",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "policy0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "192.168.1.1"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-B04",
+    "note": "decimal numeric equality across trailing zeros",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "policy0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "price": {
+          "__extn": {
+            "fn": "decimal",
+            "arg": "19.990"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-B05",
+    "note": "datetime equality across equivalent UTC offsets",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: error while evaluating `datetime` extension function: invalid millisecond and/or offset pattern"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-B06",
+    "note": "datetime lowercase RFC3339 t/z separators",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: error while evaluating `datetime` extension function: invalid hour/minute/second pattern"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-B07",
+    "note": "datetime date-only form",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "policy0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ts": {
+          "__extn": {
+            "fn": "datetime",
+            "arg": "2024-01-01"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-B08",
+    "note": "typed attribute absent from context",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: while parsing context, expected the record to have an attribute `ip`, but it does not"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-B09",
+    "note": "valid typed attribute plus unexpected extra attribute",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: while parsing context, record attribute `junk` should not exist according to the schema"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-B10",
+    "note": "ipaddr boundary value 255.255.255.255",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "policy0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "255.255.255.255"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-B11",
+    "note": "decimal zero and negative forms",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "policy0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "price": {
+          "__extn": {
+            "fn": "decimal",
+            "arg": "-0.00"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-B12",
+    "note": "typed attribute declared optional and omitted",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "deny",
+    "determining": [],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {
+      "contextNaturalJson": {}
+    }
+  },
+  {
+    "id": "ADJ-B13",
+    "note": "optional typed attribute supplied",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "policy0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "192.168.1.1"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-C01",
+    "note": "ipaddr non-IP string",
+    "fixtureId": "R5R1-C23-01-ipaddr-invalid-bare-string",
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: error while evaluating `ipaddr` extension function: invalid IP address: not-an-ip"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C02",
+    "note": "ipaddr octet out of range",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: error while evaluating `ipaddr` extension function: invalid IP address: 999.1.1.1"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C03",
+    "note": "ipaddr prefix string for address constructor",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "deny",
+    "determining": [],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "192.168.1.0/24"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-C04",
+    "note": "ipaddr JSON number",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: type error: expected string, got long"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C05",
+    "note": "ipaddr implicit escape missing argument",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: type error: expected string, got record"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C06",
+    "note": "explicit escape with extra inner field",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "policy0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "ip": {
+          "__extn": {
+            "fn": "ip",
+            "arg": "192.168.1.1"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ADJ-C07",
+    "note": "ipaddr JSON array",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: type error: expected string, got set"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C08",
+    "note": "wrong constructor for declared type (decimal for ipaddr)",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "request-validation",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "request validation failed: context `{ip: decimal(\"1.5\")}` is not valid for `App::Action::\"read\"`"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C09",
+    "note": "unknown extension function name",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: extension function `nope` does not exist"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C10",
+    "note": "explicit escape with empty args array",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: expected 1 arguments for function ip but 0 arguments are provided"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C11",
+    "note": "explicit escape with two arguments for one-argument constructor",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: expected 1 arguments for function ip but 2 arguments are provided"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C12",
+    "note": "decimal non-numeric string",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: error while evaluating `decimal` extension function: `abc` is not a well-formed decimal value"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C13",
+    "note": "decimal empty string",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: error while evaluating `decimal` extension function: `` is not a well-formed decimal value"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C14",
+    "note": "decimal explicit escape with numeric argument",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: data did not match any variant of untagged enum ExtnValueJson"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C15",
+    "note": "decimal JSON number as implicit constructor",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: data did not match any variant of untagged enum ExtnValueJson"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C16",
+    "note": "decimal scientific notation",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: error while evaluating `decimal` extension function: `1e3` is not a well-formed decimal value"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C17",
+    "note": "datetime non-date string",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: error while evaluating `datetime` extension function: invalid date pattern"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C18",
+    "note": "datetime out-of-range month",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: error while evaluating `datetime` extension function: invalid date: 2024-13-01"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C19",
+    "note": "datetime JSON number",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: type error: expected string, got long"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C20",
+    "note": "datetime implicit escape missing argument",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: type error: expected string, got record"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C21",
+    "note": "null typed attribute value",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: while parsing context, found a `null`; JSON `null`s are not allowed in Cedar"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C22",
+    "note": "string-typed attribute receives escape object (wrong type must not parse as constructor)",
+    "fixtureId": null,
+    "engine": "cedar-4.13.0",
+    "stage": "evaluation",
+    "decision": "allow",
+    "determining": [
+      "policy0"
+    ],
+    "operationFailed": false,
+    "hasErrors": false,
+    "errors": [],
+    "policyErrorIds": [],
+    "cleanAllow": true,
+    "interpretation": {
+      "contextNaturalJson": {
+        "name": "192.168.1.1"
+      }
+    }
+  },
+  {
+    "id": "ADJ-C23",
+    "note": "ipaddr implicit escape with an invalid argument",
+    "fixtureId": "R5R1-C23-05-ipaddr-invalid-implicit-escape",
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: error while evaluating `ipaddr` extension function: invalid IP address: not-an-ip"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C24",
+    "note": "ipaddr explicit escape with an out-of-range octet",
+    "fixtureId": "R5R1-C23-02-ipaddr-invalid-octet",
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: error while evaluating `ipaddr` extension function: invalid IP address: 999.1.1.1"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C25",
+    "note": "datetime explicit escape with an unparsable argument",
+    "fixtureId": "R5R1-C23-03-datetime-invalid-escape",
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: error while evaluating `datetime` extension function: invalid date pattern"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  },
+  {
+    "id": "ADJ-C26",
+    "note": "decimal explicit escape with a non-numeric argument",
+    "fixtureId": "R5R1-C23-04-decimal-invalid-escape",
+    "engine": "cedar-4.13.0",
+    "stage": "context-parse",
+    "decision": null,
+    "determining": [],
+    "operationFailed": true,
+    "hasErrors": true,
+    "errors": [
+      "context JSON parse failed: error while evaluating `decimal` extension function: `not-a-number` is not a well-formed decimal value"
+    ],
+    "policyErrorIds": [],
+    "cleanAllow": false,
+    "interpretation": {}
+  }
+]

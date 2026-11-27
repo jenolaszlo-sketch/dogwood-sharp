@@ -1,0 +1,22 @@
+{
+  "result": "pass",
+  "runtimeIdentifier": "win-x64",
+  "target": "x86_64-pc-windows-msvc",
+  "frameworks": [
+    "net8.0",
+    "net10.0"
+  ],
+  "image": "dogwoodsharp_bridge.dll",
+  "imageSha256": "4f0bd32ac382c76d43153ac5003d408669d6e34cc93a49f80eaf948f11875860",
+  "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa",
+  "nativeSelftest": "logs/native-selftest.log",
+  "differential": "reports/win-x64/differential/differential-report.json",
+  "managed": [
+    "reports/win-x64/managed-net8.0/managed-report.json",
+    "reports/win-x64/managed-net10.0/managed-report.json"
+  ],
+  "aot": [
+    "aot/win-x64/net8.0",
+    "aot/win-x64/net10.0"
+  ]
+}
