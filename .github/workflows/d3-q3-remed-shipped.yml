@@ -12,6 +12,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        rid: [win-x64, linux-x64, osx-arm64]
+        tfm: [net8.0, net10.0]
         include:
           - rid: win-x64
             os: windows-2025
@@ -22,7 +24,6 @@ jobs:
           - rid: osx-arm64
             os: macos-15
             cs_sha: 290fcce995f70cd963e024d991fe7f9e2806fde81add9749304ce222b904258b
-        tfm: [net8.0, net10.0]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 120
     defaults:
