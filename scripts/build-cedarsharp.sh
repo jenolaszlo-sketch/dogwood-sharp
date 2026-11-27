@@ -57,9 +57,21 @@ cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-formatter --pre
 cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-mcp-schema-generator --precise 0.6.1 2>/dev/null || true
 
 # Set environment variables for CedarSharp native build to match C# interop expectations
-export CEDARSHARP_RUST_VERSION="1.94.0"
-export CEDARSHARP_LANGUAGE_VERSION="4.5"
-export CEDARSHARP_TARGET="x86_64-unknown-linux-gnu"
+# Use environment variables if provided, otherwise default to expected values
+export CEDARSHARP_RUST_VERSION="${CEDARSHARP_RUST_VERSION:-1.94.0}"
+export CEDARSHARP_LANGUAGE_VERSION="${CEDARSHARP_LANGUAGE_VERSION:-4.5}"
+# Use target from RID if not explicitly provided
+if [ -z "$CEDARSHARP_TARGET" ]; then
+  if [ "${RID}" = "linux-x64" ]; then
+    export CEDARSHARP_TARGET="x86_64-unknown-linux-gnu"
+  elif [ "${RID}" = "osx-arm64" ]; then
+    export CEDARSHARP_TARGET="aarch64-apple-darwin"
+  elif [ "${RID}" = "win-x64" ]; then
+    export CEDARSHARP_TARGET="x86_64-pc-windows-msvc"
+  else
+    export CEDARSHARP_TARGET="${RID}"
+  fi
+fi
 
 cargo build --locked --release $targetArg --manifest-path "$csDir/Cargo.toml"
 
