@@ -14,8 +14,8 @@ internal sealed unsafe class NativeBridge
     private const string BridgeVersion = "0.1.0";
     private const string DogwoodRevision = "929f49e7305534ac61ef06cf8e47269c596dc851";
     private const string DogwoodVersion = "1.1.2";
-    private const string CedarVersion = "4.13.0";
-    private const string RustVersion = "1.94.0";
+    private const string CedarVersion = "4.11.0";
+    private const string RustVersion = "1.99.1";
     private const int MaximumResponseBytes = 2 * Dogwood.MaximumSourceBytes;
     private const int MaximumLoweringResponseBytes = 8 * Dogwood.MaximumSourceBytes;
     private const int MaximumManifestBytes = 4096;
