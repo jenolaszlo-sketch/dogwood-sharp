@@ -61,6 +61,7 @@ cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-mcp-schema-gene
 export CEDARSHARP_RUST_VERSION="${CEDARSHARP_RUST_VERSION:-1.94.0}"
 export CEDARSHARP_LANGUAGE_VERSION="${CEDARSHARP_LANGUAGE_VERSION:-4.5}"
 # Use target from RID if not explicitly provided
+export CEDARSHARP_TARGET="${CEDARSHARP_TARGET:-}"
 if [ -z "$CEDARSHARP_TARGET" ]; then
   if [ "${RID}" = "linux-x64" ]; then
     export CEDARSHARP_TARGET="x86_64-unknown-linux-gnu"
@@ -73,9 +74,9 @@ if [ -z "$CEDARSHARP_TARGET" ]; then
   fi
 fi
 # Debug: log the target
-echo "CEDARSHARP_TARGET: $CEDARSHARP_TARGET"
-echo "CEDARSHARP_RUST_VERSION: $CEDARSHARP_RUST_VERSION"
-echo "CEDARSHARP_LANGUAGE_VERSION: $CEDARSHARP_LANGUAGE_VERSION"
+echo "CEDARSHARP_TARGET: ${CEDARSHARP_TARGET:-unset}"
+echo "CEDARSHARP_RUST_VERSION: ${CEDARSHARP_RUST_VERSION:-unset}"
+echo "CEDARSHARP_LANGUAGE_VERSION: ${CEDARSHARP_LANGUAGE_VERSION:-unset}"
 
 cargo build --locked --release $targetArg --manifest-path "$csDir/Cargo.toml"
 
