@@ -80,6 +80,10 @@ echo "CEDARSHARP_TARGET: ${CEDARSHARP_TARGET}"
 echo "CEDARSHARP_RUST_VERSION: ${CEDARSHARP_RUST_VERSION}"
 echo "CEDARSHARP_LANGUAGE_VERSION: ${CEDARSHARP_LANGUAGE_VERSION}"
 
+# Explicitly pass environment variables to cargo build to ensure they are available at compile time
+CEDARSHARP_RUST_VERSION="${CEDARSHARP_RUST_VERSION}" \
+CEDARSHARP_LANGUAGE_VERSION="${CEDARSHARP_LANGUAGE_VERSION}" \
+CEDARSHARP_TARGET="${CEDARSHARP_TARGET}" \
 cargo build --locked --release $targetArg --manifest-path "$csDir/Cargo.toml"
 
 libName=""
