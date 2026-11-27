@@ -22,6 +22,9 @@ permissions:
 jobs:
   differential:
     name: Differential ${{ matrix.rid }} / ${{ matrix.tfm }}
+    # A dispatched run that targets one platform must skip the other platform's
+    # jobs cleanly instead of failing them after a partial checkout.
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.platform == 'all' || github.event.inputs.platform == matrix.rid
     strategy:
       fail-fast: false
       matrix:
@@ -45,12 +48,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.sha }}
-
-      - name: Filter platform by workflow_dispatch input
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.platform != 'all' && github.event.inputs.platform != matrix.rid
-        run: |
-          echo "Skipping ${{ matrix.rid }} because platform input is ${{ github.event.inputs.platform }}"
-          exit 1
 
       - name: Verify baseline
         run: ./scripts/verify-baseline.sh

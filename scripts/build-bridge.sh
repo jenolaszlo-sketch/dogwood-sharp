@@ -1,6 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
+# GNU coreutils are not guaranteed on macOS. Provide sha256sum/realpath shims.
+if ! command -v sha256sum >/dev/null 2>&1; then
+  sha256sum() { shasum -a 256 "$@"; }
+fi
+if ! command -v realpath >/dev/null 2>&1; then
+  realpath() { python3 -c 'import os,sys; print(os.path.realpath(sys.argv[1]))' "$1"; }
+fi
+
 bridgeDir="native/dogwoodsharp-bridge"
 targetArg=""
 if [ "${RID}" = "linux-x64" ]; then targetArg="--target x86_64-unknown-linux-gnu"; fi

@@ -1,6 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
+# GNU coreutils are not guaranteed on macOS. Provide sha256sum/realpath shims.
+if ! command -v sha256sum >/dev/null 2>&1; then
+  sha256sum() { shasum -a 256 "$@"; }
+fi
+if ! command -v realpath >/dev/null 2>&1; then
+  realpath() { python3 -c 'import os,sys; print(os.path.realpath(sys.argv[1]))' "$1"; }
+fi
+
 csRoot="r5r3-work/cedar-sharp"
 csDir="r5r3-work/cedar-sharp/native"
 if [ ! -d "$csRoot" ]; then
@@ -19,17 +27,18 @@ for f in "$csDir/Cargo.toml" "$csRoot/Cargo.toml" "$csRoot"/*/Cargo.toml; do
   if [ -f "$f" ]; then
     # Match any version pattern for cedar-policy* crates and pin to 4.13.0
     # Handle table format with features: cedar-policy = { version = "=X.Y.Z", default-features = false, features = [...] }
-    sed -i 's/cedar-policy-core = { version = "[^"]*",/cedar-policy-core = { version = "=4.13.0",/' "$f"
-    sed -i 's/cedar-policy = { version = "[^"]*",/cedar-policy = { version = "=4.13.0",/' "$f"
-    sed -i 's/cedar-policy-formatter = { version = "[^"]*",/cedar-policy-formatter = { version = "=4.13.0",/' "$f"
+    sed -i.bak 's/cedar-policy-core = { version = "[^"]*",/cedar-policy-core = { version = "=4.13.0",/' "$f"
+    sed -i.bak 's/cedar-policy = { version = "[^"]*",/cedar-policy = { version = "=4.13.0",/' "$f"
+    sed -i.bak 's/cedar-policy-formatter = { version = "[^"]*",/cedar-policy-formatter = { version = "=4.13.0",/' "$f"
     # Handle inline format: cedar-policy-core = "=X.Y.Z"
-    sed -i 's/cedar-policy-core = "=[^"]*"/cedar-policy-core = "=4.13.0"/' "$f"
-    sed -i 's/cedar-policy = "=[^"]*"/cedar-policy = "=4.13.0"/' "$f"
-    sed -i 's/cedar-policy-formatter = "=[^"]*"/cedar-policy-formatter = "=4.13.0"/' "$f"
+    sed -i.bak 's/cedar-policy-core = "=[^"]*"/cedar-policy-core = "=4.13.0"/' "$f"
+    sed -i.bak 's/cedar-policy = "=[^"]*"/cedar-policy = "=4.13.0"/' "$f"
+    sed -i.bak 's/cedar-policy-formatter = "=[^"]*"/cedar-policy-formatter = "=4.13.0"/' "$f"
     # Handle version without =: cedar-policy = "X.Y.Z"
-    sed -i 's/cedar-policy-core = "[0-9.]*"/cedar-policy-core = "=4.13.0"/' "$f"
-    sed -i 's/cedar-policy = "[0-9.]*"/cedar-policy = "=4.13.0"/' "$f"
-    sed -i 's/cedar-policy-formatter = "[0-9.]*"/cedar-policy-formatter = "=4.13.0"/' "$f"
+    sed -i.bak 's/cedar-policy-core = "[0-9.]*"/cedar-policy-core = "=4.13.0"/' "$f"
+    sed -i.bak 's/cedar-policy = "[0-9.]*"/cedar-policy = "=4.13.0"/' "$f"
+    sed -i.bak 's/cedar-policy-formatter = "[0-9.]*"/cedar-policy-formatter = "=4.13.0"/' "$f"
+    rm -f "$f.bak"
   fi
 done
 # Debug: show the modified Cargo.toml files

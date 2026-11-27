@@ -1,28 +1,20 @@
 #!/bin/bash
 set -euo pipefail
 
+# GNU coreutils are not guaranteed on macOS. Provide sha256sum/realpath shims.
+if ! command -v sha256sum >/dev/null 2>&1; then
+  sha256sum() { shasum -a 256 "$@"; }
+fi
+if ! command -v realpath >/dev/null 2>&1; then
+  realpath() { python3 -c 'import os,sys; print(os.path.realpath(sys.argv[1]))' "$1"; }
+fi
+
 rid="${RID}"
 tfm="${TFM}"
 probeRuntime="docs/reviews/d3-impl-01-r5-r3/evidence/differential/probe/bin/Release/$tfm/runtimes/$rid/native"
-mkdir -p "$probeRuntime"
 
-if [ -n "${BRIDGE_PATH}" ]; then
-  dest="$probeRuntime/$(if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "cygwin" ]; then echo "dogwoodsharp_bridge.dll"; else echo "libdogwoodsharp_bridge.so"; fi)"
-  cp "${BRIDGE_PATH}" "$dest"
-  echo "Staged D2 bridge to $dest"
-fi
-
-if [ -n "${CEDARSHARP_PATH}" ]; then
-  dest="$probeRuntime/$(if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "cygwin" ]; then echo "cedarsharp_native.dll"; else echo "libcedarsharp_native.so"; fi)"
-  cp "${CEDARSHARP_PATH}" "$dest"
-  echo "Staged CedarSharp native to $dest"
-fi
-
-bridgeSha="${BRIDGE_SHA256}"
-csSha="${CEDARSHARP_SHA256}"
-cargoLockSha="$(sha256sum native/dogwoodsharp-bridge/Cargo.lock | cut -d' ' -f1)"
-
-# Determine target triple from RID
+# Determine target triple and asset file names from RID before copying. The asset
+# names are platform-specific: a macOS job must stage .dylib, not .so.
 if [ "${RID}" = "linux-x64" ]; then
   target="x86_64-unknown-linux-gnu"
   libName="libdogwoodsharp_bridge.so"
@@ -40,6 +32,24 @@ else
   libName="libdogwoodsharp_bridge.so"
   csLibName="libcedarsharp_native.so"
 fi
+
+mkdir -p "$probeRuntime"
+
+if [ -n "${BRIDGE_PATH}" ]; then
+  dest="$probeRuntime/$libName"
+  cp "${BRIDGE_PATH}" "$dest"
+  echo "Staged D2 bridge to $dest"
+fi
+
+if [ -n "${CEDARSHARP_PATH}" ]; then
+  dest="$probeRuntime/$csLibName"
+  cp "${CEDARSHARP_PATH}" "$dest"
+  echo "Staged CedarSharp native to $dest"
+fi
+
+bridgeSha="${BRIDGE_SHA256}"
+csSha="${CEDARSHARP_SHA256}"
+cargoLockSha="$(sha256sum native/dogwoodsharp-bridge/Cargo.lock | cut -d' ' -f1)"
 
 # Create dogwoodsharp-native.json with exact field order expected by NativeBridge
 # The Dogwood D2 bridge was built with cedarVersion 4.11.0 and rustVersion 1.99.1
@@ -82,4 +92,27 @@ if [ -n "$csSha" ]; then
 EOF
   echo "Created cedarsharp-native.json"
   cat "$probeRuntime/cedarsharp-native.json"
+
+  # Print the identity the staged library actually reports. CedarSharp's C#
+  # loader fails closed with a single opaque message when this differs from the
+  # constants compiled into the package, so surface the raw reply in the job log.
+  if [ "${RID}" != "win-x64" ] && command -v python3 >/dev/null 2>&1; then
+    python3 - "$probeRuntime/$csLibName" <<'PY'
+import ctypes, sys
+lib = ctypes.CDLL(sys.argv[1])
+
+class Buffer(ctypes.Structure):
+    _fields_ = [("data", ctypes.POINTER(ctypes.c_ubyte)), ("len", ctypes.c_size_t)]
+
+lib.cedarsharp_call_v1.restype = ctypes.c_uint32
+lib.cedarsharp_call_v1.argtypes = [ctypes.c_uint32, ctypes.c_char_p, ctypes.c_size_t, ctypes.POINTER(Buffer)]
+lib.cedarsharp_free_v1.argtypes = [Buffer]
+out = Buffer()
+payload = b"{}"
+status = lib.cedarsharp_call_v1(0, payload, len(payload), ctypes.byref(out))
+identity = ctypes.string_at(out.data, out.len).decode("utf-8") if out.data else "<empty>"
+lib.cedarsharp_free_v1(out)
+print(f"CedarSharp native identity (status {status}): {identity}")
+PY
+  fi
 fi
