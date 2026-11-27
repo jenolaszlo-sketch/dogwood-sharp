@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "3",
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R5-R4",
+  "status": "formalized",
+  "failClosedNormalization": {
+    "id": "FCN-05",
+    "title": "History-event entity conformance failure during trusted replay",
+    "cases": [
+      "R5R3-TC-03-history-missing-owner-forbid-on-history",
+      "R5R3-TC-04-both-missing-owner",
+      "R5R3-TC-05-mixed-history-one-valid",
+      "R5R3-TC-06-permit-forbid-same-action-history-missing-owner"
+    ],
+    "upstreamObservation": "Evaluation-stage operation failure with no decision. The corrected reference evaluates the full policy set against each history event during temporal replay; a history entity whose entity-typed attribute is a plain record or is absent fails schema conformance, so the replay fails before the current event is decided.",
+    "d3Observation": "Trusted-binding operation failure with no decision. The native trusted-runtime binding validates the same history entities during event construction and refuses the binding, so no trusted context is produced and no authorization is attempted.",
+    "basis": "OQ-01 established that a recorded history event is a fact, not an authorization request; evaluating a forbid rule against it is the reference defect. D3 validates history-event entity conformance at ingestion, which is the earlier and stricter boundary. Both sides refuse the request, report the same underlying entity-conformance diagnostic and never produce an Allow, so the residual difference is where the refusal is raised, not whether authorization happens. This row normalizes exactly the four controls below. It does not cover any current-event conformance failure (FCN-04), any provider failure (FCN-01), any malformed typed encoding (FCN-02), or any Allow/Deny divergence.",
+    "failClosedEffect": "Neither side authorizes. The reference produces no decision and reports an evaluation-stage operation failure; D3 produces no decision and reports a trusted-binding operation failure with the trusted-binding-unavailable category. Neither side reports a clean Allow, and the temporal binding is never produced on either side.",
+    "caseObservations": {
+      "R5R3-TC-03-history-missing-owner-forbid-on-history": {
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": true,
+          "decision": null,
+          "hasErrors": true,
+          "errorCategories": [],
+          "cleanAllow": false,
+          "error": "history event `h-1` failed upstream evaluation: entity conformance: entity does not conform to the schema"
+        },
+        "d3": {
+          "stage": "trusted-binding",
+          "operationFailed": true,
+          "decision": null,
+          "hasErrors": true,
+          "errorCategories": [
+            "trusted-binding-unavailable"
+          ],
+          "cleanAllow": false,
+          "errors": [
+            {
+              "category": "trusted-binding-unavailable",
+              "message": "The trusted temporal/provider binding failed closed: history event `h-1` failed upstream evaluation: entity conformance: entity does not conform to the schema"
+            }
+          ]
+        }
+      },
+      "R5R3-TC-04-both-missing-owner": {
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": true,
+          "decision": null,
+          "hasErrors": true,
+          "errorCategories": [],
+          "cleanAllow": false,
+          "error": "history event `h-1` failed upstream evaluation: entity conformance: entity does not conform to the schema"
+        },
+        "d3": {
+          "stage": "trusted-binding",
+          "operationFailed": true,
+          "decision": null,
+          "hasErrors": true,
+          "errorCategories": [
+            "trusted-binding-unavailable"
+          ],
+          "cleanAllow": false,
+          "errors": [
+            {
+              "category": "trusted-binding-unavailable",
+              "message": "The trusted temporal/provider binding failed closed: history event `h-1` failed upstream evaluation: entity conformance: entity does not conform to the schema"
+            }
+          ]
+        }
+      },
+      "R5R3-TC-05-mixed-history-one-valid": {
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": true,
+          "decision": null,
+          "hasErrors": true,
+          "errorCategories": [],
+          "cleanAllow": false,
+          "error": "history event `h-2` failed upstream evaluation: entity conformance: entity does not conform to the schema"
+        },
+        "d3": {
+          "stage": "trusted-binding",
+          "operationFailed": true,
+          "decision": null,
+          "hasErrors": true,
+          "errorCategories": [
+            "trusted-binding-unavailable"
+          ],
+          "cleanAllow": false,
+          "errors": [
+            {
+              "category": "trusted-binding-unavailable",
+              "message": "The trusted temporal/provider binding failed closed: history event `h-2` failed upstream evaluation: entity conformance: entity does not conform to the schema"
+            }
+          ]
+        }
+      },
+      "R5R3-TC-06-permit-forbid-same-action-history-missing-owner": {
+        "upstream": {
+          "stage": "evaluation",
+          "operationFailed": true,
+          "decision": null,
+          "hasErrors": true,
+          "errorCategories": [],
+          "cleanAllow": false,
+          "error": "history event `h-1` failed upstream evaluation: entity conformance: entity does not conform to the schema"
+        },
+        "d3": {
+          "stage": "trusted-binding",
+          "operationFailed": true,
+          "decision": null,
+          "hasErrors": true,
+          "errorCategories": [
+            "trusted-binding-unavailable"
+          ],
+          "cleanAllow": false,
+          "errors": [
+            {
+              "category": "trusted-binding-unavailable",
+              "message": "The trusted temporal/provider binding failed closed: history event `h-1` failed upstream evaluation: entity conformance: entity does not conform to the schema"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "scope": {
+    "inScope": [
+      "R5R3-TC-03-history-missing-owner-forbid-on-history",
+      "R5R3-TC-04-both-missing-owner",
+      "R5R3-TC-05-mixed-history-one-valid",
+      "R5R3-TC-06-permit-forbid-same-action-history-missing-owner"
+    ],
+    "outOfScope": [
+      "Current-event entity conformance failures at the trusted-binding or evaluation stage.",
+      "History-event policy-evaluation failures caused by missing temporal attributes or a false temporal leaf (TC-02, TC-07), which agree as Deny.",
+      "Provider resolver omission or failure.",
+      "Malformed typed-context encodings.",
+      "Any case whose two sides differ on the authorization decision itself."
+    ],
+    "exclusions": "FCN-05 is a stage/diagnostic normalization only; it never converts a divergent decision into an agreement."
+  },
+  "verification": {
+    "controls": "TC-01 through TC-07",
+    "source": "docs/reviews/d3-impl-01-r5-r3/OQ01-EXECUTION.md and commit 6dd3053 evidence/differential/oq01-controls",
+    "net8AndNet10Agree": true,
+    "semanticAgreement": "7/7",
+    "stageDivergences": 4,
+    "agreements": [
+      "R5R3-TC-01-valid-history-valid-current",
+      "R5R3-TC-02-history-missing-temporal-attr",
+      "R5R3-TC-07-no-valid-basis"
+    ],
+    "normalized": [
+      "R5R3-TC-03-history-missing-owner-forbid-on-history",
+      "R5R3-TC-04-both-missing-owner",
+      "R5R3-TC-05-mixed-history-one-valid",
+      "R5R3-TC-06-permit-forbid-same-action-history-missing-owner"
+    ]
+  },
+  "evidence": {
+    "correctedReferenceNet8": "commit 6dd3053:docs/reviews/d3-impl-01-r5-r3/evidence/differential/oq01-controls/observations-corrected-reference-net8.0.json",
+    "correctedReferenceNet10": "commit 6dd3053:docs/reviews/d3-impl-01-r5-r3/evidence/differential/oq01-controls/observations-corrected-reference-net10.0.json",
+    "originalReferenceNet8": "commit 6dd3053:docs/reviews/d3-impl-01-r5-r3/evidence/differential/oq01-controls/observations-original-reference-net8.0.json",
+    "originalReferenceNet10": "commit 6dd3053:docs/reviews/d3-impl-01-r5-r3/evidence/differential/oq01-controls/observations-original-reference-net10.0.json",
+    "executionRecord": "docs/reviews/d3-impl-01-r5-r3/OQ01-EXECUTION.md",
+    "note": "The 7-control observations were committed at 6dd3053 and were superseded in the R5-R3 closure snapshot by the single-case open-question fixture. FCN-05 cites the committed 6dd3053 blobs and the OQ01-EXECUTION record; the R5-R3 closure artifacts are not modified."
+  }
+}

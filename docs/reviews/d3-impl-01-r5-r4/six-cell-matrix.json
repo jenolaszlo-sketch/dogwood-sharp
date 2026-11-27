@@ -1,0 +1,231 @@
+{
+  "commission": "DOGWOOD-SHARP-D3-IMPL-01-R5-R4",
+  "matrix": "the minimum D3 matrix of the pinned qualification plan, section 9",
+  "requirement": "The upstream oracle and the D3 adapter must be built from their locked graphs for each cell, and the same fixture and expected-difference manifest must be used on every cell. A cell that cannot be run is pending, never passed.",
+  "execution": {
+    "workflow": "D3 R5-R3 Cross-Platform Differential Execution",
+    "workflowId": 431473878,
+    "terminalRun": 46005380010,
+    "terminalCommit": "12a45557eb991482ee4c7b02f26cea13eee1fa4c",
+    "terminalTree": "f58951e4c63935826b9630f69f18d32c02c085f9",
+    "fixtures": "docs/reviews/d3-impl-01-r5-r3/evidence/fixtures-corrected-reference.json",
+    "register": "docs/reviews/d3-impl-01-r5-r3/evidence/register-corrected-reference.json",
+    "oracleBuild": "corrected reference, pinned Dogwood 929f49e7305534ac61ef06cf8e47269c596dc851",
+    "classificationTotals": {
+      "agreement": 84,
+      "approved-difference": 22,
+      "fail-closed-equivalence": 9,
+      "operation-failure": 9
+    }
+  },
+  "cells": [
+    {
+      "cell": 1,
+      "os": "Windows",
+      "rid": "win-x64",
+      "tfm": "net8.0",
+      "status": "executed",
+      "originalReference": {
+        "cases": 124,
+        "passed": 113,
+        "failed": 11,
+        "pending": 0,
+        "note": "Historical R5-R3 record. The eleven failures are the reproduced reference defect surface: six alternate-encoding cases and five malformed-encoding cases."
+      },
+      "correctedReference": {
+        "cases": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0
+      },
+      "d3": {
+        "stableAcrossBothRuns": true
+      },
+      "evidence": [
+        "docs/reviews/d3-impl-01-r5-r3/evidence/observations-corrected-reference-net8.0.json",
+        "docs/reviews/d3-impl-01-r5-r3/evidence/lifecycle-corrected-reference-net8.0.json"
+      ],
+      "note": "Unchanged from the R5-R2/R5-R3 Windows execution; re-verified by the frozen six-cell record."
+    },
+    {
+      "cell": 2,
+      "os": "Windows",
+      "rid": "win-x64",
+      "tfm": "net10.0",
+      "status": "executed",
+      "originalReference": {
+        "cases": 124,
+        "passed": 113,
+        "failed": 11,
+        "pending": 0,
+        "note": "Historical R5-R3 record. The eleven failures are the reproduced reference defect surface: six alternate-encoding cases and five malformed-encoding cases."
+      },
+      "correctedReference": {
+        "cases": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0
+      },
+      "d3": {
+        "stableAcrossBothRuns": true
+      },
+      "evidence": [
+        "docs/reviews/d3-impl-01-r5-r3/evidence/observations-corrected-reference-net10.0.json",
+        "docs/reviews/d3-impl-01-r5-r3/evidence/lifecycle-corrected-reference-net10.0.json"
+      ],
+      "note": "Unchanged from the R5-R2/R5-R3 Windows execution; re-verified by the frozen six-cell record."
+    },
+    {
+      "cell": 3,
+      "os": "Linux",
+      "rid": "linux-x64",
+      "tfm": "net8.0",
+      "status": "executed",
+      "run": 46005380010,
+      "job": 140527108760,
+      "correctedReference": {
+        "cases": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0
+      },
+      "adjudicator": {
+        "corpus": "docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/corpus.json",
+        "cases": 57,
+        "passed": true
+      },
+      "nativeAssets": {
+        "d2BridgeSha256": "4b6c3409841f3c9e49f3cc2701d5db6346deea708f1d126855c2bfb4b1368dfd",
+        "cedarSharpSha256": "9e8800eda6702a2d7edc121c441a9b3d190460627810bbc60cc84eb00ea80c8e",
+        "cedarSharpIdentity": {
+          "abiVersion": 1,
+          "sdkVersion": "4.13.0",
+          "languageVersion": "4.5",
+          "bridgeVersion": "0.1.0",
+          "rustVersion": "1.94.0",
+          "target": "x86_64-unknown-linux-gnu",
+          "features": ["ipaddr", "decimal", "datetime"]
+        }
+      },
+      "evidence": [
+        "artifacts/r5r3-differential/linux-x64/net8.0/observations-corrected-reference.json",
+        "artifacts/r5r3-differential/linux-x64/net8.0/lifecycle-corrected-reference.json",
+        "artifacts/r5r3-differential/linux-x64/net8.0/adjudicator-outcome.json"
+      ]
+    },
+    {
+      "cell": 4,
+      "os": "Linux",
+      "rid": "linux-x64",
+      "tfm": "net10.0",
+      "status": "executed",
+      "run": 46005380010,
+      "job": 140527108313,
+      "correctedReference": {
+        "cases": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0
+      },
+      "adjudicator": {
+        "corpus": "docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/corpus.json",
+        "cases": 57,
+        "passed": true
+      },
+      "nativeAssets": {
+        "d2BridgeSha256": "4b6c3409841f3c9e49f3cc2701d5db6346deea708f1d126855c2bfb4b1368dfd",
+        "cedarSharpSha256": "9e8800eda6702a2d7edc121c441a9b3d190460627810bbc60cc84eb00ea80c8e",
+        "cedarSharpIdentity": {
+          "abiVersion": 1,
+          "sdkVersion": "4.13.0",
+          "languageVersion": "4.5",
+          "bridgeVersion": "0.1.0",
+          "rustVersion": "1.94.0",
+          "target": "x86_64-unknown-linux-gnu",
+          "features": ["ipaddr", "decimal", "datetime"]
+        }
+      },
+      "evidence": [
+        "artifacts/r5r3-differential/linux-x64/net10.0/observations-corrected-reference.json",
+        "artifacts/r5r3-differential/linux-x64/net10.0/lifecycle-corrected-reference.json",
+        "artifacts/r5r3-differential/linux-x64/net10.0/adjudicator-outcome.json"
+      ]
+    },
+    {
+      "cell": 5,
+      "os": "macOS",
+      "rid": "osx-arm64",
+      "tfm": "net8.0",
+      "status": "executed",
+      "run": 46005380010,
+      "job": 140527108625,
+      "correctedReference": {
+        "cases": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0
+      },
+      "adjudicator": {
+        "corpus": "docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/corpus.json",
+        "cases": 57,
+        "passed": true
+      },
+      "nativeAssets": {
+        "d2BridgeSha256": "73d29a7030e6fb7d40f6be1abd37823b24a7a616901a173736d5fc38f4bf049e",
+        "cedarSharpSha256": "740e7410308d17b09694dc036d3c7fe9af5a26d766be47955cd22650a69e2d96",
+        "cedarSharpIdentity": {
+          "abiVersion": 1,
+          "sdkVersion": "4.13.0",
+          "languageVersion": "4.5",
+          "bridgeVersion": "0.1.0",
+          "rustVersion": "1.94.0",
+          "target": "aarch64-apple-darwin",
+          "features": ["ipaddr", "decimal", "datetime"]
+        }
+      },
+      "evidence": [
+        "artifacts/r5r3-differential/osx-arm64/net8.0/observations-corrected-reference.json",
+        "artifacts/r5r3-differential/osx-arm64/net8.0/lifecycle-corrected-reference.json",
+        "artifacts/r5r3-differential/osx-arm64/net8.0/adjudicator-outcome.json"
+      ]
+    },
+    {
+      "cell": 6,
+      "os": "macOS",
+      "rid": "osx-arm64",
+      "tfm": "net10.0",
+      "status": "executed",
+      "run": 46005380010,
+      "job": 140527108903,
+      "correctedReference": {
+        "cases": 124,
+        "passed": 124,
+        "failed": 0,
+        "pending": 0
+      },
+      "adjudicator": {
+        "corpus": "docs/reviews/d3-impl-01-r5-r2/evidence/differential/cedar-adjudicator/corpus.json",
+        "cases": 57,
+        "passed": true
+      },
+      "nativeAssets": {
+        "d2BridgeSha256": "73d29a7030e6fb7d40f6be1abd37823b24a7a616901a173736d5fc38f4bf049e",
+        "cedarSharpSha256": "740e7410308d17b09694dc036d3c7fe9af5a26d766be47955cd22650a69e2d96",
+        "cedarSharpIdentity": {
+          "abiVersion": 1,
+          "sdkVersion": "4.13.0",
+          "languageVersion": "4.5",
+          "bridgeVersion": "0.1.0",
+          "rustVersion": "1.94.0",
+          "target": "aarch64-apple-darwin",
+          "features": ["ipaddr", "decimal", "datetime"]
+        }
+      },
+      "evidence": [
+        "artifacts/r5r3-differential/osx-arm64/net10.0/observations-corrected-reference.json",
+        "artifacts/r5r3-differential/osx-arm64/net10.0/lifecycle-corrected-reference.json",
+        "artifacts/r5r3-differential/osx-arm64/net10.0/adjudicator-outcome.json"
+      ]
+    }
+  ]
+}
