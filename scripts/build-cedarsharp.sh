@@ -72,6 +72,10 @@ if [ -z "$CEDARSHARP_TARGET" ]; then
     export CEDARSHARP_TARGET="${RID}"
   fi
 fi
+# Debug: log the target
+echo "CEDARSHARP_TARGET: $CEDARSHARP_TARGET"
+echo "CEDARSHARP_RUST_VERSION: $CEDARSHARP_RUST_VERSION"
+echo "CEDARSHARP_LANGUAGE_VERSION: $CEDARSHARP_LANGUAGE_VERSION"
 
 cargo build --locked --release $targetArg --manifest-path "$csDir/Cargo.toml"
 
