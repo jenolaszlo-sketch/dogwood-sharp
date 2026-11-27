@@ -125,11 +125,15 @@ jobs:
       - name: Build CedarSharp native
         if: steps.platform-filter.outputs.run == 'true'
         id: build-cedarsharp
-        run: ./scripts/build-cedarsharp.sh
+        # The CedarSharp 1.0.0 package pins its native identity to rustc 1.94.0
+        # and the crate's build.rs stamps the active compiler version into the
+        # version response. Build this one asset with its pinned toolchain.
+        run: |
+          rustup toolchain install 1.94.0 --profile minimal --no-self-update
+          ./scripts/build-cedarsharp.sh
         env:
           RID: ${{ matrix.rid }}
-          CEDARSHARP_RUST_VERSION: "1.94.0"
-          CEDARSHARP_LANGUAGE_VERSION: "4.5"
+          RUSTUP_TOOLCHAIN: "1.94.0"
 
       - name: Build probe
         if: steps.platform-filter.outputs.run == 'true'

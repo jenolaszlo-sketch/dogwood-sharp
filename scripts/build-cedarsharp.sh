@@ -65,34 +65,27 @@ cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-formatter --pre
 # Also pin transitive dependencies that might pull in newer versions
 cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-mcp-schema-generator --precise 0.6.1 2>/dev/null || true
 
-# Set environment variables for CedarSharp native build to match C# interop expectations
-# Use environment variables if provided, otherwise default to expected values
-export CEDARSHARP_RUST_VERSION="${CEDARSHARP_RUST_VERSION:-1.94.0}"
-export CEDARSHARP_LANGUAGE_VERSION="${CEDARSHARP_LANGUAGE_VERSION:-4.5}"
-# Use target from RID - explicit case statement to avoid unbound variable issues with set -u
-case "${RID}" in
-  linux-x64)
-    export CEDARSHARP_TARGET="x86_64-unknown-linux-gnu"
-    ;;
-  osx-arm64)
-    export CEDARSHARP_TARGET="aarch64-apple-darwin"
-    ;;
-  win-x64)
-    export CEDARSHARP_TARGET="x86_64-pc-windows-msvc"
-    ;;
-  *)
-    export CEDARSHARP_TARGET="${RID}"
-    ;;
-esac
-# Debug: log the target
-echo "CEDARSHARP_TARGET: ${CEDARSHARP_TARGET}"
-echo "CEDARSHARP_RUST_VERSION: ${CEDARSHARP_RUST_VERSION}"
-echo "CEDARSHARP_LANGUAGE_VERSION: ${CEDARSHARP_LANGUAGE_VERSION}"
+# The crate's native/build.rs stamps the ACTIVE rustc version and Cargo TARGET
+# into the version response via cargo:rustc-env, overriding any shell value.
+# The CedarSharp 1.0.0 C# package requires rustVersion 1.94.0 and the target
+# triple for the RID, so this build must run under that exact toolchain. The
+# workflow selects it with RUSTUP_TOOLCHAIN; refuse a mismatching compiler
+# instead of producing an identity the consumer will reject at load time.
+requiredRust="1.94.0"
+activeRust="$(rustc --version | awk '{print $2}')"
+if [ "$activeRust" != "$requiredRust" ]; then
+  echo "CedarSharp native requires rustc $requiredRust (native/build.rs stamps it into the identity response); active is $activeRust"
+  exit 1
+fi
 
-# Explicitly pass environment variables to cargo build to ensure they are available at compile time
-CEDARSHARP_RUST_VERSION="${CEDARSHARP_RUST_VERSION}" \
-CEDARSHARP_LANGUAGE_VERSION="${CEDARSHARP_LANGUAGE_VERSION}" \
-CEDARSHARP_TARGET="${CEDARSHARP_TARGET}" \
+case "${RID}" in
+  linux-x64) targetTriple="x86_64-unknown-linux-gnu" ;;
+  osx-arm64) targetTriple="aarch64-apple-darwin" ;;
+  win-x64) targetTriple="x86_64-pc-windows-msvc" ;;
+  *) targetTriple="${RID}" ;;
+esac
+echo "CedarSharp native toolchain: rustc ${activeRust}; target: ${targetTriple}"
+
 cargo build --locked --release $targetArg --manifest-path "$csDir/Cargo.toml"
 
 libName=""
