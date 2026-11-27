@@ -18,10 +18,10 @@ export CARGO_TARGET_DIR="r5r3-work/cedarsharp-target"
 for f in "$csDir/Cargo.toml" "$csRoot/Cargo.toml" "$csRoot"/*/Cargo.toml; do
   if [ -f "$f" ]; then
     # Match any version pattern for cedar-policy* crates and pin to 4.11.0
-    # Handle table format: cedar-policy-core = { version = "=X.Y.Z", ... }
-    sed -i 's/cedar-policy-core = { version = "[^"]*" }/cedar-policy-core = { version = "=4.11.0" }/' "$f"
-    sed -i 's/cedar-policy = { version = "[^"]*" }/cedar-policy = { version = "=4.11.0" }/' "$f"
-    sed -i 's/cedar-policy-formatter = { version = "[^"]*" }/cedar-policy-formatter = { version = "=4.11.0" }/' "$f"
+    # Handle table format with features: cedar-policy = { version = "=X.Y.Z", default-features = false, features = [...] }
+    sed -i 's/cedar-policy-core = { version = "[^"]*",/cedar-policy-core = { version = "=4.11.0",/' "$f"
+    sed -i 's/cedar-policy = { version = "[^"]*",/cedar-policy = { version = "=4.11.0",/' "$f"
+    sed -i 's/cedar-policy-formatter = { version = "[^"]*",/cedar-policy-formatter = { version = "=4.11.0",/' "$f"
     # Handle inline format: cedar-policy-core = "=X.Y.Z"
     sed -i 's/cedar-policy-core = "=[^"]*"/cedar-policy-core = "=4.11.0"/' "$f"
     sed -i 's/cedar-policy = "=[^"]*"/cedar-policy = "=4.11.0"/' "$f"
@@ -35,8 +35,10 @@ done
 # Debug: show the modified Cargo.toml files
 echo "=== Modified cedar-sharp/native Cargo.toml ==="
 cat "$csDir/Cargo.toml"
-echo "=== Modified cedar-sharp Cargo.toml ==="
-cat "$csRoot/Cargo.toml" 2>/dev/null || echo "No root Cargo.toml"
+if [ -f "$csRoot/Cargo.toml" ]; then
+  echo "=== Modified cedar-sharp Cargo.toml ==="
+  cat "$csRoot/Cargo.toml"
+fi
 for f in "$csRoot"/*/Cargo.toml; do
   if [ -f "$f" ]; then
     echo "=== Modified $f ==="
