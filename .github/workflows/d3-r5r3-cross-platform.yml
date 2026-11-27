@@ -113,14 +113,7 @@ jobs:
 
       - name: Build CedarSharp native
         id: build-cedarsharp
-        run: |
-          # CedarSharp C# interop expects Rust 1.94.0 (ExpectedRust constant)
-          # Install specific Rust version for CedarSharp native build
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain 1.94.1 --component rustfmt --component clippy
-          source "$HOME/.cargo/env"
-          rustup default 1.94.1
-          rustup component add rustfmt clippy
-          ./scripts/build-cedarsharp.sh
+        run: ./scripts/build-cedarsharp.sh
         env:
           RID: ${{ matrix.rid }}
 

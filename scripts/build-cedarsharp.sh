@@ -55,6 +55,12 @@ cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy --precise 4.13.
 cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-formatter --precise 4.13.0
 # Also pin transitive dependencies that might pull in newer versions
 cargo update --manifest-path "$csDir/Cargo.toml" -p cedar-policy-mcp-schema-generator --precise 0.6.1 2>/dev/null || true
+
+# Set environment variables for CedarSharp native build to match C# interop expectations
+export CEDARSHARP_RUST_VERSION="1.94.0"
+export CEDARSHARP_LANGUAGE_VERSION="4.5"
+export CEDARSHARP_TARGET="x86_64-unknown-linux-gnu"
+
 cargo build --locked --release $targetArg --manifest-path "$csDir/Cargo.toml"
 
 libName=""
