@@ -1,0 +1,130 @@
+{
+  "commission": "DOGWOOD-SHARP-PUB-PREP-01",
+  "date": "2026-11-28",
+  "disposition": "A",
+  "dispositionLabel": "PUBLICATION INFRASTRUCTURE IMPLEMENTED AND PRODUCER-VERIFIED; READY FOR OWNER-SIDE NUGET CONFIGURATION AND PUBLICATION AUTHORIZATION",
+  "baseline": {
+    "commit": "6d7032e8048134b3245087043b1b4fa06b567b06",
+    "tree": "b5a030ad33988e16095b3cf4b317310fe04e4630",
+    "ownerClosure": "ad4de111d50ff0c6aba332c0d4d67726fbc44eaf",
+    "productionImplementation": "7a22871ae89205a51e382c3cdc238190d927a471"
+  },
+  "releaseCandidate": {
+    "commit": "58b0a3332391d85cdf19fd7b794d79516d2ecdfe",
+    "tree": "4c535ac8640ec5a1086d0956017e80b63850ef98"
+  },
+  "workflowRevision": {
+    "commit": "dd7d3f9ea38674f09712ac5c7574654f5a738e62",
+    "tree": "81f6f33a477802aa07689ee447a6ffc8902ad85c",
+    "path": ".github/workflows/publish.yml"
+  },
+  "source": {
+    "repository": "jenolaszlo-sketch/dogwood-sharp",
+    "runId": 46053558029,
+    "runAttempt": 1,
+    "workflowPath": ".github/workflows/ci.yml",
+    "workflowId": 420173740,
+    "event": "push",
+    "headSha": "58b0a3332391d85cdf19fd7b794d79516d2ecdfe",
+    "conclusion": "success",
+    "artifactId": 15226757191,
+    "artifactName": "dogwoodsharp-d3-candidates",
+    "artifactDigest": "sha256:86df4ea69bd39c5ad798b8cd34bc5d32b6dfed1436f85bdad37269f0772ec6ad",
+    "artifactSize": 18794042,
+    "artifactExpiresAt": "2027-02-25T19:00:24Z"
+  },
+  "inventory": {
+    "id": "DOGWOOD-SHARP-PUB-PREP-01-INVENTORY-1",
+    "sha256": "524819fcea620889e45e62c5645a11fec0c8a01a7062973dd8c80bd3901bf252",
+    "packages": [
+      {
+        "file": "DogwoodSharp.0.1.0-preview.1.nupkg",
+        "sha256": "384e013a236bfcb9b761a92ff861f0df54b2e8a736a5f2c1fb778268307b1911"
+      },
+      {
+        "file": "DogwoodSharp.0.1.0-preview.1.snupkg",
+        "sha256": "e35ae30ef409b44402f32361dcec800a57b7499cd610e2345773d6adafbad563"
+      },
+      {
+        "file": "DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg",
+        "sha256": "3d882e6be062ed998cf05e485b06dee4868819785e22fdf702d5050ba306daa4"
+      },
+      {
+        "file": "DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg",
+        "sha256": "49cefe0d69af687659c60decb141c56a1773b0583784586cd3ee09e5ea1803fd"
+      }
+    ]
+  },
+  "durableRetention": {
+    "path": "docs/reviews/dogwood-sharp-pub-prep-01/artifacts/",
+    "method": "exact byte copies committed to the canonical repository",
+    "verified": true,
+    "rebuilt": false,
+    "repacked": false,
+    "resigned": false
+  },
+  "producerQualification": {
+    "localControls": {
+      "total": 19,
+      "passed": 19,
+      "failed": 0,
+      "positiveDryRun": true,
+      "negativeControls": 18
+    },
+    "hostedDryRun": {
+      "runId": 46128901899,
+      "runAttempt": 1,
+      "headSha": "dd7d3f9ea38674f09712ac5c7574654f5a738e62",
+      "event": "workflow_dispatch",
+      "conclusion": "success",
+      "verifyJob": "success",
+      "publishJob": "skipped",
+      "credentialsRequested": false,
+      "uploadPerformed": false,
+      "planMatchesLocal": true
+    },
+    "workflowLockVerified": true,
+    "reconciliationControls": {
+      "empty": "missing/push",
+      "matching": "published-matching/skip",
+      "conflict": "conflict/refuse"
+    }
+  },
+  "environment": {
+    "name": "nuget-publication",
+    "reviewer": "jenolaszlo-sketch",
+    "reviewerId": 312601944,
+    "preventSelfReview": false,
+    "adminBypass": true,
+    "branchPolicy": "main",
+    "independentReview": false,
+    "branchProtection": false
+  },
+  "nugetTrustedPublishing": {
+    "configured": false,
+    "repositoryOwner": "jenolaszlo-sketch",
+    "repository": "dogwood-sharp",
+    "workflowFile": "publish.yml",
+    "environment": "nuget-publication",
+    "packageIds": ["DogwoodSharp", "DogwoodSharp.CedarSharp"],
+    "packageScopedPolicyAvailable": false,
+    "longLivedApiKeyUsed": false,
+    "nugetUserVariableSet": false
+  },
+  "livePublication": {
+    "authorized": false,
+    "executed": false,
+    "releaseTagCreated": false,
+    "githubReleaseCreated": false,
+    "nugetPublished": false,
+    "symbolsPublished": false
+  },
+  "remainingPrerequisites": [
+    "Create the NuGet Trusted Publishing policy.",
+    "Set the NUGET_USER repository variable.",
+    "Create the owner publication authorization bound to the inventory SHA-256.",
+    "Decide on independent review and main-branch protection.",
+    "Provide explicit owner publication authorization."
+  ],
+  "authorityExclusions": "No release tag, GitHub release, NuGet or symbol publication, new development stage, dependency modernization, deterministic native build remediation, destructive cleanup or modification of the accepted artifacts is authorized."
+}

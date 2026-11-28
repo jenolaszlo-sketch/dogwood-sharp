@@ -158,7 +158,7 @@ The publication workflow:
    with `scope: "publication"`, `publicationAuthorized: true`, the exact
    inventory SHA-256, release candidate, source run, package hashes,
    destination and environment. The template is in
-   `OWNER-AUTHORIZATION-PUBLICATION-TEMPLATE.md`.
+   `docs/reviews/dogwood-sharp-pub-prep-01/OWNER-AUTHORIZATION-PUBLICATION-TEMPLATE.md`.
 3. The owner dispatches `publish.yml` on `main` with `dry_run: false` and the
    exact inputs.
 4. The `verify` job builds and verifies the plan without credentials.

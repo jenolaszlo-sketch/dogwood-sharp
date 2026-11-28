@@ -1,0 +1,32 @@
+{
+    "runId":  46128901899,
+    "runAttempt":  1,
+    "headSha":  "dd7d3f9ea38674f09712ac5c7574654f5a738e62",
+    "event":  "workflow_dispatch",
+    "status":  "completed",
+    "conclusion":  "success",
+    "workflowPath":  ".github/workflows/publish.yml",
+    "jobs":  [
+                 {
+                     "name":  "Verify exact publication plan",
+                     "id":  140929529423,
+                     "conclusion":  "success"
+                 },
+                 {
+                     "name":  "Publish exact authorized artifacts",
+                     "id":  140929625815,
+                     "conclusion":  "skipped"
+                 }
+             ],
+    "artifacts":  [
+                      {
+                          "name":  "publication-plan",
+                          "id":  15256469400,
+                          "digest":  "sha256:8f6f7b2d94b8e38ef8d05172333204878221e17ee0d684c71c2433887a8a27ff",
+                          "size":  4383,
+                          "expiresAt":  "2026-12-28T09:06:56Z"
+                      }
+                  ],
+    "planSha256":  "4212a5ed814da84a8750b81498e1d03737f4706048bc85e981f27b5f815ead01",
+    "sourceMetadataSha256":  "94d718069672ebb9b3ebc24354f0d07878260939a4e66b96fb6d9d0d52138122"
+}
