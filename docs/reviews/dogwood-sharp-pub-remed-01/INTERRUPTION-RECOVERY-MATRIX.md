@@ -27,6 +27,8 @@ uploaded.
 | Resume after a previously completed publication | Re-ran operation 1 after completion; `ALREADY_VERIFIED`, transport count unchanged. | Pass |
 | Partial publication cannot be reported complete | Completion check with operations 1 and 3 only; refused `not complete`, no sequence-completed record. | Pass |
 | Adapter before core verification | Operation 3 with no verified operation 1; refused before transport. | Pass |
+| Interruption after operation 3 | Operation 1 verified first; operation 3 transport staged the adapter package and lost the response; read-only reconciliation verified it without a second upload. | Pass |
+| Interruption after operation 4 | Operations 1 and 3 verified; operation 4 had a seeded accepted upload with absent PDBs; classified `symbol-indexing-pending`, no resubmission. | Pass |
 | Symbol upload not attempted | Fresh symbol operation; absent PDBs classified `symbol-upload-not-attempted`. | Pass |
 | Symbol upload accepted, indexing pending | Seeded `upload-accepted`; absent PDBs classified `symbol-indexing-pending`, no resubmission. | Pass |
 | Symbol upload outcome unknown | Seeded `attempt-initiated`; absent PDBs classified `symbol-upload-outcome-unknown`, no resubmission. | Pass |

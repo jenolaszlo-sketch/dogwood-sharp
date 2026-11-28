@@ -17,3 +17,5 @@ CONTROL PASS symbols-available-and-verified
 CONTROL PASS symbols-inconsistent-conflict
 CONTROL PASS symbol-first-publication-verified
 CONTROL PASS adapter-refused-before-core-verified
+CONTROL PASS operation-3-response-lost-recovers
+CONTROL PASS operation-4-symbol-indexing-pending

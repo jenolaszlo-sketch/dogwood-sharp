@@ -1,10 +1,10 @@
 {
     "schemaVersion":  1,
     "commission":  "DOGWOOD-SHARP-PUB-REMED-01",
-    "executedAtUtc":  "2026-11-28T11:43:02.6406635Z",
+    "executedAtUtc":  "2026-11-28T11:53:32.6144314Z",
     "inventorySha256":  "524819fcea620889e45e62c5645a11fec0c8a01a7062973dd8c80bd3901bf252",
-    "total":  19,
-    "passed":  19,
+    "total":  21,
+    "passed":  21,
     "failed":  0,
     "controls":  [
                      {
@@ -120,6 +120,18 @@
                          "passed":  true,
                          "detail":  "exit=1",
                          "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\adapter-refused-before-core-verified.json"
+                     },
+                     {
+                         "name":  "operation-3-response-lost-recovers",
+                         "passed":  true,
+                         "detail":  "exit=0 state=published-and-verified-matching transport=1",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\operation-3-response-lost-recovers.json"
+                     },
+                     {
+                         "name":  "operation-4-symbol-indexing-pending",
+                         "passed":  true,
+                         "detail":  "exit=2 state=symbol-indexing-pending",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\operation-4-symbol-indexing-pending.json"
                      }
                  ]
 }

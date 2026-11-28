@@ -275,7 +275,7 @@ registry. No real registry or symbol service was contacted.
 | Baseline defect reproduction | Baseline defects reproduced | `evidence/baseline-defect-reproduction.json` |
 | Original 19 producer controls | 19/19 pass | `evidence/producer-controls-successor.json` |
 | Archive/payload/signature controls | 11/11 pass | `evidence/archive-controls.json` |
-| Publication recovery controls | 19/19 pass | `evidence/recovery-controls.json` |
+| Publication recovery controls | 21/21 pass | `evidence/recovery-controls.json` |
 | Journal and completion controls | 5/5 pass | `evidence/journal-controls.json` |
 | GitHub journal provider controls | 2/2 pass | `evidence/github-journal-controls.json` |
 | Workflow input safety controls | 21/21 pass | `evidence/workflow-input-safety.json` |

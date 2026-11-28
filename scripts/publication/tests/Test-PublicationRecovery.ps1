@@ -124,6 +124,15 @@ function Add-TestJournalRecord([string] $JournalPath, [string] $Order, [string] 
         -OperationSize ([string] $operation.size) -AttemptId $AttemptId -Detail $Detail | Out-Null
 }
 
+function Seed-VerifiedOperation([string] $JournalPath, [int] $Order) {
+    Add-TestJournalRecord $JournalPath ([string] $Order) 'attempt-initiated' 'publication-attempt-initiated' 'seed' ([ordered]@{ seed = $true })
+    Add-TestJournalRecord $JournalPath ([string] $Order) 'upload-accepted' 'accepted-by-publication-endpoint-but-not-yet-visible' 'seed' ([ordered]@{ seed = $true })
+    $operation = @($inventory.packages | Where-Object { [int] $_.order -eq $Order })[0]
+    $event = if ($operation.kind -eq 'package') { 'published-verified' } else { 'symbols-verified' }
+    $state = if ($operation.kind -eq 'package') { 'published-and-verified-matching' } else { 'symbols-available-and-verified' }
+    Add-TestJournalRecord $JournalPath ([string] $Order) $event $state 'seed' ([ordered]@{ seed = $true })
+}
+
 function New-TestAuthorization([string] $Path) {
     $authorization = [ordered]@{
         authorizationId = $authorizationId
@@ -712,6 +721,54 @@ try {
     $result = Invoke-Operation -Name 'dependency-guard-op3' -Order 3 -JournalPath $journal -Mock $mock -Environment @{ DOGWOOD_TRANSPORT_LOG = (Join-Path $scenarioDir 'transport.log') } -PollAttempts 1 -PollDelaySeconds 0
     $summary = Get-JournalSummary $journal
     Add-Result 'adapter-refused-before-core-verified' ($result.exitCode -ne 0 -and @(Get-TransportLines (Join-Path $scenarioDir 'transport.log')).Count -eq 0) "exit=$($result.exitCode)" ([ordered]@{ result = $result; journal = $summary })
+}
+finally { Stop-MockRegistry $mock }
+
+# ---------------------------------------------------------------------------
+# C10: interruption after operation 3 (adapter package).
+# ---------------------------------------------------------------------------
+$mock = $null
+try {
+    $scenarioDir = Join-Path $workRoot 'op3-response-lost'
+    New-Item -ItemType Directory -Force -Path $scenarioDir | Out-Null
+    $feed = Join-Path $scenarioDir 'feed'
+    $symbols = Join-Path $scenarioDir 'symbols'
+    New-Item -ItemType Directory -Force -Path $feed, $symbols | Out-Null
+    Copy-PackageToFeed $feed 'DogwoodSharp.0.1.0-preview.1.nupkg'
+    $journal = Join-Path $scenarioDir 'journal.jsonl'
+    Initialize-TestJournal $journal
+    Seed-VerifiedOperation $journal 1
+    $mock = Start-MockRegistry -Name 'op3-response-lost-mock' -PackageMode 'file' -PackageDirectory $feed -SymbolMode 'missing' -SymbolDirectory $symbols
+    $transportLog = Join-Path $scenarioDir 'transport.log'
+    $result = Invoke-Operation -Name 'op3-response-lost' -Order 3 -JournalPath $journal -Mock $mock -Environment @{ DOGWOOD_TRANSPORT_LOG = $transportLog; DOGWOOD_TRANSPORT_STAGE = $feed; DOGWOOD_TRANSPORT_EXIT = '42' } -PollAttempts 3 -PollDelaySeconds 0
+    $summary = Get-JournalSummary $journal
+    $transport = @(Get-TransportLines $transportLog)
+    Add-Result 'operation-3-response-lost-recovers' ($result.exitCode -eq 0 -and $summary.operations[2].verified -and $transport.Count -eq 1) "exit=$($result.exitCode) state=$($summary.operations[2].state) transport=$($transport.Count)" ([ordered]@{ result = $result; journal = $summary })
+}
+finally { Stop-MockRegistry $mock }
+
+# ---------------------------------------------------------------------------
+# C11: interruption after operation 4 (adapter symbols).
+# ---------------------------------------------------------------------------
+$mock = $null
+try {
+    $scenarioDir = Join-Path $workRoot 'op4-symbol-pending'
+    New-Item -ItemType Directory -Force -Path $scenarioDir | Out-Null
+    $feed = Join-Path $scenarioDir 'feed'
+    $symbols = Join-Path $scenarioDir 'symbols'
+    New-Item -ItemType Directory -Force -Path $feed, $symbols | Out-Null
+    Copy-PackageToFeed $feed 'DogwoodSharp.0.1.0-preview.1.nupkg'
+    Copy-PackageToFeed $feed 'DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg'
+    $journal = Join-Path $scenarioDir 'journal.jsonl'
+    Initialize-TestJournal $journal
+    Seed-VerifiedOperation $journal 1
+    Seed-VerifiedOperation $journal 3
+    Add-TestJournalRecord $journal '4' 'upload-accepted' 'accepted-by-publication-endpoint-but-not-yet-visible' 'seed' ([ordered]@{ seed = $true })
+    $mock = Start-MockRegistry -Name 'op4-symbol-pending-mock' -PackageMode 'file' -PackageDirectory $feed -SymbolMode 'missing' -SymbolDirectory $symbols
+    $transportLog = Join-Path $scenarioDir 'transport.log'
+    $result = Invoke-Operation -Name 'op4-symbol-pending' -Order 4 -JournalPath $journal -Mock $mock -Environment @{ DOGWOOD_TRANSPORT_LOG = $transportLog } -PollAttempts 2 -PollDelaySeconds 0
+    $summary = Get-JournalSummary $journal
+    Add-Result 'operation-4-symbol-indexing-pending' ($result.exitCode -eq 2 -and $summary.operations[3].state -eq 'symbol-indexing-pending' -and @(Get-TransportLines $transportLog).Count -eq 0) "exit=$($result.exitCode) state=$($summary.operations[3].state)" ([ordered]@{ result = $result; journal = $summary })
 }
 finally { Stop-MockRegistry $mock }
 
