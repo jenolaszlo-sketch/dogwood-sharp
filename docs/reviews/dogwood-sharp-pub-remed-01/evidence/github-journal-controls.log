@@ -1,0 +1,2 @@
+CONTROL PASS github-journal-write-ahead-and-readback
+CONTROL PASS github-journal-refuses-concurrent-write

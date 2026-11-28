@@ -1,11 +1,12 @@
 {
     "schemaVersion":  1,
-    "approvedAtCommit":  "91598d94af913ba0fcd1e64513191a01b9d5e8db",
+    "approvedAtCommit":  "6f21032cf0ff27cd994a79459359c979482546e1",
     "workflowPath":  ".github/workflows/publish.yml",
+    "stateModel":  "DOGWOOD-SHARP-PUB-REMED-01-v1",
     "files":  [
                   {
                       "path":  ".github/workflows/publish.yml",
-                      "blobSha":  "13964b2e85080f015d429aba07f70199f8cbe0bf"
+                      "blobSha":  "8a0bef1525a395d8e7f665887412db892bf9eac4"
                   },
                   {
                       "path":  "scripts/publication/Test-PublicationPlan.ps1",
@@ -25,7 +26,35 @@
                   },
                   {
                       "path":  "scripts/publication/Reconcile-Publication.ps1",
-                      "blobSha":  "362660b685093e0b5e3acdf64d7c162808bd01e7"
+                      "blobSha":  "cbe26ac69f60e985f93b7fba90cb4177b9c2db41"
+                  },
+                  {
+                      "path":  "scripts/publication/PublicationArchive.ps1",
+                      "blobSha":  "5e8cae5b1134b7974f3efc0439d8e89cb02361ea"
+                  },
+                  {
+                      "path":  "scripts/publication/PublicationState.ps1",
+                      "blobSha":  "1cdfa39548e00964c56c555ebf956e538a38cd5a"
+                  },
+                  {
+                      "path":  "scripts/publication/Invoke-PublicationOperation.ps1",
+                      "blobSha":  "ef1b6b8b6d86320b946af4c69360ed79efc4aa95"
+                  },
+                  {
+                      "path":  "scripts/publication/Initialize-PublicationJournal.ps1",
+                      "blobSha":  "4144880b249e126d3269be3ca2c4b6e759895c9d"
+                  },
+                  {
+                      "path":  "scripts/publication/Test-PublicationInputs.ps1",
+                      "blobSha":  "6c72b4acea50dba4458c7eab4b1fe9c1a003a721"
+                  },
+                  {
+                      "path":  "scripts/publication/Test-WorkflowInputSafety.ps1",
+                      "blobSha":  "4c399d9f60498c4a959f1373dc54abf9d85d817b"
+                  },
+                  {
+                      "path":  "scripts/publication/Test-PublicationCompletion.ps1",
+                      "blobSha":  "d19921036d626c209de287e4ca10fa193ba2c8d4"
                   },
                   {
                       "path":  "docs/reviews/dogwood-sharp-pub-prep-01/publication-inventory.json",

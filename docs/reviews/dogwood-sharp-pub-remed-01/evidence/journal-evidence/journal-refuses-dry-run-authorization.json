@@ -1,0 +1,7 @@
+{
+    "result":  {
+                   "exitCode":  1,
+                   "stdout":  "",
+                   "stderr":  "PUBLICATION_JOURNAL_REFUSED: Owner authorization does not authorize publication."
+               }
+}

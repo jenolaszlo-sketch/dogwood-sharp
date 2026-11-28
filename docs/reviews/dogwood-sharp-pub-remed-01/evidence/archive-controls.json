@@ -1,0 +1,76 @@
+{
+    "schemaVersion":  1,
+    "commission":  "DOGWOOD-SHARP-PUB-REMED-01",
+    "executedAtUtc":  "2026-11-28T11:43:44.9249573Z",
+    "total":  11,
+    "passed":  11,
+    "failed":  0,
+    "controls":  [
+                     {
+                         "name":  "accepted-original-self-match",
+                         "passed":  true,
+                         "detail":  "exit=0 status=published-matching",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\archive-evidence\\accepted-original-self-match.json"
+                     },
+                     {
+                         "name":  "unexpected-entry-refused",
+                         "passed":  true,
+                         "detail":  "exit=1 status=published-conflicting mismatches=unexpected:unexpected-entry.txt",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\archive-evidence\\unexpected-entry-refused.json"
+                     },
+                     {
+                         "name":  "missing-entry-refused",
+                         "passed":  true,
+                         "detail":  "exit=1 status=published-conflicting mismatches=missing:README.md",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\archive-evidence\\missing-entry-refused.json"
+                     },
+                     {
+                         "name":  "modified-entry-refused",
+                         "passed":  true,
+                         "detail":  "exit=1 status=published-conflicting mismatches=changed:README.md",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\archive-evidence\\modified-entry-refused.json"
+                     },
+                     {
+                         "name":  "duplicate-entry-refused",
+                         "passed":  true,
+                         "detail":  "exit=1 status=published-conflicting mismatches=archive-rejected: Duplicate archive entry identity \u0027README.md\u0027 in DogwoodSharp.0.1.0-preview.1.nupkg",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\archive-evidence\\duplicate-entry-refused.json"
+                     },
+                     {
+                         "name":  "unsafe-path-refused",
+                         "passed":  true,
+                         "detail":  "exit=1 status=published-conflicting mismatches=archive-rejected: Unsafe or ambiguous archive entry \u0027../escape.txt\u0027 in DogwoodSharp.0.1.0-preview.1.nupkg: relative path segment in entry name",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\archive-evidence\\unsafe-path-refused.json"
+                     },
+                     {
+                         "name":  "incorrect-identity-refused",
+                         "passed":  true,
+                         "detail":  "exit=1 stderr=PUBLICATION_RECONCILIATION_REFUSED: Accepted package identity is not the approved identity: DogwoodSharp.0.1.0-preview.1.nupkg",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\archive-evidence\\incorrect-identity-refused.json"
+                     },
+                     {
+                         "name":  "valid-repository-signing-transformation",
+                         "passed":  true,
+                         "detail":  "exit=0 status=published-matching repository=True",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\archive-evidence\\valid-repository-signing-transformation.json"
+                     },
+                     {
+                         "name":  "invalid-signature-refused",
+                         "passed":  true,
+                         "detail":  "exit=1 status=published-conflicting verify=False",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\archive-evidence\\invalid-signature-refused.json"
+                     },
+                     {
+                         "name":  "unexpected-signing-content-refused",
+                         "passed":  true,
+                         "detail":  "exit=1 status=published-conflicting mismatches=unexpected:unexpected-signature.p7s",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\archive-evidence\\unexpected-signing-content-refused.json"
+                     },
+                     {
+                         "name":  "untrusted-signature-refused",
+                         "passed":  true,
+                         "detail":  "exit=1 status=published-conflicting verify=False",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\archive-evidence\\untrusted-signature-refused.json"
+                     }
+                 ]
+}

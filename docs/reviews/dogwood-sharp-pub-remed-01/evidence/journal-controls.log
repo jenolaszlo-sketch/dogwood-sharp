@@ -1,0 +1,5 @@
+CONTROL PASS journal-initialization-binds-inventory
+CONTROL PASS journal-initialization-idempotent
+CONTROL PASS journal-refuses-dry-run-authorization
+CONTROL PASS complete-four-operation-state
+CONTROL PASS partial-sequence-refused

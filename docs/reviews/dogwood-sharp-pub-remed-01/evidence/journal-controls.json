@@ -1,0 +1,40 @@
+{
+    "schemaVersion":  1,
+    "commission":  "DOGWOOD-SHARP-PUB-REMED-01",
+    "executedAtUtc":  "2026-11-28T11:43:51.3107681Z",
+    "total":  5,
+    "passed":  5,
+    "failed":  0,
+    "controls":  [
+                     {
+                         "name":  "journal-initialization-binds-inventory",
+                         "passed":  true,
+                         "detail":  "exit=0 valid=True records=1",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\journal-evidence\\journal-initialization-binds-inventory.json"
+                     },
+                     {
+                         "name":  "journal-initialization-idempotent",
+                         "passed":  true,
+                         "detail":  "exit=0 stdout=PUBLICATION_JOURNAL=EXISTING_RECORDS=1",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\journal-evidence\\journal-initialization-idempotent.json"
+                     },
+                     {
+                         "name":  "journal-refuses-dry-run-authorization",
+                         "passed":  true,
+                         "detail":  "exit=1 stderr=PUBLICATION_JOURNAL_REFUSED: Owner authorization does not authorize publication.",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\journal-evidence\\journal-refuses-dry-run-authorization.json"
+                     },
+                     {
+                         "name":  "complete-four-operation-state",
+                         "passed":  true,
+                         "detail":  "exit=0 stdout=PUBLICATION_SEQUENCE=COMPLETE\nPUBLICATION_SEQUENCE_RECORD_HASH=2cb052f60a6c8f26020363690dd5056418bce335605d0c7c67553555ba7ce3a0",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\journal-evidence\\complete-four-operation-state.json"
+                     },
+                     {
+                         "name":  "partial-sequence-refused",
+                         "passed":  true,
+                         "detail":  "exit=1 stderr=PUBLICATION_COMPLETION_REFUSED: Publication sequence is not complete: DogwoodSharp.0.1.0-preview.1.snupkg=, DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg=",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\journal-evidence\\partial-sequence-refused.json"
+                     }
+                 ]
+}

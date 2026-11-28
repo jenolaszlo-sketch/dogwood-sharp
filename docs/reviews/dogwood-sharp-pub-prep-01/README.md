@@ -1,5 +1,11 @@
 # DOGWOOD-SHARP-PUB-PREP-01 — Exact-artifact publication infrastructure
 
+> **Successor note.** `DOGWOOD-SHARP-PUB-REMED-01` supersedes the recovery,
+> repository-signature and symbol-verification sections of this historical
+> record. The current contract is in `docs/release-operations.md` and
+> `docs/reviews/dogwood-sharp-pub-remed-01/`. The four accepted artifacts and
+> the publication inventory are unchanged.
+
 **Commission**: `DOGWOOD-SHARP-PUB-PREP-01`
 **Date**: 28 November 2026
 **Disposition**: **A — PUBLICATION INFRASTRUCTURE IMPLEMENTED AND PRODUCER-VERIFIED; READY FOR OWNER-SIDE NUGET CONFIGURATION AND PUBLICATION AUTHORIZATION**

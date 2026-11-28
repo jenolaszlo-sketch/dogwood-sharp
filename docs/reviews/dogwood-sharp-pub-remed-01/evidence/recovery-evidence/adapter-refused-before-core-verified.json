@@ -1,0 +1,57 @@
+{
+    "result":  {
+                   "name":  "dependency-guard-op3",
+                   "order":  3,
+                   "exitCode":  1,
+                   "stdout":  "",
+                   "stderr":  "PUBLICATION_OPERATION_REFUSED: Operation 3 requires DogwoodSharp.0.1.0-preview.1.nupkg to be publicly available and matching before publication."
+               },
+    "journal":  {
+                    "valid":  true,
+                    "error":  null,
+                    "records":  2,
+                    "lastEvent":  "manual-reconciliation-required",
+                    "operations":  [
+                                       {
+                                           "order":  1,
+                                           "file":  "DogwoodSharp.0.1.0-preview.1.nupkg",
+                                           "state":  null,
+                                           "event":  null,
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       },
+                                       {
+                                           "order":  2,
+                                           "file":  "DogwoodSharp.0.1.0-preview.1.snupkg",
+                                           "state":  null,
+                                           "event":  null,
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       },
+                                       {
+                                           "order":  3,
+                                           "file":  "DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg",
+                                           "state":  "manual-reconciliation-required",
+                                           "event":  "manual-reconciliation-required",
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  false,
+                                           "manual":  true
+                                       },
+                                       {
+                                           "order":  4,
+                                           "file":  "DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg",
+                                           "state":  null,
+                                           "event":  null,
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       }
+                                   ]
+                }
+}

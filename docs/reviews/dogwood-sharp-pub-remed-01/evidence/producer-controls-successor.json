@@ -1,0 +1,220 @@
+{
+    "commission":  "DOGWOOD-SHARP-PUB-PREP-01",
+    "date":  "2026-11-28",
+    "verifier":  "scripts/publication/Test-PublicationPlan.ps1",
+    "positivePlan":  "docs/reviews/dogwood-sharp-pub-prep-01/evidence/publication-plan.dry-run.json",
+    "total":  19,
+    "passed":  19,
+    "failed":  0,
+    "results":  [
+                    {
+                        "id":  0,
+                        "name":  "positive dry-run using the exact four accepted artifacts",
+                        "expected":  "verified",
+                        "executed":  true,
+                        "exitCode":  0,
+                        "planExists":  true,
+                        "refused":  false,
+                        "message":  "PUBLICATION_PLAN=VERIFIED",
+                        "passed":  true
+                    },
+                    {
+                        "id":  1,
+                        "name":  "missing owner publication authorization",
+                        "expected":  "Missing owner publication authorization.",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Missing owner publication authorization.",
+                        "passed":  true
+                    },
+                    {
+                        "id":  2,
+                        "name":  "incorrect release-candidate identity",
+                        "expected":  "Incorrect release-candidate identity.",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Incorrect release-candidate identity.",
+                        "passed":  true
+                    },
+                    {
+                        "id":  3,
+                        "name":  "incorrect source workflow run",
+                        "expected":  "Incorrect source workflow run.",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Incorrect source workflow run.",
+                        "passed":  true
+                    },
+                    {
+                        "id":  4,
+                        "name":  "unsuccessful source workflow",
+                        "expected":  "Source workflow did not complete successfully.",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Source workflow did not complete successfully.",
+                        "passed":  true
+                    },
+                    {
+                        "id":  5,
+                        "name":  "missing artifact",
+                        "expected":  "Missing artifact",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Missing artifact: DogwoodSharp.0.1.0-preview.1.snupkg",
+                        "passed":  true
+                    },
+                    {
+                        "id":  6,
+                        "name":  "modified package",
+                        "expected":  "Modified package:",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Modified package: DogwoodSharp.0.1.0-preview.1.nupkg",
+                        "passed":  true
+                    },
+                    {
+                        "id":  7,
+                        "name":  "modified symbol package",
+                        "expected":  "Modified symbol package:",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Modified symbol package: DogwoodSharp.0.1.0-preview.1.snupkg",
+                        "passed":  true
+                    },
+                    {
+                        "id":  8,
+                        "name":  "unexpected additional package",
+                        "expected":  "Unexpected additional package:",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Unexpected additional package: Unexpected.1.0.0.nupkg",
+                        "passed":  true
+                    },
+                    {
+                        "id":  9,
+                        "name":  "incorrect package ID",
+                        "expected":  "Incorrect package ID:",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Incorrect package ID: DogwoodSharp.0.1.0-preview.1.nupkg",
+                        "passed":  true
+                    },
+                    {
+                        "id":  10,
+                        "name":  "incorrect package version",
+                        "expected":  "Incorrect package version:",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Incorrect package version: DogwoodSharp.0.1.0-preview.1.nupkg",
+                        "passed":  true
+                    },
+                    {
+                        "id":  11,
+                        "name":  "CedarSharp dependency accidentally included",
+                        "expected":  "CedarSharp dependency was included",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: CedarSharp dependency was included in the publication set.",
+                        "passed":  true
+                    },
+                    {
+                        "id":  12,
+                        "name":  "unauthorized ref",
+                        "expected":  "Unauthorized ref:",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Unauthorized ref: publication is restricted to refs/heads/main.",
+                        "passed":  true
+                    },
+                    {
+                        "id":  13,
+                        "name":  "publication environment mismatch",
+                        "expected":  "Publication environment mismatch.",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Publication environment mismatch.",
+                        "passed":  true
+                    },
+                    {
+                        "id":  14,
+                        "name":  "duplicate or conflicting publication identity",
+                        "expected":  "Duplicate or conflicting publication identity.",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Duplicate or conflicting publication identity.",
+                        "passed":  true
+                    },
+                    {
+                        "id":  15,
+                        "name":  "expired or unavailable source artifact",
+                        "expected":  "Source artifact expired:",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Source artifact expired: dogwoodsharp-d3-candidates",
+                        "passed":  true
+                    },
+                    {
+                        "id":  16,
+                        "name":  "unapproved publication destination",
+                        "expected":  "Unapproved publication destination.",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Unapproved publication destination.",
+                        "passed":  true
+                    },
+                    {
+                        "id":  17,
+                        "name":  "attempted rebuild or repack",
+                        "expected":  "Package entries differ from the accepted inventory:",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Package entries differ from the accepted inventory: DogwoodSharp.0.1.0-preview.1.nupkg. Unexpected: extra.txt. Missing: .",
+                        "passed":  true
+                    },
+                    {
+                        "id":  18,
+                        "name":  "concurrent publication attempt",
+                        "expected":  "Concurrent publication attempt detected.",
+                        "executed":  true,
+                        "exitCode":  1,
+                        "planExists":  false,
+                        "refused":  true,
+                        "message":  "PUBLICATION_REFUSED: Concurrent publication attempt detected.",
+                        "passed":  true
+                    }
+                ]
+}

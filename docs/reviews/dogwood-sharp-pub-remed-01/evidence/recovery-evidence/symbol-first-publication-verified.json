@@ -1,0 +1,60 @@
+{
+    "result":  {
+                   "name":  "symbols-first-publication-op2",
+                   "order":  2,
+                   "exitCode":  0,
+                   "stdout":  "PUBLICATION_OPERATION=2 TRANSPORT=symbols FILE=DogwoodSharp.0.1.0-preview.1.snupkg\nPUBLICATION_OPERATION=2 VERIFIED=DogwoodSharp.0.1.0-preview.1.snupkg",
+                   "stderr":  ""
+               },
+    "journal":  {
+                    "valid":  true,
+                    "error":  null,
+                    "records":  8,
+                    "lastEvent":  "symbols-verified",
+                    "operations":  [
+                                       {
+                                           "order":  1,
+                                           "file":  "DogwoodSharp.0.1.0-preview.1.nupkg",
+                                           "state":  "published-and-verified-matching",
+                                           "event":  "published-verified",
+                                           "attemptPending":  false,
+                                           "verified":  true,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       },
+                                       {
+                                           "order":  2,
+                                           "file":  "DogwoodSharp.0.1.0-preview.1.snupkg",
+                                           "state":  "symbols-available-and-verified",
+                                           "event":  "symbols-verified",
+                                           "attemptPending":  false,
+                                           "verified":  true,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       },
+                                       {
+                                           "order":  3,
+                                           "file":  "DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg",
+                                           "state":  null,
+                                           "event":  null,
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       },
+                                       {
+                                           "order":  4,
+                                           "file":  "DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg",
+                                           "state":  null,
+                                           "event":  null,
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       }
+                                   ]
+                },
+    "transport":  [
+                      "nuget push D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-prep-01\\artifacts\\DogwoodSharp.0.1.0-preview.1.snupkg --source https://api.nuget.org/v3/index.json"
+                  ]
+}

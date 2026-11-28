@@ -1,0 +1,9 @@
+{
+    "result":  {
+                   "name":  "bad-journal-op1",
+                   "order":  1,
+                   "exitCode":  1,
+                   "stdout":  "",
+                   "stderr":  "PUBLICATION_OPERATION_REFUSED: Durable publication journal is not usable: journal line 1 hash does not match its content"
+               }
+}

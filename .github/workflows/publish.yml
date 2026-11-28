@@ -44,25 +44,42 @@ concurrency:
   group: dogwoodsharp-nuget-publication
   cancel-in-progress: false
 
+env:
+  RELEASE_CANDIDATE: ${{ inputs.release_candidate }}
+  SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+  SOURCE_RUN_ATTEMPT: ${{ inputs.source_run_attempt }}
+  OWNER_AUTHORIZATION_ID: ${{ inputs.owner_authorization_id }}
+  DRY_RUN: ${{ inputs.dry_run }}
+  PUBLICATION_ENVIRONMENT: ${{ inputs.publication_environment }}
+  DESTINATION: ${{ inputs.destination }}
+
 jobs:
   verify:
     name: Verify exact publication plan
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - name: Require canonical main ref
-        shell: bash
-        run: |
-          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
-            echo "Refusing publication: invocation ref is ${{ github.ref }}, not refs/heads/main." >&2
-            exit 1
-          fi
-
       - name: Checkout at the invoked revision
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
           fetch-depth: 0
           ref: ${{ github.sha }}
+
+      - name: Validate workflow inputs as inert data
+        shell: pwsh
+        run: ./scripts/publication/Test-PublicationInputs.ps1
+
+      - name: Test workflow input handling
+        shell: pwsh
+        run: ./scripts/publication/Test-WorkflowInputSafety.ps1 -WorkflowPath .github/workflows/publish.yml -RepositoryRoot "$PWD"
+
+      - name: Require canonical main ref
+        shell: bash
+        run: |
+          if [ "$GITHUB_REF" != "refs/heads/main" ]; then
+            echo "Refusing publication: invocation ref is $GITHUB_REF, not refs/heads/main." >&2
+            exit 1
+          fi
 
       - name: Verify publication workflow revision lock
         shell: pwsh
@@ -74,8 +91,10 @@ jobs:
       - name: Require NUGET_USER for live publication
         if: ${{ inputs.dry_run == false }}
         shell: bash
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
         run: |
-          if [ -z "${{ vars.NUGET_USER }}" ]; then
+          if [ -z "$NUGET_USER" ]; then
             echo 'NUGET_USER is not configured; live publication is refused.' >&2
             exit 1
           fi
@@ -86,8 +105,8 @@ jobs:
         shell: bash
         run: |
           mkdir -p artifacts/publication
-          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${{ inputs.source_run_id }}" > artifacts/publication/source-run.json
-          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${{ inputs.source_run_id }}/artifacts" > artifacts/publication/source-artifacts.json
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}" > artifacts/publication/source-run.json
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/artifacts" > artifacts/publication/source-artifacts.json
           pwsh -NoProfile -Command '
             $run = Get-Content -Raw artifacts/publication/source-run.json | ConvertFrom-Json
             $arts = Get-Content -Raw artifacts/publication/source-artifacts.json | ConvertFrom-Json
@@ -101,13 +120,13 @@ jobs:
         with:
           name: dogwoodsharp-d3-candidates
           path: artifacts/publication/source
-          run-id: ${{ inputs.source_run_id }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
           github-token: ${{ github.token }}
 
       - name: Select authorization record
         shell: bash
         run: |
-          if [ "${{ inputs.dry_run }}" = "true" ]; then
+          if [ "$DRY_RUN" = "true" ]; then
             echo "AUTH_PATH=docs/reviews/dogwood-sharp-pub-prep-01/OWNER-AUTHORIZATION-DRY-RUN.json" >> "$GITHUB_ENV"
           else
             echo "AUTH_PATH=docs/reviews/dogwood-sharp-pub-prep-01/OWNER-AUTHORIZATION-PUBLICATION.json" >> "$GITHUB_ENV"
@@ -116,19 +135,19 @@ jobs:
       - name: Verify exact publication plan
         shell: pwsh
         run: |
-          $dryRun = '${{ inputs.dry_run }}' -eq 'true'
+          $dryRun = $env:DRY_RUN -eq 'true'
           ./scripts/publication/Test-PublicationPlan.ps1 `
             -InventoryPath docs/reviews/dogwood-sharp-pub-prep-01/publication-inventory.json `
             -ArtifactDirectory artifacts/publication/source `
             -SourceMetadataPath artifacts/publication/source-metadata.json `
             -AuthorizationPath "$env:AUTH_PATH" `
-            -ReleaseCandidate "${{ inputs.release_candidate }}" `
-            -SourceRunId "${{ inputs.source_run_id }}" `
-            -SourceRunAttempt "${{ inputs.source_run_attempt }}" `
-            -Ref "${{ github.ref }}" `
-            -Environment "${{ inputs.publication_environment }}" `
-            -Destination "${{ inputs.destination }}" `
-            -OwnerAuthorizationId "${{ inputs.owner_authorization_id }}" `
+            -ReleaseCandidate "$env:RELEASE_CANDIDATE" `
+            -SourceRunId "$env:SOURCE_RUN_ID" `
+            -SourceRunAttempt "$env:SOURCE_RUN_ATTEMPT" `
+            -Ref "$env:GITHUB_REF" `
+            -Environment "$env:PUBLICATION_ENVIRONMENT" `
+            -Destination "$env:DESTINATION" `
+            -OwnerAuthorizationId "$env:OWNER_AUTHORIZATION_ID" `
             -DryRun:$dryRun `
             -PlanPath artifacts/publication/publication-plan.json `
             -RepositoryRoot "$PWD" `
@@ -150,12 +169,12 @@ jobs:
     needs: verify
     if: ${{ inputs.dry_run == false }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 45
     environment:
       name: nuget-publication
       url: https://www.nuget.org/packages/DogwoodSharp/0.1.0-preview.1
     permissions:
-      contents: read
+      contents: write
       actions: read
       id-token: write
     steps:
@@ -164,6 +183,14 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.sha }}
+
+      - name: Validate workflow inputs as inert data
+        shell: pwsh
+        run: ./scripts/publication/Test-PublicationInputs.ps1
+
+      - name: Test workflow input handling
+        shell: pwsh
+        run: ./scripts/publication/Test-WorkflowInputSafety.ps1 -WorkflowPath .github/workflows/publish.yml -RepositoryRoot "$PWD"
 
       - name: Setup .NET SDK for exact-artifact push
         uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
@@ -177,14 +204,24 @@ jobs:
             -LockPath docs/reviews/dogwood-sharp-pub-prep-01/publication-workflow.lock.json `
             -RepositoryRoot "$PWD"
 
+      - name: Require NUGET_USER for live publication
+        shell: bash
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
+        run: |
+          if [ -z "$NUGET_USER" ]; then
+            echo 'NUGET_USER is not configured; live publication is refused.' >&2
+            exit 1
+          fi
+
       - name: Fetch source run metadata
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           mkdir -p artifacts/publication
-          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${{ inputs.source_run_id }}" > artifacts/publication/source-run.json
-          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${{ inputs.source_run_id }}/artifacts" > artifacts/publication/source-artifacts.json
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}" > artifacts/publication/source-run.json
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/artifacts" > artifacts/publication/source-artifacts.json
           pwsh -NoProfile -Command '
             $run = Get-Content -Raw artifacts/publication/source-run.json | ConvertFrom-Json
             $arts = Get-Content -Raw artifacts/publication/source-artifacts.json | ConvertFrom-Json
@@ -198,7 +235,7 @@ jobs:
         with:
           name: dogwoodsharp-d3-candidates
           path: artifacts/publication/source
-          run-id: ${{ inputs.source_run_id }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
           github-token: ${{ github.token }}
 
       - name: Download verified publication plan
@@ -215,13 +252,13 @@ jobs:
             -ArtifactDirectory artifacts/publication/source `
             -SourceMetadataPath artifacts/publication/source-metadata.json `
             -AuthorizationPath docs/reviews/dogwood-sharp-pub-prep-01/OWNER-AUTHORIZATION-PUBLICATION.json `
-            -ReleaseCandidate "${{ inputs.release_candidate }}" `
-            -SourceRunId "${{ inputs.source_run_id }}" `
-            -SourceRunAttempt "${{ inputs.source_run_attempt }}" `
-            -Ref "${{ github.ref }}" `
-            -Environment "${{ inputs.publication_environment }}" `
-            -Destination "${{ inputs.destination }}" `
-            -OwnerAuthorizationId "${{ inputs.owner_authorization_id }}" `
+            -ReleaseCandidate "$env:RELEASE_CANDIDATE" `
+            -SourceRunId "$env:SOURCE_RUN_ID" `
+            -SourceRunAttempt "$env:SOURCE_RUN_ATTEMPT" `
+            -Ref "$env:GITHUB_REF" `
+            -Environment "$env:PUBLICATION_ENVIRONMENT" `
+            -Destination "$env:DESTINATION" `
+            -OwnerAuthorizationId "$env:OWNER_AUTHORIZATION_ID" `
             -PlanPath artifacts/publication/publication-plan.live.json `
             -RepositoryRoot "$PWD" `
             -ConcurrencyLockPath artifacts/publication/publication.lock `
@@ -234,42 +271,140 @@ jobs:
             -VerifiedPlan artifacts/publication/verified/publication-plan.json `
             -LivePlan artifacts/publication/publication-plan.live.json
 
+      - name: Initialize durable publication journal before credentials
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          ./scripts/publication/Initialize-PublicationJournal.ps1 `
+            -InventoryPath docs/reviews/dogwood-sharp-pub-prep-01/publication-inventory.json `
+            -AuthorizationPath docs/reviews/dogwood-sharp-pub-prep-01/OWNER-AUTHORIZATION-PUBLICATION.json `
+            -PlanPath artifacts/publication/publication-plan.live.json `
+            -ReleaseCandidate "$env:RELEASE_CANDIDATE" `
+            -SourceRunId "$env:SOURCE_RUN_ID" `
+            -SourceRunAttempt "$env:SOURCE_RUN_ATTEMPT" `
+            -Environment "$env:PUBLICATION_ENVIRONMENT" `
+            -Destination "$env:DESTINATION" `
+            -OwnerAuthorizationId "$env:OWNER_AUTHORIZATION_ID" `
+            -JournalRepository "$env:GITHUB_REPOSITORY" `
+            -JournalBranch publication-state `
+            -JournalGitHubPath publication-state/journal.jsonl `
+            -JournalRefBaseSha "$env:GITHUB_SHA"
+
       - name: Authenticate to NuGet with GitHub OIDC
         id: nuget
         uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841
         with:
           user: ${{ vars.NUGET_USER }}
 
-      - name: Publish DogwoodSharp 0.1.0-preview.1
+      - name: Publish operation 1 - DogwoodSharp package
         env:
           NUGET_API_KEY: ${{ steps.nuget.outputs.NUGET_API_KEY }}
-        shell: bash
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: pwsh
         run: |
-          dotnet nuget push "artifacts/publication/source/DogwoodSharp.0.1.0-preview.1.nupkg" \
-            --source "https://api.nuget.org/v3/index.json" \
-            --no-symbols
+          ./scripts/publication/Invoke-PublicationOperation.ps1 `
+            -Order 1 `
+            -InventoryPath docs/reviews/dogwood-sharp-pub-prep-01/publication-inventory.json `
+            -ArtifactDirectory artifacts/publication/source `
+            -AuthorizationPath docs/reviews/dogwood-sharp-pub-prep-01/OWNER-AUTHORIZATION-PUBLICATION.json `
+            -PlanPath artifacts/publication/publication-plan.live.json `
+            -ReleaseCandidate "$env:RELEASE_CANDIDATE" `
+            -SourceRunId "$env:SOURCE_RUN_ID" `
+            -SourceRunAttempt "$env:SOURCE_RUN_ATTEMPT" `
+            -Environment "$env:PUBLICATION_ENVIRONMENT" `
+            -Destination "$env:DESTINATION" `
+            -OwnerAuthorizationId "$env:OWNER_AUTHORIZATION_ID" `
+            -JournalRepository "$env:GITHUB_REPOSITORY" `
+            -JournalBranch publication-state `
+            -JournalGitHubPath publication-state/journal.jsonl `
+            -JournalRefBaseSha "$env:GITHUB_SHA" `
+            -RequireRepositorySignature
 
-      - name: Publish DogwoodSharp 0.1.0-preview.1 symbol package
+      - name: Publish operation 2 - DogwoodSharp symbol package
         env:
           NUGET_API_KEY: ${{ steps.nuget.outputs.NUGET_API_KEY }}
-        shell: bash
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: pwsh
         run: |
-          dotnet nuget push "artifacts/publication/source/DogwoodSharp.0.1.0-preview.1.snupkg" \
-            --source "https://api.nuget.org/v3/index.json"
+          ./scripts/publication/Invoke-PublicationOperation.ps1 `
+            -Order 2 `
+            -InventoryPath docs/reviews/dogwood-sharp-pub-prep-01/publication-inventory.json `
+            -ArtifactDirectory artifacts/publication/source `
+            -AuthorizationPath docs/reviews/dogwood-sharp-pub-prep-01/OWNER-AUTHORIZATION-PUBLICATION.json `
+            -PlanPath artifacts/publication/publication-plan.live.json `
+            -ReleaseCandidate "$env:RELEASE_CANDIDATE" `
+            -SourceRunId "$env:SOURCE_RUN_ID" `
+            -SourceRunAttempt "$env:SOURCE_RUN_ATTEMPT" `
+            -Environment "$env:PUBLICATION_ENVIRONMENT" `
+            -Destination "$env:DESTINATION" `
+            -OwnerAuthorizationId "$env:OWNER_AUTHORIZATION_ID" `
+            -JournalRepository "$env:GITHUB_REPOSITORY" `
+            -JournalBranch publication-state `
+            -JournalGitHubPath publication-state/journal.jsonl `
+            -JournalRefBaseSha "$env:GITHUB_SHA" `
+            -RequireRepositorySignature
 
-      - name: Publish DogwoodSharp.CedarSharp 0.1.0-experimental.1
+      - name: Publish operation 3 - DogwoodSharp.CedarSharp package
         env:
           NUGET_API_KEY: ${{ steps.nuget.outputs.NUGET_API_KEY }}
-        shell: bash
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: pwsh
         run: |
-          dotnet nuget push "artifacts/publication/source/DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg" \
-            --source "https://api.nuget.org/v3/index.json" \
-            --no-symbols
+          ./scripts/publication/Invoke-PublicationOperation.ps1 `
+            -Order 3 `
+            -InventoryPath docs/reviews/dogwood-sharp-pub-prep-01/publication-inventory.json `
+            -ArtifactDirectory artifacts/publication/source `
+            -AuthorizationPath docs/reviews/dogwood-sharp-pub-prep-01/OWNER-AUTHORIZATION-PUBLICATION.json `
+            -PlanPath artifacts/publication/publication-plan.live.json `
+            -ReleaseCandidate "$env:RELEASE_CANDIDATE" `
+            -SourceRunId "$env:SOURCE_RUN_ID" `
+            -SourceRunAttempt "$env:SOURCE_RUN_ATTEMPT" `
+            -Environment "$env:PUBLICATION_ENVIRONMENT" `
+            -Destination "$env:DESTINATION" `
+            -OwnerAuthorizationId "$env:OWNER_AUTHORIZATION_ID" `
+            -JournalRepository "$env:GITHUB_REPOSITORY" `
+            -JournalBranch publication-state `
+            -JournalGitHubPath publication-state/journal.jsonl `
+            -JournalRefBaseSha "$env:GITHUB_SHA" `
+            -RequireRepositorySignature
 
-      - name: Publish DogwoodSharp.CedarSharp 0.1.0-experimental.1 symbol package
+      - name: Publish operation 4 - DogwoodSharp.CedarSharp symbol package
         env:
           NUGET_API_KEY: ${{ steps.nuget.outputs.NUGET_API_KEY }}
-        shell: bash
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: pwsh
         run: |
-          dotnet nuget push "artifacts/publication/source/DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg" \
-            --source "https://api.nuget.org/v3/index.json"
+          ./scripts/publication/Invoke-PublicationOperation.ps1 `
+            -Order 4 `
+            -InventoryPath docs/reviews/dogwood-sharp-pub-prep-01/publication-inventory.json `
+            -ArtifactDirectory artifacts/publication/source `
+            -AuthorizationPath docs/reviews/dogwood-sharp-pub-prep-01/OWNER-AUTHORIZATION-PUBLICATION.json `
+            -PlanPath artifacts/publication/publication-plan.live.json `
+            -ReleaseCandidate "$env:RELEASE_CANDIDATE" `
+            -SourceRunId "$env:SOURCE_RUN_ID" `
+            -SourceRunAttempt "$env:SOURCE_RUN_ATTEMPT" `
+            -Environment "$env:PUBLICATION_ENVIRONMENT" `
+            -Destination "$env:DESTINATION" `
+            -OwnerAuthorizationId "$env:OWNER_AUTHORIZATION_ID" `
+            -JournalRepository "$env:GITHUB_REPOSITORY" `
+            -JournalBranch publication-state `
+            -JournalGitHubPath publication-state/journal.jsonl `
+            -JournalRefBaseSha "$env:GITHUB_SHA" `
+            -RequireRepositorySignature
+
+      - name: Require the complete four-operation publication state
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          ./scripts/publication/Test-PublicationCompletion.ps1 `
+            -InventoryPath docs/reviews/dogwood-sharp-pub-prep-01/publication-inventory.json `
+            -AuthorizationPath docs/reviews/dogwood-sharp-pub-prep-01/OWNER-AUTHORIZATION-PUBLICATION.json `
+            -PlanPath artifacts/publication/publication-plan.live.json `
+            -ReleaseCandidate "$env:RELEASE_CANDIDATE" `
+            -OwnerAuthorizationId "$env:OWNER_AUTHORIZATION_ID" `
+            -JournalRepository "$env:GITHUB_REPOSITORY" `
+            -JournalBranch publication-state `
+            -JournalGitHubPath publication-state/journal.jsonl `
+            -JournalRefBaseSha "$env:GITHUB_SHA"

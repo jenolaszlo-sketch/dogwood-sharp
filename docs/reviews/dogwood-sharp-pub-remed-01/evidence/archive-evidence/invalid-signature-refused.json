@@ -1,0 +1,58 @@
+{
+    "result":  {
+                   "name":  "invalid-signature",
+                   "exitCode":  1,
+                   "reportWritten":  true,
+                   "stdout":  "PACKAGE Newtonsoft.Json 13.0.3 published-conflicting refuse",
+                   "stderr":  "PUBLICATION_RECONCILIATION_REFUSED: Publication conflicts: Newtonsoft.Json/13.0.3: repository signature verification failed",
+                   "report":  {
+                                  "schemaVersion":  2,
+                                  "destination":  "https://api.nuget.org/v3/index.json",
+                                  "offlineFeedDirectory":  "D:\\projects\\dogwood-sharp\\artifacts\\publication-archive-controls\\e7d89fa6d0c74fc598229c9d83a43446\\feed-invalid-signature",
+                                  "stateModelVersion":  1,
+                                  "journal":  {
+                                                  "configured":  false,
+                                                  "valid":  false,
+                                                  "error":  null
+                                              },
+                                  "packages":  [
+                                                   {
+                                                       "file":  "newtonsoft.json.13.0.3.nupkg",
+                                                       "id":  "Newtonsoft.Json",
+                                                       "version":  "13.0.3",
+                                                       "acceptedUploadSha256":  "6e01380db415ac1e94744257924c50835fdd5498dfe01b2b21affe63b340496d",
+                                                       "publicDownloadedSha256":  "04ede875b9062390496ace4898f578ee2ca22109186a154c2543dc0059a807e7",
+                                                       "payloadMatches":  true,
+                                                       "payloadMismatches":  {
+
+                                                                             },
+                                                       "publicHasRepositorySignature":  true,
+                                                       "repositorySignature":  {
+                                                                                   "verified":  false,
+                                                                                   "repository":  false,
+                                                                                   "mode":  "dotnet-nuget-verify-all",
+                                                                                   "exitCode":  1,
+                                                                                   "output":  "Verifying Newtonsoft.Json.13.0.3\nContent hash: HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==\n\nerror: NU3021: The {0}\u0027s timestamp signature validation failed.\n\nPackage signature validation failed."
+                                                                               },
+                                                       "httpStatus":  200,
+                                                       "pollAttempts":  0,
+                                                       "status":  "published-conflicting",
+                                                       "action":  "refuse",
+                                                       "priorAttempt":  false,
+                                                       "detail":  null
+                                                   }
+                                               ],
+                                  "symbols":  [
+
+                                              ],
+                                  "conflicts":  [
+                                                    "Newtonsoft.Json/13.0.3: repository signature verification failed"
+                                                ],
+                                  "holds":  [
+
+                                            ],
+                                  "result":  "conflict"
+                              },
+                   "reportPath":  "D:\\projects\\dogwood-sharp\\artifacts\\publication-archive-controls\\e7d89fa6d0c74fc598229c9d83a43446\\invalid-signature\\report.json"
+               }
+}

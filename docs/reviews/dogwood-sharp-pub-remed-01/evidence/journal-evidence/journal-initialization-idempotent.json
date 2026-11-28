@@ -1,0 +1,7 @@
+{
+    "result":  {
+                   "exitCode":  0,
+                   "stdout":  "PUBLICATION_JOURNAL=EXISTING_RECORDS=1",
+                   "stderr":  ""
+               }
+}

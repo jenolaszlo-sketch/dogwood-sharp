@@ -1,4 +1,4 @@
-# Release operations — exact-artifact NuGet publication
+# Release operations â€” exact-artifact NuGet publication
 
 **Status**: publication infrastructure implemented and producer-verified under
 `DOGWOOD-SHARP-PUB-PREP-01`. Actual publication is **not authorized** by this
@@ -139,13 +139,19 @@ The publication workflow:
 - reconciles the source artifact with the committed accepted verification
   report and the pinned CedarSharp dependency hash;
 - requires the owner authorization bound to the exact inventory hash;
+- validates every dispatch input as inert data before any shell step and binds
+  the dispatch inputs to environment variables rather than interpolating them
+  into run-script source;
 - uses a workflow-level concurrency group and a local lock for overlapping
   attempts;
+- initializes a durable, hash-chained publication journal before requesting
+  credentials;
+- executes four separately reconciled operations with a completion check;
 - pins every action to an immutable commit SHA;
 - performs no restore, build, pack, native compilation, re-signing or artifact
   transformation;
 - acquires OIDC credentials only in the `publish` job, after the environment
-  approval and after a second live verification.
+  approval, the journal binding write and a second live verification.
 
 ---
 
@@ -164,16 +170,20 @@ The publication workflow:
 4. The `verify` job builds and verifies the plan without credentials.
 5. The `publish` job waits for the `nuget-publication` environment approval.
 6. After approval, the job re-downloads the original artifact, re-verifies all
-   hashes, cross-checks the verified and live plans, then requests the
-   short-lived OIDC key.
-7. Push order:
+   hashes, cross-checks the verified and live plans, initializes the durable
+   journal and only then requests the short-lived OIDC key.
+7. Each operation runs separately and in order:
    1. `DogwoodSharp.0.1.0-preview.1.nupkg` with `--no-symbols`;
    2. `DogwoodSharp.0.1.0-preview.1.snupkg` explicitly;
    3. `DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg` with `--no-symbols`;
    4. `DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg` explicitly.
-8. No `--skip-duplicate` is used. A duplicate or conflict is a hard failure.
-9. After publication, verify the public packages and symbols as described
-   below.
+8. Before each upload the operation reconciles the current public state,
+   appends a durable `attempt-initiated` record, re-hashes the complete
+   authorized artifact set, and only then invokes the transport.
+9. No `--skip-duplicate` is used. A duplicate, conflict, ambiguous response or
+   unavailable registry is a hard failure or explicit hold.
+10. A final completion check requires all four operations to be durably
+    verified matching; a partial sequence cannot be reported complete.
 
 The short-lived NuGet key is requested immediately before the pushes; NuGet's
 temporary keys are valid for one hour.
@@ -182,26 +192,39 @@ temporary keys are valid for one hour.
 
 ## 7. Repository signing and public verification
 
-NuGet.org may apply a repository signature. The original upload hashes above
-must match the accepted artifacts exactly, but the publicly downloaded
-`.nupkg` hashes may differ because of that signature. Record the original
-upload hash and the public signed hash separately.
+NuGet.org applies a repository signature to uploaded packages. The original
+upload artifact and the public repository-signed package are different
+identities. Record both:
 
-Post-publication verification must:
+- the accepted original SHA-256 from the publication inventory; and
+- the downloaded public package SHA-256.
 
-1. download the public `.nupkg` from the flat container;
-2. compute and record its public signed SHA-256;
-3. compare the package **payload** entries (libraries, native assets, README,
-   LICENSE, NOTICE, nuspec) against the accepted original, excluding only
-   signature/relationship/content-type metadata added by repository signing;
-4. verify the repository signature with `dotnet nuget verify --all` and record
-   the result;
-5. refuse if the payload differs from the accepted artifact.
+Post-publication reconciliation:
 
-`scripts/publication/Reconcile-Publication.ps1` implements the payload
-comparison and can run against the live NuGet.org flat container or an
-offline feed for rehearsal. The original upload and public signed identities
-must be recorded separately.
+1. downloads the public `.nupkg` from the flat container;
+2. parses the public archive and rejects duplicate, case-ambiguous or unsafe
+   entry names;
+3. compares the **complete** entry inventory symmetrically against the accepted
+   original: unexpected entries, missing entries and changed entries are all
+   conflicts;
+4. permits exactly one additional entry, `.signature.p7s`, only when it is
+   stored uncompressed, non-empty and DER-shaped;
+5. verifies the package identity and version from the nuspec;
+6. runs `dotnet nuget verify --all` with revocation in offline mode and requires
+   a valid, trusted **repository** signature (`Signature type: Repository`);
+7. refuses on any payload, identity or signature difference.
+
+`[Content_Types].xml`, `_rels/.rels` and
+`package/services/metadata/core-properties/*` are **not** excluded: they are
+part of the authorized payload and must match the accepted original. The only
+permitted public-package difference is the repository signature entry.
+
+`scripts/publication/Reconcile-Publication.ps1` implements this comparison. It
+can run against the live NuGet.org flat container or an offline feed for
+rehearsal. Repository signature verification requires the `dotnet` CLI and a
+trusted repository certificate chain; the non-public fixture uses a genuine
+repository-signed package with its signature stripped to create the accepted
+original.
 
 ---
 
@@ -214,43 +237,101 @@ NuGet.org does not expose the `.snupkg` through the flat container. Symbol
 availability is verified through the NuGet symbol server:
 
 ```
-https://symbols.nuget.org/download/symbols/<pdb-file-name>/<pdb-guid><age>/<pdb-file-name>
+https://symbols.nuget.org/download/symbols/<pdb-file-name>/<pdb-guid>ffffffff/<pdb-file-name>
 ```
 
-The PDB name and GUID/age are read from the accepted symbol package. A
-successful symbol-server response with the expected PDB is the supported
-availability check. The package page's symbol/source availability is
-supporting evidence, not a substitute for the symbol-server response.
+The expected PDB identity is derived from the accepted symbol package and
+cross-bound to the matching assembly:
 
-If a symbol push is interrupted or ambiguous, reconcile the package state
-first, then check the symbol server before attempting any repeat submission.
-Do not use a blanket duplicate-suppression flag.
+- the PDB GUID comes from the Portable PDB `#Pdb` stream;
+- the assembly CodeView entry must carry the same GUID;
+- the assembly PDB-checksum debug entry must equal SHA-256 of the PDB with the
+  20-byte PDB ID zeroed;
+- the symbol-server request supplies
+  `SymbolChecksum: SHA256:<pdb-checksum>`, which NuGet requires for Portable
+  PDB downloads;
+- the retrieved PDB must match the accepted PDB's byte length and SHA-256.
+
+A successful retrieval verifies the individual PDB bytes. It does **not**
+prove byte identity of the original `.snupkg` container; the accepted snupkg
+hash remains the container identity.
+
+Symbol states are explicit:
+
+| State | Meaning | Action |
+|---|---|---|
+| `symbol-upload-not-attempted` | No durable symbol attempt exists and the PDBs are absent. | Eligible for first upload after the package is verified. |
+| `symbol-upload-accepted` | The endpoint accepted the upload; indexing may still be pending. | Read-only bounded polling only. |
+| `symbol-upload-outcome-unknown` | A durable attempt exists without a conclusive response. | Hold; owner reconciliation required. |
+| `symbol-indexing-pending` | Upload accepted, expected PDBs still absent after bounded polling. | Hold; do not resubmit automatically. |
+| `symbols-available-and-verified` | Every expected PDB is retrievable and byte-identical. | Complete. |
+| `symbols-inconsistent-or-conflicting` | A retrieved PDB differs from the accepted PDB. | Refuse. |
+| `symbol-state-requires-manual-reconciliation` | Registry unavailable or state cannot be established. | Hold; owner action required. |
+
+A package being published does not imply its symbols are published. A symbol
+upload being accepted does not imply immediate availability. NuGet documents
+asynchronous validation and indexing (usually under 15 minutes).
 
 ---
 
 ## 9. Recovery contract
 
-Package and symbol publication are potentially partially successful. The
-workflow is a single ordered attempt and fails on the first error. For an
-interrupted or ambiguous attempt:
+Publication is four independent operations:
 
-1. Do not re-run blindly and do not use `--skip-duplicate`.
-2. Run `scripts/publication/Reconcile-Publication.ps1` against the live
-   NuGet.org flat container. It reports each package as `missing`,
-   `published-matching` or `conflict`.
-3. A `conflict` means the registry already has that ID/version with a
-   different payload. Stop. Do not overwrite, replace or create a new version
-   without a separate owner authorization.
-4. A `published-matching` package is already published; do not push it again.
-5. Resume only the `missing` authorized artifacts, in the approved order.
-6. For symbols, check the symbol server for the expected PDBs before any
-   retry. Treat a missing symbol as an incomplete authorized symbol
-   publication; treat a different symbol as a conflict.
-7. Record the partial state, the reconciled actions, the original and public
-   package hashes, and the symbol-server results.
+1. `DogwoodSharp` package;
+2. `DogwoodSharp` symbol package;
+3. `DogwoodSharp.CedarSharp` package;
+4. `DogwoodSharp.CedarSharp` symbol package.
 
-No replacement versions, no unapproved packages and no silent duplicate
-suppression are permitted.
+Each operation has its own durable state. The adapter package requires the
+core package to be publicly verified matching first; adapter symbols require
+the adapter package.
+
+### Durable write-ahead journal
+
+Before any external upload, the operation appends a hash-chained
+`attempt-initiated` record to an append-only journal committed to the
+`publication-state` branch through the GitHub contents API. The record binds:
+
+- inventory ID and SHA-256;
+- owner authorization ID;
+- release-candidate commit;
+- operation order, kind, ID, version, file, SHA-256 and size;
+- attempt ID and workflow run identity.
+
+The write must be read back with the expected hash before the upload starts. If
+the journal cannot be written or read back, publication is refused. Runner-local
+files and artifacts uploaded only at normal job completion are not used as the
+durable record.
+
+After the transport returns, the operation appends `upload-accepted` or
+`upload-outcome-unknown`, then performs bounded read-only reconciliation and
+appends the observed state. The journal is never rewritten; a malformed,
+reordered, truncated or hash-inconsistent journal causes refusal.
+
+### State model
+
+| Package state | Meaning | Action |
+|---|---|---|
+| `not-previously-attempted-and-absent` | No durable attempt exists and the flat container returned 404. | May upload once. |
+| `publication-attempt-initiated` | Write-ahead record exists; upload may or may not have happened. | Reconcile; never upload again automatically. |
+| `publication-outcome-unknown` | No conclusive response and the package is not visible. | Hold; owner reconciliation required. |
+| `accepted-by-publication-endpoint-but-not-yet-visible` | Endpoint accepted the upload; flat container still 404. | Bounded polling; never upload again. |
+| `published-and-verified-matching` | Public payload, identity and repository signature match. | Complete. |
+| `published-and-conflicting` | Public package differs. | Refuse. |
+| `registry-unavailable` | 429, 5xx, timeout or transport failure. | Hold. |
+| `manual-reconciliation-required` | Journal inconsistent or state inconclusive. | Hold; owner action required. |
+
+A 404 after any durable attempt is **not** proof of absence and does not
+authorize a retry. Timeouts, cancellation, delayed indexing, HTTP 429, HTTP 5xx,
+transport errors and ambiguous duplicate responses are likewise not proof of
+absence. Only a clean first-publication state (no durable attempt) can authorize
+the first upload. There is no exactly-once claim: the protocol cannot prove
+that a lost response did not reach the registry. The control is conservative
+refusal and explicit owner reconciliation.
+
+No `--skip-duplicate` is used. No replacement package version is created. An
+ambiguous operation is never automatically resubmitted.
 
 ---
 
@@ -266,3 +347,10 @@ suppression are permitted.
 - Actual live publication was not authorized or executed by this commission.
 - The live path has been producer-verified by a dry-run and negative controls,
   not by a production package push.
+- The `publication-state` branch is created by the live workflow on first use;
+  the local controls exercise the same journal semantics through a local
+  provider and a mocked GitHub contents API. A real GitHub state-branch write
+  is not executed without a live publication authorization.
+- Repository-signature verification requires a trusted certificate chain. The
+  valid-signature control uses a local, non-public fixture derived from a
+  genuine repository-signed package; it does not publish anything.

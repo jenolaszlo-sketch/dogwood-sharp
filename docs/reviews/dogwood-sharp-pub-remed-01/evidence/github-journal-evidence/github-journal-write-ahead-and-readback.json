@@ -1,0 +1,16 @@
+{
+    "result":  {
+                   "refCreated":  true,
+                   "postCount":  1,
+                   "putCount":  2,
+                   "valid":  true,
+                   "records":  2,
+                   "lastEvent":  "attempt-initiated",
+                   "bindingValid":  true,
+                   "initHash":  "0e3ae720f1d6a84c5fa574a75a65d4fa27d8030d21cd5aae602c9d09e41e381b",
+                   "attemptHash":  "416fe818f44c433d529a4de8299f4f7c38898b7b7164f0e010dd4d068d653ff3",
+                   "contentLength":  1766,
+                   "concurrentWriteRefused":  true
+               },
+    "stderr":  ""
+}

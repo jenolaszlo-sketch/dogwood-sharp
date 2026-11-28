@@ -1,0 +1,59 @@
+{
+    "result":  {
+                   "name":  "untrusted-signature",
+                   "exitCode":  1,
+                   "reportWritten":  true,
+                   "stdout":  "PACKAGE DogwoodSharp.RemTestFixture 1.0.0 published-conflicting refuse",
+                   "stderr":  "PUBLICATION_RECONCILIATION_REFUSED: Publication conflicts: DogwoodSharp.RemTestFixture/1.0.0: repository signature verification failed",
+                   "report":  {
+                                  "schemaVersion":  2,
+                                  "destination":  "https://api.nuget.org/v3/index.json",
+                                  "offlineFeedDirectory":  "C:\\Windows\\TEMP\\dogwoodsharp-untrusted-fixture-421a7ebc66ab42d9bdce2bd82bded3ee\\feed",
+                                  "stateModelVersion":  1,
+                                  "journal":  {
+                                                  "configured":  false,
+                                                  "valid":  false,
+                                                  "error":  null
+                                              },
+                                  "packages":  [
+                                                   {
+                                                       "file":  "DogwoodSharp.RemTestFixture.1.0.0.nupkg",
+                                                       "id":  "DogwoodSharp.RemTestFixture",
+                                                       "version":  "1.0.0",
+                                                       "acceptedUploadSha256":  "e48c16ea3c0139d3183bd2623b405c678a6384e6428a4ce1a8a0d6a029923756",
+                                                       "publicDownloadedSha256":  "d4c9fd7c1f6203be3c0186485085815765e2e47c68b3b8adf09d449de9655dc0",
+                                                       "payloadMatches":  true,
+                                                       "payloadMismatches":  {
+
+                                                                             },
+                                                       "publicHasRepositorySignature":  true,
+                                                       "repositorySignature":  {
+                                                                                   "verified":  false,
+                                                                                   "repository":  false,
+                                                                                   "mode":  "dotnet-nuget-verify-all",
+                                                                                   "exitCode":  1,
+                                                                                   "output":  "Verifying DogwoodSharp.RemTestFixture.1.0.0\nContent hash: 6OyGxd/XPpYvU5nlgBgb68tO+exYPhQD1crf35JAFb4oW0CnbCU2EggAvFEL7sqy8zmgTf5ejm+i2sU3QBnU/A==\n\nSignature type: Author\n  Subject Name: CN=DogwoodSharp Remediation Untrusted Fixture\n  SHA256 hash: 13BFAE0B8E91ADFE80409A3E3411083CC4A04763071E594DD101DEE7D6494E4E\n  Valid from: 11/28/2026 12:33:37 PM to 11/28/2027 12:43:37 PM\n\nerror: NU3018: The author primary signature\u0027s signing certificate is not trusted by the trust provider.\nwarn : NU3027: The signature should be timestamped to enable long-term signature validity after the certificate has expired.\n\nPackage signature validation failed."
+                                                                               },
+                                                       "httpStatus":  200,
+                                                       "pollAttempts":  0,
+                                                       "status":  "published-conflicting",
+                                                       "action":  "refuse",
+                                                       "priorAttempt":  false,
+                                                       "detail":  null
+                                                   }
+                                               ],
+                                  "symbols":  [
+
+                                              ],
+                                  "conflicts":  [
+                                                    "DogwoodSharp.RemTestFixture/1.0.0: repository signature verification failed"
+                                                ],
+                                  "holds":  [
+
+                                            ],
+                                  "result":  "conflict"
+                              },
+                   "reportPath":  "D:\\projects\\dogwood-sharp\\artifacts\\publication-archive-controls\\e7d89fa6d0c74fc598229c9d83a43446\\untrusted-signature\\report.json"
+               },
+    "certificateSha256":  "13BFAE0B8E91ADFE80409A3E3411083CC4A04763071E594DD101DEE7D6494E4E"
+}

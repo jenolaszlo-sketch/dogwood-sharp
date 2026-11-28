@@ -1,0 +1,125 @@
+{
+    "schemaVersion":  1,
+    "commission":  "DOGWOOD-SHARP-PUB-REMED-01",
+    "executedAtUtc":  "2026-11-28T11:43:02.6406635Z",
+    "inventorySha256":  "524819fcea620889e45e62c5645a11fec0c8a01a7062973dd8c80bd3901bf252",
+    "total":  19,
+    "passed":  19,
+    "failed":  0,
+    "controls":  [
+                     {
+                         "name":  "genuine-first-publication-four-operations",
+                         "passed":  true,
+                         "detail":  "exit=0,0,0,0 verified=True transport=4",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\genuine-first-publication-four-operations.json"
+                     },
+                     {
+                         "name":  "resume-after-completed-publication",
+                         "passed":  true,
+                         "detail":  "exit=0 transport=4",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\resume-after-completed-publication.json"
+                     },
+                     {
+                         "name":  "delayed-indexing-becomes-visible",
+                         "passed":  true,
+                         "detail":  "exit=0 state=published-and-verified-matching",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\delayed-indexing-becomes-visible.json"
+                     },
+                     {
+                         "name":  "upload-accepted-response-lost",
+                         "passed":  true,
+                         "detail":  "exit=0 state=published-and-verified-matching last=published-verified",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\upload-accepted-response-lost.json"
+                     },
+                     {
+                         "name":  "upload-interrupted-before-response-no-auto-retry",
+                         "passed":  true,
+                         "detail":  "first=2 rerun=2 transport=1 state=publication-outcome-unknown",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\upload-interrupted-before-response-no-auto-retry.json"
+                     },
+                     {
+                         "name":  "runner-terminated-during-publication",
+                         "passed":  true,
+                         "detail":  "marker=True killedState=publication-attempt-initiated resume=0 transport=1-\u003e1",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\runner-terminated-during-publication.json"
+                     },
+                     {
+                         "name":  "http-404-after-ambiguous-attempt-holds",
+                         "passed":  true,
+                         "detail":  "exit=2 transport=0 state=publication-outcome-unknown",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\http-404-after-ambiguous-attempt-holds.json"
+                     },
+                     {
+                         "name":  "matching-package-becomes-visible-during-reconciliation",
+                         "passed":  true,
+                         "detail":  "exit=0 state=published-and-verified-matching transport=0",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\matching-package-becomes-visible-during-reconciliation.json"
+                     },
+                     {
+                         "name":  "conflicting-package-becomes-visible",
+                         "passed":  true,
+                         "detail":  "exit=1 state=published-and-conflicting",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\conflicting-package-becomes-visible.json"
+                     },
+                     {
+                         "name":  "registry-status429-is-not-absence",
+                         "passed":  true,
+                         "detail":  "exit=2 transport=0 state=registry-unavailable",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\registry-status429-is-not-absence.json"
+                     },
+                     {
+                         "name":  "registry-status503-is-not-absence",
+                         "passed":  true,
+                         "detail":  "exit=2 transport=0 state=registry-unavailable",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\registry-status503-is-not-absence.json"
+                     },
+                     {
+                         "name":  "registry-reset-is-not-absence",
+                         "passed":  true,
+                         "detail":  "exit=2 transport=0 state=registry-unavailable",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\registry-reset-is-not-absence.json"
+                     },
+                     {
+                         "name":  "inconsistent-journal-refuses",
+                         "passed":  true,
+                         "detail":  "exit=1",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\inconsistent-journal-refuses.json"
+                     },
+                     {
+                         "name":  "symbols-accepted",
+                         "passed":  true,
+                         "detail":  "exit=2 state=symbol-indexing-pending",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\symbols-accepted.json"
+                     },
+                     {
+                         "name":  "symbols-outcome-unknown",
+                         "passed":  true,
+                         "detail":  "exit=2 state=symbol-upload-outcome-unknown",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\symbols-outcome-unknown.json"
+                     },
+                     {
+                         "name":  "symbols-available-and-verified",
+                         "passed":  true,
+                         "detail":  "exit=0 state=symbols-available-and-verified",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\symbols-available-and-verified.json"
+                     },
+                     {
+                         "name":  "symbols-inconsistent-conflict",
+                         "passed":  true,
+                         "detail":  "exit=1 state=published-and-conflicting",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\symbols-inconsistent-conflict.json"
+                     },
+                     {
+                         "name":  "symbol-first-publication-verified",
+                         "passed":  true,
+                         "detail":  "exit=0 state=symbols-available-and-verified transport=1",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\symbol-first-publication-verified.json"
+                     },
+                     {
+                         "name":  "adapter-refused-before-core-verified",
+                         "passed":  true,
+                         "detail":  "exit=1",
+                         "evidenceFile":  "D:\\projects\\dogwood-sharp\\docs\\reviews\\dogwood-sharp-pub-remed-01\\evidence\\recovery-evidence\\adapter-refused-before-core-verified.json"
+                     }
+                 ]
+}

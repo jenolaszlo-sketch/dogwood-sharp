@@ -1,0 +1,11 @@
+CONTROL PASS accepted-original-self-match
+CONTROL PASS unexpected-entry-refused
+CONTROL PASS missing-entry-refused
+CONTROL PASS modified-entry-refused
+CONTROL PASS duplicate-entry-refused
+CONTROL PASS unsafe-path-refused
+CONTROL PASS incorrect-identity-refused
+CONTROL PASS valid-repository-signing-transformation
+CONTROL PASS invalid-signature-refused
+CONTROL PASS unexpected-signing-content-refused
+CONTROL PASS untrusted-signature-refused

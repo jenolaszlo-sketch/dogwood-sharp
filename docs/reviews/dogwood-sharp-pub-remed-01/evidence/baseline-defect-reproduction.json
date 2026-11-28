@@ -1,0 +1,114 @@
+{
+    "commission":  "DOGWOOD-SHARP-PUB-REMED-01",
+    "baselineCommit":  "6f21032cf0ff27cd994a79459359c979482546e1",
+    "baselineTree":  "c1cc11abc77809072dcda38a03124c179749e12d",
+    "workflowRevision":  "dd7d3f9ea38674f09712ac5c7574654f5a738e62",
+    "executedAtUtc":  "2026-11-28T10:29:47.9428863Z",
+    "scenarios":  [
+                      {
+                          "scenario":  "f01-extra-entry",
+                          "exitCode":  0,
+                          "reportWritten":  true,
+                          "stdout":  "PACKAGE DogwoodSharp 0.1.0-preview.1 published-matching skip\nPACKAGE DogwoodSharp.CedarSharp 0.1.0-experimental.1 missing push\nPUBLICATION_RECONCILIATION=NO_CONFLICT",
+                          "stderr":  "",
+                          "packages":  [
+                                           "DogwoodSharp/0.1.0-preview.1=published-matching:skip;payloadMatches=True;mismatches=",
+                                           "DogwoodSharp.CedarSharp/0.1.0-experimental.1=missing:push;payloadMatches=;mismatches="
+                                       ],
+                          "symbols":  [
+                                          "DogwoodSharp/0.1.0-preview.1=symbol-server-verification-required",
+                                          "DogwoodSharp.CedarSharp/0.1.0-experimental.1=symbol-server-verification-required"
+                                      ],
+                          "result":  "no-conflict"
+                      },
+                      {
+                          "scenario":  "f01-missing-entry",
+                          "exitCode":  1,
+                          "reportWritten":  true,
+                          "stdout":  "PACKAGE DogwoodSharp 0.1.0-preview.1 conflict refuse\nPACKAGE DogwoodSharp.CedarSharp 0.1.0-experimental.1 missing push",
+                          "stderr":  "PUBLICATION_RECONCILIATION_REFUSED: Publication conflicts: DogwoodSharp/0.1.0-preview.1: missing:README.md",
+                          "packages":  [
+                                           "DogwoodSharp/0.1.0-preview.1=conflict:refuse;payloadMatches=False;mismatches=missing:README.md",
+                                           "DogwoodSharp.CedarSharp/0.1.0-experimental.1=missing:push;payloadMatches=;mismatches="
+                                       ],
+                          "symbols":  [
+                                          "DogwoodSharp/0.1.0-preview.1=symbol-server-verification-required",
+                                          "DogwoodSharp.CedarSharp/0.1.0-experimental.1=symbol-server-verification-required"
+                                      ],
+                          "result":  "conflict"
+                      },
+                      {
+                          "scenario":  "f01-duplicate-entry",
+                          "exitCode":  1,
+                          "reportWritten":  true,
+                          "stdout":  "PACKAGE DogwoodSharp 0.1.0-preview.1 conflict refuse\nPACKAGE DogwoodSharp.CedarSharp 0.1.0-experimental.1 missing push",
+                          "stderr":  "PUBLICATION_RECONCILIATION_REFUSED: Publication conflicts: DogwoodSharp/0.1.0-preview.1: changed:README.md",
+                          "packages":  [
+                                           "DogwoodSharp/0.1.0-preview.1=conflict:refuse;payloadMatches=False;mismatches=changed:README.md",
+                                           "DogwoodSharp.CedarSharp/0.1.0-experimental.1=missing:push;payloadMatches=;mismatches="
+                                       ],
+                          "symbols":  [
+                                          "DogwoodSharp/0.1.0-preview.1=symbol-server-verification-required",
+                                          "DogwoodSharp.CedarSharp/0.1.0-experimental.1=symbol-server-verification-required"
+                                      ],
+                          "result":  "conflict"
+                      },
+                      {
+                          "scenario":  "f01-unsafe-path",
+                          "exitCode":  0,
+                          "reportWritten":  true,
+                          "stdout":  "PACKAGE DogwoodSharp 0.1.0-preview.1 published-matching skip\nPACKAGE DogwoodSharp.CedarSharp 0.1.0-experimental.1 missing push\nPUBLICATION_RECONCILIATION=NO_CONFLICT",
+                          "stderr":  "",
+                          "packages":  [
+                                           "DogwoodSharp/0.1.0-preview.1=published-matching:skip;payloadMatches=True;mismatches=",
+                                           "DogwoodSharp.CedarSharp/0.1.0-experimental.1=missing:push;payloadMatches=;mismatches="
+                                       ],
+                          "symbols":  [
+                                          "DogwoodSharp/0.1.0-preview.1=symbol-server-verification-required",
+                                          "DogwoodSharp.CedarSharp/0.1.0-experimental.1=symbol-server-verification-required"
+                                      ],
+                          "result":  "no-conflict"
+                      },
+                      {
+                          "scenario":  "f03-symbols-present",
+                          "exitCode":  0,
+                          "reportWritten":  true,
+                          "stdout":  "PACKAGE DogwoodSharp 0.1.0-preview.1 published-matching skip\nPACKAGE DogwoodSharp.CedarSharp 0.1.0-experimental.1 published-matching skip\nPUBLICATION_RECONCILIATION=NO_CONFLICT",
+                          "stderr":  "",
+                          "packages":  [
+                                           "DogwoodSharp/0.1.0-preview.1=published-matching:skip;payloadMatches=True;mismatches=",
+                                           "DogwoodSharp.CedarSharp/0.1.0-experimental.1=published-matching:skip;payloadMatches=True;mismatches="
+                                       ],
+                          "symbols":  [
+                                          "DogwoodSharp/0.1.0-preview.1=symbol-server-verification-required",
+                                          "DogwoodSharp.CedarSharp/0.1.0-experimental.1=symbol-server-verification-required"
+                                      ],
+                          "result":  "no-conflict"
+                      },
+                      {
+                          "scenario":  "f02-delayed-index-404",
+                          "exitCode":  0,
+                          "reportWritten":  true,
+                          "stdout":  "PACKAGE DogwoodSharp 0.1.0-preview.1 missing push\nPACKAGE DogwoodSharp.CedarSharp 0.1.0-experimental.1 missing push\nPUBLICATION_RECONCILIATION=NO_CONFLICT",
+                          "stderr":  "",
+                          "packages":  [
+                                           "DogwoodSharp/0.1.0-preview.1=missing:push;payloadMatches=;mismatches=",
+                                           "DogwoodSharp.CedarSharp/0.1.0-experimental.1=missing:push;payloadMatches=;mismatches="
+                                       ],
+                          "symbols":  [
+                                          "DogwoodSharp/0.1.0-preview.1=symbol-server-verification-required",
+                                          "DogwoodSharp.CedarSharp/0.1.0-experimental.1=symbol-server-verification-required"
+                                      ],
+                          "result":  "no-conflict"
+                      },
+                      {
+                          "scenario":  "f04-input-injection",
+                          "exitCode":  0,
+                          "stdout":  "INPUT_INJECTION_REPRODUCED\r\nBOUND=58b0a3332391d85cdf19fd7b794d79516d2ecdfe",
+                          "stderr":  "",
+                          "markerObserved":  true,
+                          "boundReleaseCandidateRemainedValid":  true,
+                          "generatedScript":  "$releaseCandidate = \"$( [Console]::WriteLine(\"INPUT_INJECTION_REPRODUCED\"); \"58b0a3332391d85cdf19fd7b794d79516d2ecdfe\")\"\r\nWrite-Output (\"BOUND=\" + $releaseCandidate)"
+                      }
+                  ]
+}

@@ -1,0 +1,57 @@
+{
+    "result":  {
+                   "name":  "response-lost-op1",
+                   "order":  1,
+                   "exitCode":  0,
+                   "stdout":  "PUBLICATION_OPERATION=1 TRANSPORT=package FILE=DogwoodSharp.0.1.0-preview.1.nupkg\nPUBLICATION_OPERATION=1 VERIFIED=DogwoodSharp.0.1.0-preview.1.nupkg",
+                   "stderr":  ""
+               },
+    "journal":  {
+                    "valid":  true,
+                    "error":  null,
+                    "records":  4,
+                    "lastEvent":  "published-verified",
+                    "operations":  [
+                                       {
+                                           "order":  1,
+                                           "file":  "DogwoodSharp.0.1.0-preview.1.nupkg",
+                                           "state":  "published-and-verified-matching",
+                                           "event":  "published-verified",
+                                           "attemptPending":  false,
+                                           "verified":  true,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       },
+                                       {
+                                           "order":  2,
+                                           "file":  "DogwoodSharp.0.1.0-preview.1.snupkg",
+                                           "state":  null,
+                                           "event":  null,
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       },
+                                       {
+                                           "order":  3,
+                                           "file":  "DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg",
+                                           "state":  null,
+                                           "event":  null,
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       },
+                                       {
+                                           "order":  4,
+                                           "file":  "DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg",
+                                           "state":  null,
+                                           "event":  null,
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       }
+                                   ]
+                }
+}

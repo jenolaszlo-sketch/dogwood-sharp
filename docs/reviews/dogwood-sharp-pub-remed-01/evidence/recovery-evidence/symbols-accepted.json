@@ -1,0 +1,57 @@
+{
+    "result":  {
+                   "name":  "symbols-accepted-op2",
+                   "order":  2,
+                   "exitCode":  2,
+                   "stdout":  "PUBLICATION_OPERATION=2 HOLD=symbol-indexing-pending",
+                   "stderr":  ""
+               },
+    "journal":  {
+                    "valid":  true,
+                    "error":  null,
+                    "records":  7,
+                    "lastEvent":  "reconciliation-observed",
+                    "operations":  [
+                                       {
+                                           "order":  1,
+                                           "file":  "DogwoodSharp.0.1.0-preview.1.nupkg",
+                                           "state":  "published-and-verified-matching",
+                                           "event":  "published-verified",
+                                           "attemptPending":  false,
+                                           "verified":  true,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       },
+                                       {
+                                           "order":  2,
+                                           "file":  "DogwoodSharp.0.1.0-preview.1.snupkg",
+                                           "state":  "symbol-indexing-pending",
+                                           "event":  "reconciliation-observed",
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       },
+                                       {
+                                           "order":  3,
+                                           "file":  "DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg",
+                                           "state":  null,
+                                           "event":  null,
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       },
+                                       {
+                                           "order":  4,
+                                           "file":  "DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg",
+                                           "state":  null,
+                                           "event":  null,
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       }
+                                   ]
+                }
+}

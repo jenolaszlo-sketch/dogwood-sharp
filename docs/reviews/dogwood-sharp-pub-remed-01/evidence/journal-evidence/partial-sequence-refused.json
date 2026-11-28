@@ -1,0 +1,7 @@
+{
+    "result":  {
+                   "exitCode":  1,
+                   "stdout":  "",
+                   "stderr":  "PUBLICATION_COMPLETION_REFUSED: Publication sequence is not complete: DogwoodSharp.0.1.0-preview.1.snupkg=, DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg="
+               }
+}

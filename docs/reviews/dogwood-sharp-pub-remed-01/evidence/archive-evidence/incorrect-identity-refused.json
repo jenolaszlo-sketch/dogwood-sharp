@@ -1,0 +1,11 @@
+{
+    "result":  {
+                   "name":  "wrong-version",
+                   "exitCode":  1,
+                   "reportWritten":  false,
+                   "stdout":  "",
+                   "stderr":  "PUBLICATION_RECONCILIATION_REFUSED: Accepted package identity is not the approved identity: DogwoodSharp.0.1.0-preview.1.nupkg",
+                   "report":  null,
+                   "reportPath":  "D:\\projects\\dogwood-sharp\\artifacts\\publication-archive-controls\\e7d89fa6d0c74fc598229c9d83a43446\\wrong-version\\report.json"
+               }
+}

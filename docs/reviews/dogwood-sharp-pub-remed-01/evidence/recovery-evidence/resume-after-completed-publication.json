@@ -1,0 +1,9 @@
+{
+    "result":  {
+                   "name":  "campaign-op1-resume",
+                   "order":  1,
+                   "exitCode":  0,
+                   "stdout":  "PUBLICATION_OPERATION=1 ALREADY_VERIFIED=DogwoodSharp.0.1.0-preview.1.nupkg",
+                   "stderr":  ""
+               }
+}

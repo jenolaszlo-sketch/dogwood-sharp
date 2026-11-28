@@ -1,0 +1,145 @@
+{
+    "result":  {
+                   "name":  "modified-entry",
+                   "exitCode":  1,
+                   "reportWritten":  true,
+                   "stdout":  "PACKAGE DogwoodSharp 0.1.0-preview.1 published-conflicting refuse\nPACKAGE DogwoodSharp.CedarSharp 0.1.0-experimental.1 published-matching skip\nSYMBOLS DogwoodSharp 0.1.0-preview.1 symbol-upload-not-attempted push\nSYMBOLS DogwoodSharp.CedarSharp 0.1.0-experimental.1 symbol-upload-not-attempted push",
+                   "stderr":  "PUBLICATION_RECONCILIATION_REFUSED: Publication conflicts: DogwoodSharp/0.1.0-preview.1: changed:README.md",
+                   "report":  {
+                                  "schemaVersion":  2,
+                                  "destination":  "https://api.nuget.org/v3/index.json",
+                                  "offlineFeedDirectory":  "D:\\projects\\dogwood-sharp\\artifacts\\publication-archive-controls\\e7d89fa6d0c74fc598229c9d83a43446\\feed-modified",
+                                  "stateModelVersion":  1,
+                                  "journal":  {
+                                                  "configured":  false,
+                                                  "valid":  false,
+                                                  "error":  null
+                                              },
+                                  "packages":  [
+                                                   {
+                                                       "file":  "DogwoodSharp.0.1.0-preview.1.nupkg",
+                                                       "id":  "DogwoodSharp",
+                                                       "version":  "0.1.0-preview.1",
+                                                       "acceptedUploadSha256":  "384e013a236bfcb9b761a92ff861f0df54b2e8a736a5f2c1fb778268307b1911",
+                                                       "publicDownloadedSha256":  "d697c82ace79ff085bda4d795433cc16fc3bfa35d33032763a6ab0645c183336",
+                                                       "payloadMatches":  false,
+                                                       "payloadMismatches":  "changed:README.md",
+                                                       "publicHasRepositorySignature":  false,
+                                                       "repositorySignature":  null,
+                                                       "httpStatus":  200,
+                                                       "pollAttempts":  0,
+                                                       "status":  "published-conflicting",
+                                                       "action":  "refuse",
+                                                       "priorAttempt":  false,
+                                                       "detail":  null
+                                                   },
+                                                   {
+                                                       "file":  "DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg",
+                                                       "id":  "DogwoodSharp.CedarSharp",
+                                                       "version":  "0.1.0-experimental.1",
+                                                       "acceptedUploadSha256":  "3d882e6be062ed998cf05e485b06dee4868819785e22fdf702d5050ba306daa4",
+                                                       "publicDownloadedSha256":  "3d882e6be062ed998cf05e485b06dee4868819785e22fdf702d5050ba306daa4",
+                                                       "payloadMatches":  true,
+                                                       "payloadMismatches":  {
+
+                                                                             },
+                                                       "publicHasRepositorySignature":  false,
+                                                       "repositorySignature":  {
+                                                                                   "verified":  true,
+                                                                                   "repository":  false,
+                                                                                   "mode":  "none",
+                                                                                   "output":  ""
+                                                                               },
+                                                       "httpStatus":  200,
+                                                       "pollAttempts":  0,
+                                                       "status":  "published-matching",
+                                                       "action":  "skip",
+                                                       "priorAttempt":  false,
+                                                       "detail":  null
+                                                   }
+                                               ],
+                                  "symbols":  [
+                                                  {
+                                                      "file":  "DogwoodSharp.0.1.0-preview.1.snupkg",
+                                                      "id":  "DogwoodSharp",
+                                                      "version":  "0.1.0-preview.1",
+                                                      "acceptedUploadSha256":  "e35ae30ef409b44402f32361dcec800a57b7499cd610e2345773d6adafbad563",
+                                                      "expectedPdbCount":  2,
+                                                      "status":  "symbol-upload-not-attempted",
+                                                      "action":  "push",
+                                                      "priorAttempt":  false,
+                                                      "pdbs":  [
+                                                                   {
+                                                                       "tfm":  "net10.0",
+                                                                       "pdbName":  "DogwoodSharp.pdb",
+                                                                       "pdbGuid":  "00106C0A22D74A1BAE298F1BA8B30DF6",
+                                                                       "symbolKey":  "00106C0A22D74A1BAE298F1BA8B30DF6ffffffff",
+                                                                       "expectedPdbSha256":  "1dec1d638dd1640d37afdddd8b7177d13b396ff8121f972ea9d9dc921a574f7b",
+                                                                       "expectedPdbChecksumSha256":  "0a6c1000d7221b3a2e298f1ba8b30df6ecae00c2b5144e0ffa0bd6153c301d5b",
+                                                                       "observedPdbSha256":  null,
+                                                                       "httpStatus":  404,
+                                                                       "pollAttempts":  1,
+                                                                       "status":  "absent"
+                                                                   },
+                                                                   {
+                                                                       "tfm":  "net8.0",
+                                                                       "pdbName":  "DogwoodSharp.pdb",
+                                                                       "pdbGuid":  "AEDCBDF8980048AD9C18281ED3CD34AF",
+                                                                       "symbolKey":  "AEDCBDF8980048AD9C18281ED3CD34AFffffffff",
+                                                                       "expectedPdbSha256":  "848274b7bc2850ebd5a85b0c9146b6985652b8723df9b01022c920754783192f",
+                                                                       "expectedPdbChecksumSha256":  "f8bddcae0098adf89c18281ed3cd34af6388d17ffbd1086b751ef01eec574917",
+                                                                       "observedPdbSha256":  null,
+                                                                       "httpStatus":  404,
+                                                                       "pollAttempts":  1,
+                                                                       "status":  "absent"
+                                                                   }
+                                                               ]
+                                                  },
+                                                  {
+                                                      "file":  "DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg",
+                                                      "id":  "DogwoodSharp.CedarSharp",
+                                                      "version":  "0.1.0-experimental.1",
+                                                      "acceptedUploadSha256":  "49cefe0d69af687659c60decb141c56a1773b0583784586cd3ee09e5ea1803fd",
+                                                      "expectedPdbCount":  2,
+                                                      "status":  "symbol-upload-not-attempted",
+                                                      "action":  "push",
+                                                      "priorAttempt":  false,
+                                                      "pdbs":  [
+                                                                   {
+                                                                       "tfm":  "net10.0",
+                                                                       "pdbName":  "DogwoodSharp.CedarSharp.pdb",
+                                                                       "pdbGuid":  "81AEB2DE8F9846669B12B2968C31A176",
+                                                                       "symbolKey":  "81AEB2DE8F9846669B12B2968C31A176ffffffff",
+                                                                       "expectedPdbSha256":  "f01b81d69360125f88a0b160a551ca46797bf7689f87813d7fd2519c776995b9",
+                                                                       "expectedPdbChecksumSha256":  "deb2ae81988f66569b12b2968c31a1768d652041e85b2220304c36c4e172ab2b",
+                                                                       "observedPdbSha256":  null,
+                                                                       "httpStatus":  404,
+                                                                       "pollAttempts":  1,
+                                                                       "status":  "absent"
+                                                                   },
+                                                                   {
+                                                                       "tfm":  "net8.0",
+                                                                       "pdbName":  "DogwoodSharp.CedarSharp.pdb",
+                                                                       "pdbGuid":  "AAB34EC1682D4A44B1B5B8497C44187A",
+                                                                       "symbolKey":  "AAB34EC1682D4A44B1B5B8497C44187Affffffff",
+                                                                       "expectedPdbSha256":  "4ab913b2f208f72578be593210a5a370f67dad6de12c8c19d4242e2d66de1981",
+                                                                       "expectedPdbChecksumSha256":  "c14eb3aa2d6844da31b5b8497c44187a3384acc7f4d3eb39efb7d604b1a9a550",
+                                                                       "observedPdbSha256":  null,
+                                                                       "httpStatus":  404,
+                                                                       "pollAttempts":  1,
+                                                                       "status":  "absent"
+                                                                   }
+                                                               ]
+                                                  }
+                                              ],
+                                  "conflicts":  [
+                                                    "DogwoodSharp/0.1.0-preview.1: changed:README.md"
+                                                ],
+                                  "holds":  [
+
+                                            ],
+                                  "result":  "conflict"
+                              },
+                   "reportPath":  "D:\\projects\\dogwood-sharp\\artifacts\\publication-archive-controls\\e7d89fa6d0c74fc598229c9d83a43446\\modified-entry\\report.json"
+               }
+}

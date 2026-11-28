@@ -1,0 +1,57 @@
+{
+    "result":  {
+                   "name":  "symbols-conflict-op2",
+                   "order":  2,
+                   "exitCode":  1,
+                   "stdout":  "",
+                   "stderr":  "PUBLICATION_OPERATION_REFUSED: Operation 2 has a conflicting public state: DogwoodSharp.0.1.0-preview.1.snupkg"
+               },
+    "journal":  {
+                    "valid":  true,
+                    "error":  null,
+                    "records":  6,
+                    "lastEvent":  "conflict-detected",
+                    "operations":  [
+                                       {
+                                           "order":  1,
+                                           "file":  "DogwoodSharp.0.1.0-preview.1.nupkg",
+                                           "state":  "published-and-verified-matching",
+                                           "event":  "published-verified",
+                                           "attemptPending":  false,
+                                           "verified":  true,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       },
+                                       {
+                                           "order":  2,
+                                           "file":  "DogwoodSharp.0.1.0-preview.1.snupkg",
+                                           "state":  "published-and-conflicting",
+                                           "event":  "conflict-detected",
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  true,
+                                           "manual":  false
+                                       },
+                                       {
+                                           "order":  3,
+                                           "file":  "DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg",
+                                           "state":  null,
+                                           "event":  null,
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       },
+                                       {
+                                           "order":  4,
+                                           "file":  "DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg",
+                                           "state":  null,
+                                           "event":  null,
+                                           "attemptPending":  false,
+                                           "verified":  false,
+                                           "conflict":  false,
+                                           "manual":  false
+                                       }
+                                   ]
+                }
+}

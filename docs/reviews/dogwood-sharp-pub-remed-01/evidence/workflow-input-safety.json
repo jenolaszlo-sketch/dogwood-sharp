@@ -1,0 +1,226 @@
+{
+    "schemaVersion":  1,
+    "workflowPath":  ".github/workflows/publish.yml",
+    "staticControls":  [
+                           {
+                               "name":  "no-github-expression-in-run-script",
+                               "passed":  true,
+                               "detail":  "run blocks containing expressions: 0"
+                           },
+                           {
+                               "name":  "no-dynamic-expression-evaluation",
+                               "passed":  true,
+                               "detail":  "dynamic execution lines: 0"
+                           },
+                           {
+                               "name":  "no-skip-duplicate",
+                               "passed":  true,
+                               "detail":  "skip-duplicate lines: 0"
+                           },
+                           {
+                               "name":  "all-dispatch-inputs-bound-to-environment",
+                               "passed":  true,
+                               "detail":  "missing bindings: "
+                           }
+                       ],
+    "executionControls":  [
+                              {
+                                  "name":  "baseline-expression-execution-reproduced",
+                                  "passed":  true,
+                                  "detail":  "INPUT_INJECTION_REPRODUCED\r\nBOUND=58b0a3332391d85cdf19fd7b794d79516d2ecdfe"
+                              },
+                              {
+                                  "name":  "successor-rejects-original-expression",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE is not a lowercase 40-character commit SHA."
+                              },
+                              {
+                                  "name":  "successor-rejects-command-substitution",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE is not a lowercase 40-character commit SHA."
+                              },
+                              {
+                                  "name":  "successor-rejects-backtick-substitution",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE is not a lowercase 40-character commit SHA."
+                              },
+                              {
+                                  "name":  "successor-rejects-quote-breakout",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE is not a lowercase 40-character commit SHA."
+                              },
+                              {
+                                  "name":  "successor-rejects-multiline",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE contains a line break or tab."
+                              },
+                              {
+                                  "name":  "successor-rejects-uppercase-commit",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE is not a lowercase 40-character commit SHA."
+                              },
+                              {
+                                  "name":  "successor-rejects-short-commit",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE is not a lowercase 40-character commit SHA."
+                              },
+                              {
+                                  "name":  "successor-rejects-non-hex-commit",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE is not a lowercase 40-character commit SHA."
+                              },
+                              {
+                                  "name":  "successor-rejects-run-id-expression",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: SOURCE_RUN_ID is not a positive decimal run identifier."
+                              },
+                              {
+                                  "name":  "successor-rejects-run-id-negative",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: SOURCE_RUN_ID is not a positive decimal run identifier."
+                              },
+                              {
+                                  "name":  "successor-rejects-attempt-zero",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: SOURCE_RUN_ATTEMPT is not a positive decimal attempt identifier."
+                              },
+                              {
+                                  "name":  "successor-rejects-authorization-expression",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: OWNER_AUTHORIZATION_ID is not an allowed authorization identifier."
+                              },
+                              {
+                                  "name":  "successor-rejects-environment-mismatch",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: PUBLICATION_ENVIRONMENT is not the approved environment."
+                              },
+                              {
+                                  "name":  "successor-rejects-destination-expression",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: DESTINATION is not the approved NuGet v3 destination."
+                              },
+                              {
+                                  "name":  "successor-rejects-dry-run-expression",
+                                  "passed":  true,
+                                  "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: DRY_RUN is not exactly true or false."
+                              },
+                              {
+                                  "name":  "successor-accepts-valid-inputs",
+                                  "passed":  true,
+                                  "detail":  "exit=0 output=PUBLICATION_INPUTS=VALID\nRELEASE_CANDIDATE=58b0a3332391d85cdf19fd7b794d79516d2ecdfe\nSOURCE_RUN_ID=46053558029\nSOURCE_RUN_ATTEMPT=1\nDRY_RUN=true"
+                              }
+                          ],
+    "total":  21,
+    "passed":  21,
+    "failed":  0,
+    "failures":  [
+
+                 ],
+    "controls":  [
+                     {
+                         "name":  "no-github-expression-in-run-script",
+                         "passed":  true,
+                         "detail":  "run blocks containing expressions: 0"
+                     },
+                     {
+                         "name":  "no-dynamic-expression-evaluation",
+                         "passed":  true,
+                         "detail":  "dynamic execution lines: 0"
+                     },
+                     {
+                         "name":  "no-skip-duplicate",
+                         "passed":  true,
+                         "detail":  "skip-duplicate lines: 0"
+                     },
+                     {
+                         "name":  "all-dispatch-inputs-bound-to-environment",
+                         "passed":  true,
+                         "detail":  "missing bindings: "
+                     },
+                     {
+                         "name":  "baseline-expression-execution-reproduced",
+                         "passed":  true,
+                         "detail":  "INPUT_INJECTION_REPRODUCED\r\nBOUND=58b0a3332391d85cdf19fd7b794d79516d2ecdfe"
+                     },
+                     {
+                         "name":  "successor-rejects-original-expression",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE is not a lowercase 40-character commit SHA."
+                     },
+                     {
+                         "name":  "successor-rejects-command-substitution",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE is not a lowercase 40-character commit SHA."
+                     },
+                     {
+                         "name":  "successor-rejects-backtick-substitution",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE is not a lowercase 40-character commit SHA."
+                     },
+                     {
+                         "name":  "successor-rejects-quote-breakout",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE is not a lowercase 40-character commit SHA."
+                     },
+                     {
+                         "name":  "successor-rejects-multiline",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE contains a line break or tab."
+                     },
+                     {
+                         "name":  "successor-rejects-uppercase-commit",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE is not a lowercase 40-character commit SHA."
+                     },
+                     {
+                         "name":  "successor-rejects-short-commit",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE is not a lowercase 40-character commit SHA."
+                     },
+                     {
+                         "name":  "successor-rejects-non-hex-commit",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: RELEASE_CANDIDATE is not a lowercase 40-character commit SHA."
+                     },
+                     {
+                         "name":  "successor-rejects-run-id-expression",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: SOURCE_RUN_ID is not a positive decimal run identifier."
+                     },
+                     {
+                         "name":  "successor-rejects-run-id-negative",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: SOURCE_RUN_ID is not a positive decimal run identifier."
+                     },
+                     {
+                         "name":  "successor-rejects-attempt-zero",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: SOURCE_RUN_ATTEMPT is not a positive decimal attempt identifier."
+                     },
+                     {
+                         "name":  "successor-rejects-authorization-expression",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: OWNER_AUTHORIZATION_ID is not an allowed authorization identifier."
+                     },
+                     {
+                         "name":  "successor-rejects-environment-mismatch",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: PUBLICATION_ENVIRONMENT is not the approved environment."
+                     },
+                     {
+                         "name":  "successor-rejects-destination-expression",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: DESTINATION is not the approved NuGet v3 destination."
+                     },
+                     {
+                         "name":  "successor-rejects-dry-run-expression",
+                         "passed":  true,
+                         "detail":  "exit=1 output=PUBLICATION_INPUT_REFUSED: DRY_RUN is not exactly true or false."
+                     },
+                     {
+                         "name":  "successor-accepts-valid-inputs",
+                         "passed":  true,
+                         "detail":  "exit=0 output=PUBLICATION_INPUTS=VALID\nRELEASE_CANDIDATE=58b0a3332391d85cdf19fd7b794d79516d2ecdfe\nSOURCE_RUN_ID=46053558029\nSOURCE_RUN_ATTEMPT=1\nDRY_RUN=true"
+                     }
+                 ]
+}
