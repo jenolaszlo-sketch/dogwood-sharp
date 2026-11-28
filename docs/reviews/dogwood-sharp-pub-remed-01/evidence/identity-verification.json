@@ -1,0 +1,142 @@
+{
+    "schemaVersion":  1,
+    "commission":  "DOGWOOD-SHARP-PUB-REMED-01",
+    "recordedAtUtc":  "2026-11-28T11:47:42.7732637Z",
+    "canonicalMain":  {
+                          "commit":  "6f21032cf0ff27cd994a79459359c979482546e1",
+                          "tree":  "c1cc11abc77809072dcda38a03124c179749e12d"
+                      },
+    "publicationWorkflow":  {
+                                "commit":  "dd7d3f9ea38674f09712ac5c7574654f5a738e62",
+                                "tree":  "81f6f33a477802aa07689ee447a6ffc8902ad85c"
+                            },
+    "acceptedReleaseCandidate":  {
+                                     "commit":  "58b0a3332391d85cdf19fd7b794d79516d2ecdfe",
+                                     "tree":  "4c535ac8640ec5a1086d0956017e80b63850ef98"
+                                 },
+    "remediation":  {
+                        "commit":  "b30dce12a76b9a946c3aa81d277af564e2bd572d",
+                        "tree":  "968bab1184cc9b160dafa5b37dc25ca1272c4187"
+                    },
+    "artifacts":  [
+                      {
+                          "file":  "DogwoodSharp.0.1.0-preview.1.nupkg",
+                          "size":  18772211,
+                          "sha256":  "384e013a236bfcb9b761a92ff861f0df54b2e8a736a5f2c1fb778268307b1911",
+                          "gitBlob":  "e170b570d135daba27d4dbe30beffc196a36cc65"
+                      },
+                      {
+                          "file":  "DogwoodSharp.0.1.0-preview.1.snupkg",
+                          "size":  26896,
+                          "sha256":  "e35ae30ef409b44402f32361dcec800a57b7499cd610e2345773d6adafbad563",
+                          "gitBlob":  "2058064d42b1c2bbc30e90ea809f902ec370621e"
+                      },
+                      {
+                          "file":  "DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg",
+                          "size":  53207,
+                          "sha256":  "3d882e6be062ed998cf05e485b06dee4868819785e22fdf702d5050ba306daa4",
+                          "gitBlob":  "b39f143d2d9a2fcc16eff08952abcc265c4663ff"
+                      },
+                      {
+                          "file":  "DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg",
+                          "size":  23593,
+                          "sha256":  "49cefe0d69af687659c60decb141c56a1773b0583784586cd3ee09e5ea1803fd",
+                          "gitBlob":  "0685c3d8851a39d51aa906f5f03c64290f177388"
+                      }
+                  ],
+    "independentPackage":  {
+                               "path":  "C:\\Users\\Laszlos\\source\\repos\\Solo\\dogwood-sharp-pub-qual-01",
+                               "manifestEntries":  42,
+                               "verifiedEntries":  42,
+                               "failures":  0,
+                               "unchanged":  true
+                           },
+    "changeInventory":  {
+                            "changedFileCount":  72,
+                            "forbiddenProductPaths":  [
+
+                                                      ],
+                            "productSourceUnchanged":  true,
+                            "files":  [
+                                          ".github/workflows/publish.yml",
+                                          "docs/release-operations.md",
+                                          "docs/reviews/dogwood-sharp-pub-prep-01/README.md",
+                                          "docs/reviews/dogwood-sharp-pub-prep-01/publication-workflow.lock.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/HOSTED-VERIFICATION.md",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/INTERRUPTION-RECOVERY-MATRIX.md",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/README.md",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/RECOVERY-RECORD.md",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/STATE-MACHINE.md",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/WORKFLOW-INPUT-SAFETY.md",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/archive-controls.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/archive-controls.log",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/archive-evidence/accepted-original-self-match.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/archive-evidence/duplicate-entry-refused.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/archive-evidence/incorrect-identity-refused.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/archive-evidence/invalid-signature-refused.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/archive-evidence/missing-entry-refused.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/archive-evidence/modified-entry-refused.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/archive-evidence/unexpected-entry-refused.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/archive-evidence/unexpected-signing-content-refused.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/archive-evidence/unsafe-path-refused.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/archive-evidence/untrusted-signature-refused.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/archive-evidence/valid-repository-signing-transformation.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/baseline-defect-reproduction.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/github-journal-controls.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/github-journal-controls.log",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/github-journal-evidence/github-journal-refuses-concurrent-write.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/github-journal-evidence/github-journal-write-ahead-and-readback.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/journal-controls.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/journal-controls.log",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/journal-evidence/complete-four-operation-state.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/journal-evidence/journal-initialization-binds-inventory.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/journal-evidence/journal-initialization-idempotent.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/journal-evidence/journal-refuses-dry-run-authorization.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/journal-evidence/partial-sequence-refused.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/producer-controls-successor.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/producer-controls-successor.log",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-controls.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-controls.log",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/adapter-refused-before-core-verified.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/conflicting-package-becomes-visible.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/delayed-indexing-becomes-visible.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/genuine-first-publication-four-operations.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/http-404-after-ambiguous-attempt-holds.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/inconsistent-journal-refuses.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/matching-package-becomes-visible-during-reconciliation.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/registry-reset-is-not-absence.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/registry-status429-is-not-absence.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/registry-status503-is-not-absence.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/resume-after-completed-publication.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/runner-terminated-during-publication.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/symbol-first-publication-verified.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/symbols-accepted.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/symbols-available-and-verified.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/symbols-inconsistent-conflict.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/symbols-outcome-unknown.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/upload-accepted-response-lost.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/recovery-evidence/upload-interrupted-before-response-no-auto-retry.json",
+                                          "docs/reviews/dogwood-sharp-pub-remed-01/evidence/workflow-input-safety.json",
+                                          "scripts/publication/Initialize-PublicationJournal.ps1",
+                                          "scripts/publication/Invoke-PublicationOperation.ps1",
+                                          "scripts/publication/PublicationArchive.ps1",
+                                          "scripts/publication/PublicationState.ps1",
+                                          "scripts/publication/Reconcile-Publication.ps1",
+                                          "scripts/publication/Test-PublicationCompletion.ps1",
+                                          "scripts/publication/Test-PublicationInputs.ps1",
+                                          "scripts/publication/Test-WorkflowInputSafety.ps1",
+                                          "scripts/publication/tests/Mock-PublicationRegistry.ps1",
+                                          "scripts/publication/tests/Test-PublicationArchiveControls.ps1",
+                                          "scripts/publication/tests/Test-PublicationGitHubJournal.ps1",
+                                          "scripts/publication/tests/Test-PublicationJournalControls.ps1",
+                                          "scripts/publication/tests/Test-PublicationRecovery.ps1"
+                                      ]
+                        },
+    "workflowLock":  {
+                         "verified":  true,
+                         "path":  "docs/reviews/dogwood-sharp-pub-prep-01/publication-workflow.lock.json",
+                         "sha256":  "42de05f66b6deba082c377df01ba1821fd03c84a682c9e232f3a21268921447d"
+                     },
+    "inventorySha256":  "524819fcea620889e45e62c5645a11fec0c8a01a7062973dd8c80bd3901bf252",
+    "dryRunAuthorizationSha256":  "1f3752345408b0e4fdedf6eab3fc6ec5a471c1d6114d2123ded1f3a3b80cb138"
+}
