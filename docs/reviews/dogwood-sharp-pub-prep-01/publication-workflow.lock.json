@@ -1,0 +1,51 @@
+{
+    "schemaVersion":  1,
+    "approvedAtCommit":  "91598d94af913ba0fcd1e64513191a01b9d5e8db",
+    "workflowPath":  ".github/workflows/publish.yml",
+    "files":  [
+                  {
+                      "path":  ".github/workflows/publish.yml",
+                      "blobSha":  "13964b2e85080f015d429aba07f70199f8cbe0bf"
+                  },
+                  {
+                      "path":  "scripts/publication/Test-PublicationPlan.ps1",
+                      "blobSha":  "c16c828fa3c5e0c1819010260204ebb60cd42b4d"
+                  },
+                  {
+                      "path":  "scripts/publication/Test-PublicationControls.ps1",
+                      "blobSha":  "8f5894ac45e0c97b78222d6925617b78963be436"
+                  },
+                  {
+                      "path":  "scripts/publication/Test-WorkflowLock.ps1",
+                      "blobSha":  "c328b49def0325063a0ee314e66ca9db0b885fd8"
+                  },
+                  {
+                      "path":  "scripts/publication/Compare-PublicationPlans.ps1",
+                      "blobSha":  "0c79fe67507b14409db8f8ae5aa21352ec8132b9"
+                  },
+                  {
+                      "path":  "scripts/publication/Reconcile-Publication.ps1",
+                      "blobSha":  "362660b685093e0b5e3acdf64d7c162808bd01e7"
+                  },
+                  {
+                      "path":  "docs/reviews/dogwood-sharp-pub-prep-01/publication-inventory.json",
+                      "blobSha":  "eb2d1f0945bfe1b45ab0344a4d56fa4d08b750b8"
+                  },
+                  {
+                      "path":  "docs/reviews/dogwood-sharp-pub-prep-01/OWNER-AUTHORIZATION-DRY-RUN.json",
+                      "blobSha":  "81e149a5d907122a75334af5960d063aeeb7f5d4"
+                  },
+                  {
+                      "path":  "docs/reviews/dogwood-sharp-pub-prep-01/evidence/accepted-verification-report.json",
+                      "blobSha":  "6157d05acfec8a5b9f81a7475cb66accbf8c5b29"
+                  },
+                  {
+                      "path":  "docs/reviews/dogwood-sharp-pub-prep-01/evidence/accepted-package-inventory.json",
+                      "blobSha":  "1bf067cdc77eb97f05e09c94d05cb66033b404b1"
+                  },
+                  {
+                      "path":  "docs/reviews/dogwood-sharp-pub-prep-01/evidence/cedarsharp-package-hashes.json",
+                      "blobSha":  "88215a0722ff87b9c480bc599ba0a576889f7dec"
+                  }
+              ]
+}
