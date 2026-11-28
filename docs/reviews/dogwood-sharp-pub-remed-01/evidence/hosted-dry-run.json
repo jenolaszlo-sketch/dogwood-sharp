@@ -1,38 +1,37 @@
 {
     "schemaVersion":  1,
     "commission":  "DOGWOOD-SHARP-PUB-REMED-01",
-    "runId":  46141440524,
-    "runAttempt":  1,
+    "primaryRun":  {
+                       "runId":  46142050395,
+                       "runAttempt":  1,
+                       "headSha":  "e895c7d4895ad1978dc61cdf8bd2369196294148",
+                       "conclusion":  "success",
+                       "verifyJobId":  140969917778,
+                       "publishJobId":  140970078766,
+                       "publishJobConclusion":  "skipped",
+                       "planArtifactId":  15261154839,
+                       "planArtifactDigest":  "sha256:f1584eb42f30fbe275b83de0e3791c0371dfabeed4ad237efd894db2805299ee",
+                       "planSha256":  "4212a5ed814da84a8750b81498e1d03737f4706048bc85e981f27b5f815ead01",
+                       "sourceMetadataSha256":  "16308f820f3ffb840f45f6e669064db076dc3076b7ed2f46ead15c323c3317cc"
+                   },
+    "priorRun":  {
+                     "runId":  46141440524,
+                     "headSha":  "b30dce12a76b9a946c3aa81d277af564e2bd572d",
+                     "conclusion":  "success",
+                     "publishJobConclusion":  "skipped",
+                     "planArtifactId":  15260739907,
+                     "planArtifactDigest":  "sha256:5fc5cfcaec867274d4ad41a4379adf7a095f9bdf547f067e175d9eef8276b525",
+                     "planSha256":  "4212a5ed814da84a8750b81498e1d03737f4706048bc85e981f27b5f815ead01"
+                 },
     "workflow":  "publish.yml",
     "event":  "workflow_dispatch",
     "ref":  "refs/heads/main",
-    "headSha":  "b30dce12a76b9a946c3aa81d277af564e2bd572d",
-    "status":  "completed",
-    "conclusion":  "success",
-    "verifyJob":  {
-                      "id":  140968044049,
-                      "name":  "Verify exact publication plan",
-                      "conclusion":  "success"
-                  },
-    "publishJob":  {
-                       "id":  140968178528,
-                       "name":  "Publish exact authorized artifacts",
-                       "conclusion":  "skipped"
-                   },
     "inputValidationStep":  "success",
     "inputSafetyStep":  "success",
     "workflowLockStep":  "success",
     "nugetUserStep":  "skipped (dry run)",
     "oidcCredentialRequested":  false,
     "uploadPerformed":  false,
-    "plan":  {
-                 "artifactId":  15260739907,
-                 "name":  "publication-plan",
-                 "sizeInBytes":  4389,
-                 "digest":  "sha256:5fc5cfcaec867274d4ad41a4379adf7a095f9bdf547f067e175d9eef8276b525",
-                 "sha256":  "4212a5ed814da84a8750b81498e1d03737f4706048bc85e981f27b5f815ead01"
-             },
-    "sourceMetadataSha256":  "16308f820f3ffb840f45f6e669064db076dc3076b7ed2f46ead15c323c3317cc",
     "planState":  {
                       "status":  "verified",
                       "dryRun":  true,
@@ -47,5 +46,5 @@
                       "sourceRunAttempt":  1,
                       "artifactDigest":  "sha256:86df4ea69bd39c5ad798b8cd34bc5d32b6dfed1436f85bdad37269f0772ec6ad"
                   },
-    "recordedAtUtc":  "2026-11-28T11:47:20.1517942Z"
+    "recordedAtUtc":  "2026-11-28T11:55:16.1865155Z"
 }

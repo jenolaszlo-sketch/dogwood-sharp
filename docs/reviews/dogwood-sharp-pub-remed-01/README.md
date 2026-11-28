@@ -40,7 +40,8 @@ reproducer evidence, the recovery matrix and the gate assessments were read.
 | Independent hosted dry-run | `46131239101` |
 | Remediation implementation commit | `b30dce12a76b9a946c3aa81d277af564e2bd572d` |
 | Remediation implementation tree | `968bab1184cc9b160dafa5b37dc25ca1272c4187` |
-| Successor hosted dry-run | `46141440524`, attempt 1 |
+| Final publication revision (hosted) | `e895c7d4895ad1978dc61cdf8bd2369196294148` |
+| Successor hosted dry-run | `46142050395`, attempt 1 |
 
 The independent finding identifiers F-01 through F-07 are used unchanged in
 this record. F-01 through F-04 are the four authorized blockers. F-05, F-06 and

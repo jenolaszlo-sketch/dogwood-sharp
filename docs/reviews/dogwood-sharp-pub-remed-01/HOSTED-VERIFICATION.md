@@ -30,24 +30,31 @@ Recorded run identity and evidence are appended below after execution.
 
 ## Recorded execution
 
+Primary hosted dry-run (exact final publication revision `e895c7d`):
+
 | Field | Value |
 |---|---|
-| Run | `46141440524`, attempt 1 |
-| Head revision | `b30dce12a76b9a946c3aa81d277af564e2bd572d` |
+| Run | `46142050395`, attempt 1 |
+| Head revision | `e895c7d4895ad1978dc61cdf8bd2369196294148` |
 | Event / ref | `workflow_dispatch` / `refs/heads/main` |
 | Conclusion | `success` |
-| Verify job | `140968044049` — `success` |
-| Publish job | `140968178528` — `skipped` |
+| Verify job | `140969917778` — `success` |
+| Publish job | `140970078766` — `skipped` |
 | Input validation step | `success` |
 | Workflow input safety step | `success` |
 | Workflow lock step | `success` |
 | `NUGET_USER` step | `skipped` (dry run) |
 | OIDC credential requested | No |
 | Upload performed | No |
-| Plan artifact | `publication-plan`, id `15260739907`, 4389 bytes |
-| Plan artifact digest | `sha256:5fc5cfcaec867274d4ad41a4379adf7a095f9bdf547f067e175d9eef8276b525` |
+| Plan artifact | `publication-plan`, id `15261154839`, 4389 bytes |
+| Plan artifact digest | `sha256:f1584eb42f30fbe275b83de0e3791c0371dfabeed4ad237efd894db2805299ee` |
 | Downloaded plan SHA-256 | `4212a5ed814da84a8750b81498e1d03737f4706048bc85e981f27b5f815ead01` |
 | Source metadata SHA-256 | `16308f820f3ffb840f45f6e669064db076dc3076b7ed2f46ead15c323c3317cc` |
+
+An earlier dry-run on implementation revision `b30dce12a76b9a946c3aa81d277af564e2bd572d`
+(run `46141440524`) also succeeded with the publish job skipped and produced the
+same plan SHA-256. The publication infrastructure is byte-identical between
+`b30dce1` and `e895c7d`; only publication tests and this evidence changed.
 
 The downloaded plan recorded `status: verified`, `dryRun: true`,
 `credentialsRequested: false`, `uploadPerformed: false`, `rebuilt: false`,

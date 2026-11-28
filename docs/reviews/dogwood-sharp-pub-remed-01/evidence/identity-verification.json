@@ -138,5 +138,9 @@
                          "sha256":  "42de05f66b6deba082c377df01ba1821fd03c84a682c9e232f3a21268921447d"
                      },
     "inventorySha256":  "524819fcea620889e45e62c5645a11fec0c8a01a7062973dd8c80bd3901bf252",
-    "dryRunAuthorizationSha256":  "1f3752345408b0e4fdedf6eab3fc6ec5a471c1d6114d2123ded1f3a3b80cb138"
+    "dryRunAuthorizationSha256":  "1f3752345408b0e4fdedf6eab3fc6ec5a471c1d6114d2123ded1f3a3b80cb138",
+    "finalPublicationRevision":  {
+                                     "commit":  "e895c7d4895ad1978dc61cdf8bd2369196294148",
+                                     "tree":  "0a3452cffa184a8e6e988d5ab592b1984dc74b0f"
+                                 }
 }
