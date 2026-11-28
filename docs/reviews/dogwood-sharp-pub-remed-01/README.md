@@ -252,8 +252,8 @@ in `RECOVERY-RECORD.md`. The essential contract:
   requires all four verified records);
 - manual recovery cannot bypass package identity or payload verification.
 
-No generalized release framework was introduced. The implementation is five
-small PowerShell files plus the workflow.
+No generalized release framework was introduced. The implementation is a small
+set of publication-specific PowerShell files plus the workflow.
 
 ---
 
