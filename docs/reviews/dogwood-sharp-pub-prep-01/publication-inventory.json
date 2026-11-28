@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "inventoryId": "DOGWOOD-SHARP-PUB-PREP-01-INVENTORY-1",
+  "approvedAt": "2026-11-28",
+  "releaseCandidate": {
+    "commit": "58b0a3332391d85cdf19fd7b794d79516d2ecdfe",
+    "tree": "4c535ac8640ec5a1086d0956017e80b63850ef98"
+  },
+  "source": {
+    "repository": "jenolaszlo-sketch/dogwood-sharp",
+    "workflowPath": ".github/workflows/ci.yml",
+    "workflowName": "DogwoodSharp producer verification",
+    "workflowId": 420173740,
+    "runId": 46053558029,
+    "runAttempt": 1,
+    "event": "push",
+    "conclusion": "success",
+    "headSha": "58b0a3332391d85cdf19fd7b794d79516d2ecdfe"
+  },
+  "sourceArtifact": {
+    "name": "dogwoodsharp-d3-candidates",
+    "id": 15226757191,
+    "digest": "sha256:86df4ea69bd39c5ad798b8cd34bc5d32b6dfed1436f85bdad37269f0772ec6ad",
+    "sizeInBytes": 18794042,
+    "expiresAt": "2027-02-25T19:00:24Z"
+  },
+  "verificationArtifact": {
+    "name": "dogwoodsharp-d3-package-verification",
+    "id": 15226517569,
+    "digest": "sha256:25f4db1fa2239a762c888129c63b48d62c46e1272d8065a2ad7886ed0ee7fe29",
+    "sizeInBytes": 1644
+  },
+  "dependencyArtifact": {
+    "name": "dogwoodsharp-d3-dependencies",
+    "id": 15226447468,
+    "digest": "sha256:655dd2627b049a5e77e4bfdc3ff944b19d706423322ff384a481985b3d9c3a03",
+    "sizeInBytes": 9742639
+  },
+  "destination": "https://api.nuget.org/v3/index.json",
+  "environment": "nuget-publication",
+  "packages": [
+    {
+      "order": 1,
+      "kind": "package",
+      "id": "DogwoodSharp",
+      "version": "0.1.0-preview.1",
+      "file": "DogwoodSharp.0.1.0-preview.1.nupkg",
+      "size": 18772211,
+      "sha256": "384e013a236bfcb9b761a92ff861f0df54b2e8a736a5f2c1fb778268307b1911"
+    },
+    {
+      "order": 2,
+      "kind": "symbols",
+      "id": "DogwoodSharp",
+      "version": "0.1.0-preview.1",
+      "file": "DogwoodSharp.0.1.0-preview.1.snupkg",
+      "size": 26896,
+      "sha256": "e35ae30ef409b44402f32361dcec800a57b7499cd610e2345773d6adafbad563"
+    },
+    {
+      "order": 3,
+      "kind": "package",
+      "id": "DogwoodSharp.CedarSharp",
+      "version": "0.1.0-experimental.1",
+      "file": "DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg",
+      "size": 53207,
+      "sha256": "3d882e6be062ed998cf05e485b06dee4868819785e22fdf702d5050ba306daa4"
+    },
+    {
+      "order": 4,
+      "kind": "symbols",
+      "id": "DogwoodSharp.CedarSharp",
+      "version": "0.1.0-experimental.1",
+      "file": "DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg",
+      "size": 23593,
+      "sha256": "49cefe0d69af687659c60decb141c56a1773b0583784586cd3ee09e5ea1803fd"
+    }
+  ],
+  "publishOrder": [
+    "DogwoodSharp.0.1.0-preview.1.nupkg",
+    "DogwoodSharp.0.1.0-preview.1.snupkg",
+    "DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg",
+    "DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg"
+  ],
+  "dependency": {
+    "id": "CedarSharp",
+    "version": "1.0.0",
+    "sha256": "99cc3659e750f3d5187d7b8c35e84359811a7af1247b3673d893eafc679bf835",
+    "entryCount": 741,
+    "entriesSha256": "2bfb631cf3acbea3fe807983518660d717e4fc43794cea2d5e0ceeea78cd1482",
+    "publicationArtifact": false
+  },
+  "verificationReport": {
+    "path": "docs/reviews/dogwood-sharp-pub-prep-01/evidence/accepted-verification-report.json",
+    "sha256": "c80500114dec818f650b0bf595179c7612f392e95a675c2bc91c6ef90bb5f413"
+  },
+  "acceptedPackageInventory": {
+    "path": "docs/reviews/dogwood-sharp-pub-prep-01/evidence/accepted-package-inventory.json",
+    "sha256": "4f5d1f883f5ed73d052337f065cf96af833bcdbab78a6730450aafefc5d099bd"
+  },
+  "cedarSharpHashManifest": {
+    "path": "docs/reviews/dogwood-sharp-pub-prep-01/evidence/cedarsharp-package-hashes.json",
+    "sha256": "ef90980887d7671a3c67e1ef1f5ee6324eaa1a140e1ddbe4c7bf85cbaf3077f0"
+  },
+  "nativeAssets": {
+    "win-x64": {
+      "file": "dogwoodsharp_bridge.dll",
+      "imageSha256": "61e92101b1aa127093635fa9a93f3d8248008dc9ba67e2ca6adcaeba3142cacc",
+      "manifestSha256": "cd6104b6090e3072bb09b5f3e47519184d33d87437d3e6da6491a87a96f4e28c"
+    },
+    "linux-x64": {
+      "file": "libdogwoodsharp_bridge.so",
+      "imageSha256": "39afbfd0b8ed60d627af6e3e0e743c594e8d72817fee16f70d98a39081dafbe9",
+      "manifestSha256": "789f3fd550db7dcd2ca82b54a0d7f58ec015336cef8aeb963cb74b2a6a09610e"
+    },
+    "osx-arm64": {
+      "file": "libdogwoodsharp_bridge.dylib",
+      "imageSha256": "fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e",
+      "manifestSha256": "bd951df87a3f681b3176cce134fe74859d9b6a25aaa759edbf240bf9c9a98bed"
+    }
+  },
+  "exclusions": [
+    "CedarSharp.1.0.0.nupkg is a verified dependency and is not a publication artifact.",
+    "No package version other than 0.1.0-preview.1 or 0.1.0-experimental.1 is authorized.",
+    "No package ID other than DogwoodSharp or DogwoodSharp.CedarSharp is authorized.",
+    "No destination other than https://api.nuget.org/v3/index.json is authorized.",
+    "No rebuild, repack, re-sign or transformation of the accepted artifacts is authorized."
+  ]
+}

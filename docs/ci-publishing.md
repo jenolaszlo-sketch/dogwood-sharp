@@ -8,7 +8,9 @@ both target frameworks through managed integration, JIT smoke and NativeAOT
 smoke. The Linux job also checks native buffer ownership under Valgrind.
 CI uploads staged binaries, manifests, test results, and verification logs.
 The [verification record](verification.md) identifies completed runs. The
-publication workflow remains a refusal gate.
+publication workflow is now the exact-artifact gate described in
+[release operations](release-operations.md); it remains fail-closed until the
+owner-side NuGet policy and explicit publication authorization are in place.
 
 ## D3 package gate and release candidate
 
@@ -119,9 +121,10 @@ This release-candidate gate does **not**:
   flow.
 
 A green release-candidate matrix is supporting evidence for a separate
-publication authorization; it is not publication itself. The publication
-workflow remains a refusal gate until a separately commissioned release
-pipeline is implemented and qualified.
+publication authorization; it is not publication itself. The exact-artifact
+publication workflow is implemented and producer-verified, but it refuses
+until the owner-side NuGet policy, environment approval and explicit
+publication authorization are in place.
 
 ## D0 implementation (historical)
 
@@ -140,10 +143,10 @@ they are not published artifacts. The solution omits an empty conformance
 project, the research projects, and the disposable package-only consumer
 intentionally.
 
-Publication workflow is manually dispatchable but **always fails at readiness**.
-It cannot request OIDC tokens or push packages. D0 is ineligible for publication;
-the release pipeline below must be implemented and independently qualified at D8.
-This is a deliberate scaffold, not a completed publishing workflow.
+The historical D0 publication workflow was manually dispatchable but **always
+failed at readiness**; it could not request OIDC tokens or push packages. That
+refusal scaffold has since been replaced by the exact-artifact workflow described
+below and in [release operations](release-operations.md).
 
 ## Reference findings
 
@@ -157,44 +160,49 @@ qualifies package consumers/AOT and verifies packages. Its manual publish workfl
 uses CI-produced artifacts and NuGet/login. Use this as the stronger foundation
 for exact-artifact publication. [CS-CI](https://github.com/jenolaszlo-sketch/cedar-sharp/blob/a25181d17603381e42adde60613f7a49d5309a2b/.github/workflows/ci.yml), [CS-PUBLISH](https://github.com/jenolaszlo-sketch/cedar-sharp/blob/a25181d17603381e42adde60613f7a49d5309a2b/.github/workflows/publish.yml).
 
-## Release pipeline to implement at D8
+## Implemented exact-artifact publication pipeline
 
-1. Build pinned native sources on explicit runners/targets; enforce rustfmt,
-   clippy, tests, dependency audits and complete feature/license inventories.
-2. Stage each binary plus manifest (ABI, source/lock/toolchain/target/features/hash).
-   Upload artifacts with provenance; no generated binaries in Git.
-3. Build managed code, run unit/integration/differential tests and line/branch
-   coverage. Set justified thresholds when real implementation exists.
-4. Assemble a single nupkg/snupkg pair with all three native RIDs, XML docs,
-   README, LICENSE, NOTICE and transitive native license notices. Verify ZIP
-   entries, metadata, hashes, assembly TFMs, manifest consistency and symbols.
-5. Run fresh package-only consumers on all six RID/TFM combinations. Execute
-   NativeAOT/trimmed consumers for both TFMs where toolchains support them;
-   missing evidence blocks the corresponding support claim. Run native memory
-   ownership tests and adversarial inputs independently of managed coverage.
-6. Emit a qualification manifest binding exact package hashes, commit, source
-   pins, CI run IDs and results. No package rebuild after this stage.
-7. Manual dispatch on main selects that successful CI run and exact SHA. Validate
-   repository, branch, run conclusion and artifact digest before obtaining
-   credentials. Require owner approval via protected publication environment.
-8. Use `NuGet/login@v1` with job-scoped `id-token: write` and the configured NuGet
-   account name. Push only the verified nupkg and adjacent matching snupkg using
-   its short-lived credential. No long-lived API key, wildcard package selection,
-   skip-duplicate masking, PR publication, ordinary-push publication or rebuild.
+The publication workflow is `.github/workflows/publish.yml`. It:
 
-Prefer manual dispatch over release tags because it names the already qualified
-artifact and makes authorization explicit. Use a repository-wide publication
-concurrency group with cancellation disabled. Pin action revisions before release
-qualification and record runner/toolchain versions in evidence.
+- is manual-dispatch only, defaults to a dry-run and never runs on push, pull
+  request or tag;
+- binds the exact release candidate, source CI run/attempt, artifact ID and
+  digest, destination, environment and four-artifact inventory;
+- verifies package IDs, versions, sizes, hashes, symbol correspondence, native
+  assets and the CedarSharp dependency identity before any credential request;
+- uses a protected `nuget-publication` environment, GitHub OIDC through
+  `NuGet/login@v1`, a short-lived key and job-scoped `id-token: write`;
+- pins every action to an immutable commit and uses a publication concurrency
+  group with cancellation disabled;
+- pushes the stable package and symbol package before the experimental adapter
+  and its symbol package, with `--no-symbols` on nupkg pushes and explicit
+  `.snupkg` pushes;
+- performs no restore, build, pack, native compilation, re-signing or artifact
+  transformation; and
+- refuses rather than using `--skip-duplicate` or silently masking a conflict.
 
-## Owner-side configuration (not performed)
+The exact inventory, owner-side NuGet configuration, repository-signing
+verification, symbol-server procedure and partial-publication recovery contract
+are in [release operations](release-operations.md).
 
-Confirm DogwoodSharp ID eligibility/ownership on NuGet; configure its trusted
-publisher for this GitHub owner/repository, exact workflow filename and protected
-environment. Set the NuGet username referenced by NuGet/login; configure required
-reviewers and main-branch restrictions; grant id-token only to the publish job.
-Test refusal paths before first release. No credentials, release tags, external
-settings or packages were created in this commission.
+## Owner-side configuration (required, not completed in this repository)
+
+The owner must:
+
+- confirm `DogwoodSharp` and `DogwoodSharp.CedarSharp` eligibility/ownership on
+  NuGet;
+- create the NuGet Trusted Publishing policy for GitHub owner
+  `jenolaszlo-sketch`, repository `dogwood-sharp`, workflow `publish.yml` and
+  environment `nuget-publication`;
+- set the `NUGET_USER` repository variable;
+- provide an independent reviewer or explicitly accept the current
+  self-approval environment limitation; and
+- decide whether to add `main` branch protection/rulesets.
+
+The `nuget-publication` environment exists with a required reviewer (the
+repository owner), a `main`-only branch policy and administrator bypass. This is
+not independent review or separation of duties. Actual publication remains a
+separate explicit owner authorization.
 
 DogwoodSharp flat-container returned 404 on 2026-11-16; no published conflict was
 observed, but availability/reservation is not guaranteed. See [sources](research/sources.md).

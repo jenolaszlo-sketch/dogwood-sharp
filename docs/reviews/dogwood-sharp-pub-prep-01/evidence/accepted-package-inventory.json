@@ -1,0 +1,173 @@
+{
+  "source": "hosted release-candidate package gate",
+  "directory": "dogwoodsharp-d3-candidates",
+  "files": [
+    {
+      "name": "DogwoodSharp.0.1.0-preview.1.nupkg",
+      "size": 18772211,
+      "sha256": "384e013a236bfcb9b761a92ff861f0df54b2e8a736a5f2c1fb778268307b1911"
+    },
+    {
+      "name": "DogwoodSharp.0.1.0-preview.1.snupkg",
+      "size": 26896,
+      "sha256": "e35ae30ef409b44402f32361dcec800a57b7499cd610e2345773d6adafbad563"
+    },
+    {
+      "name": "DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg",
+      "size": 53207,
+      "sha256": "3d882e6be062ed998cf05e485b06dee4868819785e22fdf702d5050ba306daa4"
+    },
+    {
+      "name": "DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg",
+      "size": 23593,
+      "sha256": "49cefe0d69af687659c60decb141c56a1773b0583784586cd3ee09e5ea1803fd"
+    }
+  ],
+  "comparedToVerificationReport": {
+    "stableNupkg": {
+      "name": "DogwoodSharp.0.1.0-preview.1.nupkg",
+      "sha256": "384e013a236bfcb9b761a92ff861f0df54b2e8a736a5f2c1fb778268307b1911"
+    },
+    "stableSnupkg": {
+      "name": "DogwoodSharp.0.1.0-preview.1.snupkg",
+      "sha256": "e35ae30ef409b44402f32361dcec800a57b7499cd610e2345773d6adafbad563"
+    },
+    "experimentalNupkg": {
+      "name": "DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg",
+      "sha256": "3d882e6be062ed998cf05e485b06dee4868819785e22fdf702d5050ba306daa4"
+    },
+    "experimentalSnupkg": {
+      "name": "DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg",
+      "sha256": "49cefe0d69af687659c60decb141c56a1773b0583784586cd3ee09e5ea1803fd"
+    }
+  },
+  "matchesVerificationReport": {
+    "stableNupkg": true,
+    "stableSnupkg": true,
+    "experimentalNupkg": true,
+    "experimentalSnupkg": true
+  },
+  "allMatch": true,
+  "stable": {
+    "id": "DogwoodSharp",
+    "version": "0.1.0-preview.1",
+    "sha256": "384e013a236bfcb9b761a92ff861f0df54b2e8a736a5f2c1fb778268307b1911",
+    "symbolsSha256": "e35ae30ef409b44402f32361dcec800a57b7499cd610e2345773d6adafbad563",
+    "entries": [
+      "_rels/.rels",
+      "[Content_Types].xml",
+      "DogwoodSharp.nuspec",
+      "lib/net10.0/DogwoodSharp.dll",
+      "lib/net10.0/DogwoodSharp.xml",
+      "lib/net8.0/DogwoodSharp.dll",
+      "lib/net8.0/DogwoodSharp.xml",
+      "LICENSE",
+      "NOTICE",
+      "package/services/metadata/core-properties/nuget.psmdcp",
+      "README.md",
+      "runtimes/linux-x64/native/dogwoodsharp-native.json",
+      "runtimes/linux-x64/native/libdogwoodsharp_bridge.so",
+      "runtimes/osx-arm64/native/dogwoodsharp-native.json",
+      "runtimes/osx-arm64/native/libdogwoodsharp_bridge.dylib",
+      "runtimes/win-x64/native/dogwoodsharp_bridge.dll",
+      "runtimes/win-x64/native/dogwoodsharp-native.json"
+    ],
+    "symbols": {
+      "sha256": "e35ae30ef409b44402f32361dcec800a57b7499cd610e2345773d6adafbad563",
+      "entries": [
+        "_rels/.rels",
+        "[Content_Types].xml",
+        "DogwoodSharp.nuspec",
+        "lib/net10.0/DogwoodSharp.pdb",
+        "lib/net8.0/DogwoodSharp.pdb",
+        "package/services/metadata/core-properties/nuget.psmdcp"
+      ]
+    },
+    "dependencies": [],
+    "nativeAssets": {
+      "win-x64": {
+        "file": "dogwoodsharp_bridge.dll",
+        "target": "x86_64-pc-windows-msvc",
+        "imageSha256": "61e92101b1aa127093635fa9a93f3d8248008dc9ba67e2ca6adcaeba3142cacc",
+        "manifestSha256": "cd6104b6090e3072bb09b5f3e47519184d33d87437d3e6da6491a87a96f4e28c"
+      },
+      "linux-x64": {
+        "file": "libdogwoodsharp_bridge.so",
+        "target": "x86_64-unknown-linux-gnu",
+        "imageSha256": "39afbfd0b8ed60d627af6e3e0e743c594e8d72817fee16f70d98a39081dafbe9",
+        "manifestSha256": "789f3fd550db7dcd2ca82b54a0d7f58ec015336cef8aeb963cb74b2a6a09610e"
+      },
+      "osx-arm64": {
+        "file": "libdogwoodsharp_bridge.dylib",
+        "target": "aarch64-apple-darwin",
+        "imageSha256": "fbd2e98ac6dc393b3afb42bc9684f3843f75f030107ce72cae675469c17db42e",
+        "manifestSha256": "bd951df87a3f681b3176cce134fe74859d9b6a25aaa759edbf240bf9c9a98bed"
+      }
+    }
+  },
+  "experimental": {
+    "id": "DogwoodSharp.CedarSharp",
+    "version": "0.1.0-experimental.1",
+    "sha256": "3d882e6be062ed998cf05e485b06dee4868819785e22fdf702d5050ba306daa4",
+    "symbolsSha256": "49cefe0d69af687659c60decb141c56a1773b0583784586cd3ee09e5ea1803fd",
+    "entries": [
+      "_rels/.rels",
+      "[Content_Types].xml",
+      "DogwoodSharp.CedarSharp.nuspec",
+      "lib/net10.0/DogwoodSharp.CedarSharp.dll",
+      "lib/net10.0/DogwoodSharp.CedarSharp.xml",
+      "lib/net8.0/DogwoodSharp.CedarSharp.dll",
+      "lib/net8.0/DogwoodSharp.CedarSharp.xml",
+      "LICENSE",
+      "NOTICE",
+      "package/services/metadata/core-properties/nuget.psmdcp",
+      "README.md"
+    ],
+    "symbols": {
+      "sha256": "49cefe0d69af687659c60decb141c56a1773b0583784586cd3ee09e5ea1803fd",
+      "entries": [
+        "_rels/.rels",
+        "[Content_Types].xml",
+        "DogwoodSharp.CedarSharp.nuspec",
+        "lib/net10.0/DogwoodSharp.CedarSharp.pdb",
+        "lib/net8.0/DogwoodSharp.CedarSharp.pdb",
+        "package/services/metadata/core-properties/nuget.psmdcp"
+      ]
+    },
+    "dependencies": [
+      "net8.0:DogwoodSharp:[0.1.0-preview.1]",
+      "net8.0:CedarSharp:[1.0.0]",
+      "net10.0:DogwoodSharp:[0.1.0-preview.1]",
+      "net10.0:CedarSharp:[1.0.0]"
+    ],
+    "nativeAssets": {}
+  },
+  "cedarSharp": {
+    "id": "CedarSharp",
+    "version": "1.0.0",
+    "sha256": "99cc3659e750f3d5187d7b8c35e84359811a7af1247b3673d893eafc679bf835",
+    "entryCount": 741,
+    "entriesSha256": "2bfb631cf3acbea3fe807983518660d717e4fc43794cea2d5e0ceeea78cd1482",
+    "nativeAssets": {
+      "win-x64": {
+        "file": "cedarsharp_native.dll",
+        "target": "x86_64-pc-windows-msvc",
+        "imageSha256": "77de6976a7ae5b961920bb6843d39b32f3faf285f16b723581680e9c06c03895",
+        "manifestSha256": "c33e13d7e140b0d1ac759b35cbf58b1b0ad3216ec144d477e0b1e4ab6a94d817"
+      },
+      "linux-x64": {
+        "file": "libcedarsharp_native.so",
+        "target": "x86_64-unknown-linux-gnu",
+        "imageSha256": "85433a352ed9b6b0122e77a4e37cbe9ba1354872641e217350bdf871ea33ebf6",
+        "manifestSha256": "4d4f273bbd149d29c44e16256583497a853d9e1942ffa5a868fa0a79ef69489c"
+      },
+      "osx-arm64": {
+        "file": "libcedarsharp_native.dylib",
+        "target": "aarch64-apple-darwin",
+        "imageSha256": "290fcce995f70cd963e024d991fe7f9e2806fde81add9749304ce222b904258b",
+        "manifestSha256": "4efab72744e59ff905f08c2f47f889e4ff0d3327aab0866b0ba5c6b73ed34095"
+      }
+    }
+  },
+  "cargoLockSha256": "ec9015575a33925d15033a5fff763b660427ad6ef52e762b2ff65d4dded1e2aa"
+}

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "jenolaszlo-sketch/dogwood-sharp",
+  "sourceRunId": 46053558029,
+  "runAttempt": 1,
+  "workflowPath": ".github/workflows/ci.yml",
+  "workflowId": 420173740,
+  "event": "push",
+  "headSha": "58b0a3332391d85cdf19fd7b794d79516d2ecdfe",
+  "conclusion": "success",
+  "createdAt": "2026-11-27T19:00:24Z",
+  "updatedAt": "2026-11-27T19:22:06Z",
+  "artifacts": [
+    {
+      "name": "dogwoodsharp-d3-candidates",
+      "id": 15226757191,
+      "digest": "sha256:86df4ea69bd39c5ad798b8cd34bc5d32b6dfed1436f85bdad37269f0772ec6ad",
+      "sizeInBytes": 18794042,
+      "expiresAt": "2027-02-25T19:00:24Z",
+      "extractedFiles": [
+        {
+          "name": "DogwoodSharp.0.1.0-preview.1.nupkg",
+          "size": 18772211,
+          "sha256": "384e013a236bfcb9b761a92ff861f0df54b2e8a736a5f2c1fb778268307b1911"
+        },
+        {
+          "name": "DogwoodSharp.0.1.0-preview.1.snupkg",
+          "size": 26896,
+          "sha256": "e35ae30ef409b44402f32361dcec800a57b7499cd610e2345773d6adafbad563"
+        },
+        {
+          "name": "DogwoodSharp.CedarSharp.0.1.0-experimental.1.nupkg",
+          "size": 53207,
+          "sha256": "3d882e6be062ed998cf05e485b06dee4868819785e22fdf702d5050ba306daa4"
+        },
+        {
+          "name": "DogwoodSharp.CedarSharp.0.1.0-experimental.1.snupkg",
+          "size": 23593,
+          "sha256": "49cefe0d69af687659c60decb141c56a1773b0583784586cd3ee09e5ea1803fd"
+        }
+      ]
+    },
+    {
+      "name": "dogwoodsharp-d3-package-verification",
+      "id": 15226517569,
+      "digest": "sha256:25f4db1fa2239a762c888129c63b48d62c46e1272d8065a2ad7886ed0ee7fe29",
+      "sizeInBytes": 1644,
+      "expiresAt": "2027-02-25T19:00:24Z"
+    },
+    {
+      "name": "dogwoodsharp-d3-dependencies",
+      "id": 15226447468,
+      "digest": "sha256:655dd2627b049a5e77e4bfdc3ff944b19d706423322ff384a481985b3d9c3a03",
+      "sizeInBytes": 9742639,
+      "expiresAt": "2027-02-25T19:00:24Z",
+      "dependencyPackage": {
+        "name": "cedarsharp.1.0.0.nupkg",
+        "size": 10797439,
+        "sha256": "99cc3659e750f3d5187d7b8c35e84359811a7af1247b3673d893eafc679bf835"
+      }
+    }
+  ],
+  "durableRetention": {
+    "method": "Committed to the canonical repository under docs/reviews/dogwood-sharp-pub-prep-01/artifacts/",
+    "sourceArtifactZipSha256": "86df4ea69bd39c5ad798b8cd34bc5d32b6dfed1436f85bdad37269f0772ec6ad",
+    "verified": true,
+    "note": "The committed files are exact byte copies of the source artifact. They were not rebuilt, repacked, modified or re-signed."
+  }
+}
